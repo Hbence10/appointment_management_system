@@ -73,6 +73,7 @@ A weblap a következő **componentekre** bontódik fel:
 - navbar 
 - footer
 - home-page
+- news-card
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 
