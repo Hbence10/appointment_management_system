@@ -11,6 +11,9 @@
 - [Web Design]("https://www.figma.com/design/fxJIfoxjFc7otjqGpiIQpa/proba_szoba_foglalo?node-id=325-383&t=zvvwznQyB1gXBha0-1")
 - [Világos téma szín paletta](")
 - [Sötét téma szín paletta]("https://www.figma.com/design/iIxDa109pAa3JMpGKGZmu7/Color-wheel-palette-generator--Community-?node-id=0-1&p=f&t=4mIeJTMvo7smcMGR-0")
+- [Bootstrap dokumentáció]("https://material.angular.dev/guide/getting-started")
+- [Angular dokumentáció]("")
+- [Material dokumentáció]("https://material.angular.dev/guide/getting-started")
 
 ## Adatbázis:
 
@@ -86,8 +89,10 @@ A weblap a következő **componentekre** bontódik fel:
 - galléria 
 - admin
 
-A frontend projektben a következő service-k találhatóak meg:
+A frontend projektben a következő **service**-ek találhatóak meg:
 
+A frontent projektben a következő **model**-ek találhatóak meg:
+- user
 
 ## Elérhetőség:
 - [Github]("")
