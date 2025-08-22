@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-lg-12">
       <h1 class="text-center">Fontos számunkra a véleménye</h1>
-      <p class="text-center">Kérem ossza meg a személyes tapasztalatait, élményeit</p>
+      <p class="text-center">
+        Kérem ossza meg a személyes tapasztalatait, élményeit
+      </p>
     </div>
   </div>
 
@@ -12,7 +14,10 @@
       <form action="">
         <mat-form-field>
           <mat-label>Vélemény</mat-label>
-          <textarea matInput placeholder="Irja le személyes véleményét a nálunk töltött időről"></textarea>
+          <textarea
+            matInput
+            placeholder="Irja le személyes véleményét a nálunk töltött időről"
+          ></textarea>
         </mat-form-field>
       </form>
     </div>
@@ -23,7 +28,9 @@
       <h1 class="text-center">Korábbi vendégeink véleményei:</h1>
 
       <div>
-
+        @for (reviews of reviewDetails(); track $index) {
+          <app-review-card [reviewDetail]="reviews" />
+        }
       </div>
     </div>
   </div>

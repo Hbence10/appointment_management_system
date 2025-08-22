@@ -77,6 +77,7 @@ A weblap a következő **componentekre** bontódik fel:
 - home-page
 - news-card
 - review
+    - review-card
 - equipments
 - price-list
 
@@ -84,6 +85,8 @@ A frontend projektben a következő **service**-ek találhatóak meg:
 
 A frontent projektben a következő **model**-ek találhatóak meg:
 - user
+- newsDetails
+- reviewDetails
 
 ## Elérhetőség:
 - [Github]("")
