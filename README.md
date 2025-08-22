@@ -58,7 +58,7 @@
 
 
 ## Backend: 
-A spring boot projekt a következő dependency-ket tartalmazza: 
+A spring boot projekt a következő **dependency**-ket tartalmazza: 
 - Spring Web
 - Spring Data JPA
 - MySQL Driver
@@ -67,6 +67,8 @@ A spring boot projekt a következő dependency-ket tartalmazza:
 - Java Mail Sender
 - Spring Security
 
+A spring boot projekt a következő **controller**-eket tartalmazza:
+- NewsController
 
 ## Frontend:
 A weblap a következő **componentekre** bontódik fel:
