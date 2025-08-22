@@ -8,12 +8,12 @@
 - [Elérhetőség]("")
 
 ## Linkek: 
-- [Web Design]("https://www.figma.com/design/fxJIfoxjFc7otjqGpiIQpa/proba_szoba_foglalo?node-id=325-383&t=zvvwznQyB1gXBha0-1")
-- [Világos téma szín paletta](")
-- [Sötét téma szín paletta]("https://www.figma.com/design/iIxDa109pAa3JMpGKGZmu7/Color-wheel-palette-generator--Community-?node-id=0-1&p=f&t=4mIeJTMvo7smcMGR-0")
-- [Bootstrap dokumentáció]("https://material.angular.dev/guide/getting-started")
-- [Angular dokumentáció]("")
-- [Material dokumentáció]("https://material.angular.dev/guide/getting-started")
+- [Web_Design]("https://www.figma.com/design/fxJIfoxjFc7otjqGpiIQpa/proba_szoba_foglalo?node-id=325-383&t=zvvwznQyB1gXBha0-1")
+- [Világos_téma_szín_paletta](")
+- [Sötét_téma_szín_paletta]("https://www.figma.com/design/iIxDa109pAa3JMpGKGZmu7/Color-wheel-palette-generator--Community-?node-id=0-1&p=f&t=4mIeJTMvo7smcMGR-0")
+- [Bootstrap_dokumentáció]("https://material.angular.dev/guide/getting-started")
+- [Angular_dokumentáció]("")
+- [Material_dokumentáció]("https://material.angular.dev/guide/getting-started")
 
 ## Adatbázis:
 
@@ -71,23 +71,7 @@ A spring boot projekt a következő dependency-ket tartalmazza:
 ## Frontend:
 A weblap a következő **componentekre** bontódik fel:
 - navbar 
-- homepage
-- hír kártya 
 - footer
-- profil page 
-- foglalásaim kártya 
-- pop-up --> ez lesz a kerete az adott tasknak 
-- időpont foglaló 
-- foglaláshoz adatbekérő
-- árlista 
-- felszerelések 
-- árlista 
-- login 
-- registration
-- véleményírás 
-- már megírt vélemények kártyái 
-- galléria 
-- admin
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 
