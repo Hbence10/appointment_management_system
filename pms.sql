@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 22. 17:11
+-- Létrehozás ideje: 2025. Aug 22. 17:37
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -31,8 +31,7 @@ CREATE TABLE `devices` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `amount` int(2) NOT NULL,
-  `reservation_type_id` int(11) NOT NULL
+  `amount` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -116,13 +115,13 @@ CREATE TABLE `reservation` (
   `comment` longtext,
   `reservation_type_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `reservation_date_id` int(11) NOT NULL,
+  `reserved_date_id` int(11) NOT NULL,
   `payment_method_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL,
   `reserved_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_canceled` tinyint(1) NOT NULL DEFAULT '0',
   `canceled_at` datetime NOT NULL,
-  `canceled_by` int(11) NOT NULL
+  `canceled_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -159,7 +158,7 @@ CREATE TABLE `reserved_dates` (
 
 CREATE TABLE `review` (
   `id` int(11) NOT NULL,
-  `author_id` int(11) NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
   `review_text` longtext NOT NULL,
   `rating` double NOT NULL,
   `like_count` int(4) DEFAULT '0',
@@ -245,7 +244,8 @@ CREATE TABLE `user` (
 -- A tábla indexei `devices`
 --
 ALTER TABLE `devices`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category` (`category_id`);
 
 --
 -- A tábla indexei `devices_category`
@@ -257,13 +257,15 @@ ALTER TABLE `devices_category`
 -- A tábla indexei `devices_reservation_type`
 --
 ALTER TABLE `devices_reservation_type`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reservation` (`reservation_tpye_id`);
 
 --
 -- A tábla indexei `news`
 --
 ALTER TABLE `news`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `writer` (`writer_id`);
 
 --
 -- A tábla indexei `paymenth_methods`
@@ -275,7 +277,13 @@ ALTER TABLE `paymenth_methods`
 -- A tábla indexei `reservation`
 --
 ALTER TABLE `reservation`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user` (`user_id`),
+  ADD KEY `reserved_date` (`reserved_date_id`),
+  ADD KEY `reservation_type` (`reservation_type_id`),
+  ADD KEY `cancelled` (`canceled_by`),
+  ADD KEY `payment_method` (`payment_method_id`),
+  ADD KEY `status` (`status_id`);
 
 --
 -- A tábla indexei `reservation_type`
@@ -293,7 +301,8 @@ ALTER TABLE `reserved_dates`
 -- A tábla indexei `review`
 --
 ALTER TABLE `review`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `author` (`author_id`);
 
 --
 -- A tábla indexei `role`
@@ -311,7 +320,8 @@ ALTER TABLE `rules`
 -- A tábla indexei `special_offer`
 --
 ALTER TABLE `special_offer`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `special_offer` (`reservation_type_id`);
 
 --
 -- A tábla indexei `status`
@@ -323,7 +333,8 @@ ALTER TABLE `status`
 -- A tábla indexei `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role` (`role_id`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -412,6 +423,58 @@ ALTER TABLE `status`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Megkötések a kiírt táblákhoz
+--
+
+--
+-- Megkötések a táblához `devices`
+--
+ALTER TABLE `devices`
+  ADD CONSTRAINT `category` FOREIGN KEY (`category_id`) REFERENCES `devices_category` (`id`);
+
+--
+-- Megkötések a táblához `devices_reservation_type`
+--
+ALTER TABLE `devices_reservation_type`
+  ADD CONSTRAINT `device` FOREIGN KEY (`id`) REFERENCES `devices` (`id`),
+  ADD CONSTRAINT `reservation` FOREIGN KEY (`reservation_tpye_id`) REFERENCES `reservation_type` (`id`);
+
+--
+-- Megkötések a táblához `news`
+--
+ALTER TABLE `news`
+  ADD CONSTRAINT `writer` FOREIGN KEY (`writer_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `reservation`
+--
+ALTER TABLE `reservation`
+  ADD CONSTRAINT `cancelled` FOREIGN KEY (`canceled_by`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `paymenth_methods` (`id`),
+  ADD CONSTRAINT `reservation_type` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`),
+  ADD CONSTRAINT `reserved_date` FOREIGN KEY (`reserved_date_id`) REFERENCES `reserved_dates` (`id`),
+  ADD CONSTRAINT `status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
+  ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `author` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `special_offer`
+--
+ALTER TABLE `special_offer`
+  ADD CONSTRAINT `special_offer` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`);
+
+--
+-- Megkötések a táblához `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
