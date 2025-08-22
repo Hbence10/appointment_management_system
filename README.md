@@ -76,6 +76,9 @@ A weblap a következő **componentekre** bontódik fel:
 - footer
 - home-page
 - news-card
+- review
+- equipments
+- price-list
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 
