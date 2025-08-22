@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 22. 17:37
+-- Létrehozás ideje: 2025. Aug 22. 18:19
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -20,6 +20,148 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `pms`
 --
+
+DELIMITER $$
+--
+-- Eljárások
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_devices` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_devices_category` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_dislike` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_like` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_news` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_reservation_type` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_special_offer` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_reservation` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `change_password` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_devices` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_devices_category` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_news` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_reservation_type` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices_category` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_gallery_photos` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reservation_by_day` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reservation_by_user_id` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reservation_types` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reviews` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_rules` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `log_out` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `make_reservation` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profile_delete` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profil_update` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registration` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_devices` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_devices_category` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_gallery_photo` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_news` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_type` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_rules` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `write_review` ()   BEGIN
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
