@@ -19,6 +19,9 @@
   <div class="row">
     <div class="col-lg-6">
       <h1 class="text-center">Aktuális híreink</h1>
+      @for (newsDetails of news(); track $index) {
+        <app-news-card [newsDetails]="newsDetails"/>
+      }
     </div>
 
     <div class="col-lg-6">
