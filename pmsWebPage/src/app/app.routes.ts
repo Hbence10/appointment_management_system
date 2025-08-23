@@ -25,5 +25,10 @@ export const routes: Routes = [
     path: "gallery",
     loadComponent: () => import("./.components/gallery/gallery").then(mod => mod.Gallery),
     title: "Pécs Music Society - Galléria"
+  },
+  {
+    path: "login",
+    loadComponent: () => import("./.components/login-page/login-page").then(mod => mod.LoginPage),
+    title: "Pécs Music Society - Bejelentkezés"
   }
 ];

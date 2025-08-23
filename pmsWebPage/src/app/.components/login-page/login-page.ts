@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule],
+  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButton, MatCheckbox],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss'
 })
