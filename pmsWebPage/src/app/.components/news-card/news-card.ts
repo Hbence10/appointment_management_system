@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { NewsDetails } from '../../.models/newsDetails.model';
 
 @Component({
@@ -9,4 +9,9 @@ import { NewsDetails } from '../../.models/newsDetails.model';
 })
 export class NewsCard {
   newsDetails = input.required<NewsDetails>()
+  isExpand = signal<boolean>(false)
+
+  expandContent(){
+    this.isExpand.update(old => !old);
+  }
 }

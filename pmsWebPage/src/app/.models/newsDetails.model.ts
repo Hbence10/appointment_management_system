@@ -1,10 +1,10 @@
 export class NewsDetails {
   constructor(
-    private id: number,
-    private title: string,
-    private text: string,
-    private bannerImgPath: string,
-    private placement: number,
-    private createdAt: Date
+    public id: number,
+    public title: string,
+    public text: string,
+    public bannerImgPath: string,
+    public placement: number,
+    public createdAt: Date
   ) { }
 }

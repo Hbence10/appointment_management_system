@@ -15,8 +15,8 @@ import { response } from 'express';
 
 export class HomePage implements OnInit{
   news = signal<NewsDetails[]>([])
-  newsService = inject(NewsService)
-  destroyRef = inject(DestroyRef)
+  private newsService = inject(NewsService)
+  private destroyRef = inject(DestroyRef)
 
   ngOnInit(): void {
     const subscription = this.newsService.getAllNews().subscribe({

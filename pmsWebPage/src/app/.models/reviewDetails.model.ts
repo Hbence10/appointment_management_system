@@ -1,12 +1,12 @@
 export class ReviewDetails {
   constructor(
-    private id: number,
-    private authorName: string,
-    private reviewText: string,
-    private rating: number,
-    private likeCount: number,
-    private dislikeCount: number,
-    private isAnonymus: boolean,
-    private createdAt: Date
+    public id: number,
+    public authorName: string,
+    public reviewText: string,
+    public rating: number,
+    public likeCount: number,
+    public dislikeCount: number,
+    public isAnonymus: boolean,
+    public createdAt: Date
   ) { }
 }

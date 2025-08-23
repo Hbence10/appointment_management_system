@@ -1,11 +1,11 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-6">
-      <img src="assets/images/homePage/image1.jpg" alt="image1_alt_text" class="img-fluid">
+  <div class="row my-3">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <img src="assets/images/homePage/image1.jpg" alt="image1_alt_text" class="img-fluid material-box">
     </div>
 
-    <div class="col-lg-6">
-      <div class="infoContainer">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <div class="infoContainer material-box">
         <h1 class="text-center">Foglaljon most!</h1>
         <p>Nálunk a lehetőségek tárháza fogadják önt vagy a csapatát!</p>
         <p>Használja szobánkat egyéni gyakorlásra, zenekari próbára vagy akár önálló felvételre.</p>
@@ -16,16 +16,18 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-6">
-      <h1 class="text-center">Aktuális híreink</h1>
-      @for (newsDetails of news(); track $index) {
-        <app-news-card [newsDetails]="newsDetails"/>
-      }
+  <div class="row my-3">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <div class="infoContainer material-box">
+        <h1 class="text-center">Aktuális híreink</h1>
+        @for (newsDetails of news(); track $index) {
+          <app-news-card [newsDetails]="newsDetails"/>
+        }
+      </div>
     </div>
 
-    <div class="col-lg-6">
-      <img src="assets/images/homePage/image2.jpg" alt="image2_alt_text" class="img-fluid">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+      <img src="assets/images/homePage/image2.jpg" alt="image2_alt_text" class="img-fluid material-box">
     </div>
   </div>
 </div>

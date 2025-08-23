@@ -1,9 +1,9 @@
 export class User {
   constructor(
-    private id: number,
-    private username: string,
-    private email: string,
-    private pfpPath: string,
-    private role: "user" | "admin" | "superAdmin",
+    public id: number,
+    public username: string,
+    public email: string,
+    public pfpPath: string,
+    public role: "user" | "admin" | "superAdmin",
   ) { }
 }
