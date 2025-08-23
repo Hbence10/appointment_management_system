@@ -94,13 +94,13 @@ public class News {
         this.bannerImgPath = bannerImgPath;
     }
 
-    public User getWriter() {
-        return writer;
-    }
-
-    public void setWriter(User writer) {
-        this.writer = writer;
-    }
+//    public User getWriter() {
+//        return writer;
+//    }
+//
+//    public void setWriter(User writer) {
+//        this.writer = writer;
+//    }
 
     public Integer getPlacement() {
         return placement;
@@ -108,6 +108,14 @@ public class News {
 
     public void setPlacement(Integer placement) {
         this.placement = placement;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
 

@@ -1,7 +1,9 @@
+import { NewsService } from './../../.services/news-service';
 import { NewsDetails } from './../../.models/newsDetails.model';
 import { NewsCard } from './../news-card/news-card';
-import { Component, signal } from '@angular/core';
+import { AfterContentChecked, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { response } from 'express';
 
 
 @Component({
@@ -11,6 +13,21 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './home-page.scss'
 })
 
-export class HomePage {
+export class HomePage implements OnInit{
   news = signal<NewsDetails[]>([])
+  newsService = inject(NewsService)
+  destroyRef = inject(DestroyRef)
+
+  ngOnInit(): void {
+    const subscription = this.newsService.getAllNews().subscribe({
+      next: response => this.news.set(response),
+      complete: () => console.log(this.news())
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe()
+      console.log("destoryed!!!")
+    })
+  }
+
 }
