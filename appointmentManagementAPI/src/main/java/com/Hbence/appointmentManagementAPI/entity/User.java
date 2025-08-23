@@ -105,45 +105,45 @@ public class User {
         this.pfpPath = pfpPath;
     }
 
-    public Role getRole() {
-        return role;
+    public String getRole() {
+        return role.getName();
     }
 
     public void setRole(Role role) {
         this.role = role;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(Date lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-    }
+//    public Date getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(Date createdAt) {
+//        this.createdAt = createdAt;
+//    }
+//
+//    public Date getLastLogin() {
+//        return lastLogin;
+//    }
+//
+//    public void setLastLogin(Date lastLogin) {
+//        this.lastLogin = lastLogin;
+//    }
+//
+//    public Boolean getDeleted() {
+//        return isDeleted;
+//    }
+//
+//    public void setDeleted(Boolean deleted) {
+//        isDeleted = deleted;
+//    }
+//
+//    public Date getDeletedAt() {
+//        return deletedAt;
+//    }
+//
+//    public void setDeletedAt(Date deletedAt) {
+//        this.deletedAt = deletedAt;
+//    }
 
     //ToString
 

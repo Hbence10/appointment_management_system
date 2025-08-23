@@ -26,6 +26,5 @@ public class UserService {
 
         int id = userRepository.asd(username, password);
         return userRepository.findById(id).get();
-//        retu/rn null;
     }
 }
