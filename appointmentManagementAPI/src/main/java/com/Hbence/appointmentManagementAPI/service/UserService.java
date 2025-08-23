@@ -1,19 +1,22 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.dao.UserDAO;
+import com.Hbence.appointmentManagementAPI.dao.UserRepository;
+import com.Hbence.appointmentManagementAPI.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Transactional
 @Service
 public class UserService {
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public String login(String username, String password){
+    public User login(String username, String password){
         /*
         *  Validaciok:
         *           helytelen jelszo
@@ -21,6 +24,8 @@ public class UserService {
         *           helytelen jelszo & username
         * */
 
-        return "";
+        int id = userRepository.asd(username, password);
+        return userRepository.findById(id).get();
+//        retu/rn null;
     }
 }

@@ -8,6 +8,13 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
+                @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
+                @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class)
+        })
+})
+
 @Table(name = "user")
 public class User {
 
@@ -53,6 +60,95 @@ public class User {
     @Null
     private Date deletedAt;
 
+    //Constructorok:
     public User() {
+    }
+
+    //Getter & Setter:
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPfpPath() {
+        return pfpPath;
+    }
+
+    public void setPfpPath(String pfpPath) {
+        this.pfpPath = pfpPath;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    //ToString
+
+    @Override
+    public String toString() {
+        return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", pfpPath='" + pfpPath + '\'' + ", role=" + role + '}';
     }
 }

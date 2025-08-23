@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
+import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(name = "/users")
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
@@ -29,7 +30,7 @@ public class UserController {
     * */
 
     @GetMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password){
+    public User login(@RequestParam("username") String username, @RequestParam("password") String password){
         return userService.login(username, password);
     }
 }
