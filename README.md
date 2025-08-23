@@ -80,6 +80,7 @@ A weblap a következő **componentekre** bontódik fel:
     - review-card
 - equipments
 - price-list
+- login-page
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 
