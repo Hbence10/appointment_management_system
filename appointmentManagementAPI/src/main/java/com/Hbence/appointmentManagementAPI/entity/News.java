@@ -3,7 +3,9 @@ package com.Hbence.appointmentManagementAPI.entity;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "news")
@@ -19,7 +21,94 @@ public class News {
     @NotNull
     private String title;
 
+    @Column(name = "text")
+    @NotNull
+    private String text;
 
+    @Column(name = "banner_img_path")
+    private String bannerImgPath;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "writer_id")
+    private User writer;
+
+    @Column(name = "placement")
+    @NotNull
+    @Size(max = 2)
+    private Integer placement;
+
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name = "deleted_at")
+    @Null
+    private Date deletedAt;
+
+    @Column(name = "last_edit_at")
+    @Null
+    private Date lastEditAt;
+
+    public News() {
+    }
+
+    public News(String title, String text, String bannerImgPath, User writer, Integer placement) {
+        this.title = title;
+        this.text = text;
+        this.bannerImgPath = bannerImgPath;
+        this.writer = writer;
+        this.placement = placement;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getBannerImgPath() {
+        return bannerImgPath;
+    }
+
+    public void setBannerImgPath(String bannerImgPath) {
+        this.bannerImgPath = bannerImgPath;
+    }
+
+    public User getWriter() {
+        return writer;
+    }
+
+    public void setWriter(User writer) {
+        this.writer = writer;
+    }
+
+    public Integer getPlacement() {
+        return placement;
+    }
+
+    public void setPlacement(Integer placement) {
+        this.placement = placement;
+    }
 }
 
 /*

@@ -30,5 +30,10 @@ export const routes: Routes = [
     path: "login",
     loadComponent: () => import("./.components/login-page/login-page").then(mod => mod.LoginPage),
     title: "Pécs Music Society - Bejelentkezés"
+  },
+  {
+    path: "register",
+    loadComponent: () => import("./.components/registration-page/registration-page").then(mod => mod.RegistrationPage),
+    title: "Pécs Music Society - Regisztráció"
   }
 ];

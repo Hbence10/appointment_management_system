@@ -1,6 +1,6 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.dao.UserRepository;
+import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

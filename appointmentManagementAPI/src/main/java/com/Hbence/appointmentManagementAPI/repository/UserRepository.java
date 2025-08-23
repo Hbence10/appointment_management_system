@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.dao;
+package com.Hbence.appointmentManagementAPI.repository;
 
 
 import com.Hbence.appointmentManagementAPI.entity.User;

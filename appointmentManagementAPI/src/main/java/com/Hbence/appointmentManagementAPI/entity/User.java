@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NamedStoredProcedureQueries({
@@ -59,6 +60,13 @@ public class User {
     @Column(name = "deleted_at")
     @Null
     private Date deletedAt;
+
+    @OneToMany(
+            mappedBy = "writer",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    private List<News> news;
 
     //Constructorok:
     public User() {
