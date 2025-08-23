@@ -6,6 +6,12 @@
 
     <div class="col-lg-8">
       <a class="mx-1" routerLink="homePage">Főoldal</a>
+      @if(mainService.user()?.role == "user"){
+        <a>Időpont foglalás</a>
+      } @else {
+        <a routerLink="adminPage">Admin Page</a>
+      }
+
       <a class="mx-1" routerLink="#">-</a>
       <a class="mx-1" routerLink="priceList">Árlista</a>
       <a class="mx-1" routerLink="equipments">Felszerelés</a>
@@ -14,9 +20,7 @@
     </div>
 
     <div class="col-lg-2">
-      <a routerLink="login">
-        <button>Be!</button>
-      </a>
+      <button (click)="userNavigation()">Be!</button>
     </div>
   </div>
 </div>

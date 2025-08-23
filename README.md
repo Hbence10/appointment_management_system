@@ -88,6 +88,8 @@ A weblap a következő **componentekre** bontódik fel:
 - **price-list:**
 - **login-page:**
 - **registration-page:**
+- profile-page
+- admin-page
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 
