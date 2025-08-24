@@ -68,6 +68,13 @@ public class User {
     )
     private List<News> news;
 
+    @OneToMany(
+            mappedBy = "author",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    private List<Review> reviews;
+
     //Constructorok:
     public User() {
     }

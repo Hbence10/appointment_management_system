@@ -51,9 +51,9 @@ public class DevicesCategory {
         this.name = name;
     }
 
-    public List<Devices> getDevicesList() {
-        return devicesList;
-    }
+//    public List<Devices> getDevicesList() {
+//        return devicesList;
+//    }
 
     public void setDevicesList(List<Devices> devicesList) {
         this.devicesList = devicesList;

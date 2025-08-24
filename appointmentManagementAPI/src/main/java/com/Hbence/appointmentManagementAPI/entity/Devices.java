@@ -53,8 +53,8 @@ public class Devices {
         this.name = name;
     }
 
-    public DevicesCategory getCategoryId() {
-        return categoryId;
+    public String getCategoryId() {
+        return categoryId.getName();
     }
 
     public void setCategoryId(DevicesCategory categoryId) {
