@@ -17,7 +17,6 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 })
 export class LoginPage {
   private useService = inject(UserService)
-  private router = inject(Router)
   isShowPassword = signal<boolean>(true)
 
   loginForm = new FormGroup({
@@ -27,10 +26,6 @@ export class LoginPage {
 
   login() {
 
-  }
-
-  navigateToRegister() {
-    this.router.navigate(["register"])
   }
 
   showPassword(event: MouseEvent){
