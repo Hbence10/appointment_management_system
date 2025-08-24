@@ -31,4 +31,9 @@ public class UserController {
     public User login(@RequestParam("username") String username, @RequestParam("password") String password){
         return userService.login(username, password);
     }
+
+    @PostMapping("/register")
+    public String registration(){
+        return "";
+    }
 }

@@ -6,9 +6,9 @@
 
     <div class="col-lg-8">
       <a class="mx-1" routerLink="homePage">Főoldal</a>
-      @if(mainService.user()?.role == "user"){
+      @if(mainService.user()?.role == "user" || mainService.user == null){
         <a>Időpont foglalás</a>
-      } @else {
+      } @else if (mainService.user()?.role == "admin" || mainService.user()?.role == "superAdmin") {
         <a routerLink="adminPage">Admin Page</a>
       }
 
