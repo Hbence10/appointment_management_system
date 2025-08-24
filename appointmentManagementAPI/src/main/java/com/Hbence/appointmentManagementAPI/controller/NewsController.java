@@ -22,17 +22,18 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-    /*
-    *   A kovetkezo endpointok fognak kelleni:
-    *           - Az osszes news kilistazasa (GET)
-    *           - Egy db news megszerzese id alapjan (GET)
-    *           - News letrehozasa (POST)
-    *           - News szerkesztese (PUT/PATCH)
-    *           - News torlese (PATCH --> nem veglegesen toroljuk az adatbazisbol)
-    * */
 
     @GetMapping("/")
     public List<News> getAllNews() {
         return newsService.getAllNews();
     }
 }
+
+/*
+ *   A kovetkezo endpointok fognak kelleni:
+ *           - Az osszes news kilistazasa (GET)
+ *           - Egy db news megszerzese id alapjan (GET)
+ *           - News letrehozasa (POST)
+ *           - News szerkesztese (PUT/PATCH)
+ *           - News torlese (PATCH --> nem veglegesen toroljuk az adatbazisbol)
+ * */

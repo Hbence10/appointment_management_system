@@ -76,6 +76,8 @@ A spring boot projekt a következő **service**-eket tartalmazza:
 - NewsService
 - UserService
 
+### Endpointok:
+
 ## Frontend:
 A weblap a következő **componentekre** bontódik fel:
 - **navbar:**

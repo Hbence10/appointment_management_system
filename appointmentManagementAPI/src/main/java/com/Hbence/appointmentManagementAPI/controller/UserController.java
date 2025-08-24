@@ -17,16 +17,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    /*
-    * a kovetkezo endpointok fognak kelleni:
-    *           bejelentkezes
-    *           regisztracio
-    *           kijelentkezes
-    *           adatok frissitese
-    *           jelszo frissitese
-    *           torles
-    * */
-
     @GetMapping("/login")
     public User login(@RequestParam("username") String username, @RequestParam("password") String password){
         return userService.login(username, password);
@@ -37,3 +27,13 @@ public class UserController {
         return "";
     }
 }
+
+/*
+ * a kovetkezo endpointok fognak kelleni:
+ *           bejelentkezes
+ *           regisztracio
+ *           kijelentkezes
+ *           adatok frissitese
+ *           jelszo frissitese
+ *           torles
+ * */
