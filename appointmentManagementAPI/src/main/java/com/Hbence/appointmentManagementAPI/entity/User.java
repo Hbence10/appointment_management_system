@@ -121,32 +121,13 @@ public class User {
         this.role = role;
     }
 
-//    public Date getCreatedAt() {
-//        return createdAt;
-//    }
-//
-//    public void setCreatedAt(Date createdAt) {
-//        this.createdAt = createdAt;
-//    }
-//
-//    public Date getLastLogin() {
-//        return lastLogin;
-//    }
 //
 //    public void setLastLogin(Date lastLogin) {
 //        this.lastLogin = lastLogin;
 //    }
 //
-//    public Boolean getDeleted() {
-//        return isDeleted;
-//    }
-//
 //    public void setDeleted(Boolean deleted) {
 //        isDeleted = deleted;
-//    }
-//
-//    public Date getDeletedAt() {
-//        return deletedAt;
 //    }
 //
 //    public void setDeletedAt(Date deletedAt) {
@@ -154,7 +135,6 @@ public class User {
 //    }
 
     //ToString
-
     @Override
     public String toString() {
         return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", pfpPath='" + pfpPath + '\'' + ", role=" + role + '}';
