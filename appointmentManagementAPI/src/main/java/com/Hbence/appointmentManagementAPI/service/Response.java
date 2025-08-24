@@ -1,15 +1,13 @@
-package com.Hbence.appointmentManagementAPI.service.responseModels;
-
-import com.Hbence.appointmentManagementAPI.entity.User;
+package com.Hbence.appointmentManagementAPI.service;
 
 import java.time.LocalDateTime;
 
-public class UserResponse {
+public class Response {
     private int status;
-    private User result;
+    private Object result;
     private LocalDateTime localDateTime;
 
-    public UserResponse(int status, User result, LocalDateTime localDateTime) {
+    public Response(int status, Object result, LocalDateTime localDateTime) {
         this.status = status;
         this.result = result;
         this.localDateTime = localDateTime;
@@ -23,11 +21,11 @@ public class UserResponse {
         this.status = status;
     }
 
-    public User getResult() {
+    public Object getResult() {
         return result;
     }
 
-    public void setResult(User result) {
+    public void setResult(Object result) {
         this.result = result;
     }
 

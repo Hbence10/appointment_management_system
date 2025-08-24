@@ -72,6 +72,14 @@ public class User {
     public User() {
     }
 
+    public User(String username, String email, String password, String pfpPath, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.pfpPath = pfpPath;
+        this.role = role;
+    }
+
     //Getter & Setter:
     public String getUsername() {
         return username;
