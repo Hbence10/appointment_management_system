@@ -1,39 +1,39 @@
 package com.Hbence.appointmentManagementAPI.service.exceptions;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class ExceptionSatusModel {
-    private int Status;
-    private String message;
-    private Timestamp timestamp;
+    private String Status;
+    private int StatusCode;
+    private LocalDateTime timestamp;
 
-    public ExceptionSatusModel(int status, String message, Timestamp timestamp) {
-        Status = status;
-        this.message = message;
+    public ExceptionSatusModel(int status, String message, LocalDateTime timestamp) {
+        StatusCode = status;
+        this.Status = message;
         this.timestamp = timestamp;
     }
 
-    public int getStatus() {
+    public int getStatusCode() {
+        return StatusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        StatusCode = statusCode;
+    }
+
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(int status) {
-        Status = status;
+    public void setStatus(String status) {
+        this.Status = status;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Timestamp getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 }
