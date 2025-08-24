@@ -22,7 +22,10 @@
 
             <mat-form-field>
               <mat-label>Jelszó</mat-label>
-              <input type="text" matInput placeholder="Jelszó" />
+              <input matInput [type]="isShowPassword() ? 'password' : 'text'"/>
+              <button matIconButton matSuffix (click)="showPassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
+                <mat-icon>{{isShowPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
             </mat-form-field>
           </form>
           </div>
@@ -45,7 +48,7 @@
           <div class="col-lg-12">
             <p class="text-center">
               Nincs fiókja?
-              <a class="fw-bold" routerLink="register">Regisztráljon</a>
+              <a class="fw-bold" (click)="navigateToRegister()">Regisztráljon</a>
             </p>
           </div>
         </div>

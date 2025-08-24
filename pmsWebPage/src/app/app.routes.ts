@@ -1,9 +1,13 @@
+import { RegistrationPage } from './.components/registration-page/registration-page';
+import { LoginPage } from './.components/login-page/login-page';
 import { HomePage } from './.components/home-page/home-page';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },
   { path: "", pathMatch: "full", redirectTo: "homePage" },
+  { path: "login", component: LoginPage, title: "Pécs Music Society - Bejelentkezés"},
+  { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
   {
@@ -25,16 +29,6 @@ export const routes: Routes = [
     path: "gallery",
     loadComponent: () => import("./.components/gallery/gallery").then(mod => mod.Gallery),
     title: "Pécs Music Society - Galléria"
-  },
-  {
-    path: "login",
-    loadComponent: () => import("./.components/login-page/login-page").then(mod => mod.LoginPage),
-    title: "Pécs Music Society - Bejelentkezés"
-  },
-  {
-    path: "register",
-    loadComponent: () => import("./.components/registration-page/registration-page").then(mod => mod.RegistrationPage),
-    title: "Pécs Music Society - Regisztráció"
   },
   {
     path: "profilePage",
