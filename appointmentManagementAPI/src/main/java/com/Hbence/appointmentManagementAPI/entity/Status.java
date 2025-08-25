@@ -21,7 +21,7 @@ public class Status {
     private String name;
 
     @OneToMany(
-            mappedBy = "status_id",
+            mappedBy = "status",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
     )

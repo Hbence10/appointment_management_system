@@ -20,6 +20,7 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
+    //Visszadobja az osszes ezkozt
     @GetMapping("/")
     public List<Devices> getAllDevice(){
         return deviceService.getAllDevice();
@@ -31,6 +32,7 @@ public class DeviceController {
         return null;
     }
 
+    //visszadobja az osszes eszkoz kategoriat
     @GetMapping("/categories")
     public List<DevicesCategory> getAllDevicesCategory(){
         return null;
