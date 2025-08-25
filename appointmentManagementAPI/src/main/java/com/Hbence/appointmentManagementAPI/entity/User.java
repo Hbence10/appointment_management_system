@@ -75,6 +75,9 @@ public class User {
     )
     private List<Review> reviews;
 
+
+    private List<Reservations> reservations;
+
     //Constructorok:
     public User() {
     }
