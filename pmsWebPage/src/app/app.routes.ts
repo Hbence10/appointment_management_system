@@ -1,3 +1,4 @@
+import { AppointmentSelector } from './.components/appointment-selector/appointment-selector';
 import { RegistrationPage } from './.components/registration-page/registration-page';
 import { LoginPage } from './.components/login-page/login-page';
 import { HomePage } from './.components/home-page/home-page';
@@ -8,6 +9,7 @@ export const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "homePage" },
   { path: "login", component: LoginPage, title: "Pécs Music Society - Bejelentkezés"},
   { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
+  { path: "appointmentSelect", component: AppointmentSelector, title: "Pécs Music Society - Időpont foglalás" },
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
   {
