@@ -21,6 +21,7 @@ export class LoginPage {
   private router = inject(Router)
   isShowPassword = signal<Boolean>(true)
   isError = signal<Boolean>(false)
+  isRemember = signal<Boolean>(false)
 
   loginForm = new FormGroup({
     username: new FormControl("", [Validators.required]),
@@ -28,11 +29,12 @@ export class LoginPage {
   })
 
   login() {
-    this.userService.login("test", "test").subscribe({
+    this.userService.login("testAdmin", "testAdmin").subscribe({
       next: response => {
         console.log(response)
         this.userService.user.set(response.result)
       },
+
       complete: () => {
         this.router.navigate([""])
       }

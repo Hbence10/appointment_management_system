@@ -17,13 +17,13 @@ h3{
   font-size: 16px;
 }
 
-input{
-  width: 100px;
+mat-form-field{
+  width: 100%;
 }
 
 // Customize the entire app. Change :root to your selector if you want to scope the styles.
-:root {
-  @include mat.form-field-overrides((
-
+mat-checkbox {
+  @include mat.checkbox-overrides((
+    label-text-weight: 700
   ));
 }

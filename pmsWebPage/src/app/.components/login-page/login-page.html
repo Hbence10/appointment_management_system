@@ -1,55 +1,59 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 d-flex justify-content-center align-items-center">
-      <div id="loginContainer" class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <h1>Üdvözöljük</h1>
-            <h5>Bejelentkezés</h5>
-            <hr>
+      <div id="loginContainer" class="container-fluid d-flex flex-column align-content-center justify-content-between">
+        <div>
+          <div class="row">
+            <div class="col-lg-12">
+              <h1>Üdvözöljük</h1>
+              <h5>Bejelentkezés</h5>
+              <hr />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <form action="" [formGroup]="loginForm">
+                <mat-form-field>
+                  <mat-label>Felhasználó név</mat-label>
+                  <input type="text" matInput placeholder="Felhasználó név" formControlName="username" />
+                </mat-form-field>
+
+                <br />
+
+                <mat-form-field>
+                  <mat-label>Jelszó</mat-label>
+                  <input matInput [type]="isShowPassword() ? 'password' : 'text'" formControlName="password" />
+                  <button matIconButton matSuffix (click)="showPassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
+                    <mat-icon>{{isShowPassword() ? "visibility_off" : "visibility"}}</mat-icon>
+                  </button>
+                </mat-form-field>
+              </form>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-between align-items-center" >
+              <mat-checkbox>Emlékezz Rám</mat-checkbox>
+              <a routerLink="/passwordReset" class="fw-bold">Elfelejtette jelszavát?</a>
+            </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-lg-12">
-          <form action="" [formGroup]="loginForm">
-            <mat-form-field>
-              <mat-label>Felhasználó név</mat-label>
-              <input type="text" matInput placeholder="Felhasználó név" formControlName="username" />
-            </mat-form-field>
-
-            <br>
-
-            <mat-form-field>
-              <mat-label>Jelszó</mat-label>
-              <input matInput [type]="isShowPassword() ? 'password' : 'text'" formControlName="password"/>
-              <button matIconButton matSuffix (click)="showPassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
-                <mat-icon>{{isShowPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
-            </mat-form-field>
-          </form>
+        <div>
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center align-items-center" >
+              <button button (click)="login()" matButton="filled">Bejelentkezés</button>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-lg-12 d-flex justify-content-between align-items-center">
-            <mat-checkbox>Emlékezz Rám</mat-checkbox>
-            <a>Elfelejtette jelszavát?</a>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12 d-flex justify-content-center align-items-center">
-            <button (click)="login()" matButton="filled">Bejelentkezés</button>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <p class="text-center">
-              Nincs fiókja?
-              <a class="fw-bold" routerLink="/register">Regisztráljon</a>
-            </p>
+          <div class="row">
+            <div class="col-lg-12">
+              <p class="text-center">
+                Nincs fiókja?
+                <a class="fw-bold" routerLink="/register">Regisztráljon</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
