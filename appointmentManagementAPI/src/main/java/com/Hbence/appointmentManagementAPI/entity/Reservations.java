@@ -66,7 +66,7 @@ public class Reservations {
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethod;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "status_id")
     private Status status;
 }

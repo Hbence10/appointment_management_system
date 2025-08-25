@@ -127,4 +127,6 @@ public class News {
                 - SQL statement might fail
 
     @Column(nullable=false)-t csak akkor erdemes hasznalni, ha a hibernate generalja ki a table-t
+
+    GenerationType.IDENTITY --> a primary key-kent hivatkozik ra
 */

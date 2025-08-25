@@ -86,6 +86,13 @@ public class User {
     @OneToOne(mappedBy = "canceledBy", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
     private Reservations canceledReservation;
 
+    @OneToMany(
+            mappedBy = "editedBy",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    private List<History> historyList;
+
     //Constructorok:
     public User() {
     }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "status")
@@ -19,8 +20,12 @@ public class Status {
     @Size(max = 100)
     private String name;
 
-    @OneToOne(mappedBy = "status", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
-    private Reservations reservation;
+    @OneToMany(
+            mappedBy = "status_id",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    private List<Reservations> reservationsList;
 
     public Status() {
     }
