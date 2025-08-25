@@ -1,4 +1,29 @@
+@use '@angular/material' as mat;
+
 #loginContainer{
   width: 510px;
   height: 590px;
+  background-color: #B2DFDB;
+  color: #004D40;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+h1{
+  font-size: 28px;
+}
+
+h3{
+  font-size: 16px;
+}
+
+input{
+  width: 100px;
+}
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.form-field-overrides((
+
+  ));
 }

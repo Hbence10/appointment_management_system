@@ -5,5 +5,4 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class MainService {
-  user = signal<User | null>(null)
 }

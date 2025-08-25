@@ -12,17 +12,17 @@
 
         <div class="row">
           <div class="col-lg-12">
-          <form action="">
+          <form action="" [formGroup]="loginForm">
             <mat-form-field>
               <mat-label>Felhasználó név</mat-label>
-              <input type="text" matInput placeholder="Felhasználó név" />
+              <input type="text" matInput placeholder="Felhasználó név" formControlName="username" />
             </mat-form-field>
 
             <br>
 
             <mat-form-field>
               <mat-label>Jelszó</mat-label>
-              <input matInput [type]="isShowPassword() ? 'password' : 'text'"/>
+              <input matInput [type]="isShowPassword() ? 'password' : 'text'" formControlName="password"/>
               <button matIconButton matSuffix (click)="showPassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
                 <mat-icon>{{isShowPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
@@ -40,7 +40,7 @@
 
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center align-items-center">
-            <button matButton="filled">Bejelentkezés</button>
+            <button (click)="login()" matButton="filled">Bejelentkezés</button>
           </div>
         </div>
 

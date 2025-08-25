@@ -6,9 +6,9 @@
 
     <div class="col-lg-8 d-flex justify-content-center align-items-center">
       <a class="mx-3" routerLink="homePage">Főoldal</a>
-      @if(mainService.user()?.role == "user" || mainService.user() == null){
+      @if(userService.user()?.role == "user" || userService.user() == null){
         <a class="mx-3" routerLink="appointmentSelect">Időpont foglalás</a>
-      } @else if (mainService.user()?.role == "admin" || mainService.user()?.role == "superAdmin") {
+      } @else if (userService.user()?.role == "admin" || userService.user()?.role == "superAdmin") {
         <a class="mx-3" routerLink="adminPage">Admin Page</a>
       }
       <a class="mx-3" routerLink="priceList">Árlista</a>

@@ -31,7 +31,7 @@ public class Reservations {
     @Size(max = 100)
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone_number")
     @NotNull
     @Size(max = 100)
     private String phone;
@@ -51,11 +51,11 @@ public class Reservations {
     private User canceledBy;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reserved_type_id")
+    @JoinColumn(name = "reservation_type_id")
     private ReservationType reservationTypeId;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -10,9 +10,6 @@ export class NewsService {
   private http = inject(HttpClient)
 
   getAllNews(): Observable<NewsDetails[]> {
-    return this.http.get<NewsDetails[]>("http://localhost:8080/news/", {
-
-      
-    })
+    return this.http.get<NewsDetails[]>("http://localhost:8080/news/")
   }
 }

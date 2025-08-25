@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reserved_date")
+@Table(name = "reserved_dates")
 public class ReservedDates {
 
     @Id
