@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 22. 18:19
+-- Létrehozás ideje: 2025. Aug 25. 13:19
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -77,15 +77,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_reservation_type` ()   BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices` ()   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices_by_category` ()   BEGIN
 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices_category` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_gallery_photos` ()   BEGIN
 
 END$$
 
@@ -109,8 +105,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_rules` ()   BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `login` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
+	SELECT * FROM user WHERE user.username = usernameIN AND user.password = passwordIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `log_out` ()   BEGIN
@@ -176,6 +172,16 @@ CREATE TABLE `devices` (
   `amount` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `devices`
+--
+
+INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`) VALUES
+(3, 'mikrofon1', 1, 2),
+(4, 'mikrofon2', 1, 2),
+(5, 'gitar1', 2, 2),
+(6, 'gitar2', 2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -186,6 +192,14 @@ CREATE TABLE `devices_category` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `devices_category`
+--
+
+INSERT INTO `devices_category` (`id`, `name`) VALUES
+(1, 'mikrofonok'),
+(2, 'gitarok');
 
 -- --------------------------------------------------------
 
@@ -202,6 +216,17 @@ CREATE TABLE `devices_reservation_type` (
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `event_type`
+--
+
+CREATE TABLE `event_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `gallery`
 --
 
@@ -210,6 +235,33 @@ CREATE TABLE `gallery` (
   `photo_name` longtext NOT NULL,
   `photo_path` longtext NOT NULL,
   `placement` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `photo_name`, `photo_path`, `placement`) VALUES
+(1, 'kep1', 'kep1', 1),
+(2, 'kep2', 'kep2', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `history`
+--
+
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `event_type_id` int(11) NOT NULL,
+  `table_name` varchar(100) NOT NULL,
+  `collumn_name` varchar(100) NOT NULL,
+  `row_id` int(11) NOT NULL,
+  `old_value` varchar(100) NOT NULL,
+  `new_value` varchar(100) NOT NULL,
+  `edited_at` datetime NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -231,13 +283,22 @@ CREATE TABLE `news` (
   `last_edit_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `news`
+--
+
+INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `placement`, `created_at`, `is_deleted`, `deleted_at`, `last_edit_at`) VALUES
+(1, 'hir1', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 1, '2025-08-23 11:19:02', 0, NULL, NULL),
+(2, 'hir2', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 2, '2025-08-23 11:19:02', 0, NULL, NULL),
+(3, 'hir3', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `paymenth_methods`
+-- Tábla szerkezet ehhez a táblához `payment_methods`
 --
 
-CREATE TABLE `paymenth_methods` (
+CREATE TABLE `payment_methods` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -245,10 +306,10 @@ CREATE TABLE `paymenth_methods` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `reservation`
+-- Tábla szerkezet ehhez a táblához `reservations`
 --
 
-CREATE TABLE `reservation` (
+CREATE TABLE `reservations` (
   `id` int(11) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
@@ -309,6 +370,13 @@ CREATE TABLE `review` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `review`
+--
+
+INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `like_count`, `dislike_count`, `is_anonymus`, `created_at`) VALUES
+(1, 1, 'asd', 1, 0, 0, 0, '2025-08-24 20:16:39');
+
 -- --------------------------------------------------------
 
 --
@@ -319,6 +387,15 @@ CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `role`
+--
+
+INSERT INTO `role` (`id`, `name`) VALUES
+(1, 'user'),
+(2, 'admin'),
+(3, 'super admin');
 
 -- --------------------------------------------------------
 
@@ -331,6 +408,13 @@ CREATE TABLE `rules` (
   `text` longtext NOT NULL,
   `last_edit_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `rules`
+--
+
+INSERT INTO `rules` (`id`, `text`, `last_edit_at`) VALUES
+(1, 'text', NULL);
 
 -- --------------------------------------------------------
 
@@ -379,6 +463,15 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- A tábla adatainak kiíratása `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`, `created_at`, `last_login`, `is_deleted`, `deleted_at`) VALUES
+(1, 'test', 'test', 'test', 'test', 1, '2025-08-23 04:45:44', NULL, 0, NULL),
+(2, 'testAdmin', 'testAdmin', 'testAdmin', 'testAdmin', 2, '2025-08-23 04:50:02', NULL, 0, NULL),
+(3, 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 3, '2025-08-23 04:50:02', NULL, 0, NULL);
+
+--
 -- Indexek a kiírt táblákhoz
 --
 
@@ -403,6 +496,26 @@ ALTER TABLE `devices_reservation_type`
   ADD KEY `reservation` (`reservation_tpye_id`);
 
 --
+-- A tábla indexei `event_type`
+--
+ALTER TABLE `event_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `gallery`
+--
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `event_type` (`event_type_id`),
+  ADD KEY `userId` (`user_id`);
+
+--
 -- A tábla indexei `news`
 --
 ALTER TABLE `news`
@@ -410,15 +523,15 @@ ALTER TABLE `news`
   ADD KEY `writer` (`writer_id`);
 
 --
--- A tábla indexei `paymenth_methods`
+-- A tábla indexei `payment_methods`
 --
-ALTER TABLE `paymenth_methods`
+ALTER TABLE `payment_methods`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `reservation`
+-- A tábla indexei `reservations`
 --
-ALTER TABLE `reservation`
+ALTER TABLE `reservations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user` (`user_id`),
   ADD KEY `reserved_date` (`reserved_date_id`),
@@ -486,13 +599,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT a táblához `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `devices_category`
 --
 ALTER TABLE `devices_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `devices_reservation_type`
@@ -501,21 +614,39 @@ ALTER TABLE `devices_reservation_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT a táblához `event_type`
+--
+ALTER TABLE `event_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT a táblához `gallery`
+--
+ALTER TABLE `gallery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT a táblához `history`
+--
+ALTER TABLE `history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT a táblához `news`
 --
 ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT a táblához `payment_methods`
+--
+ALTER TABLE `payment_methods`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `paymenth_methods`
+-- AUTO_INCREMENT a táblához `reservations`
 --
-ALTER TABLE `paymenth_methods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `reservation`
---
-ALTER TABLE `reservation`
+ALTER TABLE `reservations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -534,19 +665,19 @@ ALTER TABLE `reserved_dates`
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `rules`
 --
 ALTER TABLE `rules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `special_offer`
@@ -564,7 +695,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -584,17 +715,24 @@ ALTER TABLE `devices_reservation_type`
   ADD CONSTRAINT `reservation` FOREIGN KEY (`reservation_tpye_id`) REFERENCES `reservation_type` (`id`);
 
 --
+-- Megkötések a táblához `history`
+--
+ALTER TABLE `history`
+  ADD CONSTRAINT `event_type` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`id`),
+  ADD CONSTRAINT `userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
 -- Megkötések a táblához `news`
 --
 ALTER TABLE `news`
   ADD CONSTRAINT `writer` FOREIGN KEY (`writer_id`) REFERENCES `user` (`id`);
 
 --
--- Megkötések a táblához `reservation`
+-- Megkötések a táblához `reservations`
 --
-ALTER TABLE `reservation`
+ALTER TABLE `reservations`
   ADD CONSTRAINT `cancelled` FOREIGN KEY (`canceled_by`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `paymenth_methods` (`id`),
+  ADD CONSTRAINT `payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`),
   ADD CONSTRAINT `reservation_type` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`),
   ADD CONSTRAINT `reserved_date` FOREIGN KEY (`reserved_date_id`) REFERENCES `reserved_dates` (`id`),
   ADD CONSTRAINT `status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
