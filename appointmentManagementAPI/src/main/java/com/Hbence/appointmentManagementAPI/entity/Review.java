@@ -112,8 +112,4 @@ public class Review {
     public String getAuthor() {
         return author.getUsername();
     }
-//
-//    public void setAuthor(User author) {
-//        this.author = author;
-//    }
 }

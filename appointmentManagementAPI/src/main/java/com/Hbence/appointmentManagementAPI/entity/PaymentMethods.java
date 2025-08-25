@@ -19,5 +19,29 @@ public class PaymentMethods {
     @Size(max = 100)
     private String name;
 
+    @OneToOne(mappedBy = "paymentMethod", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
     private Reservations reservation;
+
+    public PaymentMethods() {
+    }
+
+    public PaymentMethods(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

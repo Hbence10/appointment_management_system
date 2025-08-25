@@ -94,14 +94,6 @@ public class News {
         this.bannerImgPath = bannerImgPath;
     }
 
-//    public User getWriter() {
-//        return writer;
-//    }
-//
-//    public void setWriter(User writer) {
-//        this.writer = writer;
-//    }
-
     public Integer getPlacement() {
         return placement;
     }

@@ -13,7 +13,8 @@ import java.util.List;
         @NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
                 @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
                 @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class)
-        })
+        }),
+
 })
 
 @Table(name = "user")
@@ -75,8 +76,15 @@ public class User {
     )
     private List<Review> reviews;
 
-
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
     private List<Reservations> reservations;
+
+    @OneToOne(mappedBy = "canceledBy", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    private Reservations canceledReservation;
 
     //Constructorok:
     public User() {
@@ -138,19 +146,6 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-
-//
-//    public void setLastLogin(Date lastLogin) {
-//        this.lastLogin = lastLogin;
-//    }
-//
-//    public void setDeleted(Boolean deleted) {
-//        isDeleted = deleted;
-//    }
-//
-//    public void setDeletedAt(Date deletedAt) {
-//        this.deletedAt = deletedAt;
-//    }
 
     //ToString
     @Override

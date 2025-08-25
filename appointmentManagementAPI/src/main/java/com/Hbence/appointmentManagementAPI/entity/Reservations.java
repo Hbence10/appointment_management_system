@@ -46,10 +46,27 @@ public class Reservations {
     @Column(name = "is_canceled")
     private Boolean isCanceled;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "canceled_by")
     private User canceledBy;
-    private ReservationType reservationType;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user")
     private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reserved_type_id")
+    private ReservationType reservationTypeId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reserved_date_id")
     private ReservedDates reservedDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethod;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_id")
     private Status status;
 }

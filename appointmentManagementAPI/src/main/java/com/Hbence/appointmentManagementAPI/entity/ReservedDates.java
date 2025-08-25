@@ -26,6 +26,47 @@ public class ReservedDates {
     @NotNull
     private Boolean isClosed;
 
-
+    @OneToOne(mappedBy = "reservedDate", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
     private Reservations reservation;
+
+    public ReservedDates() {
+    }
+
+    public ReservedDates(LocalDateTime startTime, LocalDateTime endTime, Boolean isClosed) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isClosed = isClosed;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public Boolean getClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(Boolean closed) {
+        isClosed = closed;
+    }
 }

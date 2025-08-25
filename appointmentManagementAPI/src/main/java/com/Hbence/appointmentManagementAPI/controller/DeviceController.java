@@ -31,7 +31,6 @@ public class DeviceController {
         return null;
     }
 
-    //
     @GetMapping("/categories")
     public List<DevicesCategory> getAllDevicesCategory(){
         return null;

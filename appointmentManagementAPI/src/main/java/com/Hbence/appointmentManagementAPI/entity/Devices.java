@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "devices")
@@ -27,6 +28,14 @@ public class Devices {
     @NotNull
     @Size(max = 2)
     private int amount;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "devices_reservation_type",
+            joinColumns = @JoinColumn(name = "reservation_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "device_id")
+    )
+    private List<ReservationType> reservationTypes;
 
     public Devices() {
     }
