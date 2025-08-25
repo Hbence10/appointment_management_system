@@ -1,25 +1,23 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-2">
-      <img src="#" alt="logo_img" class="img-fluid">
+    <div class="col-lg-2 d-flex justify-content-center align-items-center">
+      <img src="assets/placeholder.png" alt="logo_img" class="img-fluid" id="logoImg">
     </div>
 
-    <div class="col-lg-8">
-      <a class="mx-1" routerLink="homePage">Főoldal</a>
-      @if(mainService.user()?.role == "user" || mainService.user == null){
-        <a>Időpont foglalás</a>
+    <div class="col-lg-8 d-flex justify-content-center align-items-center">
+      <a class="mx-3" routerLink="homePage">Főoldal</a>
+      @if(mainService.user()?.role == "user" || mainService.user() == null){
+        <a class="mx-3">Időpont foglalás</a>
       } @else if (mainService.user()?.role == "admin" || mainService.user()?.role == "superAdmin") {
-        <a routerLink="adminPage">Admin Page</a>
+        <a class="mx-3" routerLink="adminPage">Admin Page</a>
       }
-
-      <a class="mx-1" routerLink="#">-</a>
-      <a class="mx-1" routerLink="priceList">Árlista</a>
-      <a class="mx-1" routerLink="equipments">Felszerelés</a>
-      <a class="mx-1" routerLink="reviews">Vélemények</a>
-      <a class="mx-1" routerLink="gallery">Galléria</a>
+      <a class="mx-3" routerLink="priceList">Árlista</a>
+      <a class="mx-3" routerLink="equipments">Felszerelés</a>
+      <a class="mx-3" routerLink="reviews">Vélemények</a>
+      <a class="mx-3" routerLink="gallery">Galléria</a>
     </div>
 
-    <div class="col-lg-2">
+    <div class="col-lg-2 d-flex justify-content-center align-items-center">
       <button (click)="userNavigation()">Be!</button>
     </div>
   </div>
