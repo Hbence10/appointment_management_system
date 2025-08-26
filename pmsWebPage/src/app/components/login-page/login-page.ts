@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
-import { UserService } from './../../.services/user-service';
+import { UserService } from '../../services/user-service';
 
 @Component({
   selector: 'app-login-page',
@@ -40,7 +40,7 @@ export class LoginPage {
         if (this.isRemember()) {
           this.setUserToService()
         }
-        this.router.navigate([""])
+        this.router.navigate([""] )
       }
     })
   }

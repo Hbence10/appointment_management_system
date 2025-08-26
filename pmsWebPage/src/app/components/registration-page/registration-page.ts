@@ -4,11 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
-import { UserService } from '../../.services/user-service';
+import { UserService } from '../../services/user-service';
 
 function passwordValidator(control: AbstractControl){
   const specialCharacters = []
-  
+
 
   if(String(control.value).length == 8){
 

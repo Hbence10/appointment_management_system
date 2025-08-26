@@ -1,4 +1,4 @@
-import { ReviewDetails } from './../../../.models/reviewDetails.model';
+import { ReviewDetails } from '../../../models/reviewDetails.model';
 import { Component, input } from '@angular/core';
 
 @Component({
