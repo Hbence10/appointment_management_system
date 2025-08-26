@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservations")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
+                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)
+        })
+})
 public class Reservations {
 
     @Id
@@ -69,4 +74,63 @@ public class Reservations {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "status_id")
     private Status status;
+
+    public Reservations() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public String getReservedAt() {
+        return reservedAt.toString();
+    }
+
+    public Boolean getCanceled() {
+        return isCanceled;
+    }
+
+//    public User getCanceledBy() {
+//        return canceledBy;
+//    }
+
+//    public User getUser() {
+//        return user;
+//    }
+
+    public String getReservationTypeId() {
+        return reservationTypeId.getName();
+    }
+
+//    public ReservedDates getReservedDate() {
+//        return reservedDate;
+//    }
+
+    public String getPaymentMethod() {
+        return paymentMethod.getName();
+    }
+
+    public String getStatus() {
+        return status.getName();
+    }
 }

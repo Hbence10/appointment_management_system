@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Transactional
@@ -33,8 +35,16 @@ public class ReservationService {
     }
 
     //Foglalas(ok) megszerzese felhasznalo szerint:
-    public List<Reservations> getReservationByUserId(Integer userId){
-        return null;
+    public ArrayList<Reservations> getReservationByUserId(Integer userId){
+        ArrayList<Long> id = reservationRepository.reservations(userId);
+        ArrayList<Reservations> reservations = new ArrayList<>();
+
+        for(Long i: id){
+            reservations.add(reservationRepository.findById(i).get());
+        }
+
+        System.out.println(reservations);
+        return reservations;
     }
 
     //Foglalas(ok) megszerzese nap szerint:

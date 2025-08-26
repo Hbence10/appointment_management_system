@@ -1,9 +1,8 @@
-import { NewsService } from '../../services/news-service';
-import { NewsDetails } from '../../models/newsDetails.model';
-import { NewsCard } from '../news-card/news-card';
-import { AfterContentChecked, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { response } from 'express';
+import { NewsDetails } from '../../models/newsDetails.model';
+import { NewsService } from '../../services/news-service';
+import { NewsCard } from '../news-card/news-card';
 
 
 @Component({

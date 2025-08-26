@@ -1,15 +1,18 @@
-img{
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+img {
   width: 840px;
   height: 560px;
 }
 
-.infoContainer{
+.infoContainer {
   width: 845px;
   height: 750PX;
   background-color: #B2DFDB;
 }
 
-.material-box{
+.material-box {
   border-radius: 16px !important;
   box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.30) !important;
 }
+
