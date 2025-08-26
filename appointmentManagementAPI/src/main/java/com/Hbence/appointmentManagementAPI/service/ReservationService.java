@@ -43,6 +43,7 @@ public class ReservationService {
             reservations.add(reservationRepository.findById(i).get());
         }
 
+        System.out.println(id);
         System.out.println(reservations);
         return reservations;
     }
