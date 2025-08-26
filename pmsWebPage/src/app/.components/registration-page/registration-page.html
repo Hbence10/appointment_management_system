@@ -1,50 +1,52 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-12">
-      <div id="mainContainer" class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <h1>Üdvözöljük</h1>
-            <h5>Regisztráció</h5>
-            <hr />
+    <div class="col-lg-12 d-flex justify-content-center align-items-center">
+      <div id="mainContainer" class="container-fluid d-flex justify-content-between align-content-center flex-column">
+        <div>
+          <div class="row">
+            <div class="col-lg-12">
+              <h1>Üdvözöljük</h1>
+              <h5>Regisztráció</h5>
+              <hr />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <form action="#" [formGroup]="form">
+                <mat-form-field>
+                  <mat-label>Felhasználó név</mat-label>
+                  <input type="text" matInput placeholder="Felhasználó név" formControlName="username"/>
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input type="text" matInput placeholder="Email" formControlName="email"/>
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field>
+                  <mat-label>Jelszó</mat-label>
+                  <input type="text" matInput placeholder="Jelszó" formControlName="password"/>
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field>
+                  <mat-label>Jelszó újra</mat-label>
+                  <input type="text" matInput placeholder="Jelszó újra" formControlName="passwordAgain"/>
+                </mat-form-field>
+              </form>
+            </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-lg-12">
-            <form action="#">
-              <mat-form-field>
-                <mat-label>Felhasználó név</mat-label>
-                <input type="text" matInput placeholder="Felhasználó név" />
-              </mat-form-field>
-
-              <br>
-
-              <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input type="text" matInput placeholder="Email" />
-              </mat-form-field>
-
-              <br>
-
-              <mat-form-field>
-                <mat-label>Jelszó</mat-label>
-                <input type="text" matInput placeholder="Jelszó" />
-              </mat-form-field>
-
-              <br>
-
-              <mat-form-field>
-                <mat-label>Jelszó újra</mat-label>
-                <input type="text" matInput placeholder="Jelszó újra" />
-              </mat-form-field>
-            </form>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <button matButton="filled">Regisztráció</button>
+          <div class="col-lg-12 d-flex justify-content-center align-items-center flex-column">
+            <button [disabled]="form.invalid" matButton="filled" (click)="register()">Regisztráció</button>
             <p>
               Van már fiókja?
               <a routerLink="/login" class="fw-bold">Jelentkezzen be!</a>

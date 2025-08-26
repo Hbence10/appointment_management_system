@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatLabel } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { UserService } from '../../.services/user-service';
+
+function passwordValidator(control: AbstractControl){
+  const specialCharacters = []
+  
+
+  if(String(control.value).length == 8){
+
+  }
+
+  return {invalidPassword: true}
+}
 
 @Component({
   selector: 'app-registration-page',
@@ -12,12 +24,22 @@ import { RouterModule } from '@angular/router';
   styleUrl: './registration-page.scss'
 })
 export class RegistrationPage {
+  private userService = inject(UserService)
+  private router = inject(Router)
+
   form = new FormGroup({
-    username: new FormControl("username", [Validators.required]),
-    email: new FormControl("email", [Validators.required, Validators.email]),
-    password: new FormControl("password", [Validators.required]),
-    passwordAgain: new FormControl("passwordAgain", [Validators.required])
+    username: new FormControl("", [Validators.required]),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(8), passwordValidator]),
+    passwordAgain: new FormControl("", [Validators.required])
   })
   //Ide kell majd 2 sajat validator --> jelszo validator, es hogy a passwordAgain egynelo a passworddal
 
+
+  register() {
+    this.userService.register({ username: this.form.controls["username"].value!, email: this.form.controls["email"].value!, password: this.form.controls["password"].value!, pfpPath: "", }).subscribe({
+      next: response => console.log(response),
+      complete: () => this.router.navigate(["login"])
+    })
+  }
 }

@@ -19,6 +19,7 @@ import { UserService } from './../../.services/user-service';
 export class LoginPage {
   private userService = inject(UserService)
   private router = inject(Router)
+
   isShowPassword = signal<Boolean>(true)
   isError = signal<Boolean>(false)
   isRemember = signal<Boolean>(false)
@@ -36,6 +37,9 @@ export class LoginPage {
       },
 
       complete: () => {
+        if (this.isRemember()) {
+          this.setUserToService()
+        }
         this.router.navigate([""])
       }
     })
@@ -44,5 +48,8 @@ export class LoginPage {
   showPassword(event: MouseEvent) {
     this.isShowPassword.update(old => !old)
     event.stopPropagation();
+  }
+
+  setUserToService(){
   }
 }

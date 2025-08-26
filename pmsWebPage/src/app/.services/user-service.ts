@@ -14,6 +14,7 @@ export class UserService {
     return this.http.get<User>(`http://localhost:8080/users/login?username=${username}&password=${password}`)
   }
 
-  register(){
+  register(requestedBody: {username: string,email: string, password: string, pfpPath: string}){6
+    return this.http.post("http://localhost:8080/users/register", requestedBody)
   }
 }

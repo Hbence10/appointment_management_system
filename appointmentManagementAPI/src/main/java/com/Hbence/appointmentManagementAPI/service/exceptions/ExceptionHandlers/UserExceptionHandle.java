@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionHandlers;
 
 import com.Hbence.appointmentManagementAPI.service.Response;
+import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.InvalidEmail;
 import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.UserNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class UserExceptionHandle {
 
+    //Rossz login
     @ExceptionHandler
     public ResponseEntity<Response> handleException(UserNotFound exc){
         Response error = new Response(
@@ -21,5 +23,10 @@ public class UserExceptionHandle {
         );
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    //Rossz regisztracio
+    public ResponseEntity<Response> handleException(InvalidEmail exc){
+        return null;
     }
 }

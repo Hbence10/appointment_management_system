@@ -15,6 +15,11 @@ import java.util.List;
                 @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class)
         }),
 
+        @NamedStoredProcedureQuery(name = "register", procedureName = "registration", parameters = {
+                @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
+                @StoredProcedureParameter(name = "emailIN", mode = ParameterMode.IN, type = String.class),
+                @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class),
+        })
 })
 
 @Table(name = "user")
@@ -97,12 +102,11 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password, String pfpPath, Role role) {
+    public User(String username, String email, String password, String pfpPath) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.pfpPath = pfpPath;
-        this.role = role;
     }
 
     //Getter & Setter:
@@ -157,6 +161,6 @@ public class User {
     //ToString
     @Override
     public String toString() {
-        return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", pfpPath='" + pfpPath + '\'' + ", role=" + role + '}';
+        return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", pfpPath='" + pfpPath + '}';
     }
 }

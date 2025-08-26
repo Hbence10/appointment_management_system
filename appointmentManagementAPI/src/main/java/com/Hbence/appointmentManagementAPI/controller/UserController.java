@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
+import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.service.UserService;
 import com.Hbence.appointmentManagementAPI.service.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,14 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public Response login(@RequestParam("username") String username, @RequestParam("password") String password){
+    public Response login(@RequestParam("username") String username, @RequestParam("password") String password) {
         return userService.login(username, password);
     }
 
     @PostMapping("/register")
-    public String registration(){
-        return "";
+    public Response registration(@RequestBody User newUser) {
+        System.out.println(newUser.getUsername());
+        return userService.register(newUser);
     }
 }
 

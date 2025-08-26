@@ -24,6 +24,8 @@ mat-form-field{
 // Customize the entire app. Change :root to your selector if you want to scope the styles.
 mat-checkbox {
   @include mat.checkbox-overrides((
-    label-text-weight: 700
+    label-text-weight: 700,
+    selected-pressed-state-layer-color: #004D40
   ));
 }
+
