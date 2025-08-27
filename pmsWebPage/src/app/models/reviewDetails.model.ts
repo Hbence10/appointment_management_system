@@ -1,7 +1,7 @@
 export class ReviewDetails {
   constructor(
     public id: number,
-    public authorName: string,
+    public author: string,
     public reviewText: string,
     public rating: number,
     public likeCount: number,

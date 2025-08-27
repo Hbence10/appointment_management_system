@@ -8,6 +8,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "review")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "addReview", procedureName = "addReview", parameters = {
+                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "reviewTextIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "ratingIN", type = Double.class, mode = ParameterMode.IN)
+        })
+})
 public class Review {
 
     @Id
@@ -39,8 +46,9 @@ public class Review {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
+    @NotNull
     private User author;
 
     public Review() {
@@ -111,5 +119,9 @@ public class Review {
 
     public String getAuthor() {
         return author.getUsername();
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

@@ -1,5 +1,4 @@
 import { UserService } from '../../services/user-service';
-import { MainService } from '../../services/main-service';
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';

@@ -77,7 +77,7 @@ public class User {
     @OneToMany(
             mappedBy = "author",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = CascadeType.ALL
     )
     private List<Review> reviews;
 
