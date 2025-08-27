@@ -29,12 +29,10 @@ public class ReservationService {
         this.reservationTypeRepository = reservationTypeRepository;
     }
 
-    //Az osszes payment method megszerzese:
     public List<PaymentMethods> getAllPaymentMethod(){
         return paymentMethodRepository.findAll();
     }
 
-    //Foglalas(ok) megszerzese felhasznalo szerint:
     public ArrayList<Reservations> getReservationByUserId(Integer userId){
         ArrayList<Long> id = reservationRepository.reservations(userId);
         ArrayList<Reservations> reservations = new ArrayList<>();
@@ -43,18 +41,10 @@ public class ReservationService {
             reservations.add(reservationRepository.findById(i).get());
         }
 
-        System.out.println(id);
-        System.out.println(reservations);
         return reservations;
     }
 
-    //Foglalas(ok) megszerzese nap szerint:
-    public List<Reservations> getReservationByDay(){
-        return null;
-    }
-
-    //Az osszes foglalasi tipus megszerzese:
-    public List<ReservationType> getReservationTypes(){
-        return null;
+    public String cancellReservation(int userId, int reservationId){
+        return "";
     }
 }

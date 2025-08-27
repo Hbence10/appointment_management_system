@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)
-        })
+        }),
+//        @NamedStoredProcedureQuery(name = "cancelReservation", procedureName = "cancelReservation", parameters = {
+//                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
+//                @StoredProcedureParameter(name = "reservationIdIN", type = Integer.class, mode = ParameterMode.IN)
+//        })
 })
 public class Reservations {
 
@@ -133,4 +137,8 @@ public class Reservations {
     public String getStatus() {
         return status.getName();
     }
+
+
+    //----------
+
 }

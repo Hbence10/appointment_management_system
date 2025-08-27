@@ -12,4 +12,7 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
 
     @Procedure(name = "getReservationByUserId", procedureName = "getReservationByUserId")
     ArrayList<Long> reservations(@Param("userIdIN") Integer userId);
+
+//    @Procedure(name = "cancelReservation", procedureName = "cancelReservation")
+//    Long cancel(@Param("userIdIN") Integer userId, @Param("reservationIdIN") Integer reservationId);
 }
