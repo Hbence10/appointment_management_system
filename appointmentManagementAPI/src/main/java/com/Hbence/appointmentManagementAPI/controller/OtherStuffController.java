@@ -21,11 +21,13 @@ public class OtherStuffController {
         this.otherStuffService = otherStuffService;
     }
 
-    @GetMapping("/rule")
+    @GetMapping("/gallery")
     public List<Gallery> getGallery(){
         return otherStuffService.getAllGalleryPhoto();
     }
 
+
+    //Velemenyek
     @GetMapping("/reviews")
     public List<Review> getAllReview(){
         return otherStuffService.getAllReview();
@@ -35,8 +37,6 @@ public class OtherStuffController {
     public Response addReview(@RequestBody Map<String, Object> newReview){
         return otherStuffService.addReview(newReview);
     }
-
-//    @GetMapping("/")
 }
 
 /*

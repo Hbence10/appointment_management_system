@@ -33,11 +33,6 @@ public class OtherStuffService {
         this.specialOfferRepository = specialOfferRepository;
     }
 
-    //Velemenyek megszerzese
-    public List<Review> getAllReview(){
-        return reviewRepository.findAll();
-    }
-
     public Rules getRules(){
         return ruleRepository.findById(1).get();
     }
@@ -48,6 +43,11 @@ public class OtherStuffService {
 
     public List<History> getAllHistory(){
         return historyRepository.findAll();
+    }
+
+    //Velemenyek:
+    public List<Review> getAllReview(){
+        return reviewRepository.findAll();
     }
 
     public Response addReview(Map<String, Object> newReview){
