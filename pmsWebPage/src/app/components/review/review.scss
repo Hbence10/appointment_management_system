@@ -2,3 +2,8 @@ mat-form-field{
   width: 775px;
   height: 300px;
 }
+
+#reviewContainer{
+  max-height: 640px;
+  overflow-y: auto;
+}

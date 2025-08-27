@@ -31,9 +31,11 @@
       <h1 class="text-center">Korábbi vendégeink véleményei:</h1>
 
       <div>
-        @for (reviews of reviewDetails(); track $index) {
-          <app-review-card [reviewDetail]="reviews" />
-        }
+        <div id="reviewContainer">
+          @for (reviews of reviewDetails(); track $index) {
+            <app-review-card [reviewDetail]="reviews" />
+          }
+        </div>
       </div>
     </div>
   </div>
