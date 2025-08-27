@@ -3,7 +3,9 @@ package com.Hbence.appointmentManagementAPI.entity;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "reserved_dates")
@@ -14,13 +16,18 @@ public class ReservedDates {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "start_time")
-    @NotNull
-    private LocalDateTime startTime;
+    @Column(name = "date")
+    private Date date;
 
-    @Column(name = "end_time")
+    @Column(name = "start_hour")
     @NotNull
-    private LocalDateTime endTime;
+    @Size(max = 2)
+    private int startHour;
+
+    @Column(name = "end_hour")
+    @NotNull
+    @Size(max = 2)
+    private int endHour;
 
     @Column(name = "is_closed")
     @NotNull
@@ -32,10 +39,10 @@ public class ReservedDates {
     public ReservedDates() {
     }
 
-    public ReservedDates(LocalDateTime startTime, LocalDateTime endTime, Boolean isClosed) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isClosed = isClosed;
+    public ReservedDates(Date date, int startHour, int endHour) {
+        this.date = date;
+        this.startHour = startHour;
+        this.endHour = endHour;
     }
 
     public int getId() {
@@ -46,20 +53,28 @@ public class ReservedDates {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public Date getDate() {
+        return date;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public int getStartHour() {
+        return startHour;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setStartHour(int startHour) {
+        this.startHour = startHour;
+    }
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(int endHour) {
+        this.endHour = endHour;
     }
 
     public Boolean getClosed() {
@@ -68,5 +83,13 @@ public class ReservedDates {
 
     public void setClosed(Boolean closed) {
         isClosed = closed;
+    }
+
+    public Reservations getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservations reservation) {
+        this.reservation = reservation;
     }
 }

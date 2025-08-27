@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 25. 13:19
+-- Létrehozás ideje: 2025. Aug 27. 12:16
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,136 +25,24 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_devices` ()   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addReview` (IN `userIdIN` INT, IN `reviewTextIN` LONGTEXT, IN `ratingIN` DOUBLE)   BEGIN
+	INSERT INTO `review`(`author_id`, `review_text`, `rating`) VALUES (userIdIN, reviewTextIN, ratingIN);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation` (IN `userIdIN` INT, IN `reservationIdIN` INT)   BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_devices_category` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_dislike` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_like` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_news` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_reservation_type` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_special_offer` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_reservation` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `change_password` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_devices` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_devices_category` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_news` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_reservation_type` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices_by_category` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices_category` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reservation_by_day` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reservation_by_user_id` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reservation_types` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_reviews` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_rules` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userIdIN` INT)   BEGIN
+	SELECT * FROM `reservations` WHERE reservations.user_id = userIdIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
 	SELECT * FROM user WHERE user.username = usernameIN AND user.password = passwordIN;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `log_out` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `make_reservation` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profile_delete` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profil_update` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `registration` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_devices` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_devices_category` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_gallery_photo` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_news` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_type` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_rules` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `write_review` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `usernameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
+	INSERT INTO `user`(`username`, `email`, `password`, `pfp_path`) VALUES (usernameIN, emailIN, passwordIN, "");
 END$$
 
 DELIMITER ;
@@ -256,7 +144,7 @@ CREATE TABLE `history` (
   `user_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
   `table_name` varchar(100) NOT NULL,
-  `collumn_name` varchar(100) NOT NULL,
+  `column_name` varchar(100) NOT NULL,
   `row_id` int(11) NOT NULL,
   `old_value` varchar(100) NOT NULL,
   `new_value` varchar(100) NOT NULL,
@@ -290,7 +178,9 @@ CREATE TABLE `news` (
 INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `placement`, `created_at`, `is_deleted`, `deleted_at`, `last_edit_at`) VALUES
 (1, 'hir1', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 1, '2025-08-23 11:19:02', 0, NULL, NULL),
 (2, 'hir2', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 2, '2025-08-23 11:19:02', 0, NULL, NULL),
-(3, 'hir3', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL);
+(3, 'hir3', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL),
+(4, 'Hír 4', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 3, '2025-08-27 08:07:08', 0, NULL, NULL),
+(5, 'Hír 5', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 5, '2025-08-27 08:07:08', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -302,6 +192,15 @@ CREATE TABLE `payment_methods` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`id`, `name`) VALUES
+(1, 'Kártyás'),
+(2, 'Készpénz'),
+(3, 'Revolut');
 
 -- --------------------------------------------------------
 
@@ -340,6 +239,14 @@ CREATE TABLE `reservation_type` (
   `amount` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `reservation_type`
+--
+
+INSERT INTO `reservation_type` (`id`, `name`, `price`, `amount`) VALUES
+(1, 'Egyéni Gyakorlás', 2000, 'asd'),
+(2, 'Zenekari Próba', 4000, 'asd');
+
 -- --------------------------------------------------------
 
 --
@@ -348,8 +255,9 @@ CREATE TABLE `reservation_type` (
 
 CREATE TABLE `reserved_dates` (
   `id` int(11) NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
+  `date` date NOT NULL,
+  `start_hour` int(2) NOT NULL,
+  `end_hour` int(2) NOT NULL,
   `is_closed` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -361,7 +269,7 @@ CREATE TABLE `reserved_dates` (
 
 CREATE TABLE `review` (
   `id` int(11) NOT NULL,
-  `author_id` int(11) DEFAULT NULL,
+  `author_id` int(11) NOT NULL,
   `review_text` longtext NOT NULL,
   `rating` double NOT NULL,
   `like_count` int(4) DEFAULT '0',
@@ -375,7 +283,9 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `like_count`, `dislike_count`, `is_anonymus`, `created_at`) VALUES
-(1, 1, 'asd', 1, 0, 0, 0, '2025-08-24 20:16:39');
+(1, 1, 'asd', 1, 0, 0, 0, '2025-08-24 20:16:39'),
+(4, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:25:08'),
+(7, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:32:55');
 
 -- --------------------------------------------------------
 
@@ -443,6 +353,14 @@ CREATE TABLE `status` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `status`
+--
+
+INSERT INTO `status` (`id`, `name`) VALUES
+(1, 'Aktív'),
+(2, 'Befejezett');
+
 -- --------------------------------------------------------
 
 --
@@ -455,10 +373,10 @@ CREATE TABLE `user` (
   `email` varchar(100) NOT NULL,
   `password` varchar(64) NOT NULL,
   `pfp_path` longtext NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` datetime DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -469,7 +387,11 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`, `created_at`, `last_login`, `is_deleted`, `deleted_at`) VALUES
 (1, 'test', 'test', 'test', 'test', 1, '2025-08-23 04:45:44', NULL, 0, NULL),
 (2, 'testAdmin', 'testAdmin', 'testAdmin', 'testAdmin', 2, '2025-08-23 04:50:02', NULL, 0, NULL),
-(3, 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 3, '2025-08-23 04:50:02', NULL, 0, NULL);
+(3, 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 3, '2025-08-23 04:50:02', NULL, 0, NULL),
+(8, 'ads', 'email', 'password', '', 1, '2025-08-26 13:15:51', NULL, 0, NULL),
+(9, 'ads', '1', 'password', '', 1, '2025-08-26 13:18:28', NULL, 0, NULL),
+(10, 'ads', 'adads', 'password', '', 1, '2025-08-26 13:20:53', NULL, 0, NULL),
+(11, 'asd', 'asd', 'asd', '', 1, '2025-08-26 15:33:35', NULL, 0, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -635,37 +557,37 @@ ALTER TABLE `history`
 -- AUTO_INCREMENT a táblához `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
 --
 ALTER TABLE `reservation_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_dates`
 --
 ALTER TABLE `reserved_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `role`
@@ -689,13 +611,13 @@ ALTER TABLE `special_offer`
 -- AUTO_INCREMENT a táblához `status`
 --
 ALTER TABLE `status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Megkötések a kiírt táblákhoz
