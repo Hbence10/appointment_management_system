@@ -1,5 +1,15 @@
 export class Reservation{
   constructor(
-
+    public id: number,
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public phoneNumber: string,
+    public comment: string | null,
+    public reservedAt: Date,
+    public reservationType: string,
+    public reservedDate: Date,
+    public paymentMethod: string,
+    public status: string
   ){}
 }

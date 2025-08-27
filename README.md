@@ -21,40 +21,10 @@
 !["Adatbázis terv"](./database_plan.png)
 
 ### Tárolt eljárások:
-- add_devices
-- add_devices_category
-- add_dislike
-- add_like
-- add_news
-- add_reservation_type
-- add_special_offer
-- cancel_reservation
-- change_password
-- delete_devices
-- delete_devices_category
-- delete_news
-- delete_reservation_type
-- get_devices
-- get_devices_category
-- get_gallery_photos
-- get_reservation_by_day
-- get_reservation_by_user_id 
-- get_reservation_types
-- get_reviews
-- get_rules
-- log_out
-- login
-- make_reservation
-- profil_update
-- profile_delete
-- registration
-- update_devices
-- update_devices_category
-- update_gallery_photo
-- update_news
-- update_reservation_type
-- update_rules
-- write_review
+- cancelReservation()
+- getReservationByUserId()
+- login()
+- register()
 
 
 ## Backend: 
@@ -90,8 +60,12 @@ A weblap a következő **componentekre** bontódik fel:
 - **price-list:**
 - **login-page:**
 - **registration-page:**
-- profile-page
-- admin-page
+- **profile-page**
+- **admin-page**
+- **appointment-selector**
+- **gallery**
+- **password-reset-page**
+- **reservation-card**
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 
@@ -99,6 +73,7 @@ A frontent projektben a következő **model**-ek találhatóak meg:
 - user
 - newsDetails
 - reviewDetails
+- reservation
 
 ## Elérhetőség:
 - [Github]("")

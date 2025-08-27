@@ -11,7 +11,7 @@
           <div class="col-lg-7">
             <h1>Foglalásaim:</h1>
             @for (reservation of reservations(); track $index) {
-              <app-reservation-card [reservationDetails]="reservations" />
+              <app-reservation-card [reservationDetails]="reservation" />
             }
           </div>
         </div>

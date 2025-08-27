@@ -1,9 +1,11 @@
 import { Component, input, signal } from '@angular/core';
 import { NewsDetails } from '../../models/newsDetails.model';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-news-card',
-  imports: [],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './news-card.html',
   styleUrl: './news-card.scss'
 })

@@ -18,8 +18,8 @@
 
   <div class="row my-3">
     <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <div class="infoContainer material-box">
-        <h1 class="text-center">Aktuális híreink</h1>
+      <div class="infoContainer material-box" id="newsContainer">
+        <h1 class="text-center my-4">Aktuális híreink</h1>
         @for (newsDetails of news(); track $index) {
           <app-news-card [newsDetails]="newsDetails"/>
         }

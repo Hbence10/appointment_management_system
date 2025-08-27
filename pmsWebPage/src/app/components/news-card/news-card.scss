@@ -1,5 +1,16 @@
 .container-fluid{
   height: 75px !important;
   background-color: white;
+  padding: 30px;
+  color: #004D40;
 }
 
+.expanded-mode{
+  height: 300px !important;
+}
+
+#bannerImg{
+  width: 275px;
+  height: 200px;
+  border-radius: 16px;
+}
