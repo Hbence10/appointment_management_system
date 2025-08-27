@@ -60,14 +60,21 @@ A weblap a következő **componentekre** bontódik fel:
 - **price-list:**
 - **login-page:**
 - **registration-page:**
-- **profile-page**
-- **admin-page**
-- **appointment-selector**
-- **gallery**
-- **password-reset-page**
-- **reservation-card**
+- **profile-page:**
+- **admin-page:**
+- **appointment-selector:**
+- **gallery:**
+- **password-reset-page:**
+- **reservation-card:**
+- **reservation-maker-page:**
+- **reservation-form:**
 
 A frontend projektben a következő **service**-ek találhatóak meg:
+- **device-service**
+- **news-service**
+- **other-stuff-service**
+- **reservation-service**
+- **user-service**
 
 A frontent projektben a következő **model**-ek találhatóak meg:
 - user

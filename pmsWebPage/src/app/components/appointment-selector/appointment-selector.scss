@@ -9,3 +9,45 @@
   width: 300px;
   background-color: #26A69A;
 }
+
+#appointContainer{
+  background-color: #26A69A;
+  width: 760px;
+  height: 480px;
+  border-radius: 16px;
+}
+
+.hourButton{
+  font-size: 20px;
+  width: 80px;
+  height: 40px;
+  background-color: #26A69A;
+  border: none;
+}
+
+#buttonsContainer{
+  max-height: 460px !important;
+  overflow-y: auto;
+  padding: 20px 0px;
+}
+
+.hourButton:hover{
+  background-color: #004D40;
+  color: white !important;
+}
+
+.hourDiv{
+  width: 360px;
+  height: 56px;
+  background-color: white;
+}
+
+.hourDiv:hover{
+  background-color: #004D40;
+  color: white;
+}
+
+mat-icon{
+  width: 24px;
+  height: 24px;
+}
