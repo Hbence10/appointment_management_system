@@ -1,1 +1,36 @@
-<p>reservation-card works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <h5 class="m-0">#{{reservationDetails().id}} - {{reservationDetails().reservationTypeId}}</h5>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <p class="m-0"><span class="fw-bold">Dátum:</span></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <p class="m-0"><span class="fw-bold">Státusz</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 d-flex justify-content-center align-items-end">
+      <button class="mx-2" matButton="filled"><mat-icon fontIcon="remove_circle_outline"></mat-icon></button>
+      <button class="mx-2" matButton="filled">Részletek</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <hr>
+    </div>
+  </div>
+</div>

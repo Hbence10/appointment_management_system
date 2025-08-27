@@ -7,7 +7,7 @@ export class Reservation{
     public phoneNumber: string,
     public comment: string | null,
     public reservedAt: Date,
-    public reservationType: string,
+    public reservationTypeId: string,
     public reservedDate: Date,
     public paymentMethod: string,
     public status: string

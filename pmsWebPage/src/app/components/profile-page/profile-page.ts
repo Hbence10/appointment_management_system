@@ -22,11 +22,14 @@ export class ProfilePage implements OnInit{
   ngOnInit(): void {
     this.user = this.userService.user()!
 
-    console.log(this.user)
-
     this.reservationService.getReservationByUserId(this.user.id).subscribe({
       next: response => this.reservations.set(response),
       complete: () => console.log(this.reservations())
     })
+  }
+
+
+  logOut(){
+
   }
 }
