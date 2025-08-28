@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,6 +20,7 @@ export class Review implements OnInit {
   private otherService = inject(OtherService)
   private userService = inject(UserService)
   private router = inject(Router)
+  private destroyRef = inject(DestroyRef)
 
   reviewForm = new FormGroup({
     reviewText: new FormControl("", [Validators.required])
@@ -28,11 +29,17 @@ export class Review implements OnInit {
   reviewDetails = signal<ReviewDetails[]>([])
 
   ngOnInit(): void {
-    this.otherService.getAllReviews().subscribe({
+    const subscription = this.otherService.getAllReviews().subscribe({
       next: response => this.reviewDetails.set(response),
       complete: () => console.log(this.reviewDetails())
     })
+
+    this.destroyRef.onDestroy(() => {
+      console.log("destroyed!!!! - reviewComponent")
+      subscription.unsubscribe()
+    })
   }
+
 
   addReview() {
     if (this.userService.user() == null) {
@@ -46,5 +53,5 @@ export class Review implements OnInit {
     }
   }
 
-  
+
 }

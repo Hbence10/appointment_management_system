@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Reservations;
 import com.Hbence.appointmentManagementAPI.entity.ReservedDates;
+import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class ReservationController {
     public List<ReservedDates> getReservationByMonth(@RequestParam("actualDate") String actualDate){
 
         return reservationService.getReservationByMonth(actualDate);
+    }
+
+    @GetMapping("/reservedHours")
+    public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") int selectedDay){
+
+        return null;
     }
 }
 

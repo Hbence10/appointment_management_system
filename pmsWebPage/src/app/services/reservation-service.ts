@@ -16,11 +16,7 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`http://localhost:8080/reservation?userId=${userId}`)
   }
 
-  getReservedDatesByDay(wantedDate: Date): Observable<ReservedDates[]> {
-    return this.http.get<ReservedDates[]>("")
-  }
-
-  getReservedDateByMonth(monthNumber:number){
-    return this.http.get<ReservedDates[]>("")
+  getReservedDateByMonth(actualDateString: string): Observable<ReservedDates[]>{
+    return this.http.get<ReservedDates[]>(`http://localhost:8080/reservation/reservedDates?actualDate=${actualDateString}`)
   }
 }
