@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 27. 12:16
+-- Létrehozás ideje: 2025. Aug 28. 19:31
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -35,6 +35,15 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userIdIN` INT)   BEGIN
 	SELECT * FROM `reservations` WHERE reservations.user_id = userIdIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateByMonth` (IN `dateIN` DATE)   BEGIN
+	SELECT * FROM reserved_dates WHERE
+    Month(reserved_dates.date) = Month(dateIN);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedHoursByDate` (IN `dateIN` DATE)   BEGIN
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
@@ -69,6 +78,16 @@ INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`) VALUES
 (4, 'mikrofon2', 1, 2),
 (5, 'gitar1', 2, 2),
 (6, 'gitar2', 2, 2);
+
+--
+-- Eseményindítók `devices`
+--
+DELIMITER $$
+CREATE TRIGGER `checkFullDay` BEFORE INSERT ON `devices` FOR EACH ROW BEGIN
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -217,7 +236,6 @@ CREATE TABLE `reservations` (
   `comment` longtext,
   `reservation_type_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `reserved_date_id` int(11) NOT NULL,
   `payment_method_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL,
   `reserved_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -256,9 +274,30 @@ INSERT INTO `reservation_type` (`id`, `name`, `price`, `amount`) VALUES
 CREATE TABLE `reserved_dates` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `start_hour` int(2) NOT NULL,
-  `end_hour` int(2) NOT NULL,
+  `is_holiday` tinyint(1) NOT NULL DEFAULT '0',
   `is_closed` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `reserved_dates`
+--
+
+INSERT INTO `reserved_dates` (`id`, `date`, `is_holiday`, `is_closed`) VALUES
+(5, '2025-08-28', 0, 0),
+(6, '2025-08-29', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `reserved_hours`
+--
+
+CREATE TABLE `reserved_hours` (
+  `id` int(11) NOT NULL,
+  `start` int(2) NOT NULL,
+  `end` int(2) NOT NULL,
+  `date_id` int(11) NOT NULL,
+  `reservation_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -456,7 +495,6 @@ ALTER TABLE `payment_methods`
 ALTER TABLE `reservations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user` (`user_id`),
-  ADD KEY `reserved_date` (`reserved_date_id`),
   ADD KEY `reservation_type` (`reservation_type_id`),
   ADD KEY `cancelled` (`canceled_by`),
   ADD KEY `payment_method` (`payment_method_id`),
@@ -472,7 +510,16 @@ ALTER TABLE `reservation_type`
 -- A tábla indexei `reserved_dates`
 --
 ALTER TABLE `reserved_dates`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `date` (`date`);
+
+--
+-- A tábla indexei `reserved_hours`
+--
+ALTER TABLE `reserved_hours`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `date` (`date_id`),
+  ADD KEY `res` (`reservation_id`);
 
 --
 -- A tábla indexei `review`
@@ -569,7 +616,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -581,7 +628,13 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_dates`
 --
 ALTER TABLE `reserved_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT a táblához `reserved_hours`
+--
+ALTER TABLE `reserved_hours`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -656,9 +709,15 @@ ALTER TABLE `reservations`
   ADD CONSTRAINT `cancelled` FOREIGN KEY (`canceled_by`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`),
   ADD CONSTRAINT `reservation_type` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`),
-  ADD CONSTRAINT `reserved_date` FOREIGN KEY (`reserved_date_id`) REFERENCES `reserved_dates` (`id`),
   ADD CONSTRAINT `status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
   ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `reserved_hours`
+--
+ALTER TABLE `reserved_hours`
+  ADD CONSTRAINT `date` FOREIGN KEY (`date_id`) REFERENCES `reserved_dates` (`id`),
+  ADD CONSTRAINT `res` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`);
 
 --
 -- Megkötések a táblához `review`

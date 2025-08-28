@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public Response login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public User login(@RequestParam("username") String username, @RequestParam("password") String password) {
         return userService.login(username, password);
     }
 

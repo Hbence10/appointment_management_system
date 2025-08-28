@@ -26,15 +26,15 @@
                   <p>Kezdés:</p>
                   <hr class="m-0">
 
-                  <!-- @if(user.role == "admin" || user.role == "superAdmin"){
+                  @if(user != null && (user.role == "admin" || user.role == "superAdmin")){
                     <div class="hourDiv my-2">
 
                     </div>
-                  } -->
+                  }
 
                   @for (hourNumber of availableHours; track $index) {
                     @if($index <= 4){
-                      <div class="hourDiv my-2">
+                      <div class="hourDiv my-2 d-flex justify-content-between align-items-center">
                         <p>{{$index + 1}} óra</p>
                         <mat-icon fontIcon="arrow_right"></mat-icon>
 

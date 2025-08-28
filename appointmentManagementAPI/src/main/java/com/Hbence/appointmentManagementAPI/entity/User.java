@@ -13,7 +13,7 @@ import java.util.List;
         @NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
                 @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
                 @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class)
-        }),
+        }, resultClasses = {User.class}),
 
         @NamedStoredProcedureQuery(name = "register", procedureName = "registration", parameters = {
                 @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),

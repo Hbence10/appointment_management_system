@@ -6,13 +6,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "reservations")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)
-        }),
+        }, resultClasses = List.class),
 //        @NamedStoredProcedureQuery(name = "cancelReservation", procedureName = "cancelReservation", parameters = {
 //                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
 //                @StoredProcedureParameter(name = "reservationIdIN", type = Integer.class, mode = ParameterMode.IN)
@@ -78,6 +79,9 @@ public class Reservations {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "status_id")
     private Status status;
+
+    @OneToOne(mappedBy = "reservation", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    private ReservedHours reservedHours;
 
     public Reservations() {
     }

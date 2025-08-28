@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,17 @@ public class ReservationController {
 
     @PatchMapping("/cancel/{id}")
     public Response cancelReservation(@PathVariable int id, @RequestParam Map<String, Object> reservationBody){
+
+        return null;
+    }
+
+    @GetMapping("/reservedDatesByDay")
+    public Response getReservedDatesByDay(@RequestParam("wantedDate") String wantedDate){
+        return reservationService.getReservedDatesByDate(wantedDate);
+    }
+
+    public Response getReservedDatesByMonth(){
+
 
         return null;
     }

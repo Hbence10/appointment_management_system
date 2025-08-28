@@ -30,13 +30,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Response login(String username, String password) {
-        try {
-            int id = userRepository.login(username, password);
-            return new Response(HttpStatus.OK.value(), userRepository.findById(id).get(), LocalDateTime.now());
-        } catch (NullPointerException e) {
-            throw new UserNotFound("InvalidUsernameOrPassword");
-        }
+    public User login(String username, String password) {
+        User user = userRepository.login(username, password);
+        return user;
     }
 
     public Response register(User newUser) {
