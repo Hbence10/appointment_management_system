@@ -1,13 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.entity.PaymentMethods;
-import com.Hbence.appointmentManagementAPI.entity.ReservationType;
-import com.Hbence.appointmentManagementAPI.entity.Reservations;
-import com.Hbence.appointmentManagementAPI.entity.ReservedDates;
-import com.Hbence.appointmentManagementAPI.repository.PaymentMethodRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservationTypeRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
+import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,13 +22,15 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     private ReservationTypeRepository reservationTypeRepository;
     private ReservedDateRepository reservedDateRepository;
+    private ReservedHoursRepository reservedHoursRepository;
 
     @Autowired
-    public ReservationService(PaymentMethodRepository paymentMethodRepository, ReservationRepository reservationRepository, ReservationTypeRepository reservationTypeRepository, ReservedDateRepository reservedDateRepository) {
+    public ReservationService(PaymentMethodRepository paymentMethodRepository, ReservationRepository reservationRepository, ReservationTypeRepository reservationTypeRepository, ReservedDateRepository reservedDateRepository, ReservedHoursRepository reservedHoursRepository) {
         this.paymentMethodRepository = paymentMethodRepository;
         this.reservationRepository = reservationRepository;
         this.reservationTypeRepository = reservationTypeRepository;
         this.reservedDateRepository = reservedDateRepository;
+        this.reservedHoursRepository = reservedHoursRepository;
     }
 
     public List<PaymentMethods> getAllPaymentMethod() {
@@ -49,10 +45,12 @@ public class ReservationService {
         return reservations;
     }
 
-    public List<ReservedDates> getReservationByMonth(String actualDate){
-        System.out.println(reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate)));;
-
+    public List<ReservedDates> getReservationByMonth(String actualDate) {
         return reservedDateRepository.findAllById(reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate)));
+    }
+
+    public List<ReservedHours> getReservedHoursByDay(String wantedDayDate) {
+        return reservedHoursRepository.findAllById(reservedHoursRepository.getReservationByMonth(LocalDate.parse(wantedDayDate)));
     }
 
 }

@@ -30,14 +30,12 @@ public class ReservationController {
 
     @GetMapping("/reservedDates")
     public List<ReservedDates> getReservationByMonth(@RequestParam("actualDate") String actualDate){
-
         return reservationService.getReservationByMonth(actualDate);
     }
 
     @GetMapping("/reservedHours")
-    public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") int selectedDay){
-
-        return null;
+    public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay){
+        return reservationService.getReservedHoursByDay(wantedDateDay);
     }
 }
 

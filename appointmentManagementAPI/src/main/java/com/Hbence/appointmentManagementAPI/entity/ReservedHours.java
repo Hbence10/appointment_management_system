@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "reserved_hours")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservedHoursByDate", procedureName = "getReservedHoursByDate", parameters = {
-                @StoredProcedureParameter(name = "dateIN", type = Date.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
         })
 })
 public class ReservedHours {
@@ -60,7 +61,8 @@ public class ReservedHours {
         return date;
     }
 
-    public Reservations getReservationHour() {
-        return reservationHour;
+    @Override
+    public String toString() {
+        return "ReservedHours{" + "date=" + date + ", end=" + end + ", start=" + start + ", id=" + id + '}';
     }
 }
