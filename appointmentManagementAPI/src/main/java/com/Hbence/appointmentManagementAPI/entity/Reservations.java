@@ -90,9 +90,9 @@ public class Reservations {
         this.comment = comment;
     }
 
-    public int getId() {
-        return id;
-    }
+//    public int getId() {
+//        return id;
+//    }
 
     public String getFirstName() {
         return firstName;

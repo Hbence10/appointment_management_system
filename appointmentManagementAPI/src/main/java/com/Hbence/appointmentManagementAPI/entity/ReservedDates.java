@@ -46,4 +46,16 @@ public class ReservedDates {
         this.isHoliday = isHoliday;
         this.isClosed = isClosed;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Boolean getHoliday() {
+        return isHoliday;
+    }
+
+    public Boolean getClosed() {
+        return isClosed;
+    }
 }

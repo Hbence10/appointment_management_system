@@ -37,30 +37,22 @@ public class ReservationService {
         this.reservedDateRepository = reservedDateRepository;
     }
 
-    public List<PaymentMethods> getAllPaymentMethod(){
+    public List<PaymentMethods> getAllPaymentMethod() {
         return paymentMethodRepository.findAll();
     }
 
-    public ArrayList<Reservations>  getReservationByUserId(Integer userId){
+    public ArrayList<Reservations> getReservationByUserId(Integer userId) {
         ArrayList<Reservations> reservations = new ArrayList<>();
-        for(Long i : reservationRepository.reservations(userId)){
+        for (Long i : reservationRepository.reservations(userId)) {
             reservations.add(reservationRepository.findById(i).get());
         }
         return reservations;
     }
 
-    public String cancelReservation(int userId, int reservationId){
-        return "";
+    public List<ReservedDates> getReservationByMonth(String actualDate){
+        System.out.println(reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate)));;
+
+        return reservedDateRepository.findAllById(reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate)));
     }
 
-    public Response getReservedDatesByDate(String wantedDate){
-        List<Long> ids = reservedDateRepository.reservedDatesByDate(LocalDate.parse(wantedDate));
-        ArrayList<ReservedDates> reservedDates = new ArrayList<>();
-
-        for(Long i : ids){
-            reservedDates.add(reservedDateRepository.findById(i).get());
-        }
-
-        return new Response(HttpStatus.OK.value(), reservedDates, LocalDateTime.now());
-    }
 }
