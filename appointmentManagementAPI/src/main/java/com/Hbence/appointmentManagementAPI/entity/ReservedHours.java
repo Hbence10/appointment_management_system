@@ -36,7 +36,7 @@ public class ReservedHours {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reservation_id")
-    private Reservations reservation;
+    private Reservations reservationHour;
 
     //constructors:
     public ReservedHours() {
@@ -46,5 +46,21 @@ public class ReservedHours {
         this.start = start;
         this.end = end;
         this.date = date;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public ReservedDates getDate() {
+        return date;
+    }
+
+    public Reservations getReservationHour() {
+        return reservationHour;
     }
 }

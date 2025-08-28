@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,11 +14,7 @@ import java.util.List;
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)
-        }, resultClasses = List.class),
-//        @NamedStoredProcedureQuery(name = "cancelReservation", procedureName = "cancelReservation", parameters = {
-//                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
-//                @StoredProcedureParameter(name = "reservationIdIN", type = Integer.class, mode = ParameterMode.IN)
-//        })
+        }),
 })
 public class Reservations {
 
@@ -56,6 +53,9 @@ public class Reservations {
     @Column(name = "is_canceled")
     private Boolean isCanceled;
 
+    @Column(name = "canceled_at")
+    private LocalDateTime canceledAt;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "canceled_by")
     private User canceledBy;
@@ -69,10 +69,6 @@ public class Reservations {
     private ReservationType reservationTypeId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reserved_date_id")
-    private ReservedDates reservedDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethod;
 
@@ -80,10 +76,18 @@ public class Reservations {
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToOne(mappedBy = "reservation", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    @OneToOne(mappedBy = "reservationHour", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
     private ReservedHours reservedHours;
 
     public Reservations() {
+    }
+
+    public Reservations(String firstName, String lastName, String email, String phone, String comment) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.comment = comment;
     }
 
     public int getId() {
@@ -110,14 +114,18 @@ public class Reservations {
         return comment;
     }
 
-    public String getReservedAt() {
-        return reservedAt.toString();
+    public LocalDateTime getReservedAt() {
+        return reservedAt;
     }
 
     public Boolean getCanceled() {
         return isCanceled;
     }
 
+    public LocalDateTime getCanceledAt() {
+        return canceledAt;
+    }
+//
 //    public User getCanceledBy() {
 //        return canceledBy;
 //    }
@@ -130,10 +138,6 @@ public class Reservations {
         return reservationTypeId.getName();
     }
 
-//    public ReservedDates getReservedDate() {
-//        return reservedDate;
-//    }
-
     public String getPaymentMethod() {
         return paymentMethod.getName();
     }
@@ -141,6 +145,10 @@ public class Reservations {
     public String getStatus() {
         return status.getName();
     }
+
+//    public String getReservedHours() {
+//        return reservedHours.getStart() + ":00 - " + reservedHours.getEnd() + ":00";
+//    }
 
 
     //----------

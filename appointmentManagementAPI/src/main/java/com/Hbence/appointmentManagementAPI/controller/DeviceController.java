@@ -20,33 +20,4 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
-    //Visszadobja az osszes ezkozt
-    @GetMapping("/")
-    public List<Devices> getAllDevice(){
-        return deviceService.getAllDevice();
-    }
-
-    //Kategoria szerint visszadobja az osszes ezkozt
-    @GetMapping("/{categoryName}")
-    public List<Devices> getAllDeviceByCategory(@PathVariable String categoryName){
-        return null;
-    }
-
-    //visszadobja az osszes eszkoz kategoriat
-    @GetMapping("/categories")
-    public List<DevicesCategory> getAllDevicesCategory(){
-        return null;
-    }
 }
-    /*
-    * Endpointok:
-    *       - eszkoz kategoria lekerdezese
-    *       - eszkoz kategoria torlese
-    *       - eszkoz kategoria letrehozasa
-    *       - eszkoz kategoria szerkesztese
-    *       - eszkoz lekerdezese
-            - eszkoz torlese
-            - eszkoz letrehozasa
-            - eszkoz szerkesztese
-    *
-    */

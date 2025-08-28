@@ -41,14 +41,11 @@ public class ReservationService {
         return paymentMethodRepository.findAll();
     }
 
-    public ArrayList<Reservations> getReservationByUserId(Integer userId){
-        ArrayList<Long> id = reservationRepository.reservations(userId);
+    public ArrayList<Reservations>  getReservationByUserId(Integer userId){
         ArrayList<Reservations> reservations = new ArrayList<>();
-
-        for(Long i: id){
+        for(Long i : reservationRepository.reservations(userId)){
             reservations.add(reservationRepository.findById(i).get());
         }
-
         return reservations;
     }
 

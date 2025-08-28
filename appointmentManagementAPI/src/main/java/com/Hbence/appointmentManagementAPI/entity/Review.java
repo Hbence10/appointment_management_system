@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "reviewTextIN", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "ratingIN", type = Double.class, mode = ParameterMode.IN)
-        })
+        }, resultClasses = Boolean.class)
 })
 public class Review {
 

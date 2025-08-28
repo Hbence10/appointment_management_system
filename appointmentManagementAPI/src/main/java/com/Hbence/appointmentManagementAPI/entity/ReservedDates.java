@@ -31,9 +31,6 @@ public class ReservedDates {
     @NotNull
     private Boolean isClosed;
 
-    @OneToOne(mappedBy = "reservedDate", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
-    private Reservations reservation;
-
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,

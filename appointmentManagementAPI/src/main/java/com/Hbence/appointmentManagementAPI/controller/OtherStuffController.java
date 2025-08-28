@@ -21,11 +21,6 @@ public class OtherStuffController {
         this.otherStuffService = otherStuffService;
     }
 
-    @GetMapping("/gallery")
-    public List<Gallery> getGallery(){
-        return otherStuffService.getAllGalleryPhoto();
-    }
-
 
     //Velemenyek
     @GetMapping("/reviews")
