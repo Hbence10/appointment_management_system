@@ -12,7 +12,7 @@ import java.util.List;
 public interface ReservedDateRepository extends JpaRepository<ReservedDates, Long> {
 
     @Procedure(name = "getReservedDateByMonth", procedureName = "getReservedDateByMonth")
-    List<Long> reservedDatesByDate(@Param("dateIN") LocalDate wantedDate);
+    List<ReservedDates> reservedDatesByDate(@Param("dateIN") LocalDate wantedDate);
 }
 
 

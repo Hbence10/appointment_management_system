@@ -11,5 +11,5 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservations, Long> {
 
     @Procedure(name = "getReservationByUserId", procedureName = "getReservationByUserId")
-    ArrayList<Long> reservations(@Param("userIdIN") Integer userId);
+    List<Reservations> reservations(@Param("userIdIN") Integer userId);
 }

@@ -33,27 +33,23 @@ public class ReservationService {
         this.reservedHoursRepository = reservedHoursRepository;
     }
 
-    public List<PaymentMethods> getAllPaymentMethod() {
-        return paymentMethodRepository.findAll();
-    }
-
-    public ArrayList<Reservations> getReservationByUserId(Integer userId) {
-        ArrayList<Reservations> reservations = new ArrayList<>();
-        for (Long i : reservationRepository.reservations(userId)) {
-            reservations.add(reservationRepository.findById(i).get());
-        }
-        return reservations;
+    public List<Reservations> getReservationByUserId(Integer userId) {
+        return reservationRepository.reservations(userId);
     }
 
     public List<ReservedDates> getReservationByMonth(String actualDate) {
-        return reservedDateRepository.findAllById(reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate)));
+        return reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate));
     }
 
     public List<ReservedHours> getReservedHoursByDay(String wantedDayDate) {
         return reservedHoursRepository.findAllById(reservedHoursRepository.getReservationByMonth(LocalDate.parse(wantedDayDate)));
     }
 
-    public List<ReservationType> getAllReservationType(){
+    public List<ReservationType> getAllReservationType() {
         return reservationTypeRepository.findAll();
+    }
+
+    public List<PaymentMethods> getAllPaymentMethod() {
+        return paymentMethodRepository.findAll();
     }
 }

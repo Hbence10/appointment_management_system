@@ -14,7 +14,7 @@ import java.util.List;
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)
-        }),
+        }, resultClasses = {List.class}),
 })
 public class Reservations {
 
@@ -68,7 +68,7 @@ public class Reservations {
     @JoinColumn(name = "reservation_type_id")
     private ReservationType reservationTypeId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethod;
 

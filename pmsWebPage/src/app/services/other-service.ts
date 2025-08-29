@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { ReviewDetails } from '../models/reviewDetails.model';
 import { Observable } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class OtherService {
   private http = inject(HttpClient)
+  baseURL = signal<string>("http://localhost:8080")
 
   getAllReviews(): Observable<ReviewDetails[]> {
     return this.http.get<ReviewDetails[]>("http://localhost:8080/reviews")

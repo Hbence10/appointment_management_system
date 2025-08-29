@@ -24,4 +24,8 @@ export class ReservationService {
   getReservationTypes(): Observable<ReservationType[]>{
     return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/reservationType`)
   }
+
+  getPaymentMethods(){
+
+  }
 }

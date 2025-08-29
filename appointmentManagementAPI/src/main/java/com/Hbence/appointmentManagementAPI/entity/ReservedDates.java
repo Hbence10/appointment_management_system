@@ -12,7 +12,7 @@ import java.util.List;
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservedDateByMonth", procedureName = "getReservedDateByMonth", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
-        })
+        }, resultClasses = {ReservedDates.class})
 })
 public class ReservedDates {
 

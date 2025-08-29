@@ -1,9 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.ReservationType;
-import com.Hbence.appointmentManagementAPI.entity.Reservations;
-import com.Hbence.appointmentManagementAPI.entity.ReservedDates;
-import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
+import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +22,7 @@ public class ReservationController {
     }
 
     @GetMapping("")
-    public ArrayList<Reservations> getReservationByUserId(@RequestParam("userId") Integer id){
+    public List<Reservations> getReservationByUserId(@RequestParam("userId") Integer id){
         return reservationService.getReservationByUserId(id);
     }
 
@@ -42,6 +39,11 @@ public class ReservationController {
     @GetMapping("/reservationType")
     public List<ReservationType> getAllReservationTypes(){
         return reservationService.getAllReservationType();
+    }
+
+    @GetMapping("/paymentMethods")
+    public List<PaymentMethods> getAllPaymentMethod(){
+        return reservationService.getAllPaymentMethod();
     }
 }
 

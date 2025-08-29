@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class UserService {
   private http = inject(HttpClient)
   user = signal<null | User>(null)
+  baseURL = signal<string>("http://localhost:8080")
 
   login(username: string, password: string): Observable<any>{
     return this.http.get<User>(`http://localhost:8080/users/login?username=${username}&password=${password}`)
