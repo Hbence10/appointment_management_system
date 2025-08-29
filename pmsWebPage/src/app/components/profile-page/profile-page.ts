@@ -12,7 +12,7 @@ import { ReservationCard } from '../reservation-card/reservation-card';
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss'
 })
-export class ProfilePage implements OnInit{
+export class ProfilePage implements OnInit {
   private userService = inject(UserService)
   private reservationService = inject(ReservationService)
 
@@ -29,7 +29,7 @@ export class ProfilePage implements OnInit{
   }
 
 
-  logOut(){
+  logOut() {
 
   }
 }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AppointmentSelector } from '../appointment-selector/appointment-selector';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({

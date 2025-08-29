@@ -16,7 +16,7 @@ import { User } from '../../models/user.model';
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppointmentSelector implements OnInit{
+export class AppointmentSelector implements OnInit {
   private reservationService = inject(ReservationService)
   private userService = inject(UserService)
   private router = inject(Router)
@@ -36,16 +36,16 @@ export class AppointmentSelector implements OnInit{
       next: response => console.log(response)
     })
 
-    this.destroyRef.onDestroy(()=>{
+    this.destroyRef.onDestroy(() => {
       console.log("destroyed!!!!! - appointmentSelector Component!")
       subscription.unsubscribe()
     })
   }
 
-  selectDay(){
+  selectDay() {
     this.showHours.update(old => !old)
   }
 
-  selectHour(){
+  selectHour() {
   }
 }

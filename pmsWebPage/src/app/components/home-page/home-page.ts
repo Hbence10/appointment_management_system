@@ -12,7 +12,7 @@ import { NewsCard } from '../news-card/news-card';
   styleUrl: './home-page.scss'
 })
 
-export class HomePage implements OnInit{
+export class HomePage implements OnInit {
   news = signal<NewsDetails[]>([])
   private newsService = inject(NewsService)
   private destroyRef = inject(DestroyRef)

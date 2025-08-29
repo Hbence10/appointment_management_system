@@ -1,6 +1,5 @@
-import { response } from 'express';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,7 +39,7 @@ export class LoginPage {
         if (this.isRemember()) {
           this.setUserToService()
         }
-        this.router.navigate([""] )
+        this.router.navigate([""])
       }
     })
   }
@@ -50,6 +49,6 @@ export class LoginPage {
     event.stopPropagation();
   }
 
-  setUserToService(){
+  setUserToService() {
   }
 }

@@ -14,9 +14,9 @@ export class ReservationCard {
   private reservationService = inject(ReservationService)
   reservationDetails = input.required<Reservation>()
 
-  cancelReservation(){
+  cancelReservation() {
   }
 
-  showReservationDetails(){
+  showReservationDetails() {
   }
 }

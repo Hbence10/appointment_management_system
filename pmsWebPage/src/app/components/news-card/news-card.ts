@@ -13,7 +13,7 @@ export class NewsCard {
   newsDetails = input.required<NewsDetails>()
   isExpand = signal<boolean>(false)
 
-  expandContent(){
+  expandContent() {
     this.isExpand.update(old => !old);
   }
 }

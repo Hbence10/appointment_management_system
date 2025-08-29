@@ -6,15 +6,15 @@ import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
 
-function passwordValidator(control: AbstractControl){
+function passwordValidator(control: AbstractControl) {
   const specialCharacters = []
 
 
-  if(String(control.value).length == 8){
+  if (String(control.value).length == 8) {
 
   }
 
-  return {invalidPassword: true}
+  return { invalidPassword: true }
 }
 
 @Component({

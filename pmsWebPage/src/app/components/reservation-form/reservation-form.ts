@@ -43,13 +43,13 @@ export class ReservationForm implements OnInit {
     })
   }
 
-  selectReservationType(){
+  selectReservationType() {
 
   }
 
-  continueReservation(){
-    if(this.ifRegister()){
-      
+  continueReservation() {
+    if (this.ifRegister()) {
+
     }
 
     this.router.navigate([""])
