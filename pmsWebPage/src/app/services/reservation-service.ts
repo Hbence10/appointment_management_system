@@ -17,15 +17,15 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation?userId=${userId}`)
   }
 
-  getReservedDateByMonth(actualDateString: string): Observable<ReservedDates[]>{
+  getReservedDateByMonth(actualDateString: string): Observable<ReservedDates[]> {
     return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?actualDate=${actualDateString}`)
   }
 
-  getReservationTypes(): Observable<ReservationType[]>{
+  getReservationTypes(): Observable<ReservationType[]> {
     return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/reservationType`)
   }
 
-  getPaymentMethods(){
-
+  getPaymentMethods(): Observable<{ id: number, name: string }[]> {
+    return this.http.get<{ id: number, name: string }[]>(`${this.baseURL()}/reservation/paymentMethods`)
   }
 }

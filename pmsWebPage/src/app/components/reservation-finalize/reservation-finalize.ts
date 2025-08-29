@@ -1,11 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReservationService } from '../../services/reservation-service';
 
 @Component({
   selector: 'app-reservation-finalize',
-  imports: [],
+  imports: [MatCheckboxModule, MatSlideToggleModule, MatButtonModule],
   templateUrl: './reservation-finalize.html',
   styleUrl: './reservation-finalize.scss'
 })
-export class ReservationFinalize {
+export class ReservationFinalize implements OnInit{
+  private reservationService = inject(ReservationService)
+  private destroyRef = inject(DestroyRef)
 
+  paymentMethods = signal<{ id: number, name: string }[]>([])
+  isAddedToGoogleCalendar = signal<boolean>(false)
+
+  ngOnInit(): void {
+    const subscription = this.reservationService.getPaymentMethods().subscribe({
+      next: response => this.paymentMethods.set(response)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      console.log("destroyed!!! - reservationFinalizeComponent")
+      subscription.unsubscribe()
+    })
+  }
+
+  selectPaymentMethod(id:number){
+    console.log(id)
+  }
 }

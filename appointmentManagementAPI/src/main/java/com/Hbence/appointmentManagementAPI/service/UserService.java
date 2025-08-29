@@ -31,8 +31,7 @@ public class UserService {
     }
 
     public User login(String username, String password) {
-        User user = userRepository.login(username, password);
-        return user;
+        return userRepository.login(username, password);
     }
 
     public Response register(User newUser) {
