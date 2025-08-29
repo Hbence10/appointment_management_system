@@ -1,22 +1,27 @@
-import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
-import { HttpClient } from '@angular/common/http';
+import { ReservationType } from '../models/reservationType.model';
 import { ReservedDates } from '../models/reservedDates.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
-  private router = inject(Router)
   private http = inject(HttpClient)
+  baseURL = signal<string>("http://localhost:8080")
+
 
   getReservationByUserId(userId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`http://localhost:8080/reservation?userId=${userId}`)
+    return this.http.get<Reservation[]>(`${this.baseURL()}/reservation?userId=${userId}`)
   }
 
   getReservedDateByMonth(actualDateString: string): Observable<ReservedDates[]>{
-    return this.http.get<ReservedDates[]>(`http://localhost:8080/reservation/reservedDates?actualDate=${actualDateString}`)
+    return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?actualDate=${actualDateString}`)
+  }
+
+  getReservationTypes(): Observable<ReservationType[]>{
+    return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/reservationType`)
   }
 }

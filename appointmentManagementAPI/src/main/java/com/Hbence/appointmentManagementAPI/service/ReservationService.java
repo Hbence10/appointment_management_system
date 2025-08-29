@@ -53,4 +53,7 @@ public class ReservationService {
         return reservedHoursRepository.findAllById(reservedHoursRepository.getReservationByMonth(LocalDate.parse(wantedDayDate)));
     }
 
+    public List<ReservationType> getAllReservationType(){
+        return reservationTypeRepository.findAll();
+    }
 }

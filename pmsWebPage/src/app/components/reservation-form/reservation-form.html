@@ -1,1 +1,75 @@
-<p>reservation-form works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 d-flex justify-content-center align-items-center">
+      <div id="mainContainer" class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="text-center">Adatok megadása</h1>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <form action="#" [formGroup]="form">
+              <mat-form-field>
+                <mat-label>Vezetéknév</mat-label>
+                <input type="text" matInput formControlName="firstName">
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Keresztnév</mat-label>
+                <input type="text" matInput formControlName="lastName">
+              </mat-form-field><br>
+
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input type="text" matInput formControlName="email">
+              </mat-form-field><br>
+
+              <mat-form-field>
+                <mat-label>Telefonszám</mat-label>
+                <input type="text" matInput formControlName="phone">
+              </mat-form-field><br>
+
+              <mat-form-field>
+                <mat-label>Megjegyzés</mat-label>
+                <textarea name="" id="" matInput formControlName="comment"></textarea>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="text-center">Foglalás tipusa</h1>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12" style="padding: 30px;">
+            @for (reservationType of reservationTypes(); track $index) {
+              <div class="cardDiv my-4">
+                <p>
+                  {{reservationType.name}}
+                  <span class="fw-bold">{{reservationType.price}}/{{reservationType.amount}}</span>
+                </p>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <mat-checkbox>A foglalással együtt regisztrálok az oldalra</mat-checkbox>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <button matButton="filled" [disabled]="form.invalid" (click)="continueReservation()">Folytatás</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

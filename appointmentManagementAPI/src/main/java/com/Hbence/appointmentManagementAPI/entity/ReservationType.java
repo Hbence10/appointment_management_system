@@ -30,8 +30,12 @@ public class ReservationType {
     @Size(max = 100)
     private String amount;
 
-    @OneToOne(mappedBy = "reservationTypeId", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
-    private Reservations reservation;
+    @OneToMany(
+            mappedBy = "reservationTypeId",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    private List<Reservations> reservation;
 
     @OneToOne(mappedBy = "reservationType", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
     private SpecialOffer specialOffer;
@@ -52,13 +56,6 @@ public class ReservationType {
         this.amount = amount;
     }
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;
@@ -84,19 +81,5 @@ public class ReservationType {
         this.amount = amount;
     }
 
-    public Reservations getReservation() {
-        return reservation;
-    }
 
-    public void setReservation(Reservations reservation) {
-        this.reservation = reservation;
-    }
-
-    public SpecialOffer getSpecialOffer() {
-        return specialOffer;
-    }
-
-    public void setSpecialOffer(SpecialOffer specialOffer) {
-        this.specialOffer = specialOffer;
-    }
 }

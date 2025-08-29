@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
+import com.Hbence.appointmentManagementAPI.entity.ReservationType;
 import com.Hbence.appointmentManagementAPI.entity.Reservations;
 import com.Hbence.appointmentManagementAPI.entity.ReservedDates;
 import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
@@ -36,6 +37,11 @@ public class ReservationController {
     @GetMapping("/reservedHours")
     public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay){
         return reservationService.getReservedHoursByDay(wantedDateDay);
+    }
+
+    @GetMapping("/reservationType")
+    public List<ReservationType> getAllReservationTypes(){
+        return reservationService.getAllReservationType();
     }
 }
 
