@@ -50,32 +50,12 @@ public class Devices {
         return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategoryId() {
-        return categoryId.getName();
-    }
-
-    public void setCategoryId(DevicesCategory categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public int getAmount() {
         return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     @Override

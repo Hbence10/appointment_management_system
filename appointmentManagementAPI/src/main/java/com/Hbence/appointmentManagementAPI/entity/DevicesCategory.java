@@ -39,19 +39,11 @@ public class DevicesCategory {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDevicesList(List<Devices> devicesList) {
-        this.devicesList = devicesList;
+    public List<Devices> getDevicesList() {
+        return devicesList;
     }
 }

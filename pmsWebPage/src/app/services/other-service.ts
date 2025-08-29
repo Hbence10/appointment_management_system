@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { ReviewDetails } from '../models/reviewDetails.model';
 import { Observable } from 'rxjs';
+import { GalleryImage } from '../models/galleryImage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,9 @@ export class OtherService {
 
   addReview(requestBody: {userId: number, reviewText: string, rating: number}){
     return this.http.post("", {})
+  }
+
+  getAllGalleryImages(): Observable<GalleryImage[]>{
+    return this.http.get<GalleryImage[]>(`${this.baseURL()}/gallery`)
   }
 }

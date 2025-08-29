@@ -20,4 +20,9 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
+    @GetMapping("/category")
+    public List<DevicesCategory> getAllDevicesByCategory(){
+        return deviceService.getAllDevicesByCategory();
+    }
+
 }

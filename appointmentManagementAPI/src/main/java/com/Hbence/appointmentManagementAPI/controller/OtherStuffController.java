@@ -32,16 +32,10 @@ public class OtherStuffController {
     public Response addReview(@RequestBody Map<String, Object> newReview){
         return otherStuffService.addReview(newReview);
     }
-}
 
-/*
- * Endpointok:
- *       - galleria lekerdezese
- *       - galleria szerkesztese
- *       - szabalyzat lekerdezese
- *       - szabalyzat szerkesztese
- *       - akcio lekerdezese
- *       - akcio letrehozasa
- *       - velemenyek lekerdezese
- *       - velemeny like/dislike
- * */
+    //Galleria:
+    @GetMapping("/gallery")
+    public List<Gallery> getAllGalleryImages(){
+        return otherStuffService.getGalleryImages();
+    }
+}

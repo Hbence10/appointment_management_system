@@ -59,4 +59,8 @@ public class OtherStuffService {
 
         return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
     }
+
+    public List<Gallery> getGalleryImages(){
+        return galleryRepository.findAll();
+    }
 }

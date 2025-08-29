@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.Devices;
+import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.repository.DeviceCategoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class DeviceService {
         this.deviceCategoryRepository = deviceCategoryRepository;
     }
 
-    public List<Devices> getAllDevice(){
-        return deviceRepository.findAll();
+    public List<DevicesCategory> getAllDevicesByCategory(){
+        return deviceCategoryRepository.findAll();
     }
 }
