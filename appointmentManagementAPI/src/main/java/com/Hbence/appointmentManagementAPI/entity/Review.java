@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
         @NamedStoredProcedureQuery(name = "addReview", procedureName = "addReview", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "reviewTextIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "ratingIN", type = Double.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "ratingIN", type = Double.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "isAnonymusIN", type = Boolean.class, mode = ParameterMode.IN)
         }, resultClasses = Boolean.class)
 })
 public class Review {

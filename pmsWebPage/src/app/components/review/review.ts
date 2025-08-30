@@ -19,14 +19,16 @@ import { ReviewCard } from './review-card/review-card';
 export class Review implements OnInit {
   private otherService = inject(OtherService)
   private userService = inject(UserService)
-  private router = inject(Router)
   private destroyRef = inject(DestroyRef)
 
   reviewForm = new FormGroup({
-    reviewText: new FormControl("", [Validators.required])
+    reviewText: new FormControl("", [Validators.required]),
+    rating: new FormControl(2.5, [Validators.required])
+
   })
 
   reviewDetails = signal<ReviewDetails[]>([])
+  isAnonymus = signal<boolean>(false)
 
   ngOnInit(): void {
     const subscription = this.otherService.getAllReviews().subscribe({
@@ -35,23 +37,34 @@ export class Review implements OnInit {
     })
 
     this.destroyRef.onDestroy(() => {
-      console.log("destroyed!!!! - reviewComponent")
       subscription.unsubscribe()
     })
   }
-
 
   addReview() {
     if (this.userService.user() == null) {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
     } else {
-      this.otherService.addReview({
+      const newReview = {
         userId: this.userService.user()!.id,
         reviewText: this.reviewForm.controls["reviewText"].value!,
-        rating: 2
+        rating: Number(this.reviewForm.controls["rating"].value!),
+        isAnonymus: this.isAnonymus()
+      }
+
+      this.otherService.addReview(newReview).subscribe({
+        next: response => console.log(response),
+        complete: () => {
+          this.reviewDetails().push(new ReviewDetails(this.reviewDetails().length+1, this.userService.user()!.username, newReview.reviewText, newReview.rating, 0, 0, this.isAnonymus(), new Date()))
+          this.reviewForm.controls["reviewText"].setValue("");
+          this.reviewForm.controls["rating"].setValue(2.5)
+          this.isAnonymus.set(false)
+        }
       })
     }
   }
 
-
+  setVisibility() {
+    this.isAnonymus.update(old => !old)
+  }
 }

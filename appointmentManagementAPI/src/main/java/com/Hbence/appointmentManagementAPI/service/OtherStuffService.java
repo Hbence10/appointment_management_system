@@ -51,10 +51,12 @@ public class OtherStuffService {
     }
 
     public Response addReview(Map<String, Object> newReview){
+
         reviewRepository.addedReview(
                 newReview.get("userId"),
                 newReview.get("reviewText"),
-                newReview.get("rating")
+                newReview.get("rating"),
+                newReview.get("isAnonymus")
         );
 
         return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());

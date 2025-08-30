@@ -1,9 +1,40 @@
-mat-form-field{
+mat-form-field {
   width: 775px;
   height: 300px;
 }
 
-#reviewContainer{
+#reviewContainer {
   max-height: 640px;
   overflow-y: auto;
+}
+
+//
+.star-rating, .star-rating:hover {
+  --size: 2rem;
+  --mask: conic-gradient(from -18deg at 61% 34.5%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size),
+    conic-gradient(from 270deg at 39% 34.5%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size),
+    conic-gradient(from 54deg at 68% 56%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size),
+    conic-gradient(from 198deg at 32% 56%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size),
+    conic-gradient(from 126deg at 50% 69%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size);
+  --background: linear-gradient(90deg,
+      #000 calc(var(--size) * var(--val)),
+      #ddd 0);
+  height: var(--size);
+  width: calc(5 * var(--size));
+  appearance: none;
+  border: 0;
+}
+
+/* Chrome and Safari */
+.star-rating::-webkit-slider-runnable-track {
+  height: 100%;
+  mask: var(--mask);
+  mask-composite: intersect;
+  background: var(--background);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.star-rating::-webkit-slider-thumb {
+  opacity: 0;
 }

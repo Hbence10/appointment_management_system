@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 28. 19:31
+-- Létrehozás ideje: 2025. Aug 30. 16:22
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,11 +25,15 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addReview` (IN `userIdIN` INT, IN `reviewTextIN` LONGTEXT, IN `ratingIN` DOUBLE)   BEGIN
-	INSERT INTO `review`(`author_id`, `review_text`, `rating`) VALUES (userIdIN, reviewTextIN, ratingIN);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addReview` (IN `userIdIN` INT, IN `reviewTextIN` LONGTEXT, IN `ratingIN` DOUBLE, IN `isAnonymusIN` INT)   BEGIN
+	INSERT INTO `review`(`author_id`, `review_text`, `rating`, `is_anonymus`) VALUES (userIdIN, reviewTextIN, ratingIN, isAnonymusIN);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation` (IN `userIdIN` INT, IN `reservationIdIN` INT)   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` ()   BEGIN
 
 END$$
 
@@ -43,7 +47,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateByMonth` (IN `dateIN
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedHoursByDate` (IN `dateIN` DATE)   BEGIN
-
+	SELECT 
+	*
+    FROM reserved_hours 
+    INNER JOIN reserved_dates ON 
+	reserved_hours.date_id = reserved_dates.id 
+    AND DAY(reserved_dates.date) = DAY(dateIN);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
@@ -77,7 +86,28 @@ INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`) VALUES
 (3, 'mikrofon1', 1, 2),
 (4, 'mikrofon2', 1, 2),
 (5, 'gitar1', 2, 2),
-(6, 'gitar2', 2, 2);
+(6, 'gitar2', 2, 2),
+(7, 'mikrofon3', 1, 1),
+(8, 'mikrofon4', 1, 1),
+(9, 'mikrofon5', 1, 1),
+(10, 'gitar3', 2, 1),
+(11, 'gitar4', 2, 1),
+(12, 'gitar5', 2, 1),
+(13, 'erosito1', 3, 1),
+(14, 'erosito2', 3, 1),
+(15, 'erosito3', 3, 1),
+(16, 'erosito4', 3, 1),
+(17, 'erosito5', 3, 1),
+(18, 'zongora1', 4, 1),
+(19, 'zongora2', 4, 1),
+(20, 'zongora3', 4, 1),
+(21, 'zongora4', 4, 1),
+(22, 'zongora5', 4, 1),
+(23, 'dob1', 5, 1),
+(24, 'dob2', 5, 1),
+(25, 'dob3', 5, 1),
+(26, 'dob4', 5, 1),
+(27, 'dob5', 5, 1);
 
 --
 -- Eseményindítók `devices`
@@ -106,7 +136,10 @@ CREATE TABLE `devices_category` (
 
 INSERT INTO `devices_category` (`id`, `name`) VALUES
 (1, 'mikrofonok'),
-(2, 'gitarok');
+(2, 'gitarok'),
+(3, 'erositok'),
+(4, 'zongorak'),
+(5, 'dobok');
 
 -- --------------------------------------------------------
 
@@ -244,6 +277,15 @@ CREATE TABLE `reservations` (
   `canceled_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `reservations`
+--
+
+INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `comment`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
+(1, 'elso1', 'masodik1', 'elso@gmail.com', '123421', NULL, 1, 1, 2, 1, '2025-08-28 19:34:09', 0, '2025-08-28 19:33:10', NULL),
+(2, 'elso2', 'masodik2', 'masodik@gmail.com', '31231231', 'asdasdasd', 1, 1, 1, 1, '2025-08-28 19:34:09', 0, '2025-08-28 19:33:10', NULL),
+(3, 'elso3', 'masodik3', 'email3@gmail.com', '412412', 'asdasddas', 1, 2, 2, 1, '2025-08-28 19:35:08', 0, '2025-08-28 19:34:20', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -300,6 +342,15 @@ CREATE TABLE `reserved_hours` (
   `reservation_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `reserved_hours`
+--
+
+INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`, `reservation_id`) VALUES
+(2, 10, 12, 5, 1),
+(3, 10, 12, 6, 2),
+(4, 14, 16, 5, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -324,7 +375,17 @@ CREATE TABLE `review` (
 INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `like_count`, `dislike_count`, `is_anonymus`, `created_at`) VALUES
 (1, 1, 'asd', 1, 0, 0, 0, '2025-08-24 20:16:39'),
 (4, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:25:08'),
-(7, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:32:55');
+(7, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:32:55'),
+(8, 1, 'asd', 1, 0, 0, 0, '2025-08-28 20:22:46'),
+(9, 1, 'asd', 1, 0, 0, 0, '2025-08-30 13:32:17'),
+(10, 1, 'asd', 1, 0, 0, 0, '2025-08-30 15:50:05'),
+(11, 1, 'asd', 1, 0, 0, 0, '2025-08-30 15:50:44'),
+(12, 1, 'testASD', 2, 0, 0, 0, '2025-08-30 16:00:41'),
+(13, 1, 'testASD', 2, 0, 0, 1, '2025-08-30 16:00:53'),
+(14, 1, 'asdfasasdgdgsagdsgsdgdsagasdggdsagdsagdsa', 5, 0, 0, 0, '2025-08-30 16:07:44'),
+(15, 1, 'dsadasdasd', 2.5, 0, 0, 0, '2025-08-30 16:10:25'),
+(16, 1, 'dasdsadas', 2.5, 0, 0, 0, '2025-08-30 16:10:43'),
+(17, 1, 'tasdfdasdasafssaffasfsafsaafsfasfasfas', 2.5, 0, 0, 0, '2025-08-30 16:20:18');
 
 -- --------------------------------------------------------
 
@@ -399,6 +460,17 @@ CREATE TABLE `status` (
 INSERT INTO `status` (`id`, `name`) VALUES
 (1, 'Aktív'),
 (2, 'Befejezett');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `unitofaccount`
+--
+
+CREATE TABLE `unitofaccount` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -554,6 +626,12 @@ ALTER TABLE `status`
   ADD PRIMARY KEY (`id`);
 
 --
+-- A tábla indexei `unitofaccount`
+--
+ALTER TABLE `unitofaccount`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `user`
 --
 ALTER TABLE `user`
@@ -568,13 +646,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT a táblához `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT a táblához `devices_category`
 --
 ALTER TABLE `devices_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `devices_reservation_type`
@@ -616,7 +694,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -634,13 +712,13 @@ ALTER TABLE `reserved_dates`
 -- AUTO_INCREMENT a táblához `reserved_hours`
 --
 ALTER TABLE `reserved_hours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT a táblához `role`
@@ -665,6 +743,12 @@ ALTER TABLE `special_offer`
 --
 ALTER TABLE `status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT a táblához `unitofaccount`
+--
+ALTER TABLE `unitofaccount`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `user`

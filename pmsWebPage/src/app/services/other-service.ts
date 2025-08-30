@@ -15,8 +15,8 @@ export class OtherService {
     return this.http.get<ReviewDetails[]>(`${this.baseURL()}/reviews`)
   }
 
-  addReview(requestBody: {userId: number, reviewText: string, rating: number}){
-    return this.http.post(`${(this.baseURL())}/reviews`, {})
+  addReview(requestBody: {userId: number, reviewText: string, rating: number, isAnonymus: boolean}){
+    return this.http.post(`${(this.baseURL())}/reviews`, requestBody)
   }
 
   getAllGalleryImages(): Observable<GalleryImage[]>{
