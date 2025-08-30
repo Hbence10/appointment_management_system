@@ -2,11 +2,36 @@
   <div class="row">
     <div class="col-lg-12">
       <h1 class="text-center">Felszereléseink</h1>
-      <p>Az alábbi eszközök érhetőek el a nálunk töltött idő alatt</p>
+      <p class="text-center">Az alábbi eszközök érhetőek el a nálunk töltött idő alatt</p>
     </div>
   </div>
 
-  <div class="row">
+  @for (deviceCategoryRow of deviceCategoryListByRows; track $index) {
+    <div class="row">
+      @for(deviceColumn of deviceCategoryRow; track $index){
+        <div class="col-lg-4 d-flex flex-column justify-content-center align-items-center">
+        @for(deviceCategory of deviceColumn; track $index){
+            <div class="cardDiv mb-4 container-fluid" [class.bigCard]="deviceCategoryRow.indexOf(deviceColumn) == 2">
 
-  </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <h1 class="text-center">{{deviceCategory.name | titlecase}}</h1>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  @for (device of deviceCategory.devicesList; track $index) {
+                    <p class="text-center">{{device.name}}({{device.amount}})</p>
+                  }
+                </div>
+              </div>
+
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
 </div>

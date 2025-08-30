@@ -12,11 +12,11 @@ export class OtherService {
   baseURL = signal<string>("http://localhost:8080")
 
   getAllReviews(): Observable<ReviewDetails[]> {
-    return this.http.get<ReviewDetails[]>("http://localhost:8080/reviews")
+    return this.http.get<ReviewDetails[]>(`${this.baseURL()}/reviews`)
   }
 
   addReview(requestBody: {userId: number, reviewText: string, rating: number}){
-    return this.http.post("", {})
+    return this.http.post(`${(this.baseURL())}/reviews`, {})
   }
 
   getAllGalleryImages(): Observable<GalleryImage[]>{
