@@ -21,13 +21,14 @@
 !["Adatbázis terv"](./database_plan.png)
 
 ### Tárolt eljárások:
-- addReview()
-- cancelReservation()
-- getReservationByUserId()
-- getReservedDateByMonth()
-- getReservedDatesByDate()
-- login()
-- register()
+- **addReview():**
+- **cancelReservation():**
+- **getReservationByDate():**
+- **getReservationByUserId():**
+- **getReservedDateByMonth():**
+- **getReservedDatesByDate():**
+- **login():**
+- **register():**
 
 ### Triggerek:
 - **checkFullDay**: Figyeli, hogy az adott napon van-e 
@@ -45,11 +46,17 @@ A spring boot projekt a következő **dependency**-ket tartalmazza:
 - Javax Validation
 
 A spring boot projekt a következő **controller**-eket tartalmazza:
+- DeviceController
 - NewsController
+- OtherStuffController
+- ReservationController
 - UserController
 
 A spring boot projekt a következő **service**-eket tartalmazza:
+- DeviceService
 - NewsService
+- OtherStuffService
+- ReservationService
 - UserService
 
 ### Endpointok:
@@ -74,6 +81,7 @@ A weblap a következő **componentekre** bontódik fel:
 - **reservation-card:**
 - **reservation-maker-page:**
 - **reservation-form:**
+- **reservation-finalize:**
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 - **device-service**
@@ -83,10 +91,15 @@ A frontend projektben a következő **service**-ek találhatóak meg:
 - **user-service**
 
 A frontent projektben a következő **model**-ek találhatóak meg:
-- user
+- device
+- deviceCategory
+- galleryImage
 - newsDetails
-- reviewDetails
 - reservation
+- reservationType
+- reservedDates
+- reviewDetails
+- user
 
 ## Elérhetőség:
 - [Github]("")

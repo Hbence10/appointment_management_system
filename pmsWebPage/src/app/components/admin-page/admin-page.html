@@ -5,29 +5,59 @@
         <mat-calendar></mat-calendar>
       </mat-card>
     </div>
-    <div class="col-lg-4"></div>
-    <div class="col-lg-4"></div>
-  </div>
-  <div class="row">
-    <div class="col-lg-4">
-      <p class="text-center">Eszközök kezelése</p>
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv reservationCard">
+
+      </div>
     </div>
-    <div class="col-lg-4">
-      <p class="text-center">Hírek kezelése</p>
-    </div>
-    <div class="col-lg-4">
-      <p class="text-center">Próba lehetőségek kezelése</p>
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv reservationCard">
+
+      </div>
     </div>
   </div>
+
+  <div class="row my-4">
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="isShowPupUp.set(true)">
+        <p class="text-center">Eszközök kezelése</p>
+      </div>
+    </div>
+
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="isShowPupUp.set(true)">
+        <p class="text-center">Hírek kezelése</p>
+      </div>
+    </div>
+
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="isShowPupUp.set(true)">
+        <p class="text-center">Próba lehetőségek kezelése</p>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
-    <div class="col-lg-4">
-      <p class="text-center">Szabályzat szerkesztése</p>
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="isShowPupUp.set(true)">
+        <p class="text-center">Szabályzat szerkesztése</p>
+      </div>
     </div>
-    <div class="col-lg-4">
-      <p class="text-center">Galléria szerkesztése</p>
+
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="isShowPupUp.set(true)">
+        <p class="text-center">Galléria szerkesztése</p>
+      </div>
     </div>
-    <div class="col-lg-4">
-      <p class="text-center">Akció beállítása</p>
+
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="isShowPupUp.set(true)">
+        <p class="text-center">Akció beállítása</p>
+      </div>
     </div>
   </div>
 </div>
+
+@if(isShowPupUp()){
+  <app-pop-up (closePopUp)="isShowPupUp.set(false)"/>
+}

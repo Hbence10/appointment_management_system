@@ -1,3 +1,32 @@
 .demo-inline-calendar-card {
   width: 300px;
 }
+
+.cardDiv {
+  border-radius: 16px;
+  background-color: #B2DFDB;
+  height: 125px;
+  width: 575px;
+  color: #004D40;
+}
+
+p {
+  margin: 0px;
+}
+
+.reservationCard{
+  height: 475px;
+}
+
+.cardDiv:hover{
+  transform: scale(1.05, 1.05);
+}
+
+.reservationCard:hover{
+  transform: none;
+}
+
+app-pop-up{
+  position: absolute;
+  top: 0px;
+}
