@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 30. 16:22
+-- Létrehozás ideje: 2025. Aug 31. 10:51
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -33,8 +33,37 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation` (IN `userIdIN` I
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` ()   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `closeBetweenTwoDate` ()   BEGIN
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `closeSingleDay` ()   BEGIN
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` DATE)   BEGIN
+	SELECT 
+    r.id,
+    r.first_name,
+    r.last_name,
+    r.email,
+    r.phone_number,
+    r.comment, 
+    r.reservation_type_id,
+    r.user_id,
+    r.payment_method_id,
+    r.status_id,
+    r.reserved_at,
+    r.is_canceled,
+    r.canceled_at,
+    r.canceled_by
+    FROM reservations r
+    INNER JOIN reserved_hours rh 
+    ON r.id = rh.reservation_id
+    INNER JOIN reserved_dates rd 
+    ON rh.date_id = rd.id
+    WHERE rd.date = dateIN
+    ;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userIdIN` INT)   BEGIN
@@ -182,8 +211,14 @@ CREATE TABLE `gallery` (
 --
 
 INSERT INTO `gallery` (`id`, `photo_name`, `photo_path`, `placement`) VALUES
-(1, 'kep1', 'kep1', 1),
-(2, 'kep2', 'kep2', 2);
+(1, '1.jpg', 'assets/images/gallery/1.jpg', 1),
+(2, '2.jpg', 'assets/images/gallery/2.jpg', 2),
+(3, '3.jpg', 'assets/images/gallery/3.jpg', 3),
+(4, '4.jpg', 'assets/images/gallery/4.jpg', 4),
+(5, '5.jpg', 'assets/images/gallery/5.jpg', 5),
+(6, '6.jpg', 'assets/images/gallery/6.jpg', 6),
+(7, '7.jpg', 'assets/images/gallery/7.jpg', 7),
+(8, '8.jpg', 'assets/images/gallery/8.jpg', 8);
 
 -- --------------------------------------------------------
 
@@ -652,7 +687,7 @@ ALTER TABLE `devices`
 -- AUTO_INCREMENT a táblához `devices_category`
 --
 ALTER TABLE `devices_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `devices_reservation_type`
@@ -670,7 +705,7 @@ ALTER TABLE `event_type`
 -- AUTO_INCREMENT a táblához `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `history`
