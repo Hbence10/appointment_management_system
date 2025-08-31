@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { NewsDetails } from '../../models/newsDetails.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,9 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class NewsCard {
   newsDetails = input.required<NewsDetails>()
-  isExpand = signal<boolean>(false)
+  expand = output()
 
-  expandContent() {
-    this.isExpand.update(old => !old);
+  expandContent(){
+    this.expand.emit()
   }
+
 }

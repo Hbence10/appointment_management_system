@@ -21,12 +21,24 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
     const subscription = this.newsService.getAllNews().subscribe({
       next: response => this.news.set(response),
-      complete: () => console.log(this.news())
+      complete: () => {
+        this.news().forEach(news => {
+          news.isExpand = news.placement == 1 ? true : false
+        })
+      }
     })
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
     })
+  }
+
+  setNewsCardExpand(selectedNewsDetail: NewsDetails){
+    console.log("sad")
+    this.news().forEach(element => {
+      element.isExpand = false
+    })
+    selectedNewsDetail.isExpand = !selectedNewsDetail.isExpand
   }
 
 }

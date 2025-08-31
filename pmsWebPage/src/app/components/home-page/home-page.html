@@ -24,11 +24,13 @@
 
   <div class="row my-3">
     <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <div class="infoContainer material-box" id="newsContainer">
+      <div class="infoContainer material-box">
         <h1 class="text-center my-5 mainFont">Aktuális híreink</h1>
-        @for (newsDetails of news(); track $index) {
-          <app-news-card [newsDetails]="newsDetails"/>
-        }
+        <div  id="newsContainer">
+          @for (newsDetails of news(); track $index) {
+            <app-news-card [newsDetails]="newsDetails" (expand)="setNewsCardExpand(newsDetails)"/>
+          }
+        </div>
       </div>
     </div>
 

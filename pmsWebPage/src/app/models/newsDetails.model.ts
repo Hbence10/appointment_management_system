@@ -5,6 +5,7 @@ export class NewsDetails {
     public text: string,
     public bannerImgPath: string,
     public placement: number,
-    public createdAt: Date
+    public createdAt: Date,
+    public isExpand: boolean = this.placement == 1 ? true : false
   ) { }
 }
