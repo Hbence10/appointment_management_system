@@ -1,44 +1,38 @@
 <div class="container-fluid mb-5">
-  <div class="row">
+  <div class="row w-100">
     <div class="col-lg-2 d-flex justify-content-center align-items-center">
       <a routerLink="homePage">
-        <img src="assets/placeholder.png" alt="logo_img" class="img-fluid" id="logoImg">
+        <img src="assets/images/logo.png" alt="logo_img" class="img-fluid" id="logoImg">
       </a>
     </div>
 
     <div class="col-lg-8 d-flex justify-content-center align-items-center">
-      <div class="nav-item mx-3">
+      <div class="nav-item mx-2 d-flex justify-content-center align-items-center" [class.active]="router.url == '/homePage'">
         <a routerLink="homePage">Főoldal</a>
       </div>
-      <div class="nav-item mx-3">
+      <div class="nav-item mx-2" [class.active]="router.url.includes('/makeReservation') || router.url == '/adminPage'">
         @if(userService.user()?.role == "user" || userService.user() == null){
           <a routerLink="makeReservation">Időpont foglalás</a>
         } @else if (userService.user()?.role == "admin" || userService.user()?.role == "superAdmin") {
           <a routerLink="adminPage">Admin Page</a>
         }
       </div>
-      <div class="nav-item mx-3">
+      <div class="nav-item mx-2" [class.active]="router.url == '/priceList'">
         <a routerLink="priceList">Árlista</a>
       </div>
-      <div class="nav-item mx-3">
+      <div class="nav-item mx-2" [class.active]="router.url == '/equipments'">
         <a routerLink="equipments">Felszerelés</a>
       </div>
-      <div class="nav-item mx-3">
+      <div class="nav-item mx-2" [class.active]="router.url == '/reviews'">
         <a routerLink="reviews">Vélemények</a>
       </div>
-      <div class="nav-item mx-3">
+      <div class="nav-item mx-2" [class.active]="router.url == '/gallery'">
         <a routerLink="gallery">Galléria</a>
       </div>
     </div>
 
-    <div class="col-lg-2 d-flex justify-content-center align-items-center">
-      <button (click)="userNavigation()">
-        @if (userService.user() == null) {
-          Be!
-        } @else {
-          Fiok!
-        }
-      </button>
+    <div class="col-lg-2 d-flex justify-content-center align-items-center flex-column">
+      <mat-icon (click)="userNavigation()" fontIcon="account_circle"></mat-icon>
     </div>
   </div>
 </div>

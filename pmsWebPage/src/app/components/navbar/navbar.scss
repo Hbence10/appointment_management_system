@@ -15,14 +15,32 @@ a{
   padding: 10px;
 }
 
+.nav-item{
+  padding: 10px;
+}
+
 .active{
   background-color: #E0F2F1;
   color: #004D40;
-  padding: 10px;
   border-radius: 25px;
+  height: 40px;
 }
 
 .active a{
   color: #004D40;
-  font-weight: bold;
+}
+
+.nav-item:hover{
+  width: 200px;
+  text-align: center;
+}
+
+.active:hover{
+  width: auto !important;
+}
+
+mat-icon{
+  transform: scale(1.5);
+  color: #E0F2F1;
+  cursor: pointer;
 }

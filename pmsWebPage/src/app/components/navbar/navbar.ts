@@ -1,5 +1,5 @@
 import { UserService } from '../../services/user-service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 
@@ -7,9 +7,12 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'app-navbar',
   imports: [RouterModule, MatIconModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrl: './navbar.scss',
+  animations: [
+    
+  ]
 })
-export class Navbar {
+export class Navbar{
   userService = inject(UserService)
   router = inject(Router)
 
