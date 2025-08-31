@@ -3,11 +3,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { NewsDetails } from '../../models/newsDetails.model';
 import { NewsService } from '../../services/news-service';
 import { NewsCard } from '../news-card/news-card';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-home-page',
-  imports: [MatButtonModule, NewsCard],
+  imports: [MatButtonModule, NewsCard, RouterModule],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss'
 })

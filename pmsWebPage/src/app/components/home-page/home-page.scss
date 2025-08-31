@@ -1,4 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  color: #004D40;
+}
+
+.mainFont{
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+
+.secondFont{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 
 img {
   width: 840px;
@@ -16,8 +35,37 @@ img {
   box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.30) !important;
 }
 
-#newsContainer{
+#newsContainer {
   padding: 0px 40px;
   max-height: 750px !important;
   overflow-y: auto;
+}
+
+#promoBox{
+  padding: 30px;
+}
+
+#paragraphBox{
+  padding: 0px 50px;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+p {
+  font-size: 25px;
+  line-height: 30px;
+}
+
+#reservationButton{
+  width: 250px;
+  height: 55px;
+  font-size: 25px;
+  background-color: #004D40;
+
+}
+
+#mainContainer{
+  background-color: #F4FBFF;
 }

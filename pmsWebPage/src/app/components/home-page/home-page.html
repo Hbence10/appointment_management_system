@@ -1,17 +1,23 @@
-<div class="container-fluid">
+<div class="container-fluid" id="mainContainer">
   <div class="row my-3">
     <div class="col-lg-6 d-flex justify-content-center align-items-center">
       <img src="assets/images/homePage/image1.jpg" alt="image1_alt_text" class="img-fluid material-box">
     </div>
 
     <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <div class="infoContainer material-box">
-        <h1 class="text-center">Pécs Music Society</h1>
-        <p>Nálunk a lehetőségek tárháza fogadják önt vagy a csapatát!</p>
-        <p>Használja szobánkat egyéni gyakorlásra, zenekari próbára vagy akár önálló felvételre.</p>
-        <p>Profi technikával felszerelt, újépítésű zenei alkotóteret használhat Pécs belvárosában</p>
+      <div class="infoContainer material-box d-flex flex-column justify-content-between align-items-center" id="promoBox">
+        <div>
+          <h1 class="text-center mainFont my-4">Pécs Music Society</h1>
+          <div id="paragraphBox">
+            <p class="text-center my-5 secondFont">Próbatermünk zenészeknek készült, akik szeretnének egy inspiráló és jól felszerelt helyen gyakorolni.</p>
+            <p class="text-center my-5 secondFont">Nálunk minden adott a minőségi zenéléshez: profi hangszerek, erősítők és kényelmes környezet.</p>
+            <p class="text-center my-5 secondFont">Legyen szó kezdő zenekarról vagy tapasztalt zenészekről, mindenkit szeretettel várunk.</p>
+          </div>
+        </div>
 
-        <button matButton="filled">Foglalás</button>
+        <div class="d-flex justify-content-center align-content-center mb-5">
+          <button class="mainFont" matButton="filled" id="reservationButton" routerLink="/makeReservation">Foglalás</button>
+        </div>
       </div>
     </div>
   </div>
@@ -19,7 +25,7 @@
   <div class="row my-3">
     <div class="col-lg-6 d-flex justify-content-center align-items-center">
       <div class="infoContainer material-box" id="newsContainer">
-        <h1 class="text-center my-4">Aktuális híreink</h1>
+        <h1 class="text-center my-5 mainFont">Aktuális híreink</h1>
         @for (newsDetails of news(); track $index) {
           <app-news-card [newsDetails]="newsDetails"/>
         }

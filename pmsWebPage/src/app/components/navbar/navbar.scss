@@ -1,45 +1,51 @@
-a{
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+a {
   cursor: pointer;
   text-decoration: none;
   color: #E0F2F1;
   font-size: 18px;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }
 
-#logoImg{
+#logoImg {
   width: 125px;
   height: 45px;
 }
 
-.container-fluid{
+.container-fluid {
   background-color: #004D40;
   padding: 10px;
 }
 
-.nav-item{
+.nav-item {
   padding: 10px;
 }
 
-.active{
+.active {
   background-color: #E0F2F1;
   color: #004D40;
   border-radius: 25px;
   height: 40px;
 }
 
-.active a{
+.active a {
   color: #004D40;
 }
 
-.nav-item:hover{
+.nav-item:hover {
   width: 200px;
   text-align: center;
 }
 
-.active:hover{
+.active:hover {
   width: auto !important;
 }
 
-mat-icon{
+mat-icon {
   transform: scale(1.5);
   color: #E0F2F1;
   cursor: pointer;
