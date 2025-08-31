@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "reservations")
@@ -18,8 +16,8 @@ import java.util.List;
         }, resultClasses = {Reservations.class}),
 
         @NamedStoredProcedureQuery(name = "getReservationByDate", procedureName = "getReservationByDate", parameters = {
-                @StoredProcedureParameter(name = "dateIN", type = Date.class, mode = ParameterMode.IN)
-        }, resultClasses = {List.class})
+                @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
+        }, resultClasses = {Reservations.class})
 })
 public class Reservations {
 
@@ -81,7 +79,7 @@ public class Reservations {
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToOne(mappedBy = "reservationHour", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    @OneToOne(mappedBy = "reservationHour", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private ReservedHours reservedHours;
 
     public Reservations() {
@@ -94,10 +92,6 @@ public class Reservations {
         this.phone = phone;
         this.comment = comment;
     }
-
-//    public int getId() {
-//        return id;
-//    }
 
     public String getFirstName() {
         return firstName;
@@ -130,14 +124,6 @@ public class Reservations {
     public LocalDateTime getCanceledAt() {
         return canceledAt;
     }
-//
-//    public User getCanceledBy() {
-//        return canceledBy;
-//    }
-
-//    public User getUser() {
-//        return user;
-//    }
 
     public String getReservationTypeId() {
         return reservationTypeId.getName();
@@ -151,11 +137,7 @@ public class Reservations {
         return status.getName();
     }
 
-//    public String getReservedHours() {
-//        return reservedHours.getStart() + ":00 - " + reservedHours.getEnd() + ":00";
-//    }
-
-
-    //----------
-
+    public String getReservedHours() {
+        return reservedHours.getStart() + ":00 - " + reservedHours.getEnd() + ":00";
+    }
 }

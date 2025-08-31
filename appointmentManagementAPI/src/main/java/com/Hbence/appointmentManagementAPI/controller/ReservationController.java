@@ -18,53 +18,52 @@ public class ReservationController {
 
     @Autowired
     public ReservationController(ReservationService reservationService) {
-        this.reservationService =    reservationService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/user/{id}")
-    public List<Reservations> getReservationByUserId(@PathVariable("id") Integer id){
+    public List<Reservations> getReservationByUserId(@PathVariable("id") Integer id) {
         System.out.println(id.getClass());
         return reservationService.getReservationByUserId(id);
     }
 
     @GetMapping("/reservedDates")
-    public List<ReservedDates> getReservationByMonth(@RequestParam("actualDate") String actualDate){
+    public List<ReservedDates> getReservationByMonth(@RequestParam("actualDate") String actualDate) {
         return reservationService.getReservationByMonth(actualDate);
     }
 
     @GetMapping("/reservedHours")
-    public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay){
+    public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay) {
         return reservationService.getReservedHoursByDay(wantedDateDay);
     }
 
     @GetMapping("/reservationType")
-    public List<ReservationType> getAllReservationTypes(){
+    public List<ReservationType> getAllReservationTypes() {
         return reservationService.getAllReservationType();
     }
 
     @GetMapping("/paymentMethods")
-    public List<PaymentMethods> getAllPaymentMethod(){
+    public List<PaymentMethods> getAllPaymentMethod() {
         return reservationService.getAllPaymentMethod();
     }
 
-    @GetMapping("")
-    public List<Reservations> getReservationByDate(@RequestParam("wantedDate") Date wantedDate){
-        reservationService.getReservationByDate(wantedDate);
-        return null;
+    @GetMapping("/date/{wantedDate}")
+    public List<Reservations> getReservationsByDate(@PathVariable("wantedDate") String wantedDate) {
+        return reservationService.getReservationByDate(wantedDate);
     }
 }
 
 /*
-*   PUT VS PATCH:
-*       For partial updates, need to use HTTP PATCH
-*       Comparison:
-*               - PUT: Replaces the entire resource
-*               - PATCH: Modifies only specified parts of resource (partial)
-*
-*       Benefits of PATCH:
-*               - Efficiency: Reducing bandwidth by sending only partial changes
-*               - Flexibility: Allows multiple partial updates in a single request
-*
-*   ------------
-*   ObjectMapper
-* */
+ *   PUT VS PATCH:
+ *       For partial updates, need to use HTTP PATCH
+ *       Comparison:
+ *               - PUT: Replaces the entire resource
+ *               - PATCH: Modifies only specified parts of resource (partial)
+ *
+ *       Benefits of PATCH:
+ *               - Efficiency: Reducing bandwidth by sending only partial changes
+ *               - Flexibility: Allows multiple partial updates in a single request
+ *
+ *   ------------
+ *   ObjectMapper
+ * */

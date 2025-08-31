@@ -53,9 +53,9 @@ public class ReservationService {
         return paymentMethodRepository.findAll();
     }
 
-    public List<Reservations> getReservationByDate(Date wantedDate){
-//        reservationRepository.getReservationByDate(wantedDate);
-
-        return null;
+    public List<Reservations> getReservationByDate(String wantedDate){
+        List<Reservations> result = reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
+        return result;
     }
 }
+
