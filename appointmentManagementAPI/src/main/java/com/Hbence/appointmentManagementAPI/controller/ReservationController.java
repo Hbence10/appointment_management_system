@@ -18,11 +18,12 @@ public class ReservationController {
 
     @Autowired
     public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
+        this.reservationService =    reservationService;
     }
 
-    @GetMapping("")
-    public List<Reservations> getReservationByUserId(@RequestParam("userId") Integer id){
+    @GetMapping("/user/{id}")
+    public List<Reservations> getReservationByUserId(@PathVariable("id") Integer id){
+        System.out.println(id.getClass());
         return reservationService.getReservationByUserId(id);
     }
 
@@ -44,6 +45,12 @@ public class ReservationController {
     @GetMapping("/paymentMethods")
     public List<PaymentMethods> getAllPaymentMethod(){
         return reservationService.getAllPaymentMethod();
+    }
+
+    @GetMapping("")
+    public List<Reservations> getReservationByDate(@RequestParam("wantedDate") Date wantedDate){
+        reservationService.getReservationByDate(wantedDate);
+        return null;
     }
 }
 

@@ -14,7 +14,7 @@ export class ReservationService {
 
 
   getReservationByUserId(userId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/reservation?userId=${userId}`)
+    return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
   }
 
   getReservedDateByMonth(actualDateString: string): Observable<ReservedDates[]> {

@@ -7,6 +7,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,11 @@ import java.util.List;
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)
-        }, resultClasses = {List.class}),
+        }, resultClasses = {Reservations.class}),
+
+        @NamedStoredProcedureQuery(name = "getReservationByDate", procedureName = "getReservationByDate", parameters = {
+                @StoredProcedureParameter(name = "dateIN", type = Date.class, mode = ParameterMode.IN)
+        }, resultClasses = {List.class})
 })
 public class Reservations {
 

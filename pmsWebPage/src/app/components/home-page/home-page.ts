@@ -25,7 +25,6 @@ export class HomePage implements OnInit {
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
-      console.log("destoryed!!! - homePage Component")
     })
   }
 

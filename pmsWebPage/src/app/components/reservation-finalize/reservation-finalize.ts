@@ -23,7 +23,6 @@ export class ReservationFinalize implements OnInit{
     })
 
     this.destroyRef.onDestroy(() => {
-      console.log("destroyed!!! - reservationFinalizeComponent")
       subscription.unsubscribe()
     })
   }

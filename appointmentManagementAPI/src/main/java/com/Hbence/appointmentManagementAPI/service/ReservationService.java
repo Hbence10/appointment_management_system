@@ -52,4 +52,10 @@ public class ReservationService {
     public List<PaymentMethods> getAllPaymentMethod() {
         return paymentMethodRepository.findAll();
     }
+
+    public List<Reservations> getReservationByDate(Date wantedDate){
+//        reservationRepository.getReservationByDate(wantedDate);
+
+        return null;
+    }
 }

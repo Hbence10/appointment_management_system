@@ -21,7 +21,6 @@ export class Gallery implements OnInit {
     })
 
     this.destroyRef.onDestroy(() => {
-      console.log("destroyed!!! - galleryComponent")
       subscription.unsubscribe()
     })
   }

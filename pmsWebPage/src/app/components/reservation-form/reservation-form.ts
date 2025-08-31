@@ -38,7 +38,6 @@ export class ReservationForm implements OnInit {
     })
 
     this.destroyRef.onDestroy(() => {
-      console.log("desroyed!!!! - reservationFormComponent")
       subscription.unsubscribe()
     })
   }

@@ -37,7 +37,6 @@ export class AppointmentSelector implements OnInit {
     })
 
     this.destroyRef.onDestroy(() => {
-      console.log("destroyed!!!!! - appointmentSelector Component!")
       subscription.unsubscribe()
     })
   }
