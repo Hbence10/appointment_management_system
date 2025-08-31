@@ -23,6 +23,8 @@
 ### Tárolt eljárások:
 - **addReview():**
 - **cancelReservation():**
+- **closeBetweenTwoDate():**
+- **closeSingleDay():**
 - **getReservationByDate():**
 - **getReservationByUserId():**
 - **getReservedDateByMonth():**

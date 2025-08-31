@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
@@ -11,7 +11,6 @@ import { ReservedDates } from '../models/reservedDates.model';
 export class ReservationService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
-
 
   getReservationByUserId(userId: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
@@ -27,5 +26,9 @@ export class ReservationService {
 
   getPaymentMethods(): Observable<{ id: number, name: string }[]> {
     return this.http.get<{ id: number, name: string }[]>(`${this.baseURL()}/reservation/paymentMethods`)
+  }
+
+  getReservationByDate(wantedDate: string): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/date/${wantedDate}`)
   }
 }
