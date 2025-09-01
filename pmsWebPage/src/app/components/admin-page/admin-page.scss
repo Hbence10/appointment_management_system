@@ -10,23 +10,24 @@
   color: #004D40;
 }
 
+.reservationCard {
+  height: 475px !important;
+}
+
 p {
   margin: 0px;
 }
 
-.reservationCard{
-  height: 475px;
-}
 
-.cardDiv:hover{
+.cardDiv:hover {
   transform: scale(1.05, 1.05);
 }
 
-.reservationCard:hover{
+.reservationCard:hover {
   transform: none;
 }
 
-app-pop-up{
+app-pop-up {
   position: absolute;
   top: 0px;
 }

@@ -1,45 +1,36 @@
-<div class="container-fluid">
+<div class="container-fluid my-5">
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 d-flex justify-content-center align-items-center">
       <div id="mainContainer" class="container-fluid">
         <div class="row h-100">
-
-          <div class="col-lg-4 d-flex justify-content-center align-items-center">
-            <mat-card class="demo-inline-calendar-card">
-              <p>Válasszon dátumot</p>
-              <h4>Csütörtük, Aug. 17</h4>
-              <hr class="m-0">
-              <mat-calendar [(selected)]="selected"></mat-calendar>
+          <div class="col-lg-4">
+            <mat-card class="demo-inline-calendar-card h-100">
+              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate"></mat-calendar>
             </mat-card>
           </div>
 
-          <div class="col-lg-8 d-flex justify-content-center align-items-center">
-            <div id="appointContainer" class="container-fluid">
-              <div class="row">
-                <div class="col-lg-3 py-3 d-flex flex-column justify-content-center align-content-center" id="buttonsContainer">
-                  @for (hourNumber of availableHours; track $index) {
-                    <button>{{hourNumber}}:00</button>
-                  }
-                </div>
-                <div class="col-lg-9 d-flex flex-column justify-content-center align-items-center">
-
-                  <p>Kezdés:</p>
-                  <hr class="m-0">
-
-                  @if(user != null && (user.role == "admin" || user.role == "superAdmin")){
-                    <div class="hourDiv my-2">
-
-                    </div>
-                  }
-
-                  @for (hourNumber of availableHours; track $index) {
-                    @if($index <= 4){
-                      <div class="hourDiv my-2 d-flex justify-content-between align-items-center">
-                        <p>{{$index + 1}} óra</p>
-                        <mat-icon fontIcon="arrow_right"></mat-icon>
-
+          <div class="col-lg-8">
+            <div id="hourContainer" class="container-fluid">
+              <div class="row h-100">
+                <div class="col-lg-3 d-flex flex-column justify-content-center align-content-center">
+                  @for (hour of availableHours; track $index) {
+                    @if($index > 0){
+                      <div class="hourDiv" (click)="startHour = hour" [class.selectedHourDiv]="hour == startHour">
+                        <p class="hour secondFont my-3">{{hour}}:00</p>
                       </div>
                     }
+                  }
+                </div>
+
+                <div class="col-lg-9">
+                  @if(startHour != null){
+                    <h6>Kezdés: {{startHour}}:00</h6>
+                    <hr>
+                    <div id="amountCardContainer">
+                      @for (reservableHour of reservableHours; track $index) {
+                        
+                      }
+                    </div>
                   }
                 </div>
               </div>
