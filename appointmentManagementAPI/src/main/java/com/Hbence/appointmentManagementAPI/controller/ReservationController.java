@@ -2,10 +2,12 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
+import com.Hbence.appointmentManagementAPI.service.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -48,6 +50,11 @@ public class ReservationController {
     @GetMapping("/date/{wantedDate}")
     public List<Reservations> getReservationsByDate(@PathVariable("wantedDate") String wantedDate) {
         return reservationService.getReservationByDate(wantedDate);
+    }
+
+    @PostMapping("/")
+    public Response makeReservation(@RequestBody Map<String, Object> newReservation){
+        return null;
     }
 }
 

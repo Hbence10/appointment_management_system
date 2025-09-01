@@ -30,6 +30,7 @@
 - **getReservedDateByMonth():**
 - **getReservedDatesByDate():**
 - **login():**
+- **makeReservation():**
 - **register():**
 
 ### Triggerek:

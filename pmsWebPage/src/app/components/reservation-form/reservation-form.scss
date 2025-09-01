@@ -1,12 +1,75 @@
-#mainContainer{
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  color: #004D40;
+}
+
+.mainFont {
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  font-size: 40px;
+  color: #004D40;
+}
+
+.secondFont {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 25px;
+}
+
+//--
+
+#mainContainer {
   height: 1270px;
   width: 750px;
   background-color: #B2DFDB;
   border-radius: 16px;
 }
 
-.cardDiv{
+.cardDiv {
   height: 75px;
   background-color: white;
   color: #004D40;
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.cardDiv:hover {
+  background-color: #004D40;
+  cursor: pointer;
+
+  span {
+    color: white;
+  }
+}
+
+mat-form-field {
+  @include mat.form-field-overrides((filled-input-text-color: #004D40,
+      filled-caret-color: #004D40,
+      filled-container-color: white));
+}
+
+button {
+  height: 56px;
+  width: 350px;
+  border-radius: 16px;
+  background-color: #004D40;
+  color: white;
+}
+
+button:disabled {
+  opacity: 60%;
+  height: 56px;
+  width: 350px;
+  border-radius: 16px;
+  background-color: #004D40;
+  color: white;
 }

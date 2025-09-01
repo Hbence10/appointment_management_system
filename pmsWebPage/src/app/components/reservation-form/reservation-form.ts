@@ -7,6 +7,8 @@ import { ReservationType } from '../../models/reservationType.model';
 import { Router } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { UserService } from '../../services/user-service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-reservation-form',
@@ -17,11 +19,12 @@ import { MatButtonModule } from '@angular/material/button';
 export class ReservationForm implements OnInit {
   private reservationService = inject(ReservationService)
   private destroyRef = inject(DestroyRef)
+  private userService = inject(UserService)
   private router = inject(Router)
 
   reservationTypes = signal<ReservationType[]>([])
   ifRegister = signal<boolean>(false)
-
+  user: null | User = null
 
   form = new FormGroup({
     firstName: new FormControl("", [Validators.required]),
@@ -33,8 +36,11 @@ export class ReservationForm implements OnInit {
   })
 
   ngOnInit(): void {
+    this.user = this.userService.user()
+
     const subscription = this.reservationService.getReservationTypes().subscribe({
-      next: response => this.reservationTypes.set(response)
+      next: response => this.reservationTypes.set(response),
+      complete: () => console.log(this.reservationTypes())
     })
 
     this.destroyRef.onDestroy(() => {
@@ -42,15 +48,7 @@ export class ReservationForm implements OnInit {
     })
   }
 
-  selectReservationType() {
+  selectReservationType(selectedReservationType: ReservationType) {
 
-  }
-
-  continueReservation() {
-    if (this.ifRegister()) {
-
-    }
-
-    this.router.navigate([""])
   }
 }

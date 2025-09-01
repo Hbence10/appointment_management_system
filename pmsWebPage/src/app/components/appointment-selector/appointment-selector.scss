@@ -66,10 +66,42 @@ mat-calendar {
   color: white;
 }
 
+.hourDiv{
+  width: 100px;
+}
+
 .reservedHour{
   color: #004D40;
 }
 
-.selectedHourDiv{
+.selectedHourDiv, .hourDiv:Hover{
   background-color: #004D40;
+  border-radius: 10px;
+}
+
+.amountCard{
+  background-color: white;
+  height: 65px;
+  cursor: pointer;
+}
+
+.amountCard:hover{
+  background-color: #004D40;
+
+  p, mat-icon {
+    color: white !important;
+  }
+}
+
+.amountCard p {
+  font-size: 15px !important;
+}
+
+#amountCardContainer{
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.mat-calendar-header{
+  height: 25px !important;
 }

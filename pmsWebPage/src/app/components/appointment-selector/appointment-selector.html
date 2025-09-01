@@ -5,30 +5,37 @@
         <div class="row h-100">
           <div class="col-lg-4">
             <mat-card class="demo-inline-calendar-card h-100">
-              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate"></mat-calendar>
+              <mat-card-header>
+                <mat-card-subtitle>Válasszon dátumot:</mat-card-subtitle>
+                <mat-card-title>Csütörtök, Aug. 17</mat-card-title>
+              </mat-card-header>
+              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate">
+
+              </mat-calendar>
             </mat-card>
           </div>
 
           <div class="col-lg-8">
             <div id="hourContainer" class="container-fluid">
-              <div class="row h-100">
-                <div class="col-lg-3 d-flex flex-column justify-content-center align-content-center">
+              <div class="row">
+                <div class="col-lg-3 d-flex flex-column align-items-center" style="overflow-y: auto; max-height: 500px; padding: 30px 0px !important;">
                   @for (hour of availableHours; track $index) {
-                    @if($index > 0){
-                      <div class="hourDiv" (click)="startHour = hour" [class.selectedHourDiv]="hour == startHour">
-                        <p class="hour secondFont my-3">{{hour}}:00</p>
-                      </div>
-                    }
+                    <div class="hourDiv" (click)="startHour = hour" [class.selectedHourDiv]="hour == startHour">
+                      <p class="hour secondFont my-3 text-center">{{hour}}:00</p>
+                    </div>
                   }
                 </div>
 
-                <div class="col-lg-9">
+                <div class="col-lg-9" style="padding: 50px 30px !important;">
                   @if(startHour != null){
-                    <h6>Kezdés: {{startHour}}:00</h6>
-                    <hr>
+                    <h3 class="text-white secondFont">Kezdés: {{startHour}}:00</h3>
+                    <hr class="m-0 text-white">
                     <div id="amountCardContainer">
                       @for (reservableHour of reservableHours; track $index) {
-                        
+                        <div class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0" routerLink="/makeReservation/reservationForm">
+                          <p class="m-0 fw-bold secondFont">{{reservableHour}}</p>
+                          <mat-icon fontIcon="arrow_right"></mat-icon>
+                        </div>
                       }
                     </div>
                   }
