@@ -5,6 +5,7 @@ import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.UserNotFound;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +36,18 @@ public class UserService {
     }
 
     public Response register(User newUser) {
+        Response response = new Response();
+
         if (passwordValidator(newUser.getPassword()) && emailValidator(newUser.getEmail())) {
-            userRepository.register(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
+            String result = userRepository.register(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
+
+            if(result.equals("successfull registration")){
+                response = new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
+            }
+        } else {
+
         }
 
-        return new Response(HttpStatus.OK.value(), "succeess", LocalDateTime.now());
+        return response;
     }
 }

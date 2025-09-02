@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User login(@Param("usernameIN") String username, @Param("passwordIN") String password);
 
     @Procedure(name = "register", procedureName = "register")
-    Integer register(@Param("usernameIN") String username, @Param("emailIN") String email, @Param("passwordIN") String password );
+    String register(@Param("usernameIN") String username, @Param("emailIN") String email, @Param("passwordIN") String password);
 }

@@ -7,6 +7,9 @@ public class Response {
     private Object result;
     private LocalDateTime localDateTime;
 
+    public Response() {
+    }
+
     public Response(int status, Object result, LocalDateTime localDateTime) {
         this.status = status;
         this.result = result;

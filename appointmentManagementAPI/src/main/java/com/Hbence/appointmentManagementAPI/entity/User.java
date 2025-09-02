@@ -15,11 +15,12 @@ import java.util.List;
                 @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class)
         }, resultClasses = {User.class}),
 
-        @NamedStoredProcedureQuery(name = "register", procedureName = "registration", parameters = {
+        @NamedStoredProcedureQuery(name = "register", procedureName = "register", parameters = {
                 @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
                 @StoredProcedureParameter(name = "emailIN", mode = ParameterMode.IN, type = String.class),
                 @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class),
-        })
+                @StoredProcedureParameter(name = "result", mode = ParameterMode.OUT, type = String.class)
+        }, resultClasses = {String.class})
 })
 
 @Table(name = "user")
