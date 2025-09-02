@@ -9,10 +9,7 @@ import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -54,8 +51,11 @@ public class ReservationService {
     }
 
     public List<Reservations> getReservationByDate(String wantedDate){
-        List<Reservations> result = reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
-        return result;
+        return reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
+    }
+
+    public Response makeReservation(Map<String, Object> newReservation){
+        return null;
     }
 }
 

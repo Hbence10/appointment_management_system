@@ -17,4 +17,17 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
 
     @Procedure(name = "getReservationByDate", procedureName = "getReservationByDate")
     List<Reservations> getReservationByDate(@Param("dateIN") LocalDate wantedDate);
+
+    @Procedure(name = "makeReservation", procedureName = "makeReservation")
+    Long makeReservation(
+            @Param("firstNameIN") String firstName,
+            @Param("lastNameIN") String lastName,
+            @Param("emailIN") String email,
+            @Param("phoneNumberIN") String phoneNumber,
+            @Param("commentIN") String comment,
+            @Param("reservationTypeIN") String reservationType,
+            @Param("userIdIN") String userId,
+            @Param("paymentMethodIN") String paymentMethodId,
+            @Param("statusIN") String statusId
+    );
 }

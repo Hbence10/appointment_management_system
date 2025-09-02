@@ -19,8 +19,16 @@ import java.time.LocalDateTime;
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
         }, resultClasses = {Reservations.class}),
 
-        @NamedStoredProcedureQuery(name = "", procedureName = "", parameters = {
-                
+        @NamedStoredProcedureQuery(name = "makeReservation", procedureName = "makeReservation", parameters = {
+                @StoredProcedureParameter(name = "firstNameIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "lastNameIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "phoneNumberIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "commentIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "reservationTypeIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "userIdIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "paymentMethodIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "statusIN", type = String.class, mode = ParameterMode.IN),
         })
 })
 public class Reservations {

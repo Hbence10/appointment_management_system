@@ -54,7 +54,7 @@ public class ReservationController {
 
     @PostMapping("/")
     public Response makeReservation(@RequestBody Map<String, Object> newReservation){
-        return null;
+        return reservationService.makeReservation(newReservation);
     }
 }
 
