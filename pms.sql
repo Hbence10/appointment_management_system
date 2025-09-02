@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Aug 31. 10:51
+-- Létrehozás ideje: 2025. Sze 02. 11:09
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -88,8 +88,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100
 	SELECT * FROM user WHERE user.username = usernameIN AND user.password = passwordIN;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `usernameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `makeReservation` (IN `firstNameIN` VARCHAR(100), IN `lastNameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `phoneNumberIN` VARCHAR(100), IN `commentIN` TEXT, IN `reservationTypeIN` INT, IN `userIdIN` INT, IN `paymentMethodIN` INT, IN `statusIN` INT, OUT `result` INT)   BEGIN
+	INSERT INTO `reservations`(
+        `first_name`, 
+        `last_name`, 
+        `email`, 
+        `phone_number`, 
+        `comment`, 
+        `reservation_type_id`, 
+        `user_id`, 
+        `payment_method_id`, 
+        `status_id`) 
+        VALUES (
+        	firstNameIN,
+        	lastNameIN,
+            emailIN,
+            phoneNumberIN,
+            commentIN,
+            reservationTypeIN,
+            userIdIN,
+			paymentMethodIN,
+            statusIN
+        );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `usernameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `passwordIN` VARCHAR(100), OUT `result` VARCHAR(100))   BEGIN
 	INSERT INTO `user`(`username`, `email`, `password`, `pfp_path`) VALUES (usernameIN, emailIN, passwordIN, "");
+    SET result = "successfull registration";
 END$$
 
 DELIMITER ;
@@ -263,11 +288,11 @@ CREATE TABLE `news` (
 --
 
 INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `placement`, `created_at`, `is_deleted`, `deleted_at`, `last_edit_at`) VALUES
-(1, 'hir1', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 1, '2025-08-23 11:19:02', 0, NULL, NULL),
-(2, 'hir2', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 2, '2025-08-23 11:19:02', 0, NULL, NULL),
-(3, 'hir3', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL),
-(4, 'Hír 4', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 3, '2025-08-27 08:07:08', 0, NULL, NULL),
-(5, 'Hír 5', 'Lorem ipsum dolor sit amet consectetur. Risus aliquet ipsum ultrices mattis consequat in. Diam suspendisse etiam lorem orci lobortis risus nibh cras tincidunt. Sed aenean faucibus libero amet. Donec gravida aliquam nulla elementum sed fusce posuere viverra in.', 'asd', 1, 5, '2025-08-27 08:07:08', 0, NULL, NULL);
+(1, 'Új hangszerek érkeztek a terembe', 'Megérkeztek a legújabb hangszereink, amelyeket bárki kipróbálhat próba közben. A dobkészletet teljesen felújítottuk, valamint új gitárerősítőket szereztünk be. Így még jobb hangzást tudunk biztosítani a zenekaroknak. Gyertek el és teszteljétek őket elsőként!', 'assets/images/news/placeholder.png', 1, 1, '2025-08-23 11:19:02', 0, NULL, NULL),
+(2, 'Akciós próbadíjak szeptemberben', 'Ebben a hónapban kedvezményes áron bérelhetitek a próbatermet. A hétköznapi délutáni sávokra 20% kedvezményt biztosítunk. Ha rendszeresen jártok, még további engedményeket is adunk. Ne hagyjátok ki a lehetőséget!', 'assets/images/news/placeholder.png', 1, 2, '2025-08-23 11:19:02', 0, NULL, NULL),
+(3, 'Nyílt nap a próbateremben', 'Szeretettel várunk minden érdeklődőt a nyílt napunkon. Lehetőségetek lesz kipróbálni a termet és a hangszereket teljesen ingyen. A program során bemutatjuk a felszerelést és válaszolunk minden kérdésre. Gyere el, és hozd magaddal zenész barátaidat is!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL),
+(4, 'Új foglalási rendszer indult', 'Mostantól egyszerűbben és gyorsabban tudtok időpontot foglalni. Az online naptár segítségével azonnal látható, mikor szabad a terem. Így elkerülhetők a félreértések és ütközések. Próbáljátok ki, és foglaljatok pár kattintással!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-27 08:07:08', 0, NULL, NULL),
+(5, 'Koncert a próbaterem zenekaraival', 'A nálunk próbáló zenekarok közül többen fellépnek egy közös koncerten. Az esemény célja, hogy bemutassuk a helyi tehetségeket. A belépés ingyenes, mindenkit szeretettel várunk. Részletek hamarosan a weboldalunkon!', 'assets/images/news/placeholder.png', 1, 5, '2025-08-27 08:07:08', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -308,7 +333,7 @@ CREATE TABLE `reservations` (
   `status_id` int(11) NOT NULL,
   `reserved_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_canceled` tinyint(1) NOT NULL DEFAULT '0',
-  `canceled_at` datetime NOT NULL,
+  `canceled_at` datetime DEFAULT NULL,
   `canceled_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -319,7 +344,8 @@ CREATE TABLE `reservations` (
 INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `comment`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
 (1, 'elso1', 'masodik1', 'elso@gmail.com', '123421', NULL, 1, 1, 2, 1, '2025-08-28 19:34:09', 0, '2025-08-28 19:33:10', NULL),
 (2, 'elso2', 'masodik2', 'masodik@gmail.com', '31231231', 'asdasdasd', 1, 1, 1, 1, '2025-08-28 19:34:09', 0, '2025-08-28 19:33:10', NULL),
-(3, 'elso3', 'masodik3', 'email3@gmail.com', '412412', 'asdasddas', 1, 2, 2, 1, '2025-08-28 19:35:08', 0, '2025-08-28 19:34:20', NULL);
+(3, 'elso3', 'masodik3', 'email3@gmail.com', '412412', 'asdasddas', 1, 2, 2, 1, '2025-08-28 19:35:08', 0, '2025-08-28 19:34:20', NULL),
+(4, 'asd', 'ads', 'asd', 'ads', 'asd', 1, 1, 1, 1, '2025-09-02 10:54:04', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -360,8 +386,8 @@ CREATE TABLE `reserved_dates` (
 --
 
 INSERT INTO `reserved_dates` (`id`, `date`, `is_holiday`, `is_closed`) VALUES
-(5, '2025-08-28', 0, 0),
-(6, '2025-08-29', 0, 0);
+(5, '2025-09-04', 0, 0),
+(6, '2025-09-02', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -537,7 +563,9 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`
 (8, 'ads', 'email', 'password', '', 1, '2025-08-26 13:15:51', NULL, 0, NULL),
 (9, 'ads', '1', 'password', '', 1, '2025-08-26 13:18:28', NULL, 0, NULL),
 (10, 'ads', 'adads', 'password', '', 1, '2025-08-26 13:20:53', NULL, 0, NULL),
-(11, 'asd', 'asd', 'asd', '', 1, '2025-08-26 15:33:35', NULL, 0, NULL);
+(11, 'asd', 'asd', 'asd', '', 1, '2025-08-26 15:33:35', NULL, 0, NULL),
+(12, 'as', 'as', 'as', '', 1, '2025-09-02 10:55:08', NULL, NULL, NULL),
+(13, 'a', 'a', 'a', '', 1, '2025-09-02 11:00:04', NULL, NULL, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -729,7 +757,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -789,7 +817,7 @@ ALTER TABLE `unitofaccount`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Megkötések a kiírt táblákhoz

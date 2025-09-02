@@ -85,6 +85,7 @@ A weblap a következő **componentekre** bontódik fel:
 - **reservation-maker-page:**
 - **reservation-form:**
 - **reservation-finalize:**
+- **list-card:**
 
 A frontend projektben a következő **service**-ek találhatóak meg:
 - **device-service**
