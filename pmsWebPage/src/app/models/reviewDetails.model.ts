@@ -1,4 +1,5 @@
 export class ReviewDetails {
+
   constructor(
     public id: number,
     public author: string,

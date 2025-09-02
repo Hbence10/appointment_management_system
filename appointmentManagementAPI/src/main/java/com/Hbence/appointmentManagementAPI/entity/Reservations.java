@@ -17,7 +17,11 @@ import java.time.LocalDateTime;
 
         @NamedStoredProcedureQuery(name = "getReservationByDate", procedureName = "getReservationByDate", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
-        }, resultClasses = {Reservations.class})
+        }, resultClasses = {Reservations.class}),
+
+        @NamedStoredProcedureQuery(name = "", procedureName = "", parameters = {
+                
+        })
 })
 public class Reservations {
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, model, OnInit, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -8,6 +8,7 @@ import { UserService } from '../../services/user-service';
 import { RouterModule } from '@angular/router';
 import { ReservedDates } from '../../models/reservedDates.model';
 import { User } from '../../models/user.model';
+import { Reservation } from '../../models/reservation.model';
 
 @Component({
   selector: 'app-appointment-selector',
@@ -28,6 +29,7 @@ export class AppointmentSelector implements OnInit {
   maxDate: Date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate())
 
   //Foglalas dolgai:
+  baseReservation = input<Reservation>(new Reservation())
   availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
   reservableHours: (number | string)[] = ["Egész nap", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   startHour: number | null = null
