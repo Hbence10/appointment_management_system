@@ -29,7 +29,7 @@ export class AppointmentSelector implements OnInit {
   maxDate: Date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate())
 
   //Foglalas dolgai:
-  baseReservation = input<Reservation>(new Reservation())
+  baseReservation = input("asd")
   availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
   reservableHours: (number | string)[] = ["Egész nap", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   startHour: number | null = null
@@ -38,6 +38,7 @@ export class AppointmentSelector implements OnInit {
 
   ngOnInit(): void {
     this.user.set(this.userService.user())
+    console.log(this.baseReservation())
 
     const subscription = this.reservationService.getReservedDateByMonth("2025-09-01").subscribe({
       next: response => this.reservedDatesOfMonth.set(response)
@@ -47,5 +48,4 @@ export class AppointmentSelector implements OnInit {
       subscription.unsubscribe()
     })
   }
-
 }

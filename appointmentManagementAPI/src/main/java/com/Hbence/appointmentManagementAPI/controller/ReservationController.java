@@ -52,7 +52,7 @@ public class ReservationController {
         return reservationService.getReservationByDate(wantedDate);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Response makeReservation(@RequestBody Map<String, Object> newReservation){
         return reservationService.makeReservation(newReservation);
     }

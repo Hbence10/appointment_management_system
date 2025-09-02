@@ -11,15 +11,15 @@ import java.util.List;
 @Entity
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
-                @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
-                @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class)
+                @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN)
         }, resultClasses = {User.class}),
 
         @NamedStoredProcedureQuery(name = "register", procedureName = "register", parameters = {
-                @StoredProcedureParameter(name = "usernameIN", mode = ParameterMode.IN, type = String.class),
-                @StoredProcedureParameter(name = "emailIN", mode = ParameterMode.IN, type = String.class),
-                @StoredProcedureParameter(name = "passwordIN", mode = ParameterMode.IN, type = String.class),
-                @StoredProcedureParameter(name = "result", mode = ParameterMode.OUT, type = String.class)
+                @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "result", type = String.class, mode = ParameterMode.IN)
         }, resultClasses = {String.class})
 })
 
@@ -89,7 +89,8 @@ public class User {
     )
     private List<Reservations> reservations;
 
-    @OneToOne(mappedBy = "canceledBy", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    @OneToOne(mappedBy = "canceledBy", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    //Az Instructor class-ban levo field-re mutat
     private Reservations canceledReservation;
 
     @OneToMany(

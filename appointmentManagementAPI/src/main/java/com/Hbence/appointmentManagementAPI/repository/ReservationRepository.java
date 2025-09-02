@@ -19,15 +19,14 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
     List<Reservations> getReservationByDate(@Param("dateIN") LocalDate wantedDate);
 
     @Procedure(name = "makeReservation", procedureName = "makeReservation")
-    Long makeReservation(
-            @Param("firstNameIN") String firstName,
-            @Param("lastNameIN") String lastName,
-            @Param("emailIN") String email,
-            @Param("phoneNumberIN") String phoneNumber,
-            @Param("commentIN") String comment,
-            @Param("reservationTypeIN") String reservationType,
-            @Param("userIdIN") String userId,
-            @Param("paymentMethodIN") String paymentMethodId,
-            @Param("statusIN") String statusId
+    String makeReservation(
+            @Param("firstNameIN") Object firstName,
+            @Param("lastNameIN") Object lastName,
+            @Param("emailIN") Object email,
+            @Param("phoneNumberIN") Object phoneNumber,
+            @Param("commentIN") Object comment,
+            @Param("reservationTypeIN") Object reservationType,
+            @Param("userIdIN") Object userId,
+            @Param("paymentMethodIN") Object paymentMethodId
     );
 }

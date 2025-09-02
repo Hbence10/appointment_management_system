@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Sze 02. 11:09
+-- Létrehozás ideje: 2025. Sze 02. 18:28
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -88,7 +88,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100
 	SELECT * FROM user WHERE user.username = usernameIN AND user.password = passwordIN;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `makeReservation` (IN `firstNameIN` VARCHAR(100), IN `lastNameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `phoneNumberIN` VARCHAR(100), IN `commentIN` TEXT, IN `reservationTypeIN` INT, IN `userIdIN` INT, IN `paymentMethodIN` INT, IN `statusIN` INT, OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `makeReservation` (IN `firstNameIN` VARCHAR(100), IN `lastNameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `phoneNumberIN` VARCHAR(100), IN `commentIN` TEXT, IN `reservationTypeIN` INT, IN `userIdIN` INT, IN `paymentMethodIN` INT, OUT `result` VARCHAR(100))   BEGIN
 	INSERT INTO `reservations`(
         `first_name`, 
         `last_name`, 
@@ -97,8 +97,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `makeReservation` (IN `firstNameIN` 
         `comment`, 
         `reservation_type_id`, 
         `user_id`, 
-        `payment_method_id`, 
-        `status_id`) 
+        `payment_method_id`) 
         VALUES (
         	firstNameIN,
         	lastNameIN,
@@ -107,9 +106,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `makeReservation` (IN `firstNameIN` 
             commentIN,
             reservationTypeIN,
             userIdIN,
-			paymentMethodIN,
-            statusIN
+			paymentMethodIN
         );
+       
+       	SET result = "successfully reservation";
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `usernameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `passwordIN` VARCHAR(100), OUT `result` VARCHAR(100))   BEGIN
@@ -330,7 +330,7 @@ CREATE TABLE `reservations` (
   `reservation_type_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `payment_method_id` int(11) NOT NULL,
-  `status_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL DEFAULT '1',
   `reserved_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_canceled` tinyint(1) NOT NULL DEFAULT '0',
   `canceled_at` datetime DEFAULT NULL,
@@ -345,7 +345,12 @@ INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_num
 (1, 'elso1', 'masodik1', 'elso@gmail.com', '123421', NULL, 1, 1, 2, 1, '2025-08-28 19:34:09', 0, '2025-08-28 19:33:10', NULL),
 (2, 'elso2', 'masodik2', 'masodik@gmail.com', '31231231', 'asdasdasd', 1, 1, 1, 1, '2025-08-28 19:34:09', 0, '2025-08-28 19:33:10', NULL),
 (3, 'elso3', 'masodik3', 'email3@gmail.com', '412412', 'asdasddas', 1, 2, 2, 1, '2025-08-28 19:35:08', 0, '2025-08-28 19:34:20', NULL),
-(4, 'asd', 'ads', 'asd', 'ads', 'asd', 1, 1, 1, 1, '2025-09-02 10:54:04', 0, NULL, NULL);
+(4, 'asd', 'ads', 'asd', 'ads', 'asd', 1, 1, 1, 1, '2025-09-02 10:54:04', 0, NULL, NULL),
+(5, 'a', 'a', 'a', 'a', 'a', 1, 1, 1, 1, '2025-09-02 11:33:14', 0, NULL, NULL),
+(6, 'a', 'aa', 'a', 'a', 'a', 1, 1, 1, 1, '2025-09-02 11:33:58', 0, NULL, NULL),
+(7, 'a', 'a', 'a', 'a', 'a', 1, 1, 1, 1, '2025-09-02 18:20:02', 0, NULL, NULL),
+(8, 'a', 'a', 'a', 'a', 'a', 1, 1, 1, 1, '2025-09-02 18:26:02', 0, NULL, NULL),
+(9, 'a', 'a', 'a', 'a', 'a', 1, 1, 1, 1, '2025-09-02 18:27:51', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -565,7 +570,10 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`
 (10, 'ads', 'adads', 'password', '', 1, '2025-08-26 13:20:53', NULL, 0, NULL),
 (11, 'asd', 'asd', 'asd', '', 1, '2025-08-26 15:33:35', NULL, 0, NULL),
 (12, 'as', 'as', 'as', '', 1, '2025-09-02 10:55:08', NULL, NULL, NULL),
-(13, 'a', 'a', 'a', '', 1, '2025-09-02 11:00:04', NULL, NULL, NULL);
+(13, 'a', 'a', 'a', '', 1, '2025-09-02 11:00:04', NULL, NULL, NULL),
+(14, 'ads', 'adads', 'password', '', 1, '2025-09-02 11:19:30', NULL, NULL, NULL),
+(15, 'ads', 'adads', 'password', '', 1, '2025-09-02 11:21:24', NULL, NULL, NULL),
+(16, 'ads', 'adads', 'password', '', 1, '2025-09-02 11:30:26', NULL, NULL, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -757,7 +765,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -817,7 +825,7 @@ ALTER TABLE `unitofaccount`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Megkötések a kiírt táblákhoz

@@ -13,4 +13,8 @@ export class Reservation {
     public paymentMethod?: string,
     public status?: string
   ) { }
+
+  setFirstName(){
+
+  }
 }
