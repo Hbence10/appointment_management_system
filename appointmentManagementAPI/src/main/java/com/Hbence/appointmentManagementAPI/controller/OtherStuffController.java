@@ -2,8 +2,10 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Gallery;
 import com.Hbence.appointmentManagementAPI.entity.Review;
+import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import com.Hbence.appointmentManagementAPI.service.Response;
+import org.apache.tomcat.util.digester.Rule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +39,11 @@ public class OtherStuffController {
     @GetMapping("/gallery")
     public List<Gallery> getAllGalleryImages(){
         return otherStuffService.getGalleryImages();
+    }
+
+    //Szabalyzat:
+    @GetMapping("/rule")
+    public Rules getRule(){
+        return otherStuffService.getRule();
     }
 }

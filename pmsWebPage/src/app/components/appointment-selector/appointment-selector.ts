@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, Signal, signal } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, input, OnInit, Signal, signal, viewChild, ViewChild, viewChildren, ViewChildren } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +23,7 @@ export class AppointmentSelector implements OnInit {
   private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
+  // private elementRef = inject(ElementRef)
 
   //Naptar dolgai:
   currentDate: Date = new Date()

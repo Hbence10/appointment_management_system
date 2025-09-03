@@ -1,1 +1,31 @@
-<p>rule-reader works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="mainContainer" class="container-fluid">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="text-center mainFont my-4">Szabályzat elfogadása</h1>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 px-4">
+            <div id="ruleContainer" class="p-4" (scroll)="readRule($event)">
+              @for (line of rule().text.split("."); track $index) {
+                <p class="secondFont">{{line}}</p>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 d-flex justify-content-center align-items-center mt-4">
+            <button class="secondFont" matButton="filled" [disabled]="!continueAble()" (click)="acceptRule()">Elfogadás</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

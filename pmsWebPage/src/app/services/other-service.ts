@@ -22,4 +22,8 @@ export class OtherService {
   getAllGalleryImages(): Observable<GalleryImage[]>{
     return this.http.get<GalleryImage[]>(`${this.baseURL()}/gallery`)
   }
+
+  getRule(): Observable<{id: number, text: string, lastEditAt: Date}>{
+    return this.http.get<{id: number, text: string, lastEditAt: Date}>(`${this.baseURL()}/rule`)
+  }
 }

@@ -65,4 +65,9 @@ public class OtherStuffService {
     public List<Gallery> getGalleryImages(){
         return galleryRepository.findAll();
     }
+
+    //Szabalyzat
+    public Rules getRule(){
+        return ruleRepository.findById(1).get();
+    }
 }
