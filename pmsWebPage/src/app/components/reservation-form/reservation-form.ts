@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { ReservationService } from '../../services/reservation-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../../services/user-service';
 import { User } from '../../models/user.model';
+import { Reservation } from '../../models/reservation.model';
 
 @Component({
   selector: 'app-reservation-form',
@@ -22,9 +23,12 @@ export class ReservationForm implements OnInit {
   private userService = inject(UserService)
   private router = inject(Router)
 
+  baseReservation = input.required<Reservation>()
+  ifRegisterWithReservation = input.required<boolean>()
+
   reservationTypes = signal<ReservationType[]>([])
-  ifRegister = signal<boolean>(false)
   user: null | User = null
+  selectedReservationType = signal<ReservationType>(new ReservationType(-1))
 
   form = new FormGroup({
     firstName: new FormControl("", [Validators.required]),
@@ -48,7 +52,19 @@ export class ReservationForm implements OnInit {
     })
   }
 
-  selectReservationType(selectedReservationType: ReservationType) {
+  selectReservationType(selectedReservationType: ReservationType, id: number) {
+    this.selectedReservationType.set(selectedReservationType)
+    this.form.controls["reservationType"].setValue(id.toString())
+  }
+
+  continueReservation(){
+    this.registerWithReservation()
+
+    this.router.navigate([""])
+
+  }
+
+  registerWithReservation(){
 
   }
 }

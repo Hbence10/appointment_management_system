@@ -5,15 +5,16 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideServerRendering } from '@angular/ssr';
 import { routes } from './app.routes';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()), provideClientHydration(withEventReplay()),
-    // provideServerRendering(),
+    provideServerRendering(),
     provideHttpClient(withFetch()),
+    provideNativeDateAdapter(),
     {provide: MAT_DATE_LOCALE, useValue: 'hu'}
   ]
 };

@@ -13,27 +13,15 @@
             <div class="col-lg-12 px-4">
               <form action="#" [formGroup]="form" class="container-fluid">
                 <div class="row my-2">
-                  <div
-                    class="col-lg-12 p-0 d-flex flex-row justify-content-between"
-                  >
+                  <div class="col-lg-12 p-0 d-flex flex-row justify-content-between">
                     <mat-form-field style="width: 335px">
                       <mat-label>Vezetéknév</mat-label>
-                      <input
-                        formControlName="firstName"
-                        type="text"
-                        matInput
-                        placeholder="Irja be a vezetéknevét. Pl. Varga"
-                      />
+                      <input formControlName="firstName" type="text" matInput placeholder="Irja be a vezetéknevét. Pl. Varga"/>
                     </mat-form-field>
 
                     <mat-form-field style="width: 335px">
                       <mat-label>Családnév</mat-label>
-                      <input
-                        formControlName="lastName"
-                        type="text"
-                        matInput
-                        placeholder="Irja be a keresztnevét. Pl. Tamás"
-                      />
+                      <input formControlName="lastName" type="text" matInput placeholder="Irja be a keresztnevét. Pl. Tamás"/>
                     </mat-form-field>
                   </div>
                 </div>
@@ -42,12 +30,7 @@
                   <div class="col-lg-12 p-0">
                     <mat-form-field style="width: 100%">
                       <mat-label>Email</mat-label>
-                      <input
-                        formControlName="email"
-                        type="text"
-                        matInput
-                        placeholder="Irja be az email címét. Pl. valami@gmail.com"
-                      />
+                      <input formControlName="email" type="text" matInput placeholder="Irja be az email címét. Pl. valami@gmail.com"/>
                     </mat-form-field>
                   </div>
                 </div>
@@ -56,12 +39,7 @@
                   <div class="col-lg-12 p-0">
                     <mat-form-field style="width: 100%">
                       <mat-label>Telefonszám</mat-label>
-                      <input
-                        formControlName="phone"
-                        type="text"
-                        matInput
-                        placeholder="Irja be a telefonszámát. Pl. +36 70 123 4567"
-                      />
+                      <input formControlName="phone" type="text" matInput placeholder="Irja be a telefonszámát. Pl. +36 70 123 4567"/>
                     </mat-form-field>
                   </div>
                 </div>
@@ -70,13 +48,7 @@
                   <div class="col-lg-12 p-0">
                     <mat-form-field style="width: 100%">
                       <mat-label>Megjegyzés</mat-label>
-                      <textarea
-                        formControlName="comment"
-                        type="text"
-                        matInput
-                        style="height: 175px"
-                        placeholder="Van valami megjegyzése? Irja ide!"
-                      ></textarea>
+                      <textarea formControlName="comment" type="text" matInput style="height: 175px" placeholder="Van valami megjegyzése? Irja ide!" ></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -95,13 +67,13 @@
               @for (reservationType of reservationTypes(); track $index) {
               <div
                 class="cardDiv my-4 d-flex justify-content-between align-items-center px-4"
-                (click)="selectReservationType(reservationType)"
+                (click)="selectReservationType(reservationType, reservationType!.id)"
+                [class.selected]="selectedReservationType() == reservationType"
+                [class.noneSelected]="selectedReservationType() != null && selectedReservationType() != reservationType"
               >
                 <span class="secondFont">{{ reservationType.name }}</span>
                 <span class="secondFont"
-                  >{{ reservationType.price }} Ft/{{
-                    reservationType.amount
-                  }}</span
+                  >{{ reservationType.price }} Ft / óra</span
                 >
               </div>
               }
@@ -111,17 +83,15 @@
           @if (user == null) {
           <div class="row">
             <div class="col-lg-12 px-4">
-              <mat-checkbox>A foglalással regisztrálok az oldalra</mat-checkbox>
+              <mat-checkbox (change)="registerWithReservation()">A foglalással regisztrálok az oldalra</mat-checkbox>
             </div>
           </div>
           }
         </div>
 
         <div class="row my-5">
-          <div
-            class="col-lg-12 d-flex justify-content-center align-items-center"
-          >
-            <button matButton="filled" [disabled]="form.invalid">
+          <div class="col-lg-12 d-flex justify-content-center align-items-center">
+            <button matButton="filled" [disabled]="form.invalid" (click)="continueReservation()">
               Folytatás
             </button>
           </div>

@@ -25,11 +25,6 @@ public class ReservationType {
     @Size(max = 6)
     private int price;
 
-    @Column(name = "amount")
-    @NotNull
-    @Size(max = 100)
-    private String amount;
-
     @OneToMany(
             mappedBy = "reservationTypeId",
             fetch = FetchType.LAZY,
@@ -50,10 +45,9 @@ public class ReservationType {
     public ReservationType() {
     }
 
-    public ReservationType(String name, int price, String amount) {
+    public ReservationType(String name, int price) {
         this.name = name;
         this.price = price;
-        this.amount = amount;
     }
 
 
@@ -73,13 +67,6 @@ public class ReservationType {
         this.price = price;
     }
 
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
 
 
 }

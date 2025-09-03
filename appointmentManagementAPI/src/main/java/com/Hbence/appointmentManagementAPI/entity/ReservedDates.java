@@ -22,7 +22,7 @@ public class ReservedDates {
     private int id;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "is_holiday")
     @NotNull
@@ -46,14 +46,14 @@ public class ReservedDates {
     public ReservedDates() {
     }
 
-    public ReservedDates(Date date, Boolean isHoliday, Boolean isClosed, Boolean isFull) {
+    public ReservedDates(LocalDate date, Boolean isHoliday, Boolean isClosed, Boolean isFull) {
         this.date = date;
         this.isHoliday = isHoliday;
         this.isClosed = isClosed;
         this.isFull = isFull;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

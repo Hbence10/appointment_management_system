@@ -42,9 +42,10 @@
   }
 }
 
-.cardDiv:hover {
+.cardDiv:hover, .selected, .noneSelected:hover {
   background-color: #004D40;
   cursor: pointer;
+  opacity: 1;
 
   span {
     color: white;
@@ -72,4 +73,8 @@ button:disabled {
   border-radius: 16px;
   background-color: #004D40;
   color: white;
+}
+
+.noneSelected{
+  opacity: 0.6;
 }

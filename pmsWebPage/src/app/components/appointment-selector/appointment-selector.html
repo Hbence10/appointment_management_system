@@ -20,7 +20,7 @@
               <div class="row">
                 <div class="col-lg-3 d-flex flex-column align-items-center" style="overflow-y: auto; max-height: 500px; padding: 30px 0px !important;">
                   @for (hour of availableHours; track $index) {
-                    <div class="hourDiv my-1" (click)="startHour = hour" [class.selectedHourDiv]="hour == startHour">
+                    <div class="hourDiv my-1" (click)="startHour = hour; selectedHourAmount.set(null)" [class.selectedHourDiv]="hour == startHour">
                       <p class="hour secondFont my-3 text-center">{{hour}}:00</p>
                     </div>
                   }
@@ -31,8 +31,14 @@
                     <h3 class="text-white secondFont">Kezdés: {{startHour}}:00</h3>
                     <hr class="m-0 text-white">
                     <div id="amountCardContainer">
-                      @for (reservableHour of reservableHours; track $index) {
-                        <div (click)="selectReservationAmount(reservableHour)" class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0">
+                      @if((user()?.role == 'superAdmin' || user()?.role == "admin")){
+                        <div  class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0">
+                          <p class="m-0 fw-bold secondFont">Egész napra</p>
+                          <mat-icon fontIcon="arrow_right"></mat-icon>
+                        </div>
+                      }
+                      @for (reservableHour of reservableHours | slice: 0:listCardAmount; track $index;) {
+                        <div [class.selected]="reservableHour == selectedHourAmount() && selectedHourAmount() != null" [class.noneSelected]="reservableHour != selectedHourAmount() && selectedHourAmount() != null" (click)="selectReservationAmount(reservableHour)" class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0">
                           <p class="m-0 fw-bold secondFont">{{reservableHour}}</p>
                           <mat-icon fontIcon="arrow_right"></mat-icon>
                         </div>

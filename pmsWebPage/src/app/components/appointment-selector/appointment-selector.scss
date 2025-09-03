@@ -30,6 +30,7 @@
   width: 1400px;
   height: 650px;
   padding: 60px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 #hourContainer {
@@ -37,10 +38,12 @@
   height: 530px;
   width: 100%;
   border-radius: 16px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 mat-card {
   background-color: #26A69A;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 mat-calendar {
@@ -78,16 +81,19 @@ mat-calendar {
 .selectedHourDiv, .hourDiv:Hover{
   background-color: #004D40;
   border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .amountCard{
   background-color: white;
   height: 65px;
   cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-.amountCard:hover, .selected{
+.amountCard:hover, .selected, .noneSelected:hover{
   background-color: #004D40;
+  opacity: 1;
 
   p, mat-icon {
     color: white !important;
@@ -99,7 +105,7 @@ mat-calendar {
 }
 
 #amountCardContainer{
-  max-height: 400px;
+  max-height: 430px;
   overflow-y: auto;
 }
 
@@ -108,5 +114,5 @@ mat-calendar {
 }
 
 .noneSelected{
-
+  opacity: 0.6;
 }
