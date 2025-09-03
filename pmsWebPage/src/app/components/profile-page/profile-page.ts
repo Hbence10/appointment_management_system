@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.user()!
 
-    const subscription = this.reservationService.getReservationByUserId(this.user.id).subscribe({
+    const subscription = this.reservationService.getReservationByUserId(this.user.getId).subscribe({
       next: response => this.reservations.set(response),
       complete: () => console.log(this.reservations())
     })
