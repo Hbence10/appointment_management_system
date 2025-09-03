@@ -7,9 +7,9 @@
             <mat-card class="demo-inline-calendar-card h-100">
               <mat-card-header>
                 <mat-card-subtitle>Válasszon dátumot:</mat-card-subtitle>
-                <mat-card-title>Csütörtök, Aug. 17</mat-card-title>
+                <mat-card-title>{{selectedDateText()}}</mat-card-title>
               </mat-card-header>
-              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate">
+              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate" (selectedChange)="showSelectedDatesOfHours()">
 
               </mat-calendar>
             </mat-card>
@@ -20,24 +20,30 @@
               <div class="row">
                 <div class="col-lg-3 d-flex flex-column align-items-center" style="overflow-y: auto; max-height: 500px; padding: 30px 0px !important;">
                   @for (hour of availableHours; track $index) {
-                    <div class="hourDiv" (click)="startHour = hour" [class.selectedHourDiv]="hour == startHour">
+                    <div class="hourDiv my-1" (click)="startHour = hour" [class.selectedHourDiv]="hour == startHour">
                       <p class="hour secondFont my-3 text-center">{{hour}}:00</p>
                     </div>
                   }
                 </div>
 
                 <div class="col-lg-9" style="padding: 50px 30px !important;">
-                  @if(startHour != null){
+                  @if(startHour != null && !selectedReservedDate().isClosed && !selectedReservedDate().isHoliday){
                     <h3 class="text-white secondFont">Kezdés: {{startHour}}:00</h3>
                     <hr class="m-0 text-white">
                     <div id="amountCardContainer">
                       @for (reservableHour of reservableHours; track $index) {
-                        <div class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0" routerLink="/makeReservation/reservationForm">
+                        <div (click)="selectReservationAmount(reservableHour)" class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0">
                           <p class="m-0 fw-bold secondFont">{{reservableHour}}</p>
                           <mat-icon fontIcon="arrow_right"></mat-icon>
                         </div>
                       }
                     </div>
+                  } @else if (selectedReservedDate().isHoliday){
+                    <p>Ünnepnapokon zárva vagyunk. Kérlek válassz másik dátumot!</p>
+                  } @else if (selectedReservedDate().isClosed){
+                    <p>Ezen a napon zárva vagyunk. Kérlek válassz másik dátumot!</p>
+                  } @else if (selectedReservedDate().isFull){
+                    <p>Ezen a napon nincs már szabad időpontunk. Kérlek válassz másik dátumot!</p>
                   }
                 </div>
               </div>

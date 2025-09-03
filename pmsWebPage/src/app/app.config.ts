@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()), provideClientHydration(withEventReplay()),
-    provideServerRendering(),
+    // provideServerRendering(),
     provideHttpClient(withFetch()),
     {provide: MAT_DATE_LOCALE, useValue: 'hu'}
   ]

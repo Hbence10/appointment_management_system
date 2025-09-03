@@ -55,19 +55,20 @@ mat-calendar {
       calendar-date-today-selected-state-outline-color: #004D40,
       calendar-container-touch-elevation-shadow: #004D40,
       calendar-date-today-outline-color: #004D40,
-      calendar-text-font: "Montserrat"
+      calendar-text-font: "Montserrat",
+      calendar-date-disabled-state-text-color: #004D40
     ));
 }
 
 .hour{
   line-height: 25px;
   font-size: 24px;
-  cursor: pointer;
   color: white;
 }
 
 .hourDiv{
   width: 100px;
+  cursor: pointer;
 }
 
 .reservedHour{
@@ -85,7 +86,7 @@ mat-calendar {
   cursor: pointer;
 }
 
-.amountCard:hover{
+.amountCard:hover, .selected{
   background-color: #004D40;
 
   p, mat-icon {
@@ -104,4 +105,8 @@ mat-calendar {
 
 .mat-calendar-header{
   height: 25px !important;
+}
+
+.noneSelected{
+
 }

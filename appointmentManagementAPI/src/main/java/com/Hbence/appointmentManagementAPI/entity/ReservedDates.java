@@ -25,11 +25,16 @@ public class ReservedDates {
     private Date date;
 
     @Column(name = "is_holiday")
+    @NotNull
     private Boolean isHoliday;
 
     @Column(name = "is_closed")
     @NotNull
     private Boolean isClosed;
+
+    @Column(name = "is_full")
+    @NotNull
+    private Boolean isFull;
 
     @OneToMany(
             mappedBy = "date",
@@ -41,10 +46,11 @@ public class ReservedDates {
     public ReservedDates() {
     }
 
-    public ReservedDates(Date date, Boolean isHoliday, Boolean isClosed) {
+    public ReservedDates(Date date, Boolean isHoliday, Boolean isClosed, Boolean isFull) {
         this.date = date;
         this.isHoliday = isHoliday;
         this.isClosed = isClosed;
+        this.isFull = isFull;
     }
 
     public Date getDate() {
@@ -57,5 +63,13 @@ public class ReservedDates {
 
     public Boolean getClosed() {
         return isClosed;
+    }
+
+    public Boolean getFull() {
+        return isFull;
+    }
+
+    public List<ReservedHours> getReservedHours() {
+        return reservedHours;
     }
 }

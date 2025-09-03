@@ -26,6 +26,7 @@ public class News {
     private String text;
 
     @Column(name = "banner_img_path")
+    @Null
     private String bannerImgPath;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

@@ -57,10 +57,6 @@ public class ReservedHours {
         return end;
     }
 
-    public ReservedDates getDate() {
-        return date;
-    }
-
     @Override
     public String toString() {
         return "ReservedHours{" + "date=" + date + ", end=" + end + ", start=" + start + ", id=" + id + '}';
