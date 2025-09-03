@@ -7,6 +7,7 @@ import { Routes } from '@angular/router';
 import { ReservationMakerPage } from './components/reservation-maker-page/reservation-maker-page';
 import { ReservationForm } from './components/reservation-form/reservation-form';
 import { ReservationFinalize } from './components/reservation-finalize/reservation-finalize';
+import { RuleReader } from './components/rule-reader/rule-reader';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },
@@ -35,6 +36,10 @@ export const routes: Routes = [
       {
         path: "reservationFinalize",
         component: ReservationFinalize
+      },
+      {
+        path: "rule",
+        component: RuleReader
       }
     ]
   },

@@ -78,3 +78,8 @@ button:disabled {
 .noneSelected{
   opacity: 0.6;
 }
+
+#reservationTypeContainer{
+  max-height: 300px;
+  overflow-y: auto;
+}
