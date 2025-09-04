@@ -59,29 +59,30 @@ public class ReservationService {
         return reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
     }
 
-    public Response makeReservation(Map<String, Object> newReservation) {
+    public Response makeReservation(Reservations newReservation) {
         Response response = new Response();
 
-        if (!emailValidator(String.valueOf(newReservation.get("email")))) {
-            throw new InvalidEmail("ajjaj");
-        }
+//        if (!emailValidator(String.valueOf(newReservation.get("email")))) {
+//            throw new InvalidEmail("ajjaj");
+//        }
 
-        String result = reservationRepository.makeReservation(
-                newReservation.get("firstName"),    
-                newReservation.get("lastName"),
-                newReservation.get("email"),
-                newReservation.get("phoneNumber"),
-                newReservation.get("comment"),
-                newReservation.get("reservationType"),
-                newReservation.get("userId"),
-                newReservation.get("paymentMethod")
-        );
+//        String result = reservationRepository.makeReservation(
+//                newReservation.get("firstName"),
+//                newReservation.get("lastName"),
+//                newReservation.get("email"),
+//                newReservation.get("phoneNumber"),
+//                newReservation.get("comment"),
+//                newReservation.get("reservationType"),
+//                newReservation.get("userId"),
+//                newReservation.get("paymentMethod")
+//        );
+        reservationRepository.save(newReservation);
 
-        if (result.equals("successfully reservation")){
-            response = new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
-        } else {
-
-        }
+//        if (result.equals("successfully reservation")){
+//            response = new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
+//        } else {
+//
+//        }
 
         return response;
     }

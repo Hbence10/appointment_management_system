@@ -37,7 +37,7 @@ public class ReservationType {
 
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = {},
             mappedBy = "reservationTypes"
     )
     private List<Devices> devicesList;
@@ -50,6 +50,14 @@ public class ReservationType {
         this.price = price;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -67,6 +75,15 @@ public class ReservationType {
         this.price = price;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "ReservationType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", reservation=" + reservation +
+                ", specialOffer=" + specialOffer +
+                ", devicesList=" + devicesList +
+                '}';
+    }
 }

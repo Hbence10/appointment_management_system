@@ -23,7 +23,7 @@ public class PaymentMethods {
     @OneToMany(
             mappedBy = "paymentMethod",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<Reservations> reservation;
 

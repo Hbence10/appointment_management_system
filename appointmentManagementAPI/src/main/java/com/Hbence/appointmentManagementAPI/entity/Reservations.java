@@ -7,6 +7,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservations")
@@ -63,35 +64,38 @@ public class Reservations {
     private String comment;
 
     @Column(name = "reserved_at")
-    private LocalDateTime reservedAt;
+    private Date reservedAt;
 
-    @Column(name = "is_canceled")
+    @Column(name = "is_canceled", columnDefinition = "boolean default false")
     private Boolean isCanceled;
 
     @Column(name = "canceled_at")
-    private LocalDateTime canceledAt;
+    private Date canceledAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "canceled_by")
+    @Null
     private User canceledBy;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
+    @Null
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "reservation_type_id")
     private ReservationType reservationTypeId;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethod;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToOne(mappedBy = "reservationHour", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reserved_hour_id")
     private ReservedHours reservedHours;
 
     public Reservations() {
@@ -125,7 +129,7 @@ public class Reservations {
         return comment;
     }
 
-    public LocalDateTime getReservedAt() {
+    public Date getReservedAt() {
         return reservedAt;
     }
 
@@ -133,7 +137,7 @@ public class Reservations {
         return isCanceled;
     }
 
-    public LocalDateTime getCanceledAt() {
+    public Date getCanceledAt() {
         return canceledAt;
     }
 
@@ -151,5 +155,26 @@ public class Reservations {
 
     public String getReservedHours() {
         return reservedHours.getStart() + ":00 - " + reservedHours.getEnd() + ":00";
+    }
+
+    @Override
+    public String toString() {
+        return "Reservations{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", comment='" + comment + '\'' +
+                ", reservedAt=" + reservedAt +
+                ", isCanceled=" + isCanceled +
+                ", canceledAt=" + canceledAt +
+                ", canceledBy=" + canceledBy +
+                ", user=" + user +
+                ", reservationTypeId=" + reservationTypeId +
+                ", paymentMethod=" + paymentMethod +
+                ", status=" + status +
+                ", reservedHours=" + reservedHours +
+                '}';
     }
 }

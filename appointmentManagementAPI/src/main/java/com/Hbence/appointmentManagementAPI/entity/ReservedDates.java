@@ -26,15 +26,15 @@ public class ReservedDates {
 
     @Column(name = "is_holiday")
     @NotNull
-    private Boolean isHoliday;
+    private Boolean isHoliday = false;
 
     @Column(name = "is_closed")
     @NotNull
-    private Boolean isClosed;
+    private Boolean isClosed = false;
 
     @Column(name = "is_full")
     @NotNull
-    private Boolean isFull;
+    private Boolean isFull = false;
 
     @OneToMany(
             mappedBy = "date",

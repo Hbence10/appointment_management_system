@@ -23,7 +23,7 @@ public class Status {
     @OneToMany(
             mappedBy = "status",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<Reservations> reservationsList;
 
@@ -34,19 +34,24 @@ public class Status {
         this.name = name;
     }
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+//    public List<Reservations> getReservationsList() {
+//        return reservationsList;
+//    }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", reservationsList=" + reservationsList +
+                '}';
     }
 }

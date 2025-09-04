@@ -35,8 +35,7 @@ public class ReservedHours {
     @JoinColumn(name = "date_id")
     private ReservedDates date;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservation_id")
+    @OneToOne(mappedBy = "reservedHours", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
     private Reservations reservationHour;
 
     //constructors:
@@ -49,12 +48,20 @@ public class ReservedHours {
         this.date = date;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getStart() {
         return start;
     }
 
     public int getEnd() {
         return end;
+    }
+
+    public ReservedDates getDate() {
+        return date;
     }
 
     @Override
