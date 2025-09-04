@@ -84,4 +84,65 @@ export class Reservation {
   get reservedHours(): ReservedHours {
     return this._reservedHours!;
   }
+
+  //Setterek:
+  set id(newId: number) {
+    this._id = newId;
+  }
+
+  set firstName(newFirstName: string) {
+    this._firstName = newFirstName;
+  }
+
+  set lastName(newLastName: string) {
+    this._lastName = newLastName;
+  }
+
+  set email(newEmail: string) {
+    this._email = newEmail;
+  }
+
+  set phone(newPhone: string) {
+    this._phone = newPhone;
+  }
+
+  set comment(newComment: string) {
+    this._comment = newComment;
+  }
+
+  set reservedAt(newDate: Date){
+    this._reservedAt = newDate
+  }
+
+  set isCanceled(newValue: boolean){
+    this._isCanceled = newValue
+  }
+
+  set canceledAt(newDate: Date){
+    this._canceledAt = newDate
+  }
+
+  set canceledBy(newUser: User){
+    this._canceledBy = newUser
+  }
+
+  set user(newUser: User){
+    this._user = newUser
+  }
+
+  set reservationTypeId(newReservationType: ReservationType){
+    this._reservationTypeId = newReservationType
+  }
+
+  set paymentMethod(newPaymentMethod: PaymentMethod){
+    this._paymentMethod = newPaymentMethod
+  }
+
+  set status(newStatus: Status){
+    this._status = newStatus
+  }
+
+  set reservedHours(newReservedHours: ReservedHours){
+    this._reservedHours = newReservedHours
+  }
 }
