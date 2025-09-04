@@ -1,29 +1,29 @@
 export class User {
   constructor(
-    private id: number,
-    private username: string,
-    private email: string,
-    private pfpPath: string,
-    private role: "user" | "admin" | "superAdmin",
+    private _id: number,
+    private _username: string,
+    private _email: string,
+    private _pfpPath: string,
+    private _role: "user" | "admin" | "superAdmin",
   ) { }
 
-  get getId(): number {
-    return this.id
+  get id(): number {
+    return this._id
   }
 
-  get getUsername(): string {
-    return this.username
+  get username(): string {
+    return this._username
   }
 
-  get getEmail(): string {
-    return this.email
+  get email(): string {
+    return this._email
   }
 
-  get getPfpPath(): string {
-    return this.pfpPath
+  get pfpPath(): string {
+    return this._pfpPath
   }
 
-  get getRole(): "user" | "admin" | "superAdmin" {
-    return this.role
+  get role(): "user" | "admin" | "superAdmin" {
+    return this._role
   }
 }

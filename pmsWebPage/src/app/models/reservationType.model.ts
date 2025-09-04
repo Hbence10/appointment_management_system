@@ -1,7 +1,20 @@
-export class ReservationType{
+export class ReservationType {
   constructor(
-    public id:number,
-    public name:string,
-    public price: number
-  ){}
+    private _id: number,
+    private _name: string,
+    private _price: number
+  ) { }
+
+  //Getterek:
+  get id(): number {
+    return this._id;
+  }
+
+  get name(): string {
+    return this._name
+  }
+
+  get price(): number {
+    return this._price
+  }
 }

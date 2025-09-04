@@ -1,7 +1,20 @@
 export class ReservedHours{
   constructor(
-    public id: number,
-    public start: number,
-    public end: number
+    private _id: number,
+    private _start: number,
+    private _end: number
   ){}
+
+  //Getterek:
+  get id(): number {
+    return this._id
+  }
+
+  get start(){
+    return this._start
+  }
+
+  get end(){
+    return this._end
+  }
 }

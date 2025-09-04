@@ -46,7 +46,7 @@ export class Review implements OnInit {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
     } else {
       const newReview = {
-        userId: this.userService.user()!.getId,
+        userId: this.userService.user()!.id,
         reviewText: this.reviewForm.controls["reviewText"].value!,
         rating: Number(this.reviewForm.controls["rating"].value!),
         isAnonymus: this.isAnonymus()
@@ -55,7 +55,7 @@ export class Review implements OnInit {
       this.otherService.addReview(newReview).subscribe({
         next: response => console.log(response),
         complete: () => {
-          this.reviewDetails().push(new ReviewDetails(this.reviewDetails().length+1, this.userService.user()!.getUsername, newReview.reviewText, newReview.rating, 0, 0, this.isAnonymus(), new Date()))
+          this.reviewDetails().push(new ReviewDetails(this.reviewDetails().length+1, this.userService.user()!.username, newReview.reviewText, newReview.rating, 0, 0, this.isAnonymus(), new Date()))
           this.reviewForm.controls["reviewText"].setValue("");
           this.reviewForm.controls["rating"].setValue(2.5)
           this.isAnonymus.set(false)
