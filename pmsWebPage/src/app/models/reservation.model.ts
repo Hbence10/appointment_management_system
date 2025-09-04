@@ -1,4 +1,8 @@
+import { PaymentMethod } from "./paymentMethod.model";
+import { ReservationType } from "./reservationType.model";
 import { ReservedHours } from "./reservedHours.model";
+import { Status } from "./status.model";
+import { User } from "./user.model";
 
 export class Reservation {
 
@@ -7,17 +11,17 @@ export class Reservation {
     public firstName?: string,
     public lastName?: string,
     public email?: string,
-    public phoneNumber?: string,
-    public comment?: string,
+    public phone?: string,
+    public comment?: string | null,
     public reservedAt?: Date,
-    public reservationTypeId?: string,
-    public reservedDate?: Date,
+    public isCanceled: boolean = false,
+    public canceledAt: Date | null = null,
+    public canceledBy: User | null = null,
+    public user: User | null = null,
+    public reservationTypeId?: ReservationType,
+    public paymentMethod?: PaymentMethod,
+    public status?: Status,
     public reservedHours?: ReservedHours,
-    public paymentMethod?: string,
-    public status?: string,
   ) { }
 
-  setFirstName(){
-
-  }
 }

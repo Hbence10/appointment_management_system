@@ -18,19 +18,7 @@ import java.util.Date;
 
         @NamedStoredProcedureQuery(name = "getReservationByDate", procedureName = "getReservationByDate", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
-        }, resultClasses = {Reservations.class}),
-
-        @NamedStoredProcedureQuery(name = "makeReservation", procedureName = "makeReservation", parameters = {
-                @StoredProcedureParameter(name = "firstNameIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "lastNameIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "phoneNumberIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "commentIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "reservationTypeIN", type = Integer.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "paymentMethodIN", type = Integer.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "result", type = String.class, mode = ParameterMode.OUT)
-        }, resultClasses = {String.class})
+        }, resultClasses = {Reservations.class})
 })
 public class Reservations {
 
