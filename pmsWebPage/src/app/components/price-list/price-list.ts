@@ -17,11 +17,15 @@ export class PriceList implements OnInit{
   ngOnInit(): void {
     const subscription = this.reservationService.getReservationTypes().subscribe({
       next: response => this.reservationTypes.set(response),
-      complete: () => console.log(this.reservationTypes)
+      complete: () => this.splitTheList()
     })
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
     })
+  }
+
+  splitTheList(){
+
   }
 }

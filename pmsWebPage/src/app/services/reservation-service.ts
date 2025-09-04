@@ -11,6 +11,8 @@ import { ReservedDates } from '../models/reservedDates.model';
 export class ReservationService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
+  baseReservation = signal<Reservation>(new Reservation())
+  ifRegistrationWithReservation = signal<boolean>(false)
 
   getReservationByUserId(userId: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)

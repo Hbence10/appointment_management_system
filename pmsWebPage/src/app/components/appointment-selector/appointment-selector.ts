@@ -35,12 +35,8 @@ export class AppointmentSelector implements OnInit {
     `${this.monthsName()[this.selectedDate().getMonth()]} ${this.selectedDate().getDate()}, ${this.daysName()[this.selectedDate().getDay()]}`
   )
 
-  //Inputok:
-  baseReservation = input.required<Reservation>()
-  ifRegisterWithReservation = input.required<boolean>()
-
   //Foglalas dolgai:
-  availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+  availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   reservableHours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   startHour: number | null = null
   hoursOfSelectedDate = signal<ReservedHours[]>([])
@@ -79,6 +75,6 @@ export class AppointmentSelector implements OnInit {
 
   selectReservationAmount(selectedReservableHour: string | number){
     this.selectedHourAmount.set(selectedReservableHour)
-    // this.router.navigate(["", this.baseReservation])
+    this.router.navigate(["makeReservation/reservationForm"])
   }
 }

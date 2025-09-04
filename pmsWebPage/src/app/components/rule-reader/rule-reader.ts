@@ -18,9 +18,6 @@ export class RuleReader implements OnInit {
   rule = signal<{ id: number, text: string, lastEditAt: Date }>({ id: -1, text: "", lastEditAt: new Date() })
   continueAble = signal<boolean>(false)
 
-  baseReservation = input.required<Reservation>()
-  ifRegisterWithReservation = input.required<boolean>()
-
   ngOnInit(): void {
     const subscription = this.otherService.getRule().subscribe({
       next: response => this.rule.set(response),

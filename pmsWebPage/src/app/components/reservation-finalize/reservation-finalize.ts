@@ -18,10 +18,6 @@ export class ReservationFinalize implements OnInit{
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
 
-  //inputok:
-  baseReservation = input.required<Reservation>()
-  ifRegisterWithReservation = input.required<boolean>()
-
   paymentMethods = signal<{ id: number, name: string }[]>([])
   isAddedToGoogleCalendar = signal<boolean>(false)
 

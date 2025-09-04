@@ -23,8 +23,6 @@ export class ReservationForm implements OnInit {
   private userService = inject(UserService)
   private router = inject(Router)
 
-  baseReservation = input.required<Reservation>()
-  ifRegisterWithReservation = input.required<boolean>()
 
   reservationTypes = signal<ReservationType[]>([])
   user: null | User = null

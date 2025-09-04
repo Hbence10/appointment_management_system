@@ -1,14 +1,10 @@
-import { PasswordResetPage } from './components/password-reset-page/password-reset-page';
-import { AppointmentSelector } from './components/appointment-selector/appointment-selector';
-import { RegistrationPage } from './components/registration-page/registration-page';
-import { LoginPage } from './components/login-page/login-page';
-import { HomePage } from './components/home-page/home-page';
 import { Routes } from '@angular/router';
-import { ReservationMakerPage } from './components/reservation-maker-page/reservation-maker-page';
-import { ReservationForm } from './components/reservation-form/reservation-form';
-import { ReservationFinalize } from './components/reservation-finalize/reservation-finalize';
-import { RuleReader } from './components/rule-reader/rule-reader';
 import { reservationRoutes } from './app.reservation.routes';
+import { HomePage } from './components/home-page/home-page';
+import { LoginPage } from './components/login-page/login-page';
+import { PasswordResetPage } from './components/password-reset-page/password-reset-page';
+import { RegistrationPage } from './components/registration-page/registration-page';
+import { ReservationMakerPage } from './components/reservation-maker-page/reservation-maker-page';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },

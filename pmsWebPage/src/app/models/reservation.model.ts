@@ -1,3 +1,5 @@
+import { ReservedHours } from "./reservedHours.model";
+
 export class Reservation {
 
   constructor(
@@ -10,8 +12,9 @@ export class Reservation {
     public reservedAt?: Date,
     public reservationTypeId?: string,
     public reservedDate?: Date,
+    public reservedHours?: ReservedHours,
     public paymentMethod?: string,
-    public status?: string
+    public status?: string,
   ) { }
 
   setFirstName(){
