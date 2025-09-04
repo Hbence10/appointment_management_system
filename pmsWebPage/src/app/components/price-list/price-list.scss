@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 * {
   color: #004D40;
@@ -11,11 +12,8 @@
   font-optical-sizing: auto !important;
   font-weight: 800 !important;
   font-style: normal !important;
+  font-size: 45px;
   color: #004D40;
-}
-
-h1{
-  font-size: 40px;
 }
 
 .secondFont {
@@ -26,16 +24,46 @@ h1{
   font-size: 25px;
 }
 
+.numberFont {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 25px;
+}
+
 //
-.tableRow{
+tr {
   height: 75px;
-  font-size: 20px;
+}
+
+.hourColumn {
+  width: 125px;
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  font-size: 25px;
+  color: #004D40;
+}
+
+thead {
+  --bs-table-bg: #F4FBFF;
 }
 
 .evenRow{
-  background-color: #80CBC4;
+  --bs-table-bg: #00695C;
 }
 
 .oddRow{
-  background-color: #00695C;
+  --bs-table-bg: #80CBC4;
+}
+
+table{
+  color: white !important;
+}
+
+.testClass{
+  border-left: 3px solid white;
+  border-right: 3px solid white;
 }

@@ -26,7 +26,7 @@ export class ReservationForm implements OnInit {
 
   reservationTypes = signal<ReservationType[]>([])
   user: null | User = null
-  selectedReservationType = signal<ReservationType>(new ReservationType(-1))
+  selectedReservationType = signal<ReservationType>(new ReservationType(-1, "", 1))
 
   form = new FormGroup({
     firstName: new FormControl("", [Validators.required]),
@@ -51,8 +51,8 @@ export class ReservationForm implements OnInit {
   }
 
   selectReservationType(selectedReservationType: ReservationType, id: number) {
-    this.selectedReservationType.set(selectedReservationType)
-    this.form.controls["reservationType"].setValue(id.toString())
+    // this.selectedReservationType.set(selectedReservationType)
+    // this.form.controls["reservationType"].setValue(id.toString())
   }
 
   continueReservation(){
