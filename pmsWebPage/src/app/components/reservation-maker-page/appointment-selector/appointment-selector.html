@@ -18,14 +18,14 @@
               <div class="row">
                 <div class="col-lg-3 d-flex flex-column align-items-center" style="overflow-y: auto; max-height: 500px; padding: 30px 0px !important;">
                   @for (hour of availableHours; track $index) {
-                    <div class="hourDiv my-1" (click)="startHour = hour; selectedHourAmount.set(null)" [class.selectedHourDiv]="hour == startHour">
-                      <p class="hour my-3 text-center numberFont">{{hour}}:00</p>
+                    <div class="hourDiv my-1" [ariaDisabled]="selectedReservedDate().unavailableHours.includes(hour)" (click)="startHour = hour; selectedHourAmount.set(null)" [class.selectedHourDiv]="hour == startHour">
+                      <p class="hour my-3 text-center numberFont" [class.reservedHour]="selectedReservedDate().unavailableHours.includes(hour)">{{hour}}:00</p>
                     </div>
                   }
                 </div>
 
                 <div class="col-lg-9" style="padding: 30px !important;">
-                  @if(startHour != null && !selectedReservedDate()!.isClosed && !selectedReservedDate()!.isHoliday && !selectedReservedDate()!.isFull){
+                  @if(startHour != null && !selectedReservedDate().isClosed && !selectedReservedDate().isHoliday && !selectedReservedDate().isFull){
                     <h3 class="text-white secondFont" style="font-weight: 600;">Kezdés: {{startHour}}:00</h3>
                     <hr class="m-0 text-white">
                     <div id="amountCardContainer">
@@ -46,11 +46,11 @@
                         </div>
                       }
                     </div>
-                  } @else if (selectedReservedDate()!.isHoliday){
+                  } @else if (selectedReservedDate().isHoliday){
                     <p>Ünnepnapokon zárva vagyunk. Kérlek válassz másik dátumot!</p>
-                  } @else if (selectedReservedDate()!.isClosed){
+                  } @else if (selectedReservedDate().isClosed){
                     <p>Ezen a napon zárva vagyunk. Kérlek válassz másik dátumot!</p>
-                  } @else if (selectedReservedDate()!.isFull){
+                  } @else if (selectedReservedDate().isFull){
                     <p>Ezen a napon nincs már szabad időpontunk. Kérlek válassz másik dátumot!</p>
                   }
                 </div>

@@ -7,7 +7,8 @@ export class ReservedDates {
     private _isHoliday: boolean = false,
     private _isClosed: boolean = false,
     private _isFull: boolean = false,
-    private _reservedHours: ReservedHours[] = []
+    private _reservedHours: ReservedHours[] = [],
+    private _unavailableHours: number[] = []
   ){}
 
   //Getterek:
@@ -33,5 +34,13 @@ export class ReservedDates {
 
   get reservedHours(): ReservedHours[] {
     return this._reservedHours
+  }
+
+  get unavailableHours(): number[] {
+    return this._unavailableHours
+  }
+
+  set unavailableHours(newList: number[]){
+    this._unavailableHours = newList
   }
 }

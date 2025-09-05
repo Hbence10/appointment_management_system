@@ -68,14 +68,31 @@ export class AppointmentSelector implements OnInit {
   }
 
   showSelectedDatesOfHours() {
+    this.startHour = null
     const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.date)))
-    console.log(selectedReservedDate)
 
     if(!selectedReservedDate){
-      // this.selectedReservedDate.set(new ReservedDates())
+      this.selectedReservedDate.set(new ReservedDates(0, this.currentDate))
     } else {
-
+      this.selectedReservedDate.set(selectedReservedDate)
     }
 
+    this.setUnavailableHours()
+  }
+
+  setUnavailableHours(){
+    const startHours: number[] = this.selectedReservedDate().reservedHours.map(element => element.start)
+    const endHours: number[] = this.selectedReservedDate().reservedHours.map(element => element.end)
+    const unavailableHours: number[] = []
+
+    for(let i:number = 0; i<startHours.length; i++){
+      for(let j = startHours[i]; j<=endHours[i]; j++){
+        unavailableHours.push(j)
+      }
+    }
+
+    unavailableHours.sort(function(a, b){return a-b});
+    this.selectedReservedDate().unavailableHours = unavailableHours
+    console.log(this.selectedReservedDate())
   }
 }

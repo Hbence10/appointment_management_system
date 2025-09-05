@@ -59,15 +59,15 @@ public class ReservedDates {
 
     public int getId() {return id;}
 
-    public Boolean getHoliday() {
+    public Boolean getIsHoliday() {
         return isHoliday;
     }
 
-    public Boolean getClosed() {
+    public Boolean getIsClosed() {
         return isClosed;
     }
 
-    public Boolean getFull() {
+    public Boolean getIsFull() {
         return isFull;
     }
 
