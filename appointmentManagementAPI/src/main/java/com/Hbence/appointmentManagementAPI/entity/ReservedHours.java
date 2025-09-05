@@ -60,9 +60,9 @@ public class ReservedHours {
         return end;
     }
 
-    public ReservedDates getDate() {
-        return date;
-    }
+//    public ReservedDates getDate() {
+//        return date;
+//    }
 
     @Override
     public String toString() {

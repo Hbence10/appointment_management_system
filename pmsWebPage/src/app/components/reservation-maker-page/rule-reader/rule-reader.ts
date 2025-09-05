@@ -1,8 +1,8 @@
 import { AfterContentInit, AfterViewInit, Component, DestroyRef, ElementRef, inject, input, OnInit, signal, ViewChild, viewChild } from '@angular/core';
-import { OtherService } from '../../services/other-service';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { Reservation } from '../../models/reservation.model';
+import { OtherService } from '../../../services/other-service';
+
 
 @Component({
   selector: 'app-rule-reader',

@@ -1,8 +1,9 @@
 import { Routes } from "@angular/router";
-import { RuleReader } from "./components/rule-reader/rule-reader";
-import { ReservationFinalize } from "./components/reservation-finalize/reservation-finalize";
-import { ReservationForm } from "./components/reservation-form/reservation-form";
-import { AppointmentSelector } from "./components/appointment-selector/appointment-selector";
+import { AppointmentSelector } from "./components/reservation-maker-page/appointment-selector/appointment-selector";
+import { ReservationForm } from "./components/reservation-maker-page/reservation-form/reservation-form";
+import { ReservationFinalize } from "./components/reservation-maker-page/reservation-finalize/reservation-finalize";
+import { RuleReader } from "./components/reservation-maker-page/rule-reader/rule-reader";
+
 
 export const reservationRoutes: Routes = [
   {

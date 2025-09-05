@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, input, OnInit, Signal, signal, viewChild, ViewChild, viewChildren, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
-import { Reservation } from '../../models/reservation.model';
-import { ReservedDates } from '../../models/reservedDates.model';
-import { ReservedHours } from '../../models/reservedHours.model';
-import { User } from '../../models/user.model';
-import { ReservationService } from '../../services/reservation-service';
-import { UserService } from '../../services/user-service';
+import { ReservedDates } from '../../../models/reservedDates.model';
+import { ReservedHours } from '../../../models/reservedHours.model';
+import { User } from '../../../models/user.model';
+import { ReservationService } from '../../../services/reservation-service';
+import { UserService } from '../../../services/user-service';
 
 @Component({
   selector: 'app-appointment-selector',
-  imports: [MatCardModule, MatDatepickerModule, MatIconModule, RouterModule, MatDatepicker, CommonModule],
+  imports: [MatCardModule, MatDatepickerModule, MatIconModule, RouterModule, CommonModule, MatDatepicker],
   templateUrl: './appointment-selector.html',
   styleUrl: './appointment-selector.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +22,6 @@ export class AppointmentSelector implements OnInit {
   private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
-  // private elementRef = inject(ElementRef)
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -36,14 +34,19 @@ export class AppointmentSelector implements OnInit {
   )
 
   //Foglalas dolgai:
+  selectedReservedDate = signal<ReservedDates>(new ReservedDates(1, new Date(), false, false, false))
+  selectedHourAmount = signal<number | string | null>(null)
+
+
   availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   reservableHours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   startHour: number | null = null
-  hoursOfSelectedDate = signal<ReservedHours[]>([])
-  reservedDatesOfMonth = signal<ReservedDates[]>([])
   user = signal<User | null>(null)
-  selectedReservedDate = signal<ReservedDates>(new ReservedDates(1, new Date(), false, false, false))
-  selectedHourAmount = signal<number | string | null>(null)
+  actualMontsReservedDates = signal<ReservedDates[]>([])
+  formattedSelectedDate = computed(() =>
+    this.selectedDate().toISOString().split("T")[0]
+  )
+
 
   //Egyeb dolgok:
   listCardAmount: number = 0;
@@ -56,12 +59,9 @@ export class AppointmentSelector implements OnInit {
       this.listCardAmount = 5
     }
 
-    const subscription = this.reservationService.getReservedDateByMonth("2025-09-03").subscribe({
-      next: response => this.reservedDatesOfMonth.set(response),
-      complete: () => {
-        console.log(this.selectedDate())
-        console.log(this.reservedDatesOfMonth())
-      }
+    const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate()).subscribe({
+      next: response => this.actualMontsReservedDates.set(response),
+      complete: () => console.log(this.actualMontsReservedDates())
     })
 
     this.destroyRef.onDestroy(() => {
@@ -70,11 +70,6 @@ export class AppointmentSelector implements OnInit {
   }
 
   showSelectedDatesOfHours(){
-
-  }
-
-  selectReservationAmount(selectedReservableHour: string | number){
-    this.selectedHourAmount.set(selectedReservableHour)
-    this.router.navigate(["makeReservation/reservationForm"])
+    // this.actualMontsReservedDates.
   }
 }

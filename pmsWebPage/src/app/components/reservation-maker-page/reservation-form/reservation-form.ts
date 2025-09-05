@@ -1,15 +1,17 @@
 import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
-import { ReservationService } from '../../services/reservation-service';
+
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReservationType } from '../../models/reservationType.model';
+
 import { Router } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { UserService } from '../../services/user-service';
-import { User } from '../../models/user.model';
-import { Reservation } from '../../models/reservation.model';
+import { ReservationService } from '../../../services/reservation-service';
+import { UserService } from '../../../services/user-service';
+import { ReservationType } from '../../../models/reservationType.model';
+import { User } from '../../../models/user.model';
+
 
 @Component({
   selector: 'app-reservation-form',

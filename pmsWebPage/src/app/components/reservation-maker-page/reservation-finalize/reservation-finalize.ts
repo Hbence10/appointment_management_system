@@ -2,9 +2,8 @@ import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/c
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ReservationService } from '../../services/reservation-service';
-import { Reservation } from '../../models/reservation.model';
 import { Router } from '@angular/router';
+import { ReservationService } from '../../../services/reservation-service';
 
 @Component({
   selector: 'app-reservation-finalize',

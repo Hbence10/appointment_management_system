@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="col-lg-9" style="padding: 30px !important;">
-                  @if(startHour != null && !selectedReservedDate().isClosed && !selectedReservedDate().isHoliday){
+                  @if(startHour != null && !selectedReservedDate()!.isClosed && !selectedReservedDate()!.isHoliday && !selectedReservedDate()!.isFull){
                     <h3 class="text-white secondFont" style="font-weight: 600;">Kezdés: {{startHour}}:00</h3>
                     <hr class="m-0 text-white">
                     <div id="amountCardContainer">
@@ -41,7 +41,7 @@
                         <div
                           [class.selected]="reservableHour == selectedHourAmount() && selectedHourAmount() != null"
                           [class.noneSelected]="reservableHour != selectedHourAmount() && selectedHourAmount() != null"
-                          (click)="selectReservationAmount(reservableHour)"
+
                           class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0"
                         >
                           <p class="m-0 fw-bold secondFont">{{reservableHour}}</p>
@@ -49,11 +49,11 @@
                         </div>
                       }
                     </div>
-                  } @else if (selectedReservedDate().isHoliday){
+                  } @else if (selectedReservedDate()!.isHoliday){
                     <p>Ünnepnapokon zárva vagyunk. Kérlek válassz másik dátumot!</p>
-                  } @else if (selectedReservedDate().isClosed){
+                  } @else if (selectedReservedDate()!.isClosed){
                     <p>Ezen a napon zárva vagyunk. Kérlek válassz másik dátumot!</p>
-                  } @else if (selectedReservedDate().isFull){
+                  } @else if (selectedReservedDate()!.isFull){
                     <p>Ezen a napon nincs már szabad időpontunk. Kérlek válassz másik dátumot!</p>
                   }
                 </div>
