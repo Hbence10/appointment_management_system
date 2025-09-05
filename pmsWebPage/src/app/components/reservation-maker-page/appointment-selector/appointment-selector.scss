@@ -39,7 +39,7 @@
   width: 1400px;
   height: 650px;
   padding: 60px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 #hourContainer {
@@ -47,17 +47,16 @@
   height: 530px;
   width: 100%;
   border-radius: 16px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 mat-card {
   background-color: #26A69A;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 mat-calendar {
-  @include mat.datepicker-overrides((
-      calendar-body-label-text-color: white,
+  @include mat.datepicker-overrides((calendar-body-label-text-color: white,
       calendar-container-text-color: white,
       calendar-date-text-color: white,
       calendar-header-text-color: white,
@@ -68,43 +67,58 @@ mat-calendar {
       calendar-container-touch-elevation-shadow: #004D40,
       calendar-date-today-outline-color: #004D40,
       calendar-text-font: "Rubik",
-      calendar-date-disabled-state-text-color: #004D40
-    ));
+      calendar-date-disabled-state-text-color: #004D40,
+      calendar-body-label-text-weight: 600,
+      calendar-header-text-weight: 600,
+      calendar-period-button-text-weight: 600,
+      calendar-text-size: 18px));
 }
 
-.hour{
+mat-calendar{
+  // font-weight: 800;
+}
+
+.hour {
   line-height: 25px;
   font-size: 24px;
   color: white;
 }
 
-.hourDiv{
+.hourDiv {
   width: 100px;
   cursor: pointer;
 }
 
-.reservedHour{
-  color: #004D40;
+.reservedHour {
+  pointer-events: none;
+
+  p {
+    color: #004D40;
+  }
 }
 
-.selectedHourDiv, .hourDiv:Hover{
+.selectedHourDiv,
+.hourDiv:Hover {
   background-color: #004D40;
   border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.amountCard{
+.amountCard {
   background-color: white;
   height: 65px;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.amountCard:hover, .selected, .noneSelected:hover{
+.amountCard:hover,
+.selected,
+.noneSelected:hover {
   background-color: #004D40;
   opacity: 1;
 
-  p, mat-icon {
+  p,
+  mat-icon {
     color: white !important;
   }
 }
@@ -113,15 +127,20 @@ mat-calendar {
   font-size: 15px !important;
 }
 
-#amountCardContainer{
+#amountCardContainer {
   max-height: 430px;
   overflow-y: auto;
 }
 
-.mat-calendar-header{
+.mat-calendar-header {
   height: 25px !important;
 }
 
-.noneSelected{
+.noneSelected {
   opacity: 0.6;
+}
+
+.asd {
+  opacity: 0.6;
+  pointer-events: none;
 }

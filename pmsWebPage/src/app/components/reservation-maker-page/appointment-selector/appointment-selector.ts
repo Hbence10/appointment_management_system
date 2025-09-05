@@ -95,4 +95,10 @@ export class AppointmentSelector implements OnInit {
     this.selectedReservedDate().unavailableHours = unavailableHours
     console.log(this.selectedReservedDate())
   }
+
+  selectHoursAmountOfReservation(){
+    console.log("asd")
+
+    // this.router.navigate([])
+  }
 }
