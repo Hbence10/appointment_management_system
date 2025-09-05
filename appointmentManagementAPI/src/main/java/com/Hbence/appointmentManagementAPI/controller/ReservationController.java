@@ -28,8 +28,8 @@ public class ReservationController {
     }
 
     @GetMapping("/reservedDates")
-    public List<ReservedDates> getReservationByMonth(@RequestParam("actualDate") String actualDate) {
-        return reservationService.getReservationByMonth(actualDate);
+    public List<ReservedDates> getReservationByMonth(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        return reservationService.getReservationByMonth(startDate, endDate);
     }
 
     @GetMapping("/reservedHours")

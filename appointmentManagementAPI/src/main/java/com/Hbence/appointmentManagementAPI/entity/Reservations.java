@@ -55,7 +55,7 @@ public class Reservations {
     private Date reservedAt;
 
     @Column(name = "is_canceled", columnDefinition = "boolean default false")
-    private Boolean isCanceled;
+    private Boolean isCanceled = false;
 
     @Column(name = "canceled_at")
     private Date canceledAt;

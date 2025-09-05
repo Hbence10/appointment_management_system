@@ -3,6 +3,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
@@ -31,11 +32,12 @@ public class ReservedHours {
     @Size(max = 2)
     private int end;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "date_id")
+    @Null
     private ReservedDates date;
 
-    @OneToOne(mappedBy = "reservedHours", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    @OneToOne(mappedBy = "reservedHours", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private Reservations reservationHour;
 
     //constructors:
@@ -63,6 +65,10 @@ public class ReservedHours {
 //    public ReservedDates getDate() {
 //        return date;
 //    }
+
+    public void setDate(ReservedDates date) {
+        this.date = date;
+    }
 
     @Override
     public String toString() {

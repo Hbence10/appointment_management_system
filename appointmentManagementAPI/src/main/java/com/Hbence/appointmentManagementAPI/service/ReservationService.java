@@ -39,8 +39,8 @@ public class ReservationService {
         return reservationRepository.reservations(userId);
     }
 
-    public List<ReservedDates> getReservationByMonth(String actualDate) {
-        return reservedDateRepository.reservedDatesByDate(LocalDate.parse(actualDate));
+    public List<ReservedDates> getReservationByMonth(String startDate, String endDate) {
+        return reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDate), LocalDate.parse(endDate));
     }
 
     public List<ReservedHours> getReservedHoursByDay(String wantedDayDate) {

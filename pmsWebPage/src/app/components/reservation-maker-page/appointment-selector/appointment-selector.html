@@ -9,9 +9,7 @@
                 <mat-card-subtitle>Válasszon dátumot:</mat-card-subtitle>
                 <mat-card-title>{{selectedDateText()}}</mat-card-title>
               </mat-card-header>
-              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate" (selectedChange)="showSelectedDatesOfHours()">
-
-              </mat-calendar>
+              <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate" (selectedChange)="showSelectedDatesOfHours()"></mat-calendar>
             </mat-card>
           </div>
 
@@ -37,11 +35,10 @@
                           <mat-icon fontIcon="arrow_right"></mat-icon>
                         </div>
                       }
-                      @for (reservableHour of reservableHours | slice: 0:listCardAmount; track $index;) {
+                      @for (reservableHour of reservableHourAmounts | slice: 0:listCardAmount; track $index;) {
                         <div
                           [class.selected]="reservableHour == selectedHourAmount() && selectedHourAmount() != null"
                           [class.noneSelected]="reservableHour != selectedHourAmount() && selectedHourAmount() != null"
-
                           class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0"
                         >
                           <p class="m-0 fw-bold secondFont">{{reservableHour}}</p>

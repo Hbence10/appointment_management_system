@@ -34,17 +34,15 @@ export class AppointmentSelector implements OnInit {
   )
 
   //Foglalas dolgai:
-  selectedReservedDate = signal<ReservedDates>(new ReservedDates(1, new Date(), false, false, false))
   selectedHourAmount = signal<number | string | null>(null)
-
-
+  selectedReservedDate = signal<ReservedDates>(new ReservedDates(1, new Date(), false, false, false))
   availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
-  reservableHours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  reservableHourAmounts: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   startHour: number | null = null
   user = signal<User | null>(null)
-  actualMontsReservedDates = signal<ReservedDates[]>([])
+  reservedDatesOfActualPeriod = signal<ReservedDates[]>([])
   formattedSelectedDate = computed(() =>
-    this.selectedDate().toISOString().split("T")[0]
+    `${this.selectedDate().getFullYear()}-${this.selectedDate().getMonth() + 1 < 10 ? '0' : ''}${this.selectedDate().getMonth() + 1}-${this.selectedDate().getDate() < 10 ? '0' : ''}${this.selectedDate().getDate()}`
   )
 
 
@@ -53,15 +51,15 @@ export class AppointmentSelector implements OnInit {
 
   ngOnInit(): void {
     this.user.set(this.userService.user())
-    if(this.user()?.role == "admin" || this.user()?.role == "superAdmin"){
-      this.listCardAmount = this.reservableHours.length
+    if (this.user()?.role == "admin" || this.user()?.role == "superAdmin") {
+      this.listCardAmount = this.reservableHourAmounts.length
     } else if (this.user() == null || this.user()?.role == "user") {
       this.listCardAmount = 5
     }
 
-    const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate()).subscribe({
-      next: response => this.actualMontsReservedDates.set(response),
-      complete: () => console.log(this.actualMontsReservedDates())
+    const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate(), this.maxDate.toISOString().split("T")[0]).subscribe({
+      next: response => this.reservedDatesOfActualPeriod.set(response),
+      complete: () => this.showSelectedDatesOfHours()
     })
 
     this.destroyRef.onDestroy(() => {
@@ -69,7 +67,15 @@ export class AppointmentSelector implements OnInit {
     })
   }
 
-  showSelectedDatesOfHours(){
-    // this.actualMontsReservedDates.
+  showSelectedDatesOfHours() {
+    const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.date)))
+    console.log(selectedReservedDate)
+
+    if(!selectedReservedDate){
+      // this.selectedReservedDate.set(new ReservedDates())
+    } else {
+
+    }
+
   }
 }

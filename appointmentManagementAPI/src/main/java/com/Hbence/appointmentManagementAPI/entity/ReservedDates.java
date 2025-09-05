@@ -10,8 +10,9 @@ import java.util.List;
 @Entity
 @Table(name = "reserved_dates")
 @NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "getReservedDateByMonth", procedureName = "getReservedDateByMonth", parameters = {
-                @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
+        @NamedStoredProcedureQuery(name = "getReservedDatesOfPeriod", procedureName = "getReservedDatesOfPeriod", parameters = {
+                @StoredProcedureParameter(name = "startDateIN", type = LocalDate.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN)
         }, resultClasses = {ReservedDates.class})
 })
 public class ReservedDates {
@@ -27,7 +28,6 @@ public class ReservedDates {
     @Column(name = "is_holiday")
     @NotNull
     private Boolean isHoliday = false;
-
     @Column(name = "is_closed")
     @NotNull
     private Boolean isClosed = false;
@@ -56,6 +56,8 @@ public class ReservedDates {
     public LocalDate getDate() {
         return date;
     }
+
+    public int getId() {return id;}
 
     public Boolean getHoliday() {
         return isHoliday;

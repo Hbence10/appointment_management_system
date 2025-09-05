@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ReservedDateRepository extends JpaRepository<ReservedDates, Long> {
 
-    @Procedure(name = "getReservedDateByMonth", procedureName = "getReservedDateByMonth")
-    List<ReservedDates> reservedDatesByDate(@Param("dateIN") LocalDate wantedDate);
+    @Procedure(name = "getReservedDatesOfPeriod", procedureName = "getReservedDatesOfPeriod")
+    List<ReservedDates> reservedDatesByDate(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate);
 }
 
 

@@ -18,8 +18,8 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
   }
 
-  getReservedDatesOfActualMonth(actualDateString: string): Observable<ReservedDates[]> {
-    return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?actualDate=${actualDateString}`)
+  getReservedDatesOfActualMonth(startDate: string, endDate: string): Observable<ReservedDates[]> {
+    return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?startDate=${startDate}&endDate=${endDate}`)
   }
 
   getReservationTypes(): Observable<ReservationType[]> {
