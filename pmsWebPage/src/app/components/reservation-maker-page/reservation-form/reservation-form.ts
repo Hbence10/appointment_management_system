@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, Signal, signal } from '@angular/core';
 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationType } from '../../../models/reservationType.model';
 import { User } from '../../../models/user.model';
+import { Reservation } from '../../../models/reservation.model';
 
 
 @Component({
@@ -28,19 +29,18 @@ export class ReservationForm implements OnInit {
 
   reservationTypes = signal<ReservationType[]>([])
   user: null | User = null
-  selectedReservationType = signal<ReservationType>(new ReservationType(-1, "", 1))
+  selectedReservationType = signal<ReservationType | null>(null)
+  baseReservation!: Signal<Reservation>;
+  form!: FormGroup;
 
-  form = new FormGroup({
-    firstName: new FormControl("", [Validators.required]),
-    lastName: new FormControl("", [Validators.required]),
-    email: new FormControl("", [Validators.required, Validators.email]),
-    phone: new FormControl("", [Validators.required]),
-    comment: new FormControl("", []),
-    reservationType: new FormControl("", [Validators.required])
-  })
 
   ngOnInit(): void {
     this.user = this.userService.user()
+    this.baseReservation = signal(this.reservationService.baseReservation())
+
+    if(this.baseReservation().reservationTypeId){
+      this.selectedReservationType.set(this.baseReservation().reservationTypeId)
+    }
 
     const subscription = this.reservationService.getReservationTypes().subscribe({
       next: response => this.reservationTypes.set(response),
@@ -50,21 +50,30 @@ export class ReservationForm implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
     })
+
+    this.form = new FormGroup({
+      firstName: new FormControl(this.baseReservation().firstName, [Validators.required]),
+      lastName: new FormControl(this.baseReservation().lastName, [Validators.required]),
+      email: new FormControl(this.baseReservation().email, [Validators.required, Validators.email]),
+      phone: new FormControl(this.baseReservation().phone, [Validators.required]),
+      comment: new FormControl(this.baseReservation().comment, []),
+      reservationType: new FormControl(!this.baseReservation().reservationTypeId ? "" : this.baseReservation().reservationTypeId.name, [Validators.required])
+    })
   }
 
-  selectReservationType(selectedReservationType: ReservationType, id: number) {
-    // this.selectedReservationType.set(selectedReservationType)
-    // this.form.controls["reservationType"].setValue(id.toString())
+  selectReservationType(reservationType: ReservationType) {
+    this.selectedReservationType.set(reservationType)
+    this.baseReservation().reservationTypeId = reservationType
+    this.form.controls["reservationType"].setValue(this.selectedReservationType()!.name)
   }
 
-  continueReservation(){
-    this.registerWithReservation()
-
-    this.router.navigate([""])
-
+  continueReservation() {
+    this.baseReservation().firstName = this.form.controls["firstName"].value
+    this.baseReservation().lastName = this.form.controls["lastName"].value
+    this.baseReservation().email = this.form.controls["email"].value
+    this.baseReservation().phone = this.form.controls["phone"].value
+    this.baseReservation().comment = this.form.controls["comment"].value
   }
 
-  registerWithReservation(){
 
-  }
 }

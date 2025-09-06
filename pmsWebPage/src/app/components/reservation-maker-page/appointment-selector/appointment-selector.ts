@@ -46,25 +46,6 @@ export class AppointmentSelector implements OnInit {
 
   checkerList: boolean[] = []
 
-  setCheckerList() {
-    const checkerList: boolean[] = []
-    for (let i: number = this.baseReservation().reservedHours.start; i < this.baseReservation().reservedHours.start + this.listCardAmount; i++) {
-      let result: boolean = this.baseReservation().reservedHours.date.unavailableHours.includes(i)
-      if (result) {
-        while (checkerList.length != this.listCardAmount) {
-          checkerList.push(true)
-        }
-        break;
-      } else {
-        checkerList.push(result)
-      }
-
-    }
-
-    this.checkerList = checkerList
-  }
-
-
   //Egyeb dolgok:
   listCardAmount: number = 0;
   baseReservation!: Signal<Reservation>
@@ -95,6 +76,10 @@ export class AppointmentSelector implements OnInit {
       complete: () => {
         this.showSelectedDatesOfHours(false)
       }
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe()
     })
   }
 
@@ -155,5 +140,22 @@ export class AppointmentSelector implements OnInit {
     )
 
     this.router.navigate(["/makeReservation/reservationForm"])
+  }
+
+  setCheckerList() {
+    const checkerList: boolean[] = []
+    for (let i: number = this.baseReservation().reservedHours.start; i < this.baseReservation().reservedHours.start + this.listCardAmount; i++) {
+      let result: boolean = this.baseReservation().reservedHours.date.unavailableHours.includes(i)
+      if (result) {
+        while (checkerList.length != this.listCardAmount) {
+          checkerList.push(true)
+        }
+        break;
+      } else {
+        checkerList.push(result)
+      }
+    }
+
+    this.checkerList = checkerList
   }
 }

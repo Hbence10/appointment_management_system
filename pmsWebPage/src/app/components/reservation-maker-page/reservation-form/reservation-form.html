@@ -67,7 +67,7 @@
               @for (reservationType of reservationTypes(); track $index) {
               <div
                 class="cardDiv my-4 d-flex justify-content-between align-items-center px-4"
-                (click)="selectReservationType(reservationType, reservationType!.id)"
+                (click)="selectReservationType(reservationType)"
                 [class.selected]="selectedReservationType() == reservationType"
                 [class.noneSelected]="selectedReservationType() != null && selectedReservationType() != reservationType"
               >
@@ -83,7 +83,7 @@
           @if (user == null) {
             <div class="row">
               <div class="col-lg-12 px-4">
-                <mat-checkbox (change)="registerWithReservation()">A foglalással regisztrálok az oldalra</mat-checkbox>
+                <mat-checkbox>A foglalással regisztrálok az oldalra</mat-checkbox>
               </div>
             </div>
           }
@@ -91,7 +91,7 @@
 
         <div class="row my-5">
           <div class="col-lg-12 d-flex justify-content-center align-items-center">
-            <button matButton="filled" [disabled]="form.invalid" (click)="continueReservation()">
+            <button matButton="filled" (click)="continueReservation()" [disabled]="form.invalid">
               Folytatás
             </button>
           </div>

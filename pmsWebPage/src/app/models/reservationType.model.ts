@@ -1,7 +1,7 @@
 export class ReservationType {
   constructor(
     private _id: number,
-    private _name: string,
+    private _name: string = "",
     private _price: number
   ) { }
 
