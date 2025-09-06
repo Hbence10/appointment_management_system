@@ -21,7 +21,7 @@ export class Reservation {
     private _reservationTypeId?: ReservationType,
     private _paymentMethod?: PaymentMethod,
     private _status?: Status,
-    private _reservedHours: ReservedHours = new ReservedHours(),
+    private _reservedHours?: ReservedHours,
   ) { }
 
   // Getterek:
