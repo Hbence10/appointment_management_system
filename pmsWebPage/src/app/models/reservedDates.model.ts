@@ -8,7 +8,8 @@ export class ReservedDates {
     private _isClosed: boolean = false,
     private _isFull: boolean = false,
     private _reservedHours: ReservedHours[] = [],
-    private _unavailableHours: number[] = []
+    private _unavailableHours: number[] = [],
+    private _availableHours: number[] = []
   ){}
 
   //Getterek:
@@ -40,7 +41,27 @@ export class ReservedDates {
     return this._unavailableHours
   }
 
+  get availableHours(): number[] {
+    return this._availableHours
+  }
+
   set unavailableHours(newList: number[]){
     this._unavailableHours = newList
+  }
+
+  set availableHours(newList: number[]){
+    this._availableHours = newList
+  }
+
+
+  toString(): string {
+    return `
+      date:${this._date.toString()}
+      isHoliday:${this._isHoliday}
+      isClosed:${this._isClosed}
+      isFull:${this._isFull}
+      reservedHours:${this._reservedHours.toString()}
+      unavailableHours:${this._unavailableHours.toString()}
+    `
   }
 }

@@ -112,8 +112,7 @@ mat-calendar{
 }
 
 .amountCard:hover,
-.selected,
-.noneSelected:hover {
+.selected {
   background-color: #004D40;
   opacity: 1;
 
@@ -136,11 +135,9 @@ mat-calendar{
   height: 25px !important;
 }
 
-.noneSelected {
-  opacity: 0.6;
-}
 
-.asd {
+
+.noneSelect {
   opacity: 0.6;
   pointer-events: none;
 }

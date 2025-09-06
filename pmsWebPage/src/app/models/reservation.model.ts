@@ -21,7 +21,7 @@ export class Reservation {
     private _reservationTypeId?: ReservationType,
     private _paymentMethod?: PaymentMethod,
     private _status?: Status,
-    private _reservedHours?: ReservedHours,
+    private _reservedHours: ReservedHours = new ReservedHours(),
   ) { }
 
   // Getterek:
@@ -144,5 +144,19 @@ export class Reservation {
 
   set reservedHours(newReservedHours: ReservedHours){
     this._reservedHours = newReservedHours
+  }
+
+  toString(): string {
+    return `
+      firstName: ${this._firstName}
+      lastName: ${this._lastName}
+      email: ${this._email}
+      phone: ${this._phone}
+      comment: ${this._comment}
+      reservedAt: ${this._reservedAt?.toString()}
+      isCanceled: ${this._isCanceled}
+      canceledAt: ${this._canceledAt?.toString()}
+      reservedHours: ${this._reservedHours.toString()}
+    `
   }
 }
