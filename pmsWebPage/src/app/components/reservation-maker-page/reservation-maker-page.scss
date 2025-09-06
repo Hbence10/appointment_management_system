@@ -1,10 +1,9 @@
 .progressButton{
-  background-color: #F4FBFF;
+  background-color: transparent;
   border: 1px solid #004D40;
-  // border-radius: 50%;
-  // padding: 10px;
-  // width: 40px;
-  // height: 40px;
+  border-radius: 5px;
+  width: 35px;
+  height: 35px;
 }
 
 .progressButton:hover, .active{

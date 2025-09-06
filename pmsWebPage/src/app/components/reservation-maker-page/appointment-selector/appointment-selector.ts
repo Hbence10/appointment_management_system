@@ -34,23 +34,33 @@ export class AppointmentSelector implements OnInit {
   )
 
   //Foglalas dolgai:
-  selectedHourAmount = signal<number | string | null>(null)
+  selectedHourAmount = signal<number | null>(null)
   selectedReservedDate = signal<ReservedDates>(new ReservedDates(1, new Date(), false, false, false))
   availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   reservableHourAmounts: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  startHour: number | null = null
+  // startHour = signal<number | null>(null)
   user = signal<User | null>(null)
   reservedDatesOfActualPeriod = signal<ReservedDates[]>([])
   formattedSelectedDate = computed(() =>
     `${this.selectedDate().getFullYear()}-${this.selectedDate().getMonth() + 1 < 10 ? '0' : ''}${this.selectedDate().getMonth() + 1}-${this.selectedDate().getDate() < 10 ? '0' : ''}${this.selectedDate().getDate()}`
   )
-
+  baseReservation = this.reservationService.baseReservation()
 
   //Egyeb dolgok:
   listCardAmount: number = 0;
 
   ngOnInit(): void {
     this.user.set(this.userService.user())
+
+    if (this.baseReservation.reservedHours.date != undefined) {
+      this.selectedDate.set(new Date(String(this.baseReservation.reservedHours.date.date)))
+      this.selectedReservedDate.set(this.baseReservation.reservedHours.date)
+      this.selectedHourAmount.set(this.baseReservation.reservedHours.end - this.baseReservation.reservedHours.start!)
+    } else {
+      console.log("elso alkalom")
+    }
+
+
     if (this.user()?.role == "admin" || this.user()?.role == "superAdmin") {
       this.listCardAmount = this.reservableHourAmounts.length
     } else if (this.user() == null || this.user()?.role == "user") {
@@ -68,37 +78,43 @@ export class AppointmentSelector implements OnInit {
   }
 
   showSelectedDatesOfHours() {
-    this.startHour = null
+    // this.baseReservation.reservedHours.start = undefined
     const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.date)))
 
-    if(!selectedReservedDate){
-      this.selectedReservedDate.set(new ReservedDates(0, this.currentDate))
+    if (!selectedReservedDate) {
+      this.selectedReservedDate.set(new ReservedDates(0, this.selectedDate()))
+      console.log(this.selectedReservedDate())
     } else {
       this.selectedReservedDate.set(selectedReservedDate)
     }
 
     this.setUnavailableHours()
+    this.baseReservation.reservedHours.date = this.selectedReservedDate()
   }
 
-  setUnavailableHours(){
-    const startHours: number[] = this.selectedReservedDate().reservedHours.map(element => element.start)
+  setUnavailableHours() {
+    const startHours: number[] = this.selectedReservedDate().reservedHours.map(element => element.start!)
     const endHours: number[] = this.selectedReservedDate().reservedHours.map(element => element.end)
     const unavailableHours: number[] = []
 
-    for(let i:number = 0; i<startHours.length; i++){
-      for(let j = startHours[i]; j<=endHours[i]; j++){
+    for (let i: number = 0; i < startHours.length; i++) {
+      for (let j = startHours[i]; j <= endHours[i]; j++) {
         unavailableHours.push(j)
       }
     }
 
-    unavailableHours.sort(function(a, b){return a-b});
+    unavailableHours.sort(function (a, b) { return a - b });
     this.selectedReservedDate().unavailableHours = unavailableHours
-    console.log(this.selectedReservedDate())
   }
 
-  selectHoursAmountOfReservation(){
-    console.log("asd")
+  setStartHour(){
+    this.baseReservation.reservedHours.start = 1
+  }
 
-    // this.router.navigate([])
+  selectHoursAmountOfReservation(wantedHourAmount: number | string) {
+    this.selectedHourAmount.set(wantedHourAmount == "Egész nap" ? 12 : Number(wantedHourAmount))
+    const newReservedHour: ReservedHours = new ReservedHours(0, this.baseReservation.reservedHours.start, this.baseReservation.reservedHours.start!+this.selectedHourAmount()!, this.selectedReservedDate())
+    this.reservationService.baseReservation().reservedHours = newReservedHour
+    this.router.navigate(["makeReservation/reservationForm"])
   }
 }

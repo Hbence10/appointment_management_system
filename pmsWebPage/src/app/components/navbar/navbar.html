@@ -11,11 +11,11 @@
         <a routerLink="homePage">Főoldal</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url.includes('/makeReservation') || router.url == '/adminPage'">
-        @if(userService.user()?.role == "user" || userService.user() == null){
+        <!-- @if(userService.user()?.role == "user" || userService.user() == null){ -->
           <a routerLink="makeReservation">Időpont foglalás</a>
-        } @else if (userService.user()?.role == "admin" || userService.user()?.role == "superAdmin") {
-          <a routerLink="adminPage">Admin Page</a>
-        }
+        <!-- } @else if (userService.user()?.role == "admin" || userService.user()?.role == "superAdmin") { -->
+          <!-- <a routerLink="adminPage">Admin Page</a> -->
+        <!-- } -->
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/priceList'">
         <a routerLink="priceList">Árlista</a>
