@@ -5,48 +5,71 @@
 
         <div class="row">
           <div class="col-lg-12">
-            <h1 class="text-center">#12345 Azonositoju foglalás</h1>
+            <h1 class="text-center mainFont my-4">#12345 Azonositoju foglalás</h1>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-lg-12">
-            <p>Foglalás adatai:</p>
-            <hr>
-            <p><span class="fw-bold">Név:</span> <span class="detailsValue"></span></p>
-            <p><span class="fw-bold">Email:</span> <span class="detailsValue"></span></p>
-            <p><span class="fw-bold">Telefon:</span> <span class="detailsValue"></span></p>
-            <p><span class="fw-bold">Foglalás ideje:</span> <span class="detailsValue"></span></p>
-            <p><span class="fw-bold">Foglalás típusa:</span> <span class="detailsValue"></span></p>
-            <p><span class="fw-bold">Végösszeg:</span> <span class="detailsValue"></span></p>
+          <div class="col-lg-12 px-4">
+            <p class="secondFont fw-bold" style="border-bottom: 2px solid #004D40;">Foglalás adatai:</p>
+
+            <p class="my-3 d-flex justify-content-between align-content-center">
+              <span class="fw-bold mainFont boldedSpans">Név: </span>
+              <span class="detailsValue">{{baseReservation().firstName}} {{baseReservation().lastName}}</span>
+            </p>
+
+            <p class="my-3 d-flex justify-content-between align-content-center">
+              <span class="fw-bold mainFont boldedSpans">Email: </span>
+              <span class="detailsValue">{{baseReservation().email}}</span>
+            </p>
+
+            <p class="my-3 d-flex justify-content-between align-content-center">
+              <span class="fw-bold mainFont boldedSpans">Telefon: </span>
+              <span class="detailsValue">{{baseReservation().phone}}</span>
+            </p>
+
+            <p class="my-3 d-flex justify-content-between align-content-center">
+              <span class="fw-bold mainFont boldedSpans">Foglalás ideje: </span>
+              <span class="detailsValue">{{baseReservation().reservedHours.date.date.toISOString().split("T")[0]}} {{baseReservation().reservedHours.start}}:00 - {{baseReservation().reservedHours.end}}:00</span>
+            </p>
+
+            <p class="my-3 d-flex justify-content-between align-content-center">
+              <span class="fw-bold mainFont boldedSpans">Foglalás típusa: </span>
+              <span class="detailsValue">{{baseReservation().reservationTypeId.name}}</span>
+            </p>
+
+            <p class="my-3 d-flex justify-content-between align-content-center">
+              <span class="fw-bold mainFont boldedSpans">Végösszeg: </span>
+              <span class="detailsValue">{{totalPrice}} Ft</span>
+            </p>
+
           </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-4">
           <div class="col-lg-12">
-            <p>Fizetési mód kiválasztása</p>
-            <hr>
+            <p class="secondFont fw-bold m-0" style="border-bottom: 2px solid #004D40;">Fizetési mód kiválasztása</p>
+
             <div>
               @for (paymentMethod of paymentMethods(); track $index) {
-                <mat-checkbox (change)="selectPaymentMethod(paymentMethod.id)">{{paymentMethod.name}}</mat-checkbox>
+                <mat-checkbox (change)="selectPaymentMethod(paymentMethod)">{{paymentMethod.name}}</mat-checkbox>
               }
             </div>
           </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-4">
           <div class="col-lg-12">
-            <p>
+            <p class="secondFont fw-bold" style="border-bottom: 2px solid #004D40;">
               Google naptárhoz adás
               <mat-slide-toggle></mat-slide-toggle>
             </p>
-            <hr>
           </div>
         </div>
 
         <div class="row">
           <div class="col-lg-12">
-            <button matButton="filled">Foglalás véglegesítése</button>
+            <button matButton="filled" [disabled]="baseReservation().paymentMethod == undefined">Foglalás véglegesítése</button>
           </div>
         </div>
 

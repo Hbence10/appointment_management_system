@@ -73,6 +73,8 @@ export class ReservationForm implements OnInit {
     this.baseReservation().email = this.form.controls["email"].value
     this.baseReservation().phone = this.form.controls["phone"].value
     this.baseReservation().comment = this.form.controls["comment"].value
+
+    this.router.navigate(["/makeReservation/rule"])
   }
 
 

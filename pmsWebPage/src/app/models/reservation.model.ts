@@ -73,7 +73,7 @@ export class Reservation {
     return this._reservationTypeId!
   }
 
-  get paymentMethd(): PaymentMethod {
+  get paymentMethod(): PaymentMethod {
     return this._paymentMethod!;
   }
 

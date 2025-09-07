@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
 import { ReservationType } from '../models/reservationType.model';
 import { ReservedDates } from '../models/reservedDates.model';
+import { PaymentMethod } from '../models/paymentMethod.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class ReservationService {
     return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/reservationType`)
   }
 
-  getPaymentMethods(): Observable<{ id: number, name: string }[]> {
-    return this.http.get<{ id: number, name: string }[]>(`${this.baseURL()}/reservation/paymentMethods`)
+  getPaymentMethods(): Observable<PaymentMethod[]> {
+    return this.http.get<PaymentMethod[]>(`${this.baseURL()}/reservation/paymentMethods`)
   }
 
   getReservationByDate(wantedDate: string): Observable<Reservation[]> {

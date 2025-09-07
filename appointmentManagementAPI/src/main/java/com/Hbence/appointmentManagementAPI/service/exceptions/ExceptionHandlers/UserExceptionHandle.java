@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
@@ -28,5 +29,15 @@ public class UserExceptionHandle {
     //Rossz regisztracio
     public ResponseEntity<Response> handleException(InvalidEmail exc){
         return null;
+    }
+
+    public ResponseEntity<Response> handleException2(SQLIntegrityConstraintViolationException exc) {
+        Response error = new Response(
+                111,
+                exc.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }

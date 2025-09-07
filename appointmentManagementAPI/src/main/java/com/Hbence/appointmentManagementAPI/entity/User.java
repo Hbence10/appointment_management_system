@@ -19,7 +19,7 @@ import java.util.List;
                 @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "result", type = String.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "result", type = String.class, mode = ParameterMode.OUT)
         }, resultClasses = {String.class})
 })
 
@@ -50,11 +50,8 @@ public class User {
     @NotNull
     private String pfpPath;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "role_id")
-    private Role role;
-
     @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     @Column(name = "last_login")
@@ -62,11 +59,19 @@ public class User {
     private Date lastLogin;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
+    @Temporal(TemporalType.TIMESTAMP)
     @Null
     private Date deletedAt;
+
+
+    //-----
+    //Kapcsolatok:
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToMany(
             mappedBy = "writer",
@@ -90,7 +95,6 @@ public class User {
     private List<Reservations> reservations;
 
     @OneToOne(mappedBy = "canceledBy", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    //Az Instructor class-ban levo field-re mutat
     private Reservations canceledReservation;
 
     @OneToMany(
@@ -99,8 +103,9 @@ public class User {
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
     )
     private List<History> historyList;
+    //------
 
-    //Constructorok:
+
     public User() {
     }
 
@@ -116,49 +121,37 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPfpPath() {
         return pfpPath;
     }
 
-    public void setPfpPath(String pfpPath) {
-        this.pfpPath = pfpPath;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public String getRole() {
-        return role.getName();
+    public Date getLastLogin() {
+        return lastLogin;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public Boolean getDeleted() {
+        return isDeleted;
     }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+//    public Role getRole() {
+//        return role;
+//    }
 
     //ToString
     @Override

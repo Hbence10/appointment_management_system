@@ -1,9 +1,11 @@
-import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, Signal, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { ReservationService } from '../../../services/reservation-service';
+import { Reservation } from '../../../models/reservation.model';
+import { PaymentMethod } from '../../../models/paymentMethod.model';
 
 @Component({
   selector: 'app-reservation-finalize',
@@ -17,10 +19,15 @@ export class ReservationFinalize implements OnInit{
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
 
-  paymentMethods = signal<{ id: number, name: string }[]>([])
+  paymentMethods = signal<PaymentMethod[]>([])
   isAddedToGoogleCalendar = signal<boolean>(false)
+  baseReservation!: Signal<Reservation>;
+  totalPrice: number = 0
 
   ngOnInit(): void {
+    this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
+    this.totalPrice = this.baseReservation().reservationTypeId.price * (this.baseReservation().reservedHours.end - this.baseReservation().reservedHours.start)
+
     const subscription = this.reservationService.getPaymentMethods().subscribe({
       next: response => this.paymentMethods.set(response)
     })
@@ -30,8 +37,9 @@ export class ReservationFinalize implements OnInit{
     })
   }
 
-  selectPaymentMethod(id:number){
-    console.log(id)
+  selectPaymentMethod(selectedPaymentMethod: PaymentMethod){
+    this.baseReservation().paymentMethod = selectedPaymentMethod
+    console.log(this.baseReservation())
   }
 
   finalizeReservation(){
