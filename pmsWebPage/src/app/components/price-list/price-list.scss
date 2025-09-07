@@ -63,6 +63,10 @@ table{
   color: white !important;
 }
 
+tbody{
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
 .testClass{
   border-left: 3px solid white;
   border-right: 3px solid white;

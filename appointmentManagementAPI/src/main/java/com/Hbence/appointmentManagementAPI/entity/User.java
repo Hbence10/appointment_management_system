@@ -149,9 +149,9 @@ public class User {
         return deletedAt;
     }
 
-//    public Role getRole() {
-//        return role;
-//    }
+    public String getRole() {
+        return role.getName();
+    }
 
     //ToString
     @Override

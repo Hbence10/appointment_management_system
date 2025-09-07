@@ -19,10 +19,11 @@ export class AdminPage implements OnInit{
   private destroyRef = inject(DestroyRef)
 
   todaysReservation = signal<Reservation[]>([])
+  reservationsOfSelectedDate = signal<Reservation[]>([])
   isShowPupUp = signal<boolean>(false)
 
   ngOnInit(): void {
-    const subscription = this.reservationService.getReservationByDate("2025-08-28").subscribe({
+    const subscription = this.reservationService.getReservationByDate(new Date().toISOString().split("T")[0]).subscribe({
       next: response => console.log(response)
     })
 

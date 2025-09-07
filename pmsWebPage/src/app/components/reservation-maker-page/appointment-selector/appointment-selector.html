@@ -6,8 +6,8 @@
           <div class="col-lg-4">
             <mat-card class="demo-inline-calendar-card h-100">
               <mat-card-header>
-                <mat-card-subtitle>Válasszon dátumot:</mat-card-subtitle>
-                <mat-card-title>{{ selectedDateText() }}</mat-card-title>
+                <mat-card-subtitle style="color: white;">Válasszon dátumot:</mat-card-subtitle>
+                <mat-card-title style="color: white;">{{ selectedDateText() }}</mat-card-title>
               </mat-card-header>
               <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate" (selectedChange)="resetReservedHour();showSelectedDatesOfHours(true)"></mat-calendar>
             </mat-card>

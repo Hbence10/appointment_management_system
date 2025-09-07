@@ -63,7 +63,7 @@ button {
   height: 56px;
   width: 350px;
   border-radius: 16px;
-  background-color: #004D40;
+  background-color: #004D40 !important;
   color: white;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
@@ -75,7 +75,6 @@ button:disabled {
   border-radius: 16px;
   background-color: #004D40;
   color: white;
-  background-color: #004D40;
 }
 
 .noneSelected{

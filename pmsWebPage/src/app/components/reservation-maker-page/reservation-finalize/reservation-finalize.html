@@ -52,7 +52,7 @@
 
             <div>
               @for (paymentMethod of paymentMethods(); track $index) {
-                <mat-checkbox (change)="selectPaymentMethod(paymentMethod)">{{paymentMethod.name}}</mat-checkbox>
+                <mat-checkbox [checked]="baseReservation().paymentMethod == paymentMethod" (change)="selectPaymentMethod(paymentMethod)">{{paymentMethod.name}}</mat-checkbox>
               }
             </div>
           </div>

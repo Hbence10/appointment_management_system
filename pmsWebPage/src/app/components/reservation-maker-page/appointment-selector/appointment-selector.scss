@@ -55,11 +55,27 @@ mat-card {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+mat-calendar-header{
+  color: white !important;
+}
+
 mat-calendar {
   @include mat.datepicker-overrides((calendar-body-label-text-color: white,
       calendar-container-text-color: white,
       calendar-date-text-color: white,
       calendar-header-text-color: white,
+      calendar-period-button-icon-color: white,
+      calendar-body-label-text-color: white,
+      range-input-separator-color: white,
+      calendar-navigation-button-icon-color: white
+      calendar-header-divider-color: white,
+      toggle-icon-color: white,
+      toggle-active-state-icon-color: white,
+      range-input-separator-color: white,
+      calendar-period-button-text-color: white,
+      calendar-period-button-icon-color: white,
+      calendar-navigation-button-icon-color: white,
+      calendar-date-today-outline-color: white,
       calendar-date-focus-state-background-color: #004D40,
       calendar-date-hover-state-background-color: #004D40,
       calendar-date-selected-state-background-color: #004D40,
@@ -74,8 +90,12 @@ mat-calendar {
       calendar-text-size: 18px));
 }
 
-mat-calendar{
-  // font-weight: 800;
+mat-card-subtitle,
+mat-card-title {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .hour {
