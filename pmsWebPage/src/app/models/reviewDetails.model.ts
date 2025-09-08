@@ -1,22 +1,24 @@
+import { User } from "./user.model"
+
 export class ReviewDetails {
 
   constructor(
-    private _id: number,
-    private _author: string,
+    private _id: number | null,
     private _reviewText: string,
     private _rating: number,
-    private _likeCount: number,
-    private _dislikeCount: number,
-    private _isAnonymus: boolean,
-    private _createdAt: Date
+    private _author: User,
+    private _isAnonymus: boolean = false,
+    private _createdAt: Date = new Date(),
+    private _likeCount: number = 0,
+    private _dislikeCount: number = 0,
   ) { }
 
   //Getterek:
-  get id(): number {
+  get id(): number | null {
     return this._id
   }
 
-  get author(): string {
+  get author(): User {
     return this._author
   }
 
@@ -36,11 +38,40 @@ export class ReviewDetails {
     return this._dislikeCount
   }
 
-  get isAnonymus(): boolean{
+  get isAnonymus(): boolean {
     return this._isAnonymus
   }
 
   get createdAt(): Date {
     return this._createdAt
+  }
+
+  //Setterek:
+  set reviewText(newReviewText: string) {
+    this._reviewText = newReviewText
+  }
+
+  set rating(newRating: number) {
+    this._rating = newRating
+  }
+
+  set likeCount(newLikeCount: number) {
+    this._likeCount = newLikeCount
+  }
+
+  set dislikeCount(newDislikeCount: number) {
+    this._dislikeCount = newDislikeCount
+  }
+
+  set isAnonymus(newAnonymus: boolean) {
+    this._isAnonymus = newAnonymus
+  }
+
+  set createdAt(newDate: Date) {
+    this._createdAt = newDate
+  }
+
+  set author(newAuthor: User) {
+    this._author = newAuthor
   }
 }

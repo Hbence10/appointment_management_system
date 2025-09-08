@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  color: #004D40;
+}
+
+.mainFont{
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+
+.secondFont{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 #mainContainer {
   background-color: #B2DFDB;
   height: 270px;
@@ -11,4 +33,21 @@
   background-color: white;
   border-radius: 16px;
   padding: 20px;
+}
+
+.iconButton{
+  width: 35px !important;
+  height: 35px !important;
+  border: none;
+  background-color: transparent;
+}
+
+.iconButton:hover{
+  background-color: #004D40;
+  border: none;
+  border-radius: 5px;
+
+  span{
+    color: #B2DFDB;
+  }
 }

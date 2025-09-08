@@ -31,7 +31,7 @@ public class OtherStuffController {
     }
 
     @PostMapping("/reviews")
-    public Response addReview(@RequestBody Map<String, Object> newReview){
+    public Response addReview(@RequestBody Review newReview){
         return otherStuffService.addReview(newReview);
     }
 

@@ -50,15 +50,8 @@ public class OtherStuffService {
         return reviewRepository.findAll();
     }
 
-    public Response addReview(Map<String, Object> newReview){
-
-        reviewRepository.addedReview(
-                newReview.get("userId"),
-                newReview.get("reviewText"),
-                newReview.get("rating"),
-                newReview.get("isAnonymus")
-        );
-
+    public Response addReview(Review newReview){
+        reviewRepository.save(newReview);
         return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
     }
 
