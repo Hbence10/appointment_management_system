@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { ReservationService } from '../../../services/reservation-service';
 import { Reservation } from '../../../models/reservation.model';
 import { PaymentMethod } from '../../../models/paymentMethod.model';
+import { PopUp } from '../../pop-up/pop-up';
 
 @Component({
   selector: 'app-reservation-finalize',
-  imports: [MatCheckboxModule, MatSlideToggleModule, MatButtonModule],
+  imports: [MatCheckboxModule, MatSlideToggleModule, MatButtonModule, PopUp],
   templateUrl: './reservation-finalize.html',
   styleUrl: './reservation-finalize.scss'
 })
@@ -23,6 +24,7 @@ export class ReservationFinalize implements OnInit{
   isAddedToGoogleCalendar = signal<boolean>(false)
   baseReservation!: Signal<Reservation>;
   totalPrice: number = 0
+  isReservationFinished = signal<boolean>(false)
 
   ngOnInit(): void {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
@@ -39,10 +41,14 @@ export class ReservationFinalize implements OnInit{
 
   selectPaymentMethod(selectedPaymentMethod: PaymentMethod){
     this.baseReservation().paymentMethod = selectedPaymentMethod
-    console.log(this.baseReservation())
   }
 
   finalizeReservation(){
+    this.reservationService.makeReservation().subscribe({
+      next: response => console.log(response),
+      complete: () => this.isReservationFinished.set(true)
+    })
 
+    // this.router.navigate([""])
   }
 }

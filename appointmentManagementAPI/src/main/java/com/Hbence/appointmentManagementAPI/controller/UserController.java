@@ -28,13 +28,3 @@ public class UserController {
         return userService.register(newUser);
     }
 }
-
-/*
- * a kovetkezo endpointok fognak kelleni:
- *           bejelentkezes
- *           regisztracio
- *           kijelentkezes
- *           adatok frissitese
- *           jelszo frissitese
- *           torles
- * */

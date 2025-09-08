@@ -34,4 +34,8 @@ export class ReservationService {
   getReservationByDate(wantedDate: string): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.baseURL()}/date/${wantedDate}`)
   }
+
+  makeReservation(){
+    return this.http.post(`${this.baseURL()}/reservation`, this.baseReservation())
+  }
 }

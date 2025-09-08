@@ -12,11 +12,11 @@ export class UserService {
   baseURL = signal<string>("http://localhost:8080")
 
   login(username: string, password: string): Observable<User>{
-    return this.http.get<User>(`http://localhost:8080/users/login?username=${username}&password=${password}`)
+    return this.http.get<User>(`${this.baseURL()}/users/login?username=${username}&password=${password}`)
   }
 
-  register(requestedBody: {username: string,email: string, password: string, pfpPath: string}){6
-    return this.http.post("http://localhost:8080/users/register", requestedBody)
+  register(requestedBody: {username: string,email: string, password: string, pfpPath: string}){
+    return this.http.post(`${this.baseURL()}/users/register`, requestedBody)
   }
 
 }
