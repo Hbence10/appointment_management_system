@@ -13,7 +13,7 @@ import { Reservation } from '../../../models/reservation.model';
 
 @Component({
   selector: 'app-appointment-selector',
-  imports: [MatCardModule, MatDatepickerModule, MatIconModule, RouterModule, CommonModule, MatDatepicker],
+  imports: [MatCardModule, MatDatepickerModule, MatIconModule, RouterModule, CommonModule],
   templateUrl: './appointment-selector.html',
   styleUrl: './appointment-selector.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

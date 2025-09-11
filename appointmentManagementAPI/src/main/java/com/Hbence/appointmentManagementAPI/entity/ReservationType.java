@@ -32,7 +32,7 @@ public class ReservationType {
     )
     private List<Reservations> reservation;
 
-    @OneToOne(mappedBy = "reservationType", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}) //Az Instructor class-ban levo field-re mutat
+    @OneToOne(mappedBy = "reservationType", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private SpecialOffer specialOffer;
 
     @ManyToMany(
