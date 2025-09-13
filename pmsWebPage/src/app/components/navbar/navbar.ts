@@ -5,11 +5,11 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, MatIconModule],
+  imports: [RouterModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   animations: [
-    
+
   ]
 })
 export class Navbar{

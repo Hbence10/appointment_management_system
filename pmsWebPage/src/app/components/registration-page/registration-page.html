@@ -28,16 +28,22 @@
 
                 <br>
 
-                <mat-form-field>
+                 <mat-form-field>
                   <mat-label>Jelszó</mat-label>
-                  <input type="text" matInput placeholder="Jelszó" formControlName="password"/>
+                  <input matInput [type]="isShowPassword() ? 'text' : 'password'" formControlName="password" />
+                  <button matIconButton matSuffix (click)="showPassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
+                    <span class="material-symbols-outlined">{{isShowPassword() ? "visibility" : "visibility_lock"}}</span>
+                  </button>
                 </mat-form-field>
 
                 <br>
 
-                <mat-form-field>
+                 <mat-form-field>
                   <mat-label>Jelszó újra</mat-label>
-                  <input type="text" matInput placeholder="Jelszó újra" formControlName="passwordAgain"/>
+                  <input matInput [type]="isShowPasswordAgain() ? 'text' : 'password'" formControlName="password" />
+                  <button matIconButton matSuffix (click)="showPasswordAgain($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
+                    <span class="material-symbols-outlined">{{isShowPasswordAgain() ? "visibility" : "visibility_lock"}}</span>
+                  </button>
                 </mat-form-field>
               </form>
             </div>

@@ -19,7 +19,7 @@ export class LoginPage {
   private userService = inject(UserService)
   private router = inject(Router)
 
-  isShowPassword = signal<Boolean>(true)
+  isShowPassword = signal<Boolean>(false)
   isError = signal<Boolean>(false)
   isRemember = signal<Boolean>(false)
 
@@ -37,7 +37,7 @@ export class LoginPage {
 
       complete: () => {
         if (this.isRemember()) {
-          this.setUserToService()
+
         }
         this.router.navigate([""])
       }
@@ -49,6 +49,4 @@ export class LoginPage {
     event.stopPropagation();
   }
 
-  setUserToService() {
-  }
 }
