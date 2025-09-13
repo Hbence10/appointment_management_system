@@ -60,10 +60,6 @@ export class Review implements OnInit {
     this.isAnonymus.update(old => !old)
   }
 
-  addDislike(){
-
-  }
-
   addLike(){
 
   }

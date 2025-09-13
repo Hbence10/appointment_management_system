@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Sze 04. 18:31
+-- Létrehozás ideje: 2025. Sze 13. 16:59
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -70,9 +70,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userId
 	SELECT * FROM `reservations` WHERE reservations.user_id = userIdIN;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateByMonth` (IN `dateIN` DATE)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `startDateIN` DATE, IN `endDateIN` DATE)   BEGIN
 	SELECT * FROM reserved_dates WHERE
-    Month(reserved_dates.date) = Month(dateIN);
+    `reserved_dates`.`date` BETWEEN startDateIN AND endDateIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedHoursByDate` (IN `dateIN` DATE)   BEGIN
@@ -88,32 +88,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100
 	SELECT * FROM user WHERE user.username = usernameIN AND user.password = passwordIN;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `makeReservation` (IN `firstNameIN` VARCHAR(100), IN `lastNameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `phoneNumberIN` VARCHAR(100), IN `commentIN` TEXT, IN `reservationTypeIN` INT, IN `userIdIN` INT, IN `paymentMethodIN` INT, OUT `result` VARCHAR(100))   BEGIN
-	INSERT INTO `reservations`(
-        `first_name`, 
-        `last_name`, 
-        `email`, 
-        `phone_number`, 
-        `comment`, 
-        `reservation_type_id`, 
-        `user_id`, 
-        `payment_method_id`) 
-        VALUES (
-        	firstNameIN,
-        	lastNameIN,
-            emailIN,
-            phoneNumberIN,
-            commentIN,
-            reservationTypeIN,
-            userIdIN,
-			paymentMethodIN
-        );
-       
-       	SET result = "successfully reservation";
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `usernameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `passwordIN` VARCHAR(100), OUT `result` VARCHAR(100))   BEGIN
-	INSERT INTO `user`(`username`, `email`, `password`, `pfp_path`) VALUES (usernameIN, emailIN, passwordIN, "");
+	INSERT INTO `user`
+    (`username`, `email`, `password`, `pfp_path`) 
+    VALUES (
+        usernameIN, 
+        emailIN, 
+        SHA2(passwordIN,256), 
+        ""
+    );
     SET result = "successfull registration";
 END$$
 
@@ -358,7 +341,8 @@ INSERT INTO `reservation_type` (`id`, `name`, `price`) VALUES
 (1, 'Egyéni Gyakorlás', 2000),
 (2, 'Zenekari Próba', 4000),
 (3, 'Önálló felvételek', 6000),
-(4, 'kategória 4', 1233);
+(4, 'kategória 4', 1500),
+(5, 'kategória 5', 5500);
 
 -- --------------------------------------------------------
 
@@ -374,6 +358,18 @@ CREATE TABLE `reserved_dates` (
   `is_full` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `reserved_dates`
+--
+
+INSERT INTO `reserved_dates` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
+(29, '2025-09-08', 0, 0, 0),
+(30, '2025-09-09', 0, 0, 0),
+(31, '2025-09-17', 0, 0, 0),
+(32, '2025-09-30', 1, 0, 0),
+(33, '2025-09-29', 0, 1, 0),
+(34, '2025-09-28', 0, 0, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -386,6 +382,14 @@ CREATE TABLE `reserved_hours` (
   `end` int(2) NOT NULL,
   `date_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `reserved_hours`
+--
+
+INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`) VALUES
+(15, 14, 16, 29),
+(16, 10, 12, 29);
 
 -- --------------------------------------------------------
 
@@ -409,19 +413,33 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `like_count`, `dislike_count`, `is_anonymus`, `created_at`) VALUES
-(1, 1, 'asd', 1, 0, 0, 0, '2025-08-24 20:16:39'),
-(4, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:25:08'),
-(7, 1, 'asd', 1, 0, 0, 0, '2025-08-27 10:32:55'),
-(8, 1, 'asd', 1, 0, 0, 0, '2025-08-28 20:22:46'),
-(9, 1, 'asd', 1, 0, 0, 0, '2025-08-30 13:32:17'),
-(10, 1, 'asd', 1, 0, 0, 0, '2025-08-30 15:50:05'),
-(11, 1, 'asd', 1, 0, 0, 0, '2025-08-30 15:50:44'),
-(12, 1, 'testASD', 2, 0, 0, 0, '2025-08-30 16:00:41'),
-(13, 1, 'testASD', 2, 0, 0, 1, '2025-08-30 16:00:53'),
-(14, 1, 'asdfasasdgdgsagdsgsdgdsagasdggdsagdsagdsa', 5, 0, 0, 0, '2025-08-30 16:07:44'),
-(15, 1, 'dsadasdasd', 2.5, 0, 0, 0, '2025-08-30 16:10:25'),
-(16, 1, 'dasdsadas', 2.5, 0, 0, 0, '2025-08-30 16:10:43'),
-(17, 1, 'tasdfdasdasafssaffasfsafsaafsfasfasfas', 2.5, 0, 0, 0, '2025-08-30 16:20:18');
+(1, 1, 'Nagyon jól felszerelt próbaterem, minden rendben működött. A foglalás gyors és egyszerű volt, biztosan jövünk még!', 2, 1, 1, 0, '2025-09-08 09:59:25'),
+(2, 1, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, 0, 0, '2025-09-08 10:21:46'),
+(3, 26, 'Már több próbateremben jártunk a városban, de ez az egyik legjobb élményünk eddig. A hely tágas, kényelmes, a hangszerek és az erősítők hibátlan állapotban voltak, a dob is tökéletesen beállítva. Érezhető, hogy a tulajdonos szívvel-lélekkel foglalkozik a hellyel. Nagy plusz, hogy a környéken könnyű parkolni, így nem kellett cipekednünk messziről. Az ár-érték arány is teljesen korrekt, szóval biztosan rendszeres vendégek leszünk.', 2, 0, 0, 0, '2025-09-08 10:21:46'),
+(4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 2, 0, 0, 0, '2025-09-08 10:21:46'),
+(5, 1, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, 0, 0, '2025-09-08 10:21:46'),
+(6, 1, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, 0, 0, '2025-09-08 10:21:46');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `review_like_history`
+--
+
+CREATE TABLE `review_like_history` (
+  `id` int(11) NOT NULL,
+  `review_id` int(11) NOT NULL,
+  `like_type` varchar(10) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `like_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `review_like_history`
+--
+
+INSERT INTO `review_like_history` (`id`, `review_id`, `like_type`, `user_id`, `like_at`) VALUES
+(1, 1, 'like', 1, '2025-09-13 16:54:14');
 
 -- --------------------------------------------------------
 
@@ -512,8 +530,8 @@ CREATE TABLE `user` (
   `role_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` datetime DEFAULT NULL,
-  `is_deleted` tinyint(1) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL
+  `is_deleted` tinyint(1) DEFAULT '1',
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -524,15 +542,8 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`
 (1, 'test', 'test', 'test', 'test', 1, '2025-08-23 04:45:44', NULL, 0, NULL),
 (2, 'testAdmin', 'testAdmin', 'testAdmin', 'testAdmin', 2, '2025-08-23 04:50:02', NULL, 0, NULL),
 (3, 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 3, '2025-08-23 04:50:02', NULL, 0, NULL),
-(8, 'ads', 'email', 'password', '', 1, '2025-08-26 13:15:51', NULL, 0, NULL),
-(9, 'ads', '1', 'password', '', 1, '2025-08-26 13:18:28', NULL, 0, NULL),
-(10, 'ads', 'adads', 'password', '', 1, '2025-08-26 13:20:53', NULL, 0, NULL),
-(11, 'asd', 'asd', 'asd', '', 1, '2025-08-26 15:33:35', NULL, 0, NULL),
-(12, 'as', 'as', 'as', '', 1, '2025-09-02 10:55:08', NULL, NULL, NULL),
-(13, 'a', 'a', 'a', '', 1, '2025-09-02 11:00:04', NULL, NULL, NULL),
-(14, 'ads', 'adads', 'password', '', 1, '2025-09-02 11:19:30', NULL, NULL, NULL),
-(15, 'ads', 'adads', 'password', '', 1, '2025-09-02 11:21:24', NULL, NULL, NULL),
-(16, 'ads', 'adads', 'password', '', 1, '2025-09-02 11:30:26', NULL, NULL, NULL);
+(26, 'test4', 'test4', 'a4e624d686e03ed2767c0abd85c14426b0b1157d2ce81d27bb4fe4f6f01d688a', '', 1, '2025-09-07 12:15:02', NULL, 1, NULL),
+(29, 'test5', 'test5', 'a140c0c1eda2def2b830363ba362aa4d7d255c262960544821f556e16661b6ff', '', 1, '2025-09-10 11:08:30', NULL, 1, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -596,12 +607,12 @@ ALTER TABLE `payment_methods`
 --
 ALTER TABLE `reservations`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `reserved_hour_id` (`reserved_hour_id`),
   ADD KEY `user` (`user_id`),
   ADD KEY `reservation_type` (`reservation_type_id`),
   ADD KEY `cancelled` (`canceled_by`),
   ADD KEY `payment_method` (`payment_method_id`),
-  ADD KEY `status` (`status_id`),
-  ADD KEY `reservation_h` (`reserved_hour_id`);
+  ADD KEY `status` (`status_id`);
 
 --
 -- A tábla indexei `reservation_type`
@@ -629,6 +640,14 @@ ALTER TABLE `reserved_hours`
 ALTER TABLE `review`
   ADD PRIMARY KEY (`id`),
   ADD KEY `author` (`author_id`);
+
+--
+-- A tábla indexei `review_like_history`
+--
+ALTER TABLE `review_like_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `review` (`review_id`),
+  ADD KEY `liker_user` (`user_id`);
 
 --
 -- A tábla indexei `role`
@@ -660,6 +679,7 @@ ALTER TABLE `status`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `role` (`role_id`);
 
 --
@@ -718,31 +738,37 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
 --
 ALTER TABLE `reservation_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_dates`
 --
 ALTER TABLE `reserved_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hours`
 --
 ALTER TABLE `reserved_hours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT a táblához `review_like_history`
+--
+ALTER TABLE `review_like_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `role`
@@ -766,13 +792,13 @@ ALTER TABLE `special_offer`
 -- AUTO_INCREMENT a táblához `status`
 --
 ALTER TABLE `status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -826,6 +852,13 @@ ALTER TABLE `reserved_hours`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `author` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `review_like_history`
+--
+ALTER TABLE `review_like_history`
+  ADD CONSTRAINT `liker_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `review` FOREIGN KEY (`review_id`) REFERENCES `review` (`id`);
 
 --
 -- Megkötések a táblához `special_offer`

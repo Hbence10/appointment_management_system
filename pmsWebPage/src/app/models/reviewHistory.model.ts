@@ -7,4 +7,8 @@ export class ReviewHistory{
     private _likeAt: Date,
     private _likerUser: User
   ){}
+
+  //Getterek
+
+  //Setterek
 }
