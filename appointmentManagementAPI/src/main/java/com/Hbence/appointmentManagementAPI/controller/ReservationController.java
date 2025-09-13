@@ -22,7 +22,7 @@ public class ReservationController {
     }
 
     @GetMapping("/user/{id}")
-    public List<Reservations> getReservationByUserId(@PathVariable("id") Integer id) {
+    public List<Reservations> getReservationByUserId(@PathVariable("id") Long id) {
         System.out.println(id.getClass());
         return reservationService.getReservationByUserId(id);
     }

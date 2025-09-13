@@ -12,7 +12,7 @@ public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "photo_name")
     @NotNull
@@ -38,11 +38,11 @@ public class Gallery {
     }
 
     //Getterek & Setterek
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

@@ -13,7 +13,7 @@ public class EventType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "name")
     @NotNull

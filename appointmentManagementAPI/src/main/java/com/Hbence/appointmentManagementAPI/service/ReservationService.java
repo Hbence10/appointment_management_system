@@ -35,7 +35,7 @@ public class ReservationService {
         this.reservedHoursRepository = reservedHoursRepository;
     }
 
-    public List<Reservations> getReservationByUserId(Integer userId) {
+    public List<Reservations> getReservationByUserId(Long userId) {
         return reservationRepository.reservations(userId);
     }
 

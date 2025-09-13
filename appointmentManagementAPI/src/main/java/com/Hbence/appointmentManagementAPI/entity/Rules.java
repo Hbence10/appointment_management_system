@@ -11,7 +11,7 @@ public class Rules {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "text")
     private String text;
@@ -29,11 +29,11 @@ public class Rules {
     }
 
     //Getterek & Setterek
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

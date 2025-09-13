@@ -13,7 +13,7 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     @NotNull
@@ -37,7 +37,7 @@ public class Status {
     }
 
     //Getterek & Setterek
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

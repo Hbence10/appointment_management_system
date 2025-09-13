@@ -13,7 +13,7 @@ public class Devices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "name")
     @NotNull
@@ -49,11 +49,11 @@ public class Devices {
     }
 
     //Getterek & Setterek
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

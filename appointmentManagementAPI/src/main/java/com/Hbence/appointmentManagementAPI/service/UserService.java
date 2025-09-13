@@ -26,7 +26,6 @@ public class UserService {
 
     public Response register(User newUser) {
         String result = userRepository.register(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
-
         return new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
     }
 }

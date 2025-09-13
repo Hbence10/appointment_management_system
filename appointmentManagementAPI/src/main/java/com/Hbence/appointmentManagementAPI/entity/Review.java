@@ -13,7 +13,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int Id;
+    private Long Id;
 
     @Column(name = "review_text")
     @NotNull
@@ -57,11 +57,11 @@ public class Review {
     }
 
     //Getterek & Setterek
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

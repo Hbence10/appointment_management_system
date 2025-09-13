@@ -36,7 +36,7 @@ public class OtherStuffController {
     }
 
     @PatchMapping("/reviews")
-    public String updateLikesOfReviews(@RequestParam("id") Integer id, @RequestParam("addedLikeType") String addedLikeType){
+    public String updateLikesOfReviews(@RequestParam("id") Long id, @RequestParam("addedLikeType") String addedLikeType){
         return otherStuffService.updateLikesOfReviews(id, addedLikeType);
     }
 

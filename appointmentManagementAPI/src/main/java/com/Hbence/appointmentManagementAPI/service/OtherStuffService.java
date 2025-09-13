@@ -42,7 +42,7 @@ public class OtherStuffService {
         return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
     }
 
-    public String updateLikesOfReviews(Integer id, String addedLikeType) {
+    public String updateLikesOfReviews(Long id, String addedLikeType) {
         Review searchedReview = reviewRepository.findById(id).get();
 
         if (addedLikeType.equals("dislike")) {

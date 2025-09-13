@@ -20,7 +20,7 @@ public class ReservedDates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "date")
     private LocalDate date;
@@ -61,7 +61,7 @@ public class ReservedDates {
         return date;
     }
 
-    public int getId() {return id;}
+    public Long getId() {return id;}
 
     public Boolean getIsHoliday() {
         return isHoliday;
