@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/news")
 public class NewsController {
 
-    public NewsService newsService;
+    public final NewsService newsService;
 
     @Autowired
     public NewsController(NewsService newsService) {

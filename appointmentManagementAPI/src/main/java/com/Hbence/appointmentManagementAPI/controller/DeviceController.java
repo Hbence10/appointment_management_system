@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/devices")
 public class DeviceController {
 
-    private DeviceService deviceService;
+    private final DeviceService deviceService;
 
     @Autowired
     public DeviceController(DeviceService deviceService) {

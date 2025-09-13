@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 public class OtherStuffController {
 
-    private OtherStuffService otherStuffService;
+    private final OtherStuffService otherStuffService;
 
     @Autowired
     public OtherStuffController(OtherStuffService otherStuffService) {

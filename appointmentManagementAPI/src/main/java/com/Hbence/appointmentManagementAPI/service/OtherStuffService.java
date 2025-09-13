@@ -18,11 +18,11 @@ import java.util.Map;
 @Service
 public class OtherStuffService {
 
-    private ReviewRepository reviewRepository;
-    private RuleRepository ruleRepository;
-    private GalleryRepository galleryRepository;
-    private HistoryRepository historyRepository;
-    private SpecialOfferRepository specialOfferRepository;
+    private final ReviewRepository reviewRepository;
+    private final RuleRepository ruleRepository;
+    private final GalleryRepository galleryRepository;
+    private final HistoryRepository historyRepository;
+    private final SpecialOfferRepository specialOfferRepository;
 
     @Autowired
     public OtherStuffService(ReviewRepository reviewRepository, RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository) {

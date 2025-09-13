@@ -20,11 +20,11 @@ public class ReservationService {
         return true;
     }
 
-    private PaymentMethodRepository paymentMethodRepository;
-    private ReservationRepository reservationRepository;
-    private ReservationTypeRepository reservationTypeRepository;
-    private ReservedDateRepository reservedDateRepository;
-    private ReservedHoursRepository reservedHoursRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
+    private final ReservationRepository reservationRepository;
+    private final ReservationTypeRepository reservationTypeRepository;
+    private final ReservedDateRepository reservedDateRepository;
+    private final ReservedHoursRepository reservedHoursRepository;
 
     @Autowired
     public ReservationService(PaymentMethodRepository paymentMethodRepository, ReservationRepository reservationRepository, ReservationTypeRepository reservationTypeRepository, ReservedDateRepository reservedDateRepository, ReservedHoursRepository reservedHoursRepository) {

@@ -1,20 +1,19 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.repository.DeviceCategoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 @Transactional
 @Service
 public class DeviceService {
-    private DeviceRepository deviceRepository;
-    private DeviceCategoryRepository deviceCategoryRepository;
+    private final DeviceRepository deviceRepository;
+    private final DeviceCategoryRepository deviceCategoryRepository;
 
     @Autowired
     public DeviceService(DeviceRepository deviceRepository, DeviceCategoryRepository deviceCategoryRepository) {
