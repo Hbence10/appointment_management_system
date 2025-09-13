@@ -25,6 +25,7 @@ public class Devices {
     @Size(max = 2)
     private int amount;
 
+    //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "category_id")
     private DevicesCategory categoryId;
@@ -37,6 +38,7 @@ public class Devices {
     )
     private List<ReservationType> reservationTypes;
 
+    //Constructorok:
     public Devices() {
     }
 
@@ -46,16 +48,29 @@ public class Devices {
         this.amount = amount;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getAmount() {
         return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override

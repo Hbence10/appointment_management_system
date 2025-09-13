@@ -20,6 +20,7 @@ public class DevicesCategory {
     @Size(max = 100)
     private String name;
 
+    //Kapcsolatok
     @OneToMany(
             mappedBy = "categoryId",
             fetch = FetchType.LAZY,
@@ -27,6 +28,7 @@ public class DevicesCategory {
     )
     private List<Devices> devicesList;
 
+    //Constructorok
     public DevicesCategory() {
     }
 
@@ -35,6 +37,7 @@ public class DevicesCategory {
         this.devicesList = devicesList;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return id;
     }

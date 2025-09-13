@@ -66,8 +66,6 @@ public class User {
     @Null
     private Date deletedAt;
 
-
-    //-----
     //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "role_id")
@@ -103,9 +101,8 @@ public class User {
             cascade = {}
     )
     private List<History> historyList;
-    //------
 
-
+    //Constructorok
     public User() {
     }
 

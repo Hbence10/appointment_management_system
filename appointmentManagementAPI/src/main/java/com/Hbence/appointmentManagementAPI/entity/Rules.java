@@ -19,6 +19,7 @@ public class Rules {
     @Column(name = "last_edit_at")
     private LocalDateTime lastEditAt;
 
+    //Constructorok
     public Rules() {
     }
 
@@ -27,6 +28,7 @@ public class Rules {
         this.lastEditAt = lastEditAt;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return Id;
     }

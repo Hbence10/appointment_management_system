@@ -28,6 +28,7 @@ public class ReservedDates {
     @Column(name = "is_holiday")
     @NotNull
     private Boolean isHoliday = false;
+
     @Column(name = "is_closed")
     @NotNull
     private Boolean isClosed = false;
@@ -36,6 +37,7 @@ public class ReservedDates {
     @NotNull
     private Boolean isFull = false;
 
+    //Kapcsolatok
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,
@@ -43,6 +45,7 @@ public class ReservedDates {
     )
     private List<ReservedHours> reservedHours;
 
+    //Constructorok
     public ReservedDates() {
     }
 
@@ -53,6 +56,7 @@ public class ReservedDates {
         this.isFull = isFull;
     }
 
+    //Getterek & Setterek
     public LocalDate getDate() {
         return date;
     }

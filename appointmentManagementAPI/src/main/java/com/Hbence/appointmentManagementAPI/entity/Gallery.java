@@ -27,6 +27,7 @@ public class Gallery {
     @Size(max = 2)
     private int placement;
 
+    //Constructorok
     public Gallery() {
     }
 
@@ -36,6 +37,7 @@ public class Gallery {
         this.placement = placement;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return Id;
     }

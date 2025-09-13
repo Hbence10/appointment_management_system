@@ -20,6 +20,7 @@ public class Role {
     @Size(max = 100)
     private String name;
 
+    //Kapcsolatok
     @OneToMany(
             mappedBy = "role",
             fetch = FetchType.LAZY,
@@ -27,6 +28,7 @@ public class Role {
     )
     private List<User> users;
 
+    //Constructorok
     public Role() {
     }
 
@@ -34,6 +36,7 @@ public class Role {
         this.name = name;
     }
 
+    //Getterek & Setterek
     public Integer getId() {
         return Id;
     }

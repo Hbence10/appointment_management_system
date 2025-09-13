@@ -39,11 +39,13 @@ public class Review {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    //Kapcsolatok
     @ManyToOne(cascade = {})
     @JoinColumn(name = "author_id")
     @NotNull
     private User author;
 
+    //Constructorok
     public Review() {
     }
 
@@ -54,6 +56,7 @@ public class Review {
         this.dislikeCount = dislikeCount;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return Id;
     }

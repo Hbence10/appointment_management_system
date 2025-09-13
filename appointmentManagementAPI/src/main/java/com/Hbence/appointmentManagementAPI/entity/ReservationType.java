@@ -25,6 +25,7 @@ public class ReservationType {
     @Size(max = 6)
     private int price;
 
+    //Kapcsolatok
     @OneToMany(
             mappedBy = "reservationTypeId",
             fetch = FetchType.LAZY,
@@ -42,6 +43,7 @@ public class ReservationType {
     )
     private List<Devices> devicesList;
 
+    //Constructorok
     public ReservationType() {
     }
 
@@ -50,7 +52,7 @@ public class ReservationType {
         this.price = price;
     }
 
-
+    //Getterek & Setterek
     public int getId() {
         return id;
     }

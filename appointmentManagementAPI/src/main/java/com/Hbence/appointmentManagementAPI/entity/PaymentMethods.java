@@ -20,6 +20,7 @@ public class PaymentMethods {
     @Size(max = 100)
     private String name;
 
+    //Kapcsolatok
     @OneToMany(
             mappedBy = "paymentMethod",
             fetch = FetchType.LAZY,
@@ -27,6 +28,7 @@ public class PaymentMethods {
     )
     private List<Reservations> reservation;
 
+    //Constructorok
     public PaymentMethods() {
     }
 
@@ -34,6 +36,7 @@ public class PaymentMethods {
         this.name = name;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return id;
     }

@@ -32,6 +32,7 @@ public class ReservedHours {
     @Size(max = 2)
     private int end;
 
+    //Kapcsolatok
     @ManyToOne(cascade = {})
     @JoinColumn(name = "date_id")
     @Null
@@ -40,7 +41,7 @@ public class ReservedHours {
     @OneToOne(mappedBy = "reservedHours", cascade = {})
     private Reservations reservationHour;
 
-    //constructors:
+    //Constructorok
     public ReservedHours() {
     }
 
@@ -50,6 +51,7 @@ public class ReservedHours {
         this.date = date;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return id;
     }

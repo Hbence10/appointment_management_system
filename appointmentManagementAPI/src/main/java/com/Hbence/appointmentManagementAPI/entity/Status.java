@@ -20,6 +20,7 @@ public class Status {
     @Size(max = 100)
     private String name;
 
+    //Kapcsolatok:
     @OneToMany(
             mappedBy = "status",
             fetch = FetchType.LAZY,
@@ -27,6 +28,7 @@ public class Status {
     )
     private List<Reservations> reservationsList;
 
+    //Constructorok
     public Status() {
     }
 
@@ -34,6 +36,7 @@ public class Status {
         this.name = name;
     }
 
+    //Getterek & Setterek
     public int getId() {
         return id;
     }
@@ -41,10 +44,6 @@ public class Status {
     public String getName() {
         return name;
     }
-
-//    public List<Reservations> getReservationsList() {
-//        return reservationsList;
-//    }
 
     @Override
     public String toString() {

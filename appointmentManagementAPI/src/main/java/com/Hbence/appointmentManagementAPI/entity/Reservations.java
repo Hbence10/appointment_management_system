@@ -60,6 +60,7 @@ public class Reservations {
     @Column(name = "canceled_at")
     private Date canceledAt;
 
+    //Kapcsolatok
     @OneToOne(cascade = {})
     @JoinColumn(name = "canceled_by")
     @Null
@@ -86,6 +87,7 @@ public class Reservations {
     @JoinColumn(name = "reserved_hour_id")
     private ReservedHours reservedHours;
 
+    //Constructorok:
     public Reservations() {
     }
 
@@ -97,6 +99,7 @@ public class Reservations {
         this.comment = comment;
     }
 
+    //Getterek & Setterek
     public String getFirstName() {
         return firstName;
     }

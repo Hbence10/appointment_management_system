@@ -29,10 +29,6 @@ public class News {
     @Null
     private String bannerImgPath;
 
-    @ManyToOne(cascade = {})
-    @JoinColumn(name = "writer_id")
-    private User writer;
-
     @Column(name = "placement")
     @NotNull
     @Size(max = 2)
@@ -52,6 +48,12 @@ public class News {
     @Null
     private Date lastEditAt;
 
+    //Kapcsolatok:
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "writer_id")
+    private User writer;
+
+    //Constructorok:
     public News() {
     }
 
@@ -63,6 +65,7 @@ public class News {
         this.placement = placement;
     }
 
+    //Kapcsolatok
     public int getId() {
         return id;
     }
