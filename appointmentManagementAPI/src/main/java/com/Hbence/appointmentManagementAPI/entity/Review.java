@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "review")
@@ -44,6 +45,13 @@ public class Review {
     @JoinColumn(name = "author_id")
     @NotNull
     private User author;
+
+    @OneToMany(
+            mappedBy = "likedReview",
+            fetch = FetchType.LAZY,
+            cascade = {}
+    )
+    private List<ReviewLikeHistory> likeHistories;
 
     //Constructorok
     public Review() {
@@ -119,5 +127,9 @@ public class Review {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public List<ReviewLikeHistory> getLikeHistories() {
+        return likeHistories;
     }
 }

@@ -1,3 +1,4 @@
+import { ReviewHistory } from "./reviewHistory.model"
 import { User } from "./user.model"
 
 export class ReviewDetails {
@@ -11,6 +12,7 @@ export class ReviewDetails {
     private _createdAt: Date = new Date(),
     private _likeCount: number = 0,
     private _dislikeCount: number = 0,
+    private _likeHistoryList: ReviewHistory[] = []
   ) { }
 
   //Getterek:

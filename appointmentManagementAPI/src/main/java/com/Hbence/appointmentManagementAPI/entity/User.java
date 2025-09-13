@@ -102,6 +102,13 @@ public class User {
     )
     private List<History> historyList;
 
+    @OneToMany(
+            mappedBy = "likerUser",
+            fetch = FetchType.LAZY,
+            cascade = {}
+    )
+    private List<ReviewLikeHistory> reviewLikeHistories;
+
     //Constructorok
     public User() {
     }

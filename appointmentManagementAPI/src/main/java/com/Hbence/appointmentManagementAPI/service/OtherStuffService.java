@@ -44,6 +44,7 @@ public class OtherStuffService {
 
     public String updateLikesOfReviews(Long id, String addedLikeType) {
         Review searchedReview = reviewRepository.findById(id).get();
+        //Itt is le kell majd kezelni, ha nem talalja az adott review-t
 
         if (addedLikeType.equals("dislike")) {
             searchedReview.setDislikeCount(searchedReview.getDislikeCount() + 1);
@@ -65,6 +66,6 @@ public class OtherStuffService {
 
     //Szabalyzat:
     public Rules getRule() {
-        return ruleRepository.findById(1).get();
+        return ruleRepository.findById(Long.valueOf(1)).get();
     }
 }
