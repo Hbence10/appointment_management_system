@@ -28,11 +28,11 @@ public class ReservationType {
     @OneToMany(
             mappedBy = "reservationTypeId",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<Reservations> reservation;
 
-    @OneToOne(mappedBy = "reservationType", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(mappedBy = "reservationType", cascade = {})
     private SpecialOffer specialOffer;
 
     @ManyToMany(

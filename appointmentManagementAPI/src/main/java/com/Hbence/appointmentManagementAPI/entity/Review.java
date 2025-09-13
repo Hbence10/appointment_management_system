@@ -39,7 +39,7 @@ public class Review {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "author_id")
     @NotNull
     private User author;

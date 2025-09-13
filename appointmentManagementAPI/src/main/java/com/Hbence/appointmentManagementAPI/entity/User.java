@@ -69,38 +69,38 @@ public class User {
 
     //-----
     //Kapcsolatok:
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(
             mappedBy = "writer",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<News> news;
 
     @OneToMany(
             mappedBy = "author",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = {}
     )
     private List<Review> reviews;
 
     @OneToMany(
             mappedBy = "user",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<Reservations> reservations;
 
-    @OneToOne(mappedBy = "canceledBy", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(mappedBy = "canceledBy", cascade = {})
     private Reservations canceledReservation;
 
     @OneToMany(
             mappedBy = "editedBy",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<History> historyList;
     //------

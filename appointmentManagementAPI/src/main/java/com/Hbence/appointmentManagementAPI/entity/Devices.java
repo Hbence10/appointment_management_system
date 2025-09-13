@@ -25,11 +25,11 @@ public class Devices {
     @Size(max = 2)
     private int amount;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "category_id")
     private DevicesCategory categoryId;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {})
     @JoinTable(
             name = "devices_reservation_type",
             joinColumns = @JoinColumn(name = "reservation_type_id"),

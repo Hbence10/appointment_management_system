@@ -48,11 +48,11 @@ public class History {
     @NotNull
     private Boolean isActive;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
     private User editedBy;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "event_type_id")
     private EventType eventType;
 }

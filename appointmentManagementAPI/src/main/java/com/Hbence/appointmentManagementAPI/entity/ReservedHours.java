@@ -32,12 +32,12 @@ public class ReservedHours {
     @Size(max = 2)
     private int end;
 
-    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "date_id")
     @Null
     private ReservedDates date;     //Csak akkor adja hozza a datumot a db-hez ha, meg nincs benne
 
-    @OneToOne(mappedBy = "reservedHours", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(mappedBy = "reservedHours", cascade = {})
     private Reservations reservationHour;
 
     //constructors:

@@ -60,12 +60,12 @@ public class Reservations {
     @Column(name = "canceled_at")
     private Date canceledAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {})
     @JoinColumn(name = "canceled_by")
     @Null
     private User canceledBy;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
     @Null
     private User user;
@@ -82,7 +82,7 @@ public class Reservations {
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {})
     @JoinColumn(name = "reserved_hour_id")
     private ReservedHours reservedHours;
 

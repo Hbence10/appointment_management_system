@@ -23,7 +23,7 @@ public class DevicesCategory {
     @OneToMany(
             mappedBy = "categoryId",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            cascade = {}
     )
     private List<Devices> devicesList;
 

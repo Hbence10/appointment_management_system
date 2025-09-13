@@ -37,7 +37,7 @@ public class SpecialOffer {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {})
     @JoinColumn(name = "reservation_type_id")
     private ReservationType reservationType;
 }

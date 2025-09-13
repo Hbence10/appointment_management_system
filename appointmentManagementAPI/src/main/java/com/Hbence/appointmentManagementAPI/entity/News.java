@@ -29,7 +29,7 @@ public class News {
     @Null
     private String bannerImgPath;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "writer_id")
     private User writer;
 

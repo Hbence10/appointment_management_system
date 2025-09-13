@@ -39,7 +39,7 @@ public class ReservedDates {
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.REMOVE}
+            cascade = {}
     )
     private List<ReservedHours> reservedHours;
 
