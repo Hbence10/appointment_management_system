@@ -1,14 +1,13 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.Gallery;
-import com.Hbence.appointmentManagementAPI.entity.History;
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,34 +32,39 @@ public class OtherStuffService {
         this.specialOfferRepository = specialOfferRepository;
     }
 
-    public Rules getRules(){
-        return ruleRepository.findById(1).get();
-    }
-
-    public List<Gallery> getAllGalleryPhoto(){
-        return galleryRepository.findAll();
-    }
-
-    public List<History> getAllHistory(){
-        return historyRepository.findAll();
-    }
-
     //Velemenyek:
-    public List<Review> getAllReview(){
+    public List<Review> getAllReview() {
         return reviewRepository.findAll();
     }
 
-    public Response addReview(Review newReview){
+    public Response addReview(Review newReview) {
         reviewRepository.save(newReview);
         return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
     }
 
-    public List<Gallery> getGalleryImages(){
+    public String updateLikesOfReviews(Integer id, String addedLikeType) {
+        Review searchedReview = reviewRepository.findById(id).get();
+
+        if (addedLikeType.equals("dislike")) {
+            searchedReview.setDislikeCount(searchedReview.getDislikeCount() + 1);
+        } else if (addedLikeType.equals("like")){
+            searchedReview.setLikeCount(searchedReview.getLikeCount() + 1);
+        } else {
+            //exception-t kell majd dobnia
+        }
+
+        reviewRepository.save(searchedReview);
+
+        return "";
+    }
+
+    //Galleria:
+    public List<Gallery> getGalleryImages() {
         return galleryRepository.findAll();
     }
 
-    //Szabalyzat
-    public Rules getRule(){
+    //Szabalyzat:
+    public Rules getRule() {
         return ruleRepository.findById(1).get();
     }
 }

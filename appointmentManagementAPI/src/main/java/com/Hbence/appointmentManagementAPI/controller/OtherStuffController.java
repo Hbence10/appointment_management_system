@@ -35,6 +35,11 @@ public class OtherStuffController {
         return otherStuffService.addReview(newReview);
     }
 
+    @PatchMapping("/reviews")
+    public String updateLikesOfReviews(@RequestParam("id") Integer id, @RequestParam("addedLikeType") String addedLikeType){
+        return otherStuffService.updateLikesOfReviews(id, addedLikeType);
+    }
+
     //Galleria:
     @GetMapping("/gallery")
     public List<Gallery> getAllGalleryImages(){
