@@ -19,50 +19,17 @@ import java.util.Map;
 @Service
 public class OtherStuffService {
 
-    private final ReviewRepository reviewRepository;
     private final RuleRepository ruleRepository;
     private final GalleryRepository galleryRepository;
     private final HistoryRepository historyRepository;
     private final SpecialOfferRepository specialOfferRepository;
-    private final ObjectMapper objectMapper;
-    private final ReviewHistoryRepository reviewLikeHistoryRepository;
 
     @Autowired
-    public OtherStuffService(ReviewRepository reviewRepository, RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository, ObjectMapper objectMapper, ReviewHistoryRepository reviewLikeHistory) {
-        this.reviewRepository = reviewRepository;
+    public OtherStuffService(RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository) {
         this.ruleRepository = ruleRepository;
         this.galleryRepository = galleryRepository;
         this.historyRepository = historyRepository;
         this.specialOfferRepository = specialOfferRepository;
-        this.objectMapper = objectMapper;
-        this.reviewLikeHistoryRepository = reviewLikeHistory;
-    }
-
-    //Velemenyek:
-    public List<Review> getAllReview() {
-        return reviewRepository.findAll();
-    }
-
-    public Response addReview(Review newReview) {
-        reviewRepository.save(newReview);
-        return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
-    }
-
-    public Review updateLikesOfReviews(Long id, Map<String, Integer> likeDetails) {
-        Review defaultReview = reviewRepository.findById(id).get();
-        Review patchedReview = setPatchedLikeDetails(likeDetails, defaultReview);
-
-        return reviewRepository.save(patchedReview);
-    }
-
-    public void addReviewLikeHistory(Map<String, Object> requestBody) {
-        reviewLikeHistoryRepository.save(
-                new ReviewLikeHistory(
-                        String.valueOf(requestBody.get("likeType")),
-                        objectMapper.convertValue(requestBody.get("review"), Review.class),
-                        objectMapper.convertValue(requestBody.get("user"), User.class)
-                )
-        );
     }
 
     //Galleria:
@@ -74,21 +41,4 @@ public class OtherStuffService {
     public Rules getRule() {
         return ruleRepository.findById(Long.valueOf(1)).get();
     }
-
-    //----------------------------------------
-    //Egyeb:
-    private Review setPatchedLikeDetails(Map<String, Integer> likeDetails, Review defaultReview) {
-        ObjectNode baseReviewNode = objectMapper.convertValue(defaultReview, ObjectNode.class);
-        ObjectNode likeDetailsNode = objectMapper.convertValue(likeDetails, ObjectNode.class);
-
-        baseReviewNode.setAll(likeDetailsNode);
-
-        return objectMapper.convertValue(baseReviewNode, Review.class);
-    }
-
-    /*
-     * ObjectMapper:
-     *
-     *
-     * */
 }
