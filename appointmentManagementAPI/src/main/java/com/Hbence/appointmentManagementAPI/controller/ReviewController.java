@@ -20,12 +20,12 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Review> getAllReview() {
         return reviewService.getAllReview();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Response addReview(@RequestBody Review newReview) {
         return reviewService.addReview(newReview);
     }
@@ -39,4 +39,6 @@ public class ReviewController {
     public void addLikeHistory(@RequestBody Map<String, Object> requestBody) {
         reviewService.addReviewLikeHistory(requestBody);
     }
+
+
 }

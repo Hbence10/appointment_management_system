@@ -6,58 +6,55 @@
   color: #004D40;
 }
 
-.mainFont{
+.mainFont {
   font-family: "Oswald", sans-serif !important;
   font-optical-sizing: auto !important;
   font-weight: 800 !important;
   font-style: normal !important;
 }
 
-.secondFont{
+.secondFont {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
-//
 #reviewContainer {
-  max-height: 640px;
+  max-height: 660px;
   overflow-y: auto;
 }
 
 mat-form-field {
   width: 775px;
   height: 300px;
-  @include mat.form-field-overrides((
-    filled-input-text-color: #004D40,
-    filled-caret-color: #004D40,
-    filled-container-color: white,
-    filled-active-indicator-color: #004D40
-    ));
+  @include mat.form-field-overrides((filled-input-text-color: #004D40,
+      filled-caret-color: #004D40,
+      filled-container-color: white,
+      filled-active-indicator-color: #004D40));
 }
 
-#senderButton{
+#senderButton {
   background-color: #004D40;
   border-radius: 10px;
   color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-#senderButton:disabled{
+#senderButton:disabled {
   opacity: 0.6;
 }
 
-mat-checkbox{
-  @include mat.checkbox-overrides((
-    label-text-color: #004D40,
-    selected-checkmark-color: white,
-    selected-pressed-state-layer-color: #004D40,
-    selected-focus-state-layer-color: #004D40
-  ));
+mat-checkbox {
+  @include mat.checkbox-overrides((label-text-color: #004D40,
+      selected-checkmark-color: white,
+      selected-pressed-state-layer-color: #004D40,
+      selected-focus-state-layer-color: #004D40));
 }
 
 //Csillagok:
-.star-rating, .star-rating:hover {
+.star-rating,
+.star-rating:hover {
   --size: 2rem;
   --mask: conic-gradient(from -18deg at 61% 34.5%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size),
     conic-gradient(from 270deg at 39% 34.5%, #0000 108deg, #000 0) 0 0 / var(--size) var(--size),
@@ -85,4 +82,19 @@ mat-checkbox{
 
 .star-rating::-webkit-slider-thumb {
   opacity: 0;
+}
+
+//
+::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px !important;
+  background-color: #004d404d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #004D40 !important;
+  border-radius: 10px !important;
 }

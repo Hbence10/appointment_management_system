@@ -5,14 +5,14 @@
   color: #004D40;
 }
 
-.mainFont{
+.mainFont {
   font-family: "Oswald", sans-serif !important;
   font-optical-sizing: auto !important;
   font-weight: 800 !important;
   font-style: normal !important;
 }
 
-.secondFont{
+.secondFont {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -22,32 +22,35 @@
 
 #mainContainer {
   background-color: #B2DFDB;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
   height: 270px;
   width: 960px;
   border-radius: 16px;
   padding: 46px 60px !important;
 }
 
-#secondContainer{
+#secondContainer {
   height: 180px;
   background-color: white;
   border-radius: 16px;
   padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
 }
 
-.iconButton{
+.iconButton {
   width: 35px !important;
   height: 35px !important;
   border: none;
   background-color: transparent;
 }
 
-.iconButton:hover, .selected{
+.iconButton:hover,
+.selected {
   background-color: #004D40;
   border: none;
   border-radius: 5px;
 
-  span{
+  span {
     color: #B2DFDB;
   }
 }

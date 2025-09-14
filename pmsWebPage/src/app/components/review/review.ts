@@ -1,15 +1,14 @@
-import { Component, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
 import { ReviewDetails } from '../../models/reviewDetails.model';
-import { OtherService } from '../../services/other-service';
+import { User } from '../../models/user.model';
+import { ReviewService } from '../../services/review-service';
 import { UserService } from '../../services/user-service';
 import { ReviewCard } from './review-card/review-card';
-import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-review',
@@ -18,7 +17,7 @@ import { User } from '../../models/user.model';
   styleUrl: './review.scss'
 })
 export class Review implements OnInit {
-  private otherService = inject(OtherService)
+  private reviewService = inject(ReviewService)
   private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
 
@@ -34,7 +33,7 @@ export class Review implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.user
 
-    const subscription = this.otherService.getAllReviews().subscribe({
+    const subscription = this.reviewService.getAllReviews().subscribe({
       next: response => this.reviewDetails.set(response),
       complete: () => console.log(this.reviewDetails())
     })
@@ -49,7 +48,7 @@ export class Review implements OnInit {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
     } else {
       const newReview = new ReviewDetails(null, this.reviewForm.controls["reviewText"].value!, 2.5, this.user()!, this.isAnonymus())
-      this.otherService.addReview(newReview).subscribe({
+      this.reviewService.addReview(newReview).subscribe({
         next: response => console.log(response),
         complete: () => this.reviewDetails().push(newReview)
       })
