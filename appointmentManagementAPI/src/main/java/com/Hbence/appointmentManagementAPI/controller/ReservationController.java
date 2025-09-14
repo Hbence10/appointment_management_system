@@ -59,6 +59,11 @@ public class ReservationController {
         return reservationService.makeReservation(newReservation);
 //        return null;
     }
+
+    @PatchMapping("/cancel/{id}")
+    public String cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody){
+        return reservationService.cancelReservation(id, cancelBody);
+    }
 }
 
 /*

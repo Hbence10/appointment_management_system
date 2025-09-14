@@ -58,7 +58,7 @@ public class Reservations {
     private Boolean isCanceled = false;
 
     @Column(name = "canceled_at")
-    private Date canceledAt;
+    private LocalDate canceledAt;
 
     //Kapcsolatok
     @OneToOne(cascade = {})
@@ -128,7 +128,7 @@ public class Reservations {
         return isCanceled;
     }
 
-    public Date getCanceledAt() {
+    public LocalDate getCanceledAt() {
         return canceledAt;
     }
 
@@ -146,6 +146,18 @@ public class Reservations {
 
     public String getReservedHours() {
         return reservedHours.getStart() + ":00 - " + reservedHours.getEnd() + ":00";
+    }
+
+    public void setCanceled(Boolean canceled) {
+        isCanceled = canceled;
+    }
+
+    public void setCanceledAt(LocalDate canceledAt) {
+        this.canceledAt = canceledAt;
+    }
+
+    public void setCanceledBy(User canceledBy) {
+        this.canceledBy = canceledBy;
     }
 
     @Override
