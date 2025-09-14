@@ -4,6 +4,8 @@ import com.Hbence.appointmentManagementAPI.entity.Gallery;
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,14 +24,16 @@ public class OtherStuffService {
     private final GalleryRepository galleryRepository;
     private final HistoryRepository historyRepository;
     private final SpecialOfferRepository specialOfferRepository;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public OtherStuffService(ReviewRepository reviewRepository, RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository) {
+    public OtherStuffService(ReviewRepository reviewRepository, RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository, ObjectMapper objectMapper) {
         this.reviewRepository = reviewRepository;
         this.ruleRepository = ruleRepository;
         this.galleryRepository = galleryRepository;
         this.historyRepository = historyRepository;
         this.specialOfferRepository = specialOfferRepository;
+        this.objectMapper = objectMapper;
     }
 
     //Velemenyek:
@@ -42,21 +46,11 @@ public class OtherStuffService {
         return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
     }
 
-    public String updateLikesOfReviews(Long id, String addedLikeType) {
-        Review searchedReview = reviewRepository.findById(id).get();
-        //Itt is le kell majd kezelni, ha nem talalja az adott review-t
+    public Review updateLikesOfReviews(Long id, Map<String, Integer> likeDetails) {
+        Review defaultReview = reviewRepository.findById(id).get();
+        Review patchedReview = setPatchedLikeDetails(likeDetails, defaultReview);
 
-        if (addedLikeType.equals("dislike")) {
-            searchedReview.setDislikeCount(searchedReview.getDislikeCount() + 1);
-        } else if (addedLikeType.equals("like")){
-            searchedReview.setLikeCount(searchedReview.getLikeCount() + 1);
-        } else {
-            //exception-t kell majd dobnia
-        }
-
-        reviewRepository.save(searchedReview);
-
-        return "";
+        return reviewRepository.save(patchedReview);
     }
 
     //Galleria:
@@ -68,4 +62,21 @@ public class OtherStuffService {
     public Rules getRule() {
         return ruleRepository.findById(Long.valueOf(1)).get();
     }
+
+    //----------------------------------------
+    //Egyeb:
+    private Review setPatchedLikeDetails(Map<String, Integer> likeDetails, Review defaultReview){
+        ObjectNode baseReviewNode = objectMapper.convertValue(defaultReview, ObjectNode.class);
+        ObjectNode likeDetailsNode = objectMapper.convertValue(likeDetails, ObjectNode.class);
+
+        baseReviewNode.setAll(likeDetailsNode);
+
+        return objectMapper.convertValue(baseReviewNode, Review.class)  ;
+    }
+
+    /*
+    * ObjectMapper:
+    *
+    *
+    * */
 }

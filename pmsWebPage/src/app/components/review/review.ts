@@ -59,8 +59,4 @@ export class Review implements OnInit {
   setVisibility() {
     this.isAnonymus.update(old => !old)
   }
-
-  addLike(){
-
-  }
 }

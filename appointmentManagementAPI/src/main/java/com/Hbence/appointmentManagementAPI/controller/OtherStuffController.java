@@ -5,7 +5,6 @@ import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import com.Hbence.appointmentManagementAPI.service.Response;
-import org.apache.tomcat.util.digester.Rule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,6 @@ public class OtherStuffController {
         this.otherStuffService = otherStuffService;
     }
 
-
     //Velemenyek
     @GetMapping("/reviews")
     public List<Review> getAllReview(){
@@ -35,9 +33,9 @@ public class OtherStuffController {
         return otherStuffService.addReview(newReview);
     }
 
-    @PatchMapping("/reviews")
-    public String updateLikesOfReviews(@RequestParam("id") Long id, @RequestParam("addedLikeType") String addedLikeType){
-        return otherStuffService.updateLikesOfReviews(id, addedLikeType);
+    @PatchMapping("/reviews/{id}")
+    public Review updateLikesOfReviews(@PathVariable("id") Long id, @RequestBody Map<String, Integer> likeDetails){
+        return otherStuffService.updateLikesOfReviews(id, likeDetails);
     }
 
     //Galleria:

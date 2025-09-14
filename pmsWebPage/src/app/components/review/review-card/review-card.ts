@@ -1,6 +1,7 @@
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ReviewDetails } from '../../../models/reviewDetails.model';
-import { Component, input, output } from '@angular/core';
+import { OtherService } from '../../../services/other-service';
 
 @Component({
   selector: 'app-review-card',
@@ -8,16 +9,16 @@ import { Component, input, output } from '@angular/core';
   templateUrl: './review-card.html',
   styleUrl: './review-card.scss'
 })
-export class ReviewCard {
+export class ReviewCard implements OnInit{
+  private otherService = inject(OtherService)
   reviewDetail = input.required<ReviewDetails>()
-  addDislikeOutput = output()
-  addLikeOutput = output()
+  startList = signal<number[]>([])
 
-  addDislike(){
-    this.addDislikeOutput.emit()
+  ngOnInit(): void {
+
   }
 
-  addLike(){
-    this.addLikeOutput.emit()
+  addLike(likeType: "dislike" | "like"){
+
   }
 }

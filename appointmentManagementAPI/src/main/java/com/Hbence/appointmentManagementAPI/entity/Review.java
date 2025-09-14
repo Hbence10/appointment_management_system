@@ -27,12 +27,12 @@ public class Review {
     @Column(name = "like_count")
     @NotNull
     @Size(max = 4)
-    private int likeCount;
+    private Integer likeCount;
 
     @Column(name = "dislike_count")
     @NotNull
     @Size(max = 4)
-    private int dislikeCount;
+    private Integer dislikeCount;
 
     @Column(name = "is_anonymus")
     private boolean isAnonymus;
@@ -43,7 +43,6 @@ public class Review {
     //Kapcsolatok
     @ManyToOne(cascade = {})
     @JoinColumn(name = "author_id")
-    @NotNull
     private User author;
 
     @OneToMany(
@@ -57,7 +56,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(String reviewText, double rating, int likeCount, int dislikeCount) {
+    public Review(String reviewText, double rating, Integer likeCount, Integer dislikeCount) {
         this.reviewText = reviewText;
         this.rating = rating;
         this.likeCount = likeCount;
@@ -89,19 +88,19 @@ public class Review {
         this.rating = rating;
     }
 
-    public int getLikeCount() {
+    public Integer getLikeCount() {
         return likeCount;
     }
 
-    public void setLikeCount(int likeCount) {
+    public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
     }
 
-    public int getDislikeCount() {
+    public Integer getDislikeCount() {
         return dislikeCount;
     }
 
-    public void setDislikeCount(int dislikeCount) {
+    public void setDislikeCount(Integer dislikeCount) {
         this.dislikeCount = dislikeCount;
     }
 
@@ -121,15 +120,30 @@ public class Review {
         this.createdAt = createdAt;
     }
 
-    public String getAuthor() {
-        return author.getUsername();
-    }
+        public User getAuthor() {
+            return author;
+        }
 
-    public void setAuthor(User author) {
-        this.author = author;
-    }
+//    public void setAuthor(User author) {
+//        this.author = author;
+//    }
 
     public List<ReviewLikeHistory> getLikeHistories() {
         return likeHistories;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "Id=" + Id +
+                ", reviewText='" + reviewText + '\'' +
+                ", rating=" + rating +
+                ", likeCount=" + likeCount +
+                ", dislikeCount=" + dislikeCount +
+                ", isAnonymus=" + isAnonymus +
+                ", createdAt=" + createdAt +
+                ", author=" + author +
+                ", likeHistories=" + likeHistories +
+                '}';
     }
 }

@@ -32,7 +32,7 @@
       <h1 class="text-center mainFont">Korábbi vendégeink véleményei:</h1>
         <div id="reviewContainer">
           @for (reviews of reviewDetails(); track $index) {
-            <app-review-card [reviewDetail]="reviews" (addDislikeOutput)="addDislike()" (addLikeOutput)="addLike()"/>
+            <app-review-card [reviewDetail]="reviews"/>
           }
         </div>
     </div>

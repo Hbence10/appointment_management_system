@@ -29,14 +29,14 @@
             <div id="likeButtons" class="d-flex justify-content-center align-items-center">
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button class="iconButton d-flex justify-content-center align-items-center">
+                <button class="iconButton d-flex justify-content-center align-items-center" (click)="addLike('like')">
                   <span class="material-symbols-outlined">thumb_up</span>
                 </button>
                 <span class="mx-1">{{reviewDetail().likeCount}}</span>
               </div>
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button class="iconButton d-flex justify-content-center align-items-center">
+                <button class="iconButton d-flex justify-content-center align-items-center" (click)="addLike('dislike')">
                   <span class="material-symbols-outlined">thumb_down</span>
                 </button>
                 <span class="mx-1">{{reviewDetail().dislikeCount}}</span>

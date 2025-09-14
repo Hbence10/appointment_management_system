@@ -80,8 +80,8 @@ public class User {
 
     @OneToMany(
             mappedBy = "author",
-            fetch = FetchType.LAZY,
-            cascade = {}
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.REFRESH}
     )
     private List<Review> reviews;
 
@@ -153,13 +153,29 @@ public class User {
         return deletedAt;
     }
 
-    public String getRole() {
-        return role.getName();
+    public Role getRole() {
+        return role;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     //ToString
+
     @Override
     public String toString() {
-        return "User{" + "username='" + username + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", pfpPath='" + pfpPath + '}';
+        return "User{" +
+                "role=" + role +
+                ", deletedAt=" + deletedAt +
+                ", isDeleted=" + isDeleted +
+                ", lastLogin=" + lastLogin +
+                ", createdAt=" + createdAt +
+                ", pfpPath='" + pfpPath + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", id=" + id +
+                '}';
     }
 }
