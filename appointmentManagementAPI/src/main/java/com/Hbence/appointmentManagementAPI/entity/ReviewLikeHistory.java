@@ -1,10 +1,12 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -39,9 +41,14 @@ public class ReviewLikeHistory {
     public ReviewLikeHistory() {
     }
 
-    public ReviewLikeHistory(String likeType, Date likeAt) {
+    public ReviewLikeHistory(String likeType) {
         this.likeType = likeType;
-        this.likeAt = likeAt;
+
+    }
+
+    public ReviewLikeHistory(String likeType, User likerUser) {
+        this.likeType = likeType;
+        this.likerUser = likerUser;
     }
 
     //Getterek & Setterek:
@@ -71,5 +78,23 @@ public class ReviewLikeHistory {
 
     public User getLikerUser() {
         return likerUser;
+    }
+
+//    public Review gLikedReview() {
+//        return likedReview;
+//    }
+
+    public void setLikedReview(Review likedReview) {
+        this.likedReview = likedReview;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewLikeHistory{" +
+                "id=" + id +
+                ", likeType='" + likeType + '\'' +
+                ", likeAt=" + likeAt +
+                ", likerUser=" + likerUser +
+                '}';
     }
 }

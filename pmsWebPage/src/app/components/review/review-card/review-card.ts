@@ -9,16 +9,22 @@ import { OtherService } from '../../../services/other-service';
   templateUrl: './review-card.html',
   styleUrl: './review-card.scss'
 })
-export class ReviewCard implements OnInit{
+export class ReviewCard implements OnInit {
   private otherService = inject(OtherService)
   reviewDetail = input.required<ReviewDetails>()
   startList = signal<number[]>([])
 
   ngOnInit(): void {
+  }
+
+  addLike(likeType: "like" | "dislike") {
+    if (likeType == "like"){
+      this.reviewDetail().likeCount += 1
+    } else if (likeType == "dislike"){
+      this.reviewDetail().dislikeCount += 1
+    }
+
 
   }
 
-  addLike(likeType: "dislike" | "like"){
-
-  }
 }

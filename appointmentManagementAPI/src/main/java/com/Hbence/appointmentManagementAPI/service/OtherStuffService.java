@@ -1,8 +1,6 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.entity.Gallery;
-import com.Hbence.appointmentManagementAPI.entity.Review;
-import com.Hbence.appointmentManagementAPI.entity.Rules;
+import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +53,10 @@ public class OtherStuffService {
         return reviewRepository.save(patchedReview);
     }
 
+    public void addReviewLikeHistory(Map<String, Object> requestBody){
+        
+    }
+
     //Galleria:
     public List<Gallery> getGalleryImages() {
         return galleryRepository.findAll();
@@ -65,18 +69,18 @@ public class OtherStuffService {
 
     //----------------------------------------
     //Egyeb:
-    private Review setPatchedLikeDetails(Map<String, Integer> likeDetails, Review defaultReview){
+    private Review setPatchedLikeDetails(Map<String, Integer> likeDetails, Review defaultReview) {
         ObjectNode baseReviewNode = objectMapper.convertValue(defaultReview, ObjectNode.class);
         ObjectNode likeDetailsNode = objectMapper.convertValue(likeDetails, ObjectNode.class);
 
         baseReviewNode.setAll(likeDetailsNode);
 
-        return objectMapper.convertValue(baseReviewNode, Review.class)  ;
+        return objectMapper.convertValue(baseReviewNode, Review.class);
     }
 
     /*
-    * ObjectMapper:
-    *
-    *
-    * */
+     * ObjectMapper:
+     *
+     *
+     * */
 }

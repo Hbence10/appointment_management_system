@@ -38,6 +38,11 @@ public class OtherStuffController {
         return otherStuffService.updateLikesOfReviews(id, likeDetails);
     }
 
+    @PostMapping("/review/likeHistory")
+    public void addLikeHistory(@RequestBody Map<String, Object> requestBody){
+
+    }
+
     //Galleria:
     @GetMapping("/gallery")
     public List<Gallery> getAllGalleryImages(){

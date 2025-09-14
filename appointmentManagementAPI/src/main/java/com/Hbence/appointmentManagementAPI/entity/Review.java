@@ -48,7 +48,7 @@ public class Review {
     @OneToMany(
             mappedBy = "likedReview",
             fetch = FetchType.LAZY,
-            cascade = {}
+            cascade = {CascadeType.MERGE}
     )
     private List<ReviewLikeHistory> likeHistories;
 
@@ -120,16 +120,20 @@ public class Review {
         this.createdAt = createdAt;
     }
 
-        public User getAuthor() {
-            return author;
-        }
+    public User getAuthor() {
+        return author;
+    }
 
-//    public void setAuthor(User author) {
-//        this.author = author;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+//    public List<ReviewLikeHistory> getLikeHistories() {
+//        return likeHistories;
 //    }
 
-    public List<ReviewLikeHistory> getLikeHistories() {
-        return likeHistories;
+    public void setLikeHistories(List<ReviewLikeHistory> likeHistories) {
+        this.likeHistories = likeHistories;
     }
 
     @Override
@@ -145,5 +149,10 @@ public class Review {
                 ", author=" + author +
                 ", likeHistories=" + likeHistories +
                 '}';
+    }
+
+    //
+    public void addHistory(ReviewLikeHistory newHistory){
+        this.likeHistories.add(newHistory);
     }
 }

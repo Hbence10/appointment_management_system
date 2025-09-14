@@ -16,21 +16,21 @@ export class OtherService {
     return this.http.get<ReviewDetails[]>(`${this.baseURL()}/reviews`)
   }
 
-  addReview(newReview: ReviewDetails){
+  addReview(newReview: ReviewDetails) {
     return this.http.post(`${(this.baseURL())}/reviews`, newReview)
   }
 
-  addLikeToReview(){
-    return this.http.patch(`${this.baseURL}/reviews?id=1&addedLikeType=like`, {})
+  addLikeToReview(reviewId: number, likeBody: { likeCount: number, dislikeCount: number }): Observable<ReviewDetails> {
+    return this.http.patch<ReviewDetails>(`${this.baseURL()}/reviews/${reviewId}`, likeBody)
   }
 
   //Galleria
-  getAllGalleryImages(): Observable<GalleryImage[]>{
+  getAllGalleryImages(): Observable<GalleryImage[]> {
     return this.http.get<GalleryImage[]>(`${this.baseURL()}/gallery`)
   }
 
   //Szabalyzat
-  getRule(): Observable<{id: number, text: string, lastEditAt: Date}>{
-    return this.http.get<{id: number, text: string, lastEditAt: Date}>(`${this.baseURL()}/rule`)
+  getRule(): Observable<{ id: number, text: string, lastEditAt: Date }> {
+    return this.http.get<{ id: number, text: string, lastEditAt: Date }>(`${this.baseURL()}/rule`)
   }
 }
