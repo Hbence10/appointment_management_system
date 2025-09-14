@@ -12,7 +12,7 @@ export class ReviewDetails {
     private _createdAt: Date = new Date(),
     private _likeCount: number = 0,
     private _dislikeCount: number = 0,
-    private _likeHistoryList: ReviewHistory[] = []
+    private _likeHistories: ReviewHistory[] = []
   ) { }
 
   //Getterek:
@@ -46,6 +46,10 @@ export class ReviewDetails {
 
   get createdAt(): Date {
     return this._createdAt
+  }
+
+  get likeHistories(): ReviewHistory[] {
+    return this._likeHistories
   }
 
   //Setterek:

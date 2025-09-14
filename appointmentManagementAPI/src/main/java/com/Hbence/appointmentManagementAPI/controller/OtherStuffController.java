@@ -40,7 +40,7 @@ public class OtherStuffController {
 
     @PostMapping("/review/likeHistory")
     public void addLikeHistory(@RequestBody Map<String, Object> requestBody){
-
+        otherStuffService.addReviewLikeHistory(requestBody);
     }
 
     //Galleria:

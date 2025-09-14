@@ -46,8 +46,9 @@ public class ReviewLikeHistory {
 
     }
 
-    public ReviewLikeHistory(String likeType, User likerUser) {
+    public ReviewLikeHistory(String likeType, Review likedReview, User likerUser) {
         this.likeType = likeType;
+        this.likedReview = likedReview;
         this.likerUser = likerUser;
     }
 

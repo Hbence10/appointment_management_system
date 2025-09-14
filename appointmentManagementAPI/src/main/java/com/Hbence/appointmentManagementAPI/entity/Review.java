@@ -128,9 +128,9 @@ public class Review {
         this.author = author;
     }
 
-//    public List<ReviewLikeHistory> getLikeHistories() {
-//        return likeHistories;
-//    }
+    public List<ReviewLikeHistory> getLikeHistories() {
+        return likeHistories;
+    }
 
     public void setLikeHistories(List<ReviewLikeHistory> likeHistories) {
         this.likeHistories = likeHistories;

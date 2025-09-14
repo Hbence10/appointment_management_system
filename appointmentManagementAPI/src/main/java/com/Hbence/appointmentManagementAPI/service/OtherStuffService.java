@@ -25,15 +25,17 @@ public class OtherStuffService {
     private final HistoryRepository historyRepository;
     private final SpecialOfferRepository specialOfferRepository;
     private final ObjectMapper objectMapper;
+    private final ReviewHistoryRepository reviewLikeHistoryRepository;
 
     @Autowired
-    public OtherStuffService(ReviewRepository reviewRepository, RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository, ObjectMapper objectMapper) {
+    public OtherStuffService(ReviewRepository reviewRepository, RuleRepository ruleRepository, GalleryRepository galleryRepository, HistoryRepository historyRepository, SpecialOfferRepository specialOfferRepository, ObjectMapper objectMapper, ReviewHistoryRepository reviewLikeHistory) {
         this.reviewRepository = reviewRepository;
         this.ruleRepository = ruleRepository;
         this.galleryRepository = galleryRepository;
         this.historyRepository = historyRepository;
         this.specialOfferRepository = specialOfferRepository;
         this.objectMapper = objectMapper;
+        this.reviewLikeHistoryRepository = reviewLikeHistory;
     }
 
     //Velemenyek:
@@ -53,8 +55,14 @@ public class OtherStuffService {
         return reviewRepository.save(patchedReview);
     }
 
-    public void addReviewLikeHistory(Map<String, Object> requestBody){
-        
+    public void addReviewLikeHistory(Map<String, Object> requestBody) {
+        reviewLikeHistoryRepository.save(
+                new ReviewLikeHistory(
+                        String.valueOf(requestBody.get("likeType")),
+                        objectMapper.convertValue(requestBody.get("review"), Review.class),
+                        objectMapper.convertValue(requestBody.get("user"), User.class)
+                )
+        );
     }
 
     //Galleria:
