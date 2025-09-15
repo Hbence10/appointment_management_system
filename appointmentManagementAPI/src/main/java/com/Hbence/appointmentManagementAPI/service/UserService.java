@@ -3,15 +3,9 @@ package com.Hbence.appointmentManagementAPI.service;
 import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
-import com.Hbence.appointmentManagementAPI.exceptionTypes.InvalidEmail;
-import com.Hbence.appointmentManagementAPI.exceptionTypes.InvalidEmailAndPassword;
-import com.Hbence.appointmentManagementAPI.exceptionTypes.InvalidPassword;
-import com.Hbence.appointmentManagementAPI.exceptionTypes.UserNotFound;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -48,16 +42,15 @@ public class UserService {
             result = userRepository.register(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
 
         } else if (!emailChecker(newUser.getEmail()) && !passwordChecker(newUser.getPassword())) {
-            throw new InvalidEmailAndPassword("Invalid email & password");
+//            throw new InvalidEmailAndPassword("Invalid email & password");
 
         } else if (!emailChecker(newUser.getEmail())) {
-            throw new InvalidEmail("Invalid email");
+//            throw new InvalidEmail("Invalid email");
 
         } else if (!passwordChecker(newUser.getPassword())) {
-            throw new InvalidPassword("Invalid Password");
+//            throw new InvalidPassword("Invalid Password");
         }
 
-//        return new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
         return null;
     }
 
