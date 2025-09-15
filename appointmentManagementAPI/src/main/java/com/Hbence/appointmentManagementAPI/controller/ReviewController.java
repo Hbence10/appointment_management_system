@@ -1,7 +1,7 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Review;
-import com.Hbence.appointmentManagementAPI.service.Response;
+import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

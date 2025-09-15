@@ -1,18 +1,15 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.repository.*;
-import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.InvalidEmail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Transactional
@@ -54,9 +51,9 @@ public class ReservationService {
     }
 
     public Response makeReservation(Reservations newReservation) {
-        Response response = new Response();
+//        Response response = new Response();
         reservationRepository.save(newReservation);
-        return response;
+        return null;
     }
 
     public String cancelReservation(Long id, Map<String, Object> cancelBody) {

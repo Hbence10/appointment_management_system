@@ -1,19 +1,20 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.User;
+import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
-import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.InvalidEmail;
-import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.InvalidEmailAndPassword;
-import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.InvalidPassword;
-import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.UserNotFound;
+import com.Hbence.appointmentManagementAPI.exceptionTypes.InvalidEmail;
+import com.Hbence.appointmentManagementAPI.exceptionTypes.InvalidEmailAndPassword;
+import com.Hbence.appointmentManagementAPI.exceptionTypes.InvalidPassword;
+import com.Hbence.appointmentManagementAPI.exceptionTypes.UserNotFound;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 @Transactional
@@ -23,19 +24,21 @@ public class UserService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     private static final String SPECIAL = "!@#$%^&*()-_=+[]{};:,.?/";
 
+    //Constructor
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User login(String username, String password) {
+
+    public Response login(String username, String password) {
         User loggedUser = userRepository.login(username, password);
 
         if (loggedUser == null) {
-            throw new UserNotFound("User not Found");
+            return new Response(HttpStatus.NOT_FOUND.value(), "User not found", LocalDate.now());
         }
 
-        return loggedUser;
+        return new Response(HttpStatus.OK.value(), loggedUser, LocalDate.now());
     }
 
     public Response register(User newUser) {
@@ -54,7 +57,8 @@ public class UserService {
             throw new InvalidPassword("Invalid Password");
         }
 
-        return new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
+//        return new Response(HttpStatus.OK.value(), result, LocalDateTime.now());
+        return null;
     }
 
     //---------------------------------

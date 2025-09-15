@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType;
+package com.Hbence.appointmentManagementAPI.exceptionTypes;
 
 public class UserNotFound extends RuntimeException {
     public UserNotFound(String message) {

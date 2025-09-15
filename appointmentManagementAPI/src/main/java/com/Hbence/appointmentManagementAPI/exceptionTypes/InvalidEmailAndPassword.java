@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType;
+package com.Hbence.appointmentManagementAPI.exceptionTypes;
 
 public class InvalidEmailAndPassword extends RuntimeException {
     public InvalidEmailAndPassword(String message) {

@@ -3,16 +3,15 @@ package com.Hbence.appointmentManagementAPI.service;
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
 import com.Hbence.appointmentManagementAPI.entity.User;
+import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.repository.ReviewHistoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,8 @@ public class ReviewService {
 
     public Response addReview(Review newReview) {
         reviewRepository.save(newReview);
-        return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
+//        return new Response(HttpStatus.OK.value(), "succes", LocalDateTime.now());
+        return null;
     }
 
     public Review updateLikesOfReviews(Long id, Map<String, Integer> likeDetails) {

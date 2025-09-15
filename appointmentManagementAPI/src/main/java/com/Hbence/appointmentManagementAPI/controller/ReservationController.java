@@ -2,7 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
-import com.Hbence.appointmentManagementAPI.service.Response;
+import com.Hbence.appointmentManagementAPI.other.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,8 +56,8 @@ public class ReservationController {
     public Response makeReservation(@RequestBody Reservations newReservation){
         System.out.println(newReservation);
 
-        return reservationService.makeReservation(newReservation);
-//        return null;
+//        return reservationService.makeReservation(newReservation);
+        return null;
     }
 
     @PatchMapping("/cancel/{id}")
