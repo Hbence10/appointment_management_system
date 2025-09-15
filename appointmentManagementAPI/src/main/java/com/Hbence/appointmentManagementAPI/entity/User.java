@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -20,6 +21,7 @@ import java.util.List;
                 @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "result", type = String.class, mode = ParameterMode.OUT)
+
         }, resultClasses = {String.class})
 })
 
@@ -48,7 +50,7 @@ public class User {
 
     @Column(name = "pfp_path")
     @NotNull
-    private String pfpPath;
+    private String pfpPath = "asd";
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -67,9 +69,9 @@ public class User {
     private Date deletedAt;
 
     //Kapcsolatok:
-    @ManyToOne(cascade = {})
+    @ManyToOne(cascade = {CascadeType.DETACH})
     @JoinColumn(name = "role_id")
-    private Role role;
+    private Role role = new Role(Long.valueOf(1), "user");
 
     @OneToMany(
             mappedBy = "writer",
@@ -113,11 +115,10 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password, String pfpPath) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.pfpPath = pfpPath;
     }
 
     //Getter & Setter:

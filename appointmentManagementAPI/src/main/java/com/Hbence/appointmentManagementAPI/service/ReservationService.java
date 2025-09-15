@@ -90,5 +90,10 @@ public class ReservationService {
 
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
     }
+
+    /*
+    * Validaciok
+    *
+    * */
 }
 

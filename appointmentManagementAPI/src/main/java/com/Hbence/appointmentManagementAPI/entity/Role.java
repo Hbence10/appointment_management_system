@@ -36,6 +36,11 @@ public class Role {
         this.name = name;
     }
 
+    public Role(Long id, String name) {
+        Id = id;
+        this.name = name;
+    }
+
     //Getterek & Setterek
     public Long getId() {
         return Id;

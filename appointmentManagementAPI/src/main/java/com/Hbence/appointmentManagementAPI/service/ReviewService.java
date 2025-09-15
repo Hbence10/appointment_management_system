@@ -66,4 +66,11 @@ public class ReviewService {
 
         return objectMapper.convertValue(baseReviewNode, Review.class);
     }
+
+    /*
+    * Validaciok:
+    *           nem talalt user
+    *           update --> nem talat review
+    *           history --> nem talalt review & user
+    * */
 }

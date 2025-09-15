@@ -1,8 +1,8 @@
 package com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionHandlers;
 
 import com.Hbence.appointmentManagementAPI.service.Response;
-import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.InvalidEmail;
 import com.Hbence.appointmentManagementAPI.service.exceptions.ExceptionType.UserNotFound;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class UserExceptionHandle {
 
-    //Rossz login
     @ExceptionHandler
     public ResponseEntity<Response> handleException(UserNotFound exc){
         Response error = new Response(
@@ -26,18 +25,10 @@ public class UserExceptionHandle {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    //Rossz regisztracio
-    public ResponseEntity<Response> handleException(InvalidEmail exc){
-        return null;
-    }
-
-    public ResponseEntity<Response> handleException2(SQLIntegrityConstraintViolationException exc) {
-        Response error = new Response(
-                111,
-                exc.getMessage(),
-                LocalDateTime.now()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    //Unique adat megduplázásakor
+    @ExceptionHandler
+    public ResponseEntity<String> handleDuplicateUniqueData (DataIntegrityViolationException exc){
+        System.out.println(exc.getMessage());
+        return new ResponseEntity<>(exc.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -24,4 +24,11 @@ public class DeviceService {
     public List<DevicesCategory> getAllDevicesByCategory(){
         return deviceCategoryRepository.findAll();
     }
+
+    /*
+    * Validaciok
+    *
+    *
+    *
+    * */
 }
