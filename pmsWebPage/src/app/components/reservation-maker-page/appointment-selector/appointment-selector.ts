@@ -52,10 +52,12 @@ export class AppointmentSelector implements OnInit {
 
   ngOnInit(): void {
     this.user.set(this.userService.user())
-    if (this.user()?.role == "admin" || this.user()?.role == "superAdmin") {
-      this.listCardAmount = this.reservableHourAmounts.length
-    } else if (this.user() == null || this.user()?.role == "user") {
-      this.listCardAmount = 5
+    if (this.user() != null) {
+      if (this.user()!.role.name == "admin" || this.user()!.role.name == "superAdmin") {
+        this.listCardAmount = this.reservableHourAmounts.length
+      } else if (this.user() == null || this.user()!.role.name == "user") {
+        this.listCardAmount = 5
+      }
     }
 
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())

@@ -43,17 +43,17 @@ public class DeviceController {
     }
 
     //Maga_az_eszkoz
-    @PutMapping("/device")
+    @PutMapping("")
     public ResponseEntity<Devices> updateDevice(@RequestBody Devices updatedDevice){
         return null;
     }
 
-    @PostMapping("/device")
+    @PostMapping("")
     public ResponseEntity<Devices> addDevice(@RequestBody Devices newDevice){
         return null;
     }
 
-    @DeleteMapping("/device/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Devices> deleteDevice(@PathVariable("id") Long id){
         return null;
     }

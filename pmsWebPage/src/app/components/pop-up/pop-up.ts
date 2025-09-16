@@ -9,10 +9,9 @@ import { NewsDetails } from '../../models/newsDetails.model';
   styleUrl: './pop-up.scss'
 })
 export class PopUp {
-  inputValue = input<DeviceCategory | NewsDetails>()
+
 
   closePopUp = output()
-
   close(){
     this.closePopUp.emit()
   }
