@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "reservation_type")
+@Getter
+@Setter
+@NoArgsConstructor
 public class ReservationType {
 
     @Id
@@ -31,11 +38,14 @@ public class ReservationType {
             fetch = FetchType.LAZY,
             cascade = {}
     )
+    @JsonIgnore
     private List<Reservations> reservation;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "reservationType", cascade = {})
     private SpecialOffer specialOffer;
 
+    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {},
@@ -44,36 +54,8 @@ public class ReservationType {
     private List<Devices> devicesList;
 
     //Constructorok
-    public ReservationType() {
-    }
-
     public ReservationType(String name, int price) {
         this.name = name;
-        this.price = price;
-    }
-
-    //Getterek & Setterek
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
         this.price = price;
     }
 

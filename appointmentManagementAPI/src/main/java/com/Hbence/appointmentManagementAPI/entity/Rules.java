@@ -1,11 +1,17 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "rules")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Rules {
 
     @Id
@@ -20,36 +26,8 @@ public class Rules {
     private LocalDateTime lastEditAt;
 
     //Constructorok
-    public Rules() {
-    }
-
     public Rules(String text, LocalDateTime lastEditAt) {
         this.text = text;
-        this.lastEditAt = lastEditAt;
-    }
-
-    //Getterek & Setterek
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public LocalDateTime getLastEditAt() {
-        return lastEditAt;
-    }
-
-    public void setLastEditAt(LocalDateTime lastEditAt) {
         this.lastEditAt = lastEditAt;
     }
 }

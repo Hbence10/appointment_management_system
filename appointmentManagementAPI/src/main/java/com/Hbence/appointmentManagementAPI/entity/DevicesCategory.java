@@ -1,6 +1,9 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "devices_category")
+@Getter
+@Setter
+@NoArgsConstructor
 public class DevicesCategory {
 
     @Id
@@ -29,24 +35,10 @@ public class DevicesCategory {
     private List<Devices> devicesList;
 
     //Constructorok
-    public DevicesCategory() {
-    }
-
     public DevicesCategory(String name, List<Devices> devicesList) {
         this.name = name;
         this.devicesList = devicesList;
     }
 
-    //Getterek & Setterek
-    public Long getId() {
-        return id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public List<Devices> getDevicesList() {
-        return devicesList;
-    }
 }

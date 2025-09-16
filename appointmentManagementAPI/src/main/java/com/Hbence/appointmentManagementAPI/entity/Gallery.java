@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 @Table(name = "gallery")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Gallery {
 
     @Id
@@ -32,9 +34,6 @@ public class Gallery {
     private int placement;
 
     //Constructorok
-    public Gallery() {
-    }
-
     public Gallery(String photoName, String photoPath, int placement) {
         this.photoName = photoName;
         this.photoPath = photoPath;

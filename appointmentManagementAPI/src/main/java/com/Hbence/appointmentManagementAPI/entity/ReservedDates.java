@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -15,6 +19,9 @@ import java.util.List;
                 @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN)
         }, resultClasses = {ReservedDates.class})
 })
+@Getter
+@Setter
+@NoArgsConstructor
 public class ReservedDates {
 
     @Id
@@ -38,6 +45,7 @@ public class ReservedDates {
     private Boolean isFull = false;
 
     //Kapcsolatok
+    @JsonIgnore
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,
@@ -46,36 +54,10 @@ public class ReservedDates {
     private List<ReservedHours> reservedHours;
 
     //Constructorok
-    public ReservedDates() {
-    }
-
     public ReservedDates(LocalDate date, Boolean isHoliday, Boolean isClosed, Boolean isFull) {
         this.date = date;
         this.isHoliday = isHoliday;
         this.isClosed = isClosed;
         this.isFull = isFull;
-    }
-
-    //Getterek & Setterek
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Long getId() {return id;}
-
-    public Boolean getIsHoliday() {
-        return isHoliday;
-    }
-
-    public Boolean getIsClosed() {
-        return isClosed;
-    }
-
-    public Boolean getIsFull() {
-        return isFull;
-    }
-
-    public List<ReservedHours> getReservedHours() {
-        return reservedHours;
     }
 }

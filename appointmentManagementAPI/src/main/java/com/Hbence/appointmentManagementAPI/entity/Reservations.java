@@ -1,6 +1,9 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -20,6 +23,9 @@ import java.util.Date;
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
         }, resultClasses = {Reservations.class})
 })
+@Setter
+@Getter
+@NoArgsConstructor
 public class Reservations {
 
     @Id
@@ -88,76 +94,12 @@ public class Reservations {
     private ReservedHours reservedHours;
 
     //Constructorok:
-    public Reservations() {
-    }
-
     public Reservations(String firstName, String lastName, String email, String phone, String comment) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.comment = comment;
-    }
-
-    //Getterek & Setterek
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public Date getReservedAt() {
-        return reservedAt;
-    }
-
-    public Boolean getCanceled() {
-        return isCanceled;
-    }
-
-    public LocalDate getCanceledAt() {
-        return canceledAt;
-    }
-
-    public String getReservationTypeId() {
-        return reservationTypeId.getName();
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod.getName();
-    }
-
-    public String getStatus() {
-        return status.getName();
-    }
-
-    public String getReservedHours() {
-        return reservedHours.getStart() + ":00 - " + reservedHours.getEnd() + ":00";
-    }
-
-    public void setCanceled(Boolean canceled) {
-        isCanceled = canceled;
-    }
-
-    public void setCanceledAt(LocalDate canceledAt) {
-        this.canceledAt = canceledAt;
-    }
-
-    public void setCanceledBy(User canceledBy) {
-        this.canceledBy = canceledBy;
     }
 
     @Override

@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +15,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "review_like_history")
+@Getter
+@Setter
+@NoArgsConstructor
 public class ReviewLikeHistory {
 
     @Id
@@ -31,6 +38,7 @@ public class ReviewLikeHistory {
     //Kapcsolatok
     @ManyToOne(cascade = {})
     @JoinColumn(name = "review_id")
+    @JsonIgnore
     private Review likedReview;
 
     @ManyToOne(cascade = {})
@@ -38,55 +46,14 @@ public class ReviewLikeHistory {
     private User likerUser;
 
     //Constructorok
-    public ReviewLikeHistory() {
-    }
-
     public ReviewLikeHistory(String likeType) {
         this.likeType = likeType;
-
     }
 
     public ReviewLikeHistory(String likeType, Review likedReview, User likerUser) {
         this.likeType = likeType;
         this.likedReview = likedReview;
         this.likerUser = likerUser;
-    }
-
-    //Getterek & Setterek:
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLikeType() {
-        return likeType;
-    }
-
-    public void setLikeType(String likeType) {
-        this.likeType = likeType;
-    }
-
-    public Date getLikeAt() {
-        return likeAt;
-    }
-
-    public void setLikeAt(Date likeAt) {
-        this.likeAt = likeAt;
-    }
-
-    public User getLikerUser() {
-        return likerUser;
-    }
-
-//    public Review gLikedReview() {
-//        return likedReview;
-//    }
-
-    public void setLikedReview(Review likedReview) {
-        this.likedReview = likedReview;
     }
 
     @Override

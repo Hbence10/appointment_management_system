@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -15,6 +19,9 @@ import java.util.Date;
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
         })
 })
+@Getter
+@Setter
+@NoArgsConstructor
 public class ReservedHours {
 
     @Id
@@ -38,39 +45,18 @@ public class ReservedHours {
     @Null
     private ReservedDates date;     //Csak akkor adja hozza a datumot a db-hez ha, meg nincs benne
 
+    @JsonIgnore
     @OneToOne(mappedBy = "reservedHours", cascade = {})
     private Reservations reservationHour;
 
     //Constructorok
-    public ReservedHours() {
-    }
-
     public ReservedHours(int start, int end, ReservedDates date) {
         this.start = start;
         this.end = end;
         this.date = date;
     }
 
-    //Getterek & Setterek
-    public Long getId() {
-        return id;
-    }
 
-    public int getStart() {
-        return start;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
-//    public ReservedDates getDate() {
-//        return date;
-//    }
-
-    public void setDate(ReservedDates date) {
-        this.date = date;
-    }
 
     @Override
     public String toString() {

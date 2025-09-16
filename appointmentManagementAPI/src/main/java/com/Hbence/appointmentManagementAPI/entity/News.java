@@ -1,6 +1,9 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -9,6 +12,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "news")
+@Getter
+@Setter
+@NoArgsConstructor
 public class News {
 
     @Id
@@ -54,64 +60,12 @@ public class News {
     private User writer;
 
     //Constructorok:
-    public News() {
-    }
-
     public News(String title, String text, String bannerImgPath, User writer, Integer placement) {
         this.title = title;
         this.text = text;
         this.bannerImgPath = bannerImgPath;
         this.writer = writer;
         this.placement = placement;
-    }
-
-    //Kapcsolatok
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getBannerImgPath() {
-        return bannerImgPath;
-    }
-
-    public void setBannerImgPath(String bannerImgPath) {
-        this.bannerImgPath = bannerImgPath;
-    }
-
-    public Integer getPlacement() {
-        return placement;
-    }
-
-    public void setPlacement(Integer placement) {
-        this.placement = placement;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 }
 

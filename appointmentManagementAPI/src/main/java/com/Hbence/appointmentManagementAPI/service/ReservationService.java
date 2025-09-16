@@ -72,8 +72,8 @@ public class ReservationService {
     }
 
     //Fizetesi modszerek
-    public List<PaymentMethods> getAllPaymentMethod() {
-        return paymentMethodRepository.findAll();
+    public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
+        return ResponseEntity.ok(paymentMethodRepository.findAll());
     }
 
     //----------------------------------------
@@ -85,6 +85,10 @@ public class ReservationService {
         baseReservationNode.setAll(cancelDetailsNode);
 
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
+    }
+
+    public List<Reservations> asd(){
+        return reservationRepository.findAll();
     }
 }
 

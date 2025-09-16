@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "status")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Status {
 
     @Id
@@ -21,6 +28,7 @@ public class Status {
     private String name;
 
     //Kapcsolatok:
+    @JsonIgnore
     @OneToMany(
             mappedBy = "status",
             fetch = FetchType.LAZY,
@@ -29,21 +37,10 @@ public class Status {
     private List<Reservations> reservationsList;
 
     //Constructorok
-    public Status() {
-    }
-
     public Status(String name) {
         this.name = name;
     }
 
-    //Getterek & Setterek
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     @Override
     public String toString() {

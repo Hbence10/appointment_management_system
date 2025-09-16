@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "review")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Review {
 
     @Id
@@ -27,16 +29,6 @@ public class Review {
     @Column(name = "rating")
     @NotNull
     private double rating;
-
-    @Column(name = "like_count")
-    @NotNull
-    @Size(max = 4)
-    private Integer likeCount;
-
-    @Column(name = "dislike_count")
-    @NotNull
-    @Size(max = 4)
-    private Integer dislikeCount;
 
     @Column(name = "is_anonymus")
     private boolean isAnonymus;
@@ -57,18 +49,10 @@ public class Review {
     private List<ReviewLikeHistory> likeHistories;
 
     //Constructorok
-    public Review() {
-    }
-
-    public Review(String reviewText, double rating, Integer likeCount, Integer dislikeCount) {
+    public Review(String reviewText, double rating) {
         this.reviewText = reviewText;
         this.rating = rating;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
     }
-
-    //Getterek & Setterek
-
 
     @Override
     public String toString() {
@@ -76,17 +60,10 @@ public class Review {
                 "Id=" + Id +
                 ", reviewText='" + reviewText + '\'' +
                 ", rating=" + rating +
-                ", likeCount=" + likeCount +
-                ", dislikeCount=" + dislikeCount +
                 ", isAnonymus=" + isAnonymus +
                 ", createdAt=" + createdAt +
                 ", author=" + author +
                 ", likeHistories=" + likeHistories +
                 '}';
-    }
-
-    //
-    public void addHistory(ReviewLikeHistory newHistory){
-        this.likeHistories.add(newHistory);
     }
 }

@@ -21,6 +21,8 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+    //Foglalasok
+
     @GetMapping("/user/{id}")
     public List<Reservations> getReservationByUserId(@PathVariable("id") Long id) {
         System.out.println(id.getClass());
@@ -43,7 +45,7 @@ public class ReservationController {
     }
 
     @GetMapping("/paymentMethods")
-    public List<PaymentMethods> getAllPaymentMethod() {
+    public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         return reservationService.getAllPaymentMethod();
     }
 
@@ -60,6 +62,11 @@ public class ReservationController {
     @PatchMapping("/cancel/{id}")
     public String cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody){
         return reservationService.cancelReservation(id, cancelBody);
+    }
+
+    @GetMapping("")
+    public List<Reservations> asd(){
+        return reservationService.asd();
     }
 }
 

@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "devices")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Devices {
 
     @Id
@@ -28,6 +35,7 @@ public class Devices {
     //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private DevicesCategory categoryId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {})
@@ -36,40 +44,12 @@ public class Devices {
             joinColumns = @JoinColumn(name = "reservation_type_id"),
             inverseJoinColumns = @JoinColumn(name = "device_id")
     )
+    @JsonIgnore
     private List<ReservationType> reservationTypes;
 
     //Constructorok:
-    public Devices() {
-    }
-
-    public Devices(String name, DevicesCategory categoryId, int amount) {
+    public Devices(String name, int amount) {
         this.name = name;
-        this.categoryId = categoryId;
-        this.amount = amount;
-    }
-
-    //Getterek & Setterek
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
         this.amount = amount;
     }
 
