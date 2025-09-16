@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "role")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -26,35 +33,16 @@ public class Role {
             fetch = FetchType.LAZY,
             cascade = {}
     )
+    @JsonIgnore
     private List<User> users;
 
     //Constructorok
-    public Role() {
-    }
-
     public Role(String name) {
         this.name = name;
     }
 
     public Role(Long id, String name) {
         Id = id;
-        this.name = name;
-    }
-
-    //Getterek & Setterek
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 

@@ -16,16 +16,16 @@ public class UserService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     private static final String SPECIAL = "!@#$%^&*()-_=+[]{};:,.?/";
 
-    //Constructor
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    //Endpointok
     public ResponseEntity<User> login(String username, String password) {
         User loggedUser = userRepository.login(username, password);
 
-        if (loggedUser == null) {
+        if (loggedUser == null || loggedUser.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -63,17 +63,17 @@ public class UserService {
 
         String specialCharacters = "\"!@#$%^&*()-_=+[]{};:,.?/\"";
         String numbersText = "1234567890";
-        Boolean specialChecker = false;
-        Boolean upperCaseChecker = false;
-        Boolean lowerCaseChecker = false;
-        Boolean initChecker = false;
+        boolean specialChecker = false;
+        boolean upperCaseChecker = false;
+        boolean lowerCaseChecker = false;
+        boolean initChecker = false;
 
-        for (int i = 0; i < password.length(); i++) {
+        for (int i = 0; i < password.trim().length(); i++) {
             String selectedChar = String.valueOf(password.charAt(i));
 
-            if (numbersText.indexOf(selectedChar) >= 0) {
+            if (numbersText.contains(selectedChar)) {
                 initChecker = true;
-            } else if (specialCharacters.indexOf(selectedChar) >= 0) {
+            } else if (specialCharacters.contains(selectedChar)) {
                 specialChecker = true;
             } else if (selectedChar.equals(selectedChar.toUpperCase())) {
                 upperCaseChecker = true;

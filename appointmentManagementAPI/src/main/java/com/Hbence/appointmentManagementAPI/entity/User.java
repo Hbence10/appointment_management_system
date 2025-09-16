@@ -1,11 +1,16 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,18 +19,13 @@ import java.util.List;
         @NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
                 @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN)
-        }, resultClasses = {User.class}),
-
-        @NamedStoredProcedureQuery(name = "register", procedureName = "register", parameters = {
-                @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "result", type = String.class, mode = ParameterMode.OUT)
-
-        }, resultClasses = {String.class})
+        }, resultClasses = {User.class})
 })
 
 @Table(name = "user")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -78,6 +78,7 @@ public class User {
             fetch = FetchType.LAZY,
             cascade = {}
     )
+    @JsonIgnore
     private List<News> news;
 
     @OneToMany(
@@ -85,6 +86,7 @@ public class User {
             fetch = FetchType.EAGER,
             cascade = {CascadeType.REFRESH}
     )
+    @JsonIgnore
     private List<Review> reviews;
 
     @OneToMany(
@@ -92,9 +94,11 @@ public class User {
             fetch = FetchType.LAZY,
             cascade = {}
     )
+    @JsonIgnore
     private List<Reservations> reservations;
 
     @OneToOne(mappedBy = "canceledBy", cascade = {})
+    @JsonIgnore
     private Reservations canceledReservation;
 
     @OneToMany(
@@ -102,6 +106,7 @@ public class User {
             fetch = FetchType.LAZY,
             cascade = {}
     )
+    @JsonIgnore
     private List<History> historyList;
 
     @OneToMany(
@@ -109,61 +114,17 @@ public class User {
             fetch = FetchType.LAZY,
             cascade = {}
     )
+    @JsonIgnore
     private List<ReviewLikeHistory> reviewLikeHistories;
 
     //Constructorok
-    public User() {
-    }
-
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    //Getter & Setter:
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getPfpPath() {
-        return pfpPath;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getLastLogin() {
-        return lastLogin;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     //ToString
-
     @Override
     public String toString() {
         return "User{" +

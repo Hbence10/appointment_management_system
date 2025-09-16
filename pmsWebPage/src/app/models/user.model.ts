@@ -1,9 +1,11 @@
+type role = {id: number, name: "user" | "admin" | "superAdmin"}
 export class User {
+
   constructor(
     private _username: string,
     private _email: string,
     private _pfpPath: string,
-    private _role: "user" | "admin" | "superAdmin",
+    private _role: role,
     private _id: number | null = null,
   ) { }
 
@@ -24,7 +26,7 @@ export class User {
     return this._pfpPath
   }
 
-  get role(): "user" | "admin" | "superAdmin" {
+  get role(): role {
     return this._role
   }
 

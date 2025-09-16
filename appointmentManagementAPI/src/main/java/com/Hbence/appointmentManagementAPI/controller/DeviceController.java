@@ -3,6 +3,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +20,27 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
+    //Eszkoz_kategoria
     @GetMapping("/category")
-    public List<DevicesCategory> getAllDevicesByCategory(){
+    public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory(){
         return deviceService.getAllDevicesByCategory();
     }
+
+    @PostMapping("/category")
+    public ResponseEntity<String> addDeviceCategory(DevicesCategory newDevicesCategory){
+        return ResponseEntity.ok("");
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") long id){
+        return ResponseEntity.ok("");
+    }
+
+    @PutMapping("/category")
+    public ResponseEntity<String> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory){
+        return ResponseEntity.ok("");
+    }
+
+    //Maga_az_eszkoz
 
 }

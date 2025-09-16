@@ -1,12 +1,16 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "gallery")
+@Getter
+@Setter
 public class Gallery {
 
     @Id
@@ -34,39 +38,6 @@ public class Gallery {
     public Gallery(String photoName, String photoPath, int placement) {
         this.photoName = photoName;
         this.photoPath = photoPath;
-        this.placement = placement;
-    }
-
-    //Getterek & Setterek
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public String getPhotoName() {
-        return photoName;
-    }
-
-    public void setPhotoName(String photoName) {
-        this.photoName = photoName;
-    }
-
-    public String getPhotoPath() {
-        return photoPath;
-    }
-
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
-
-    public int getPlacement() {
-        return placement;
-    }
-
-    public void setPlacement(int placement) {
         this.placement = placement;
     }
 

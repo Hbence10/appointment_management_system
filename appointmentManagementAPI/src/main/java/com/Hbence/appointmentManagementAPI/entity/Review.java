@@ -1,6 +1,8 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -9,6 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "review")
+@Getter
+@Setter
 public class Review {
 
     @Id
@@ -64,77 +68,7 @@ public class Review {
     }
 
     //Getterek & Setterek
-    public Long getId() {
-        return Id;
-    }
 
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public String getReviewText() {
-        return reviewText;
-    }
-
-    public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public Integer getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public Integer getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(Integer dislikeCount) {
-        this.dislikeCount = dislikeCount;
-    }
-
-    public boolean isAnonymus() {
-        return isAnonymus;
-    }
-
-    public void setAnonymus(boolean anonymus) {
-        isAnonymus = anonymus;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public List<ReviewLikeHistory> getLikeHistories() {
-        return likeHistories;
-    }
-
-    public void setLikeHistories(List<ReviewLikeHistory> likeHistories) {
-        this.likeHistories = likeHistories;
-    }
 
     @Override
     public String toString() {
