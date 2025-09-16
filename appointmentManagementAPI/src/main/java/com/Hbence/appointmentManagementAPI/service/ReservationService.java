@@ -71,6 +71,18 @@ public class ReservationService {
         return reservationTypeRepository.findAll();
     }
 
+    public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType){
+        return null;
+    }
+
+    public ResponseEntity<String> deleteReservationType(Long id){
+        return null;
+    }
+
+    public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType){
+        return null;
+    }
+
     //Fizetesi modszerek
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         return ResponseEntity.ok(paymentMethodRepository.findAll());

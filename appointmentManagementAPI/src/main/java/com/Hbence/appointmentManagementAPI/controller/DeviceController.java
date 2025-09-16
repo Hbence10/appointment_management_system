@@ -28,33 +28,33 @@ public class DeviceController {
     }
 
     @PostMapping("/category")
-    public ResponseEntity<String> addDeviceCategory(DevicesCategory newDevicesCategory){
-        return null;
+    public ResponseEntity<DevicesCategory> addDeviceCategory(DevicesCategory newDevicesCategory){
+        return deviceService.addDeviceCategory(newDevicesCategory);
     }
 
     @DeleteMapping("/category/{id}")
-    public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") long id){
-        return null;
+    public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") Long id){
+        return deviceService.deleteDevicesCategory(id);
     }
 
     @PutMapping("/category")
-    public ResponseEntity<String> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory){
-        return null;
+    public ResponseEntity<DevicesCategory> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory){
+        return deviceService.updateDevicesCategory(updatedDevicesCategory);
     }
 
     //Maga_az_eszkoz
     @PutMapping("")
     public ResponseEntity<Devices> updateDevice(@RequestBody Devices updatedDevice){
-        return null;
+        return deviceService.updateDevice(updatedDevice);
     }
 
     @PostMapping("")
     public ResponseEntity<Devices> addDevice(@RequestBody Devices newDevice){
-        return null;
+        return deviceService.addDevice(newDevice);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Devices> deleteDevice(@PathVariable("id") Long id){
-        return null;
+    public ResponseEntity<String> deleteDevice(@PathVariable("id") Long id){
+        return deviceService.deleteDevice(id);
     }
 }

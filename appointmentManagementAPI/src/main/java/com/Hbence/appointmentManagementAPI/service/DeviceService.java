@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.service;
 
+import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.repository.DeviceCategoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
@@ -26,5 +27,30 @@ public class DeviceService {
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory(){
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
         return ResponseEntity.ok(devicesCategoryList);
+    }
+
+    public ResponseEntity<DevicesCategory> addDeviceCategory(DevicesCategory newDevicesCategory){
+        return null;
+    }
+
+    public ResponseEntity<String> deleteDevicesCategory(Long id){
+        return null;
+    }
+
+    public ResponseEntity<DevicesCategory> updateDevicesCategory (DevicesCategory updatedDevicesCategory){
+        return null;
+    }
+
+    //Maga_az_eszkoz
+    public ResponseEntity<Devices> updateDevice (Devices updatedDevice){
+        return null;
+    }
+
+    public ResponseEntity<Devices> addDevice(Devices newDevice){
+        return null;
+    }
+
+    public ResponseEntity<String> deleteDevice (Long id){
+        return null;
     }
 }

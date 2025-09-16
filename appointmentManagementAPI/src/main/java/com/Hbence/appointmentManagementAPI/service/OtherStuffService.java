@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,8 +38,16 @@ public class OtherStuffService {
         return galleryRepository.findAll();
     }
 
+    public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage){
+        return null;
+    }
+
     //Szabalyzat:
     public Rules getRule() {
         return ruleRepository.findById(Long.valueOf(1)).get();
+    }
+
+    public ResponseEntity<Rules> updateRules(Rules updatedRules){
+        return null;
     }
 }

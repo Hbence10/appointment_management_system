@@ -28,16 +28,16 @@ public class NewsController {
 
     @PostMapping("")
     public ResponseEntity<News> addNewNews(@RequestBody News newNews){
-        return null;
+        return newsService.addNewNews(newNews);
     }
 
     @PutMapping("")
     public ResponseEntity<News> updateNews(@RequestBody News updatedNews){
-        return null;
+        return newsService.updateNews(updatedNews);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteNews(@PathVariable("id") Long id){
-        return null;
+    public ResponseEntity<String> deleteNews(@PathVariable("id") Long id){
+        return newsService.deleteNews(id);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Transactional
@@ -45,6 +46,18 @@ public class UserService {
         }
 
         return ResponseEntity.internalServerError().build();
+    }
+
+    public ResponseEntity<User> updateUser(User updatedUser){
+        return null;
+    }
+
+    public ResponseEntity<User> updatePassword(Long id, Map<String, String> newPasswordBody){
+        return null;
+    }
+
+    public ResponseEntity<String> deleteUser(Long id){
+        return null;
     }
 
     //---------------------------------

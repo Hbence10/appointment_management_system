@@ -4,6 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.repository.NewsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,5 +21,17 @@ public class NewsService {
 
     public List<News> getAllNews(){
         return newsRepository.findAll();
+    }
+
+    public ResponseEntity<News> addNewNews(News newNews){
+        return null;
+    }
+
+    public ResponseEntity<News> updateNews(News updatedNews){
+        return null;
+    }
+
+    public ResponseEntity<String> deleteNews(Long id){
+        return null;
     }
 }

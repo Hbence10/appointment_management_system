@@ -28,7 +28,7 @@ public class OtherStuffController {
 
     @PutMapping("/gallery")
     public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery){
-        return null;
+        return otherStuffService.updateGalleryImage(updatedGallery);
     }
 
     //Szabalyzat:
@@ -39,6 +39,6 @@ public class OtherStuffController {
 
     @PutMapping("/rule")
     public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule){
-        return null;
+        return otherStuffService.updateRules(updatedRule);
     }
 }

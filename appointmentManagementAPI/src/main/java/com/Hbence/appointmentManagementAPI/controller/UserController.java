@@ -33,17 +33,17 @@ public class UserController {
 
     @PutMapping("")
     public ResponseEntity<User> updateUser(@RequestBody User updatedUser){
-        return null;
+        return userService.updateUser(updatedUser);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Boolean> updatePassword(@PathVariable("id") Long id, @RequestBody Map<String, String> newPasswordBody){
-        return null;
+    public ResponseEntity<User> updatePassword(@PathVariable("id") Long id, @RequestBody Map<String, String> newPasswordBody){
+        return userService.updatePassword(id, newPasswordBody);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(){
-        return null;
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id){
+        return userService.deleteUser(id);
     }
 
     //Error lekezelesek:

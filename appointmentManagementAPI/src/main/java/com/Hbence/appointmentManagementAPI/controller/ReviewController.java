@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Review;
+import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
 import com.Hbence.appointmentManagementAPI.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +33,13 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteReview(@PathVariable("id") Long id){
-        return null;
+    public ResponseEntity<String> deleteReview(@PathVariable("id") Long id){
+        return reviewService.deleteReview(id);
     }
 
     @PutMapping("")
-    public ResponseEntity<Boolean> updateReview(@RequestBody Review updatedReview){
-        return null;
+    public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview){
+        return reviewService.updateReview(updatedReview);
     }
 
     //LikeHistory
@@ -48,7 +49,7 @@ public class ReviewController {
     }
 
     @PatchMapping("/review/{id}")
-    public ResponseEntity<Boolean> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType){
-        return null;
+    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType){
+        return reviewService.changeLikeTypeOfReview(id, newLikeType);
     }
 }

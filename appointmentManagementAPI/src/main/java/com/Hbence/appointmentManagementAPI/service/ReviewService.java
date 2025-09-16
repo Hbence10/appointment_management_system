@@ -48,6 +48,18 @@ public class ReviewService {
         );
     }
 
+    public ResponseEntity<String> deleteReview(Long id){
+        return null;
+    }
+
+    public ResponseEntity<Review> updateReview(Review updatedReview){
+        return null;
+    }
+
+    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(Long id, Map<String, String> newLikeType){
+        return null;
+    }
+
     //----------------------------------------
     //Egyeb
     private Review setPatchedLikeDetails(Map<String, Integer> likeDetails, Review defaultReview) {

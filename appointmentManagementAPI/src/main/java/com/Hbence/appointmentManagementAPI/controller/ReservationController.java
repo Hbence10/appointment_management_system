@@ -59,18 +59,18 @@ public class ReservationController {
     }
 
     @PostMapping("/reservationType")
-    public ResponseEntity<Boolean> addNewReservationType(@RequestBody ReservationType newReservationType){
-        return null;
+    public ResponseEntity<ReservationType> addNewReservationType(@RequestBody ReservationType newReservationType){
+        return reservationService.addNewReservationType(newReservationType);
     }
 
     @DeleteMapping("/reservationType/{id}")
-    public ResponseEntity<Boolean> deleteReservationType(@PathVariable("id") Long id){
-        return null;
+    public ResponseEntity<String> deleteReservationType(@PathVariable("id") Long id){
+        return reservationService.deleteReservationType(id);
     }
 
     @PutMapping("/reservationType")
-    public ResponseEntity<Boolean> updateReservationType(@RequestBody ReservationType updatedReservationType){
-        return null;
+    public ResponseEntity<ReservationType> updateReservationType(@RequestBody ReservationType updatedReservationType){
+        return reservationService.updateReservationType(updatedReservationType);
     }
 
     //Fizetesi modszerek
