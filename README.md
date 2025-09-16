@@ -21,17 +21,12 @@
 !["Adatbázis terv"](./database_plan.png)
 
 ### Tárolt eljárások:
-- **addReview():**
-- **cancelReservation():**
 - **closeBetweenTwoDate():**
-- **closeSingleDay():**
 - **getReservationByDate():**
 - **getReservationByUserId():**
-- **getReservedDateByMonth():**
-- **getReservedDatesByDate():**
+- **getReservedDatesOfPeriod():**
+- **getReservedHoursByDate():**
 - **login():**
-- **makeReservation():**
-- **register():**
 
 ### Triggerek:
 - **checkFullDay:** Figyeli, hogy az adott napon van-e 

@@ -22,10 +22,8 @@ public class ReservationController {
     }
 
     //Foglalasok
-
     @GetMapping("/user/{id}")
     public List<Reservations> getReservationByUserId(@PathVariable("id") Long id) {
-        System.out.println(id.getClass());
         return reservationService.getReservationByUserId(id);
     }
 
@@ -37,16 +35,6 @@ public class ReservationController {
     @GetMapping("/reservedHours")
     public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay) {
         return reservationService.getReservedHoursByDay(wantedDateDay);
-    }
-
-    @GetMapping("/reservationType")
-    public List<ReservationType> getAllReservationTypes() {
-        return reservationService.getAllReservationType();
-    }
-
-    @GetMapping("/paymentMethods")
-    public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
-        return reservationService.getAllPaymentMethod();
     }
 
     @GetMapping("/date/{wantedDate}")
@@ -64,9 +52,31 @@ public class ReservationController {
         return reservationService.cancelReservation(id, cancelBody);
     }
 
-    @GetMapping("")
-    public List<Reservations> asd(){
-        return reservationService.asd();
+    //Foglalasi tipusok
+    @GetMapping("/reservationType")
+    public List<ReservationType> getAllReservationTypes() {
+        return reservationService.getAllReservationType();
+    }
+
+    @PostMapping("/reservationType")
+    public ResponseEntity<Boolean> addNewReservationType(@RequestBody ReservationType newReservationType){
+        return null;
+    }
+
+    @DeleteMapping("/reservationType/{id}")
+    public ResponseEntity<Boolean> deleteReservationType(@PathVariable("id") Long id){
+        return null;
+    }
+
+    @PutMapping("/reservationType")
+    public ResponseEntity<Boolean> updateReservationType(@RequestBody ReservationType updatedReservationType){
+        return null;
+    }
+
+    //Fizetesi modszerek
+    @GetMapping("/paymentMethods")
+    public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
+        return reservationService.getAllPaymentMethod();
     }
 }
 

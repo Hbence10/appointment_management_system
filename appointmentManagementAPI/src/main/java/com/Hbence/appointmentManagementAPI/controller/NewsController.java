@@ -3,10 +3,8 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,20 @@ public class NewsController {
     @GetMapping("")
     public List<News> getAllNews() {
         return newsService.getAllNews();
+    }
+
+    @PostMapping("")
+    public ResponseEntity<News> addNewNews(@RequestBody News newNews){
+        return null;
+    }
+
+    @PutMapping("")
+    public ResponseEntity<News> updateNews(@RequestBody News updatedNews){
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteNews(@PathVariable("id") Long id){
+        return null;
     }
 }

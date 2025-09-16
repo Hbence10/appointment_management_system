@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,8 +29,8 @@ public class Review {
     @NotNull
     private double rating;
 
-    @Column(name = "is_anonymus")
-    private boolean isAnonymus;
+    @Column(name = "is_anonymous")
+    private boolean isAnonymous;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -44,7 +43,7 @@ public class Review {
     @OneToMany(
             mappedBy = "likedReview",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE}
+            cascade = {CascadeType.ALL}
     )
     private List<ReviewLikeHistory> likeHistories;
 
@@ -60,10 +59,9 @@ public class Review {
                 "Id=" + Id +
                 ", reviewText='" + reviewText + '\'' +
                 ", rating=" + rating +
-                ", isAnonymus=" + isAnonymus +
+                ", isAnonymous=" + isAnonymous +
                 ", createdAt=" + createdAt +
                 ", author=" + author +
-                ", likeHistories=" + likeHistories +
                 '}';
     }
 }

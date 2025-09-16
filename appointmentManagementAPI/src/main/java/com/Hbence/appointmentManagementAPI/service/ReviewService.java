@@ -38,13 +38,6 @@ public class ReviewService {
         return null;
     }
 
-    public Review updateLikesOfReviews(Long id, Map<String, Integer> likeDetails) {
-        Review defaultReview = reviewRepository.findById(id).get();
-        Review patchedReview = setPatchedLikeDetails(likeDetails, defaultReview);
-
-        return reviewRepository.save(patchedReview);
-    }
-
     public void addReviewLikeHistory(Map<String, Object> requestBody) {
         reviewLikeHistoryRepository.save(
                 new ReviewLikeHistory(

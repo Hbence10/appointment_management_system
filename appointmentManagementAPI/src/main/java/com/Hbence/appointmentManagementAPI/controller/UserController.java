@@ -7,6 +7,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/users")
@@ -27,6 +29,21 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<Object> registration(@RequestBody User newUser) {
         return userService.register(newUser);
+    }
+
+    @PutMapping("")
+    public ResponseEntity<User> updateUser(@RequestBody User updatedUser){
+        return null;
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Boolean> updatePassword(@PathVariable("id") Long id, @RequestBody Map<String, String> newPasswordBody){
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteUser(){
+        return null;
     }
 
     //Error lekezelesek:

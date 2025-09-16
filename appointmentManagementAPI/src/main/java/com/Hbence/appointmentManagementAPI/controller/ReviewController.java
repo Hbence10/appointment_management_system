@@ -20,6 +20,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
+    //Review:
     @GetMapping("")
     public List<Review> getAllReview() {
         return reviewService.getAllReview();
@@ -30,15 +31,24 @@ public class ReviewController {
         return reviewService.addReview(newReview);
     }
 
-    @PatchMapping("/{id}")
-    public Review updateLikesOfReviews(@PathVariable("id") Long id, @RequestBody Map<String, Integer> likeDetails) {
-        return reviewService.updateLikesOfReviews(id, likeDetails);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteReview(@PathVariable("id") Long id){
+        return null;
     }
 
+    @PutMapping("")
+    public ResponseEntity<Boolean> updateReview(@RequestBody Review updatedReview){
+        return null;
+    }
+
+    //LikeHistory
     @PostMapping("/likeHistory")
     public void addLikeHistory(@RequestBody Map<String, Object> requestBody) {
         reviewService.addReviewLikeHistory(requestBody);
     }
 
-
+    @PatchMapping("/review/{id}")
+    public ResponseEntity<Boolean> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType){
+        return null;
+    }
 }

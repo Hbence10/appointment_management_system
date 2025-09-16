@@ -4,9 +4,8 @@ import com.Hbence.appointmentManagementAPI.entity.Gallery;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,9 +26,19 @@ public class OtherStuffController {
         return otherStuffService.getGalleryImages();
     }
 
+    @PutMapping("/gallery")
+    public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery){
+        return null;
+    }
+
     //Szabalyzat:
     @GetMapping("/rule")
     public Rules getRule() {
         return otherStuffService.getRule();
+    }
+
+    @PutMapping("/rule")
+    public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule){
+        return null;
     }
 }

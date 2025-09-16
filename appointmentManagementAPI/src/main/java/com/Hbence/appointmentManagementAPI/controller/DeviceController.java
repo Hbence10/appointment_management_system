@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
+import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +29,32 @@ public class DeviceController {
 
     @PostMapping("/category")
     public ResponseEntity<String> addDeviceCategory(DevicesCategory newDevicesCategory){
-        return ResponseEntity.ok("");
+        return null;
     }
 
     @DeleteMapping("/category/{id}")
     public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") long id){
-        return ResponseEntity.ok("");
+        return null;
     }
 
     @PutMapping("/category")
     public ResponseEntity<String> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory){
-        return ResponseEntity.ok("");
+        return null;
     }
 
     //Maga_az_eszkoz
+    @PutMapping("/device")
+    public ResponseEntity<Devices> updateDevice(@RequestBody Devices updatedDevice){
+        return null;
+    }
 
+    @PostMapping("/device")
+    public ResponseEntity<Devices> addDevice(@RequestBody Devices newDevice){
+        return null;
+    }
+
+    @DeleteMapping("/device/{id}")
+    public ResponseEntity<Devices> deleteDevice(@PathVariable("id") Long id){
+        return null;
+    }
 }
