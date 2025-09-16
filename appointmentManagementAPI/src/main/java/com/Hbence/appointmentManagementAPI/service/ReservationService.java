@@ -1,11 +1,11 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
-import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -50,8 +50,7 @@ public class ReservationService {
         return reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
     }
 
-    public Response makeReservation(Reservations newReservation) {
-//        Response response = new Response();
+    public ResponseEntity<Reservations> makeReservation(Reservations newReservation) {
         reservationRepository.save(newReservation);
         return null;
     }
@@ -87,10 +86,5 @@ public class ReservationService {
 
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
     }
-
-    /*
-    * Validaciok
-    *
-    * */
 }
 

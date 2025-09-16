@@ -1,9 +1,9 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Review;
-import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class ReviewController {
     }
 
     @PostMapping("")
-    public Response addReview(@RequestBody Review newReview) {
+    public ResponseEntity<Review> addReview(@RequestBody Review newReview) {
         return reviewService.addReview(newReview);
     }
 

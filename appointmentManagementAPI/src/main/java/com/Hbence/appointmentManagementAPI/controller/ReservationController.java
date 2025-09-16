@@ -2,8 +2,8 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
-import com.Hbence.appointmentManagementAPI.other.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,11 +53,8 @@ public class ReservationController {
     }
 
     @PostMapping("")
-    public Response makeReservation(@RequestBody Reservations newReservation){
-        System.out.println(newReservation);
-
-//        return reservationService.makeReservation(newReservation);
-        return null;
+    public ResponseEntity<Reservations> makeReservation(@RequestBody Reservations newReservation){
+        return reservationService.makeReservation(newReservation);
     }
 
     @PatchMapping("/cancel/{id}")

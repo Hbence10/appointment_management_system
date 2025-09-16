@@ -41,9 +41,4 @@ public class OtherStuffService {
     public Rules getRule() {
         return ruleRepository.findById(Long.valueOf(1)).get();
     }
-
-    /*
-    * Validaciok
-    *
-    * */
 }
