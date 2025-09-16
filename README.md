@@ -34,7 +34,7 @@
 - **register():**
 
 ### Triggerek:
-- **checkFullDay**: Figyeli, hogy az adott napon van-e 
+- **checkFullDay:** Figyeli, hogy az adott napon van-e 
 
 
 ## Backend: 
@@ -47,6 +47,10 @@ A spring boot projekt a következő **dependency**-ket tartalmazza:
 - Java Mail Sender
 - Spring Security
 - Javax Validation
+- Lombok
+- Springdoc Openapi
+
+**API dokumentáció linkje:** http://localhost:8080/swagger-ui/index.html#/
 
 A spring boot projekt a következő **controller**-eket tartalmazza:
 - DeviceController

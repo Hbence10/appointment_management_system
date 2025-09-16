@@ -1,14 +1,12 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.User;
-import com.Hbence.appointmentManagementAPI.other.Response;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 @Transactional
@@ -24,34 +22,29 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
-    public Response login(String username, String password) {
+    public ResponseEntity<User> login(String username, String password) {
         User loggedUser = userRepository.login(username, password);
 
         if (loggedUser == null) {
-            return new Response(HttpStatus.NOT_FOUND.value(), "User not found", LocalDate.now());
+            return ResponseEntity.notFound().build();
         }
 
-        return new Response(HttpStatus.OK.value(), loggedUser, LocalDate.now());
+        return ResponseEntity.ok(loggedUser);
     }
 
-    public Response register(User newUser) {
-        String result = "";
-
+    public ResponseEntity<Object> register(User newUser) {
         if (emailChecker(newUser.getEmail()) && passwordChecker(newUser.getPassword())) {
-            result = userRepository.register(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
-
+            User registeredUser = userRepository.save(newUser);
+            return ResponseEntity.ok(registeredUser);
         } else if (!emailChecker(newUser.getEmail()) && !passwordChecker(newUser.getPassword())) {
-//            throw new InvalidEmailAndPassword("Invalid email & password");
-
+            return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
         } else if (!emailChecker(newUser.getEmail())) {
-//            throw new InvalidEmail("Invalid email");
-
+            return ResponseEntity.status(417).body("InvalidEmail");
         } else if (!passwordChecker(newUser.getPassword())) {
-//            throw new InvalidPassword("Invalid Password");
+            return ResponseEntity.status(417).body("InvalidPassword");
         }
 
-        return null;
+        return ResponseEntity.internalServerError().build();
     }
 
     //---------------------------------

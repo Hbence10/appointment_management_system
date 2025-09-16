@@ -1,12 +1,12 @@
-<div class="container-fluid">
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 83vh;">
   <div class="row">
     <div class="col-lg-12 d-flex justify-content-center align-items-center">
-      <div id="mainContainer" class="container-fluid d-flex justify-content-between align-content-center flex-column">
+      <div id="mainContainer" class="container-fluid d-flex justify-content-between align-content-center flex-column px-4 pt-5">
         <div>
           <div class="row">
             <div class="col-lg-12">
-              <h1>Üdvözöljük</h1>
-              <h5>Regisztráció</h5>
+              <h1 class="mainFont" style="font-size: 30px;">Üdvözöljük</h1>
+              <h5 class="secondFont" style="font-size: 20px;">Regisztráció</h5>
               <hr />
             </div>
           </div>
@@ -40,7 +40,7 @@
 
                  <mat-form-field>
                   <mat-label>Jelszó újra</mat-label>
-                  <input matInput [type]="isShowPasswordAgain() ? 'text' : 'password'" formControlName="password" />
+                  <input matInput [type]="isShowPasswordAgain() ? 'text' : 'password'" formControlName="passwordAgain" />
                   <button matIconButton matSuffix (click)="showPasswordAgain($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
                     <span class="material-symbols-outlined">{{isShowPasswordAgain() ? "visibility" : "visibility_lock"}}</span>
                   </button>
@@ -50,12 +50,12 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-2">
           <div class="col-lg-12 d-flex justify-content-center align-items-center flex-column">
-            <button [disabled]="form.invalid" matButton="filled" (click)="register()">Regisztráció</button>
+            <button id="registerButton" class="my-2 secondFont" [disabled]="form.invalid" matButton="filled" (click)="register()">Regisztráció</button>
             <p>
               Van már fiókja?
-              <a routerLink="/login" class="fw-bold">Jelentkezzen be!</a>
+              <a routerLink="/login" class="fw-bold text-decoration-none secondFont">Jelentkezzen be!</a>
             </p>
           </div>
         </div>

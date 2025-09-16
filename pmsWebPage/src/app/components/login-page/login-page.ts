@@ -31,19 +31,13 @@ export class LoginPage {
   login() {
     this.userService.login(this.loginForm.controls["username"].value!, this.loginForm.controls["password"].value!).subscribe({
       next: response => {
-        console.log(response)
-        if (response.statusCode == 404) {
-          this.isError.set(true)
-        } else {
-          this.userService.user.set(response.body)
-        }
+        this.userService.user.set(response.body)
       },
+      error: error => {this.isError.set(true)},
       complete: () => {
-        if (this.userService.user() != null) {
-          if (this.isRemember()) {
-          }
-          this.router.navigate([""])
+        if (this.isRemember()) {
         }
+        this.router.navigate([""])
       }
     })
   }

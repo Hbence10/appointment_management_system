@@ -23,13 +23,14 @@ export class RegistrationPage {
   form = new FormGroup({
     username: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
     passwordAgain: new FormControl("", [Validators.required])
   })
 
   register() {
     this.userService.register({ username: this.form.controls["username"].value!, email: this.form.controls["email"].value!, password: this.form.controls["password"].value!, pfpPath: "", }).subscribe({
       next: response => console.log(response),
+      error: error => console.log(error.message),
       complete: () => this.router.navigate(["login"])
     })
   }
@@ -37,6 +38,8 @@ export class RegistrationPage {
   showPassword(event: MouseEvent) {
     this.isShowPassword.update(old => !old)
     event.stopPropagation();
+
+    console.log(this.form.invalid)
   }
 
   showPasswordAgain(event: MouseEvent){

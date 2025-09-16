@@ -1,13 +1,14 @@
 export class User {
   constructor(
-    private _id: number,
     private _username: string,
     private _email: string,
     private _pfpPath: string,
     private _role: "user" | "admin" | "superAdmin",
+    private _id: number | null = null,
   ) { }
 
-  get id(): number {
+  //
+  get id(): number | null {
     return this._id
   }
 
@@ -26,4 +27,6 @@ export class User {
   get role(): "user" | "admin" | "superAdmin" {
     return this._role
   }
+
+  //
 }

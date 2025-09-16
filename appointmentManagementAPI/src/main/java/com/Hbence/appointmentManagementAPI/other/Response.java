@@ -14,6 +14,10 @@ public class Response {
         this.body = body;
     }
 
+    public Response(LocalDate date) {
+        this.date = date;
+    }
+
     public Integer getStatusCode() {
         return statusCode;
     }
