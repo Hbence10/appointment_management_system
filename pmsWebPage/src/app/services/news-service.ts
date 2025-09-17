@@ -11,6 +11,6 @@ export class NewsService {
   baseURL = signal<string>("http://localhost:8080")
 
   getAllNews(): Observable<NewsDetails[]> {
-    return this.http.get<NewsDetails[]>("http://localhost:8080/news/")
+    return this.http.get<NewsDetails[]>("http://localhost:8080/news")
   }
 }

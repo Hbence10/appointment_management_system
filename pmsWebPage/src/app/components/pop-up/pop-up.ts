@@ -1,6 +1,4 @@
 import { Component, input, output } from '@angular/core';
-import { DeviceCategory } from '../../models/deviceCategory.model';
-import { NewsDetails } from '../../models/newsDetails.model';
 
 @Component({
   selector: 'app-pop-up',
@@ -9,7 +7,8 @@ import { NewsDetails } from '../../models/newsDetails.model';
   styleUrl: './pop-up.scss'
 })
 export class PopUp {
-
+  title = input<string>()
+  buttonText = input<string>()
 
   closePopUp = output()
   close(){

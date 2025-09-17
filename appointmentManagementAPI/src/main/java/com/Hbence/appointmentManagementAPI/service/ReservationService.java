@@ -49,7 +49,9 @@ public class ReservationService {
     }
 
     public ResponseEntity<List<Reservations>> getReservationByDate(String wantedDate) {
-        List<Reservations> reservationsList = reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
+        List<Long> idList = reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
+        List<Reservations> reservationsList = reservationRepository.findAllById(idList);
+
         return ResponseEntity.ok(reservationsList);
     }
 
@@ -71,15 +73,15 @@ public class ReservationService {
         return ResponseEntity.ok(reservationTypeRepository.findAll());
     }
 
-    public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType){
+    public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
         return null;
     }
 
-    public ResponseEntity<String> deleteReservationType(Long id){
+    public ResponseEntity<String> deleteReservationType(Long id) {
         return null;
     }
 
-    public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType){
+    public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType) {
         return null;
     }
 
@@ -99,7 +101,7 @@ public class ReservationService {
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
     }
 
-    public List<Reservations> asd(){
+    public List<Reservations> asd() {
         return reservationRepository.findAll();
     }
 }

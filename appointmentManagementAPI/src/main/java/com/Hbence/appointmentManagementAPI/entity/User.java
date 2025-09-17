@@ -84,7 +84,7 @@ public class User {
     @OneToMany(
             mappedBy = "author",
             fetch = FetchType.EAGER,
-            cascade = {CascadeType.REFRESH}
+            cascade = {}
     )
     @JsonIgnore
     private List<Review> reviews;

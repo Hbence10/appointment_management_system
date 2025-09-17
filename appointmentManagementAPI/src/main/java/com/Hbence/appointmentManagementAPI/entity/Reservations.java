@@ -21,7 +21,7 @@ import java.util.Date;
 
         @NamedStoredProcedureQuery(name = "getReservationByDate", procedureName = "getReservationByDate", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
-        }, resultClasses = {Reservations.class})
+        }, resultClasses = {Long.class})
 })
 @Setter
 @Getter

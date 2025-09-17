@@ -34,8 +34,7 @@ public class ReviewService {
     }
 
     public ResponseEntity<Review> addReview(Review newReview) {
-        reviewRepository.save(newReview);
-        return null;
+        return ResponseEntity.ok(reviewRepository.save(newReview));
     }
 
     public ResponseEntity<ReviewLikeHistory> addReviewLikeHistory(Map<String, Object> requestBody) {

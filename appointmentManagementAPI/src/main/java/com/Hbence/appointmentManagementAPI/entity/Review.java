@@ -33,6 +33,7 @@ public class Review {
     private boolean isAnonymous;
 
     @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     //Kapcsolatok
@@ -48,9 +49,10 @@ public class Review {
     private List<ReviewLikeHistory> likeHistories;
 
     //Constructorok
-    public Review(String reviewText, double rating) {
+    public Review(String reviewText, double rating, boolean isAnonymous) {
         this.reviewText = reviewText;
         this.rating = rating;
+        this.isAnonymous = isAnonymous;
     }
 
     @Override
