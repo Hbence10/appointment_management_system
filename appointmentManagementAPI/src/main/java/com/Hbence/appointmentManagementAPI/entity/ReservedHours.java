@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "reserved_hours")
@@ -40,10 +38,9 @@ public class ReservedHours {
     private int end;
 
     //Kapcsolatok
-    @ManyToOne(cascade = {})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "date_id")
-    @Null
-    private ReservedDates date;     //Csak akkor adja hozza a datumot a db-hez ha, meg nincs benne
+    private ReservedDates date;
 
     @JsonIgnore
     @OneToOne(mappedBy = "reservedHours", cascade = {})
@@ -55,8 +52,6 @@ public class ReservedHours {
         this.end = end;
         this.date = date;
     }
-
-
 
     @Override
     public String toString() {

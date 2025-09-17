@@ -1,8 +1,9 @@
 import { Component, input, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-pop-up',
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss'
 })

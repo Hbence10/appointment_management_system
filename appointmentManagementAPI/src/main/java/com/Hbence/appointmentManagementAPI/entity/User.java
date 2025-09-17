@@ -5,12 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,7 +82,7 @@ public class User {
     @OneToMany(
             mappedBy = "author",
             fetch = FetchType.EAGER,
-            cascade = {}
+            cascade = {CascadeType.REMOVE}
     )
     @JsonIgnore
     private List<Review> reviews;
@@ -112,7 +110,7 @@ public class User {
     @OneToMany(
             mappedBy = "likerUser",
             fetch = FetchType.LAZY,
-            cascade = {}
+            cascade = {CascadeType.REMOVE}
     )
     @JsonIgnore
     private List<ReviewLikeHistory> reviewLikeHistories;
@@ -127,17 +125,6 @@ public class User {
     //ToString
     @Override
     public String toString() {
-        return "User{" +
-                "role=" + role +
-                ", deletedAt=" + deletedAt +
-                ", isDeleted=" + isDeleted +
-                ", lastLogin=" + lastLogin +
-                ", createdAt=" + createdAt +
-                ", pfpPath='" + pfpPath + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", id=" + id +
-                '}';
+        return "User{" + "role=" + role + ", deletedAt=" + deletedAt + ", isDeleted=" + isDeleted + ", lastLogin=" + lastLogin + ", createdAt=" + createdAt + ", pfpPath='" + pfpPath + '\'' + ", password='" + password + '\'' + ", email='" + email + '\'' + ", username='" + username + '\'' + ", id=" + id + '}';
     }
 }

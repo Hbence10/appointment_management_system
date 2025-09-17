@@ -89,7 +89,7 @@ public class Reservations {
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToOne(cascade = {})
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "reserved_hour_id")
     private ReservedHours reservedHours;
 
