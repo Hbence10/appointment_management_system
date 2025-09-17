@@ -38,14 +38,16 @@ public class ReviewService {
         return null;
     }
 
-    public void addReviewLikeHistory(Map<String, Object> requestBody) {
-        reviewLikeHistoryRepository.save(
+    public ResponseEntity<ReviewLikeHistory> addReviewLikeHistory(Map<String, Object> requestBody) {
+        ReviewLikeHistory newReviewLikeHistory = reviewLikeHistoryRepository.save(
                 new ReviewLikeHistory(
                         String.valueOf(requestBody.get("likeType")),
                         objectMapper.convertValue(requestBody.get("review"), Review.class),
                         objectMapper.convertValue(requestBody.get("user"), User.class)
                 )
         );
+
+        return ResponseEntity.ok(newReviewLikeHistory);
     }
 
     public ResponseEntity<String> deleteReview(Long id){

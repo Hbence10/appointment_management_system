@@ -23,22 +23,22 @@ public class ReservationController {
 
     //Foglalasok
     @GetMapping("/user/{id}")
-    public List<Reservations> getReservationByUserId(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Reservations>> getReservationByUserId(@PathVariable("id") Long id) {
         return reservationService.getReservationByUserId(id);
     }
 
     @GetMapping("/reservedDates")
-    public List<ReservedDates> getReservationByMonth(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+    public ResponseEntity<List<ReservedDates>> getReservationByMonth(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
         return reservationService.getReservationByMonth(startDate, endDate);
     }
 
     @GetMapping("/reservedHours")
-    public List<ReservedHours> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay) {
+    public ResponseEntity<List<ReservedHours>> getReservedHoursByDay(@RequestParam("selectedDay") String wantedDateDay) {
         return reservationService.getReservedHoursByDay(wantedDateDay);
     }
 
     @GetMapping("/date/{wantedDate}")
-    public List<Reservations> getReservationsByDate(@PathVariable("wantedDate") String wantedDate) {
+    public ResponseEntity<List<Reservations>> getReservationsByDate(@PathVariable("wantedDate") String wantedDate) {
         return reservationService.getReservationByDate(wantedDate);
     }
 
@@ -48,13 +48,13 @@ public class ReservationController {
     }
 
     @PatchMapping("/cancel/{id}")
-    public String cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody){
+    public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody){
         return reservationService.cancelReservation(id, cancelBody);
     }
 
     //Foglalasi tipusok
     @GetMapping("/reservationType")
-    public List<ReservationType> getAllReservationTypes() {
+    public ResponseEntity<List<ReservationType>> getAllReservationTypes() {
         return reservationService.getAllReservationType();
     }
 

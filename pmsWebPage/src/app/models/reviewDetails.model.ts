@@ -13,7 +13,10 @@ export class ReviewDetails {
     private _likeCount: number = 0,
     private _dislikeCount: number = 0,
     private _likeHistories: ReviewHistory[] = []
-  ) { }
+  ) {
+    this._likeCount = this._likeHistories.filter(element => element.likeType == "like").length
+    this._dislikeCount = this._likeHistories.filter(element => element.likeType == "dislike").length
+  }
 
   //Getterek:
   get id(): number | null {

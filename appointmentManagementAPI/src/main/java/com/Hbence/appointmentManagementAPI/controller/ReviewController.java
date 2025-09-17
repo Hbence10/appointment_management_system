@@ -44,8 +44,8 @@ public class ReviewController {
 
     //LikeHistory
     @PostMapping("/likeHistory")
-    public void addLikeHistory(@RequestBody Map<String, Object> requestBody) {
-        reviewService.addReviewLikeHistory(requestBody);
+    public ResponseEntity<ReviewLikeHistory> addLikeHistory(@RequestBody Map<String, Object> requestBody) {
+        return reviewService.addReviewLikeHistory(requestBody);
     }
 
     @PatchMapping("/review/{id}")

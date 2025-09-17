@@ -34,41 +34,41 @@ public class ReservationService {
     }
 
     //Foglalasok:
-    public List<Reservations> getReservationByUserId(Long userId) {
-        return reservationRepository.reservations(userId);
+    public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
+        return ResponseEntity.ok(reservationRepository.reservations(userId));
     }
 
-    public List<ReservedDates> getReservationByMonth(String startDate, String endDate) {
-        return reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDate), LocalDate.parse(endDate));
+    public ResponseEntity<List<ReservedDates>> getReservationByMonth(String startDate, String endDate) {
+        List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDate), LocalDate.parse(endDate));
+        return ResponseEntity.ok(reservedDatesList);
     }
 
-    public List<ReservedHours> getReservedHoursByDay(String wantedDayDate) {
-        return reservedHoursRepository.findAllById(reservedHoursRepository.getReservationByMonth(LocalDate.parse(wantedDayDate)));
+    public ResponseEntity<List<ReservedHours>> getReservedHoursByDay(String wantedDayDate) {
+        List<ReservedHours> reservedHoursList = reservedHoursRepository.findAllById(reservedHoursRepository.getReservationByMonth(LocalDate.parse(wantedDayDate)));
+        return ResponseEntity.ok(reservedHoursList);
     }
 
-    public List<Reservations> getReservationByDate(String wantedDate) {
-        return reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
+    public ResponseEntity<List<Reservations>> getReservationByDate(String wantedDate) {
+        List<Reservations> reservationsList = reservationRepository.getReservationByDate(LocalDate.parse(wantedDate));
+        return ResponseEntity.ok(reservationsList);
     }
 
     public ResponseEntity<Reservations> makeReservation(Reservations newReservation) {
-        reservationRepository.save(newReservation);
-        return null;
+        return ResponseEntity.ok(reservationRepository.save(newReservation));
     }
 
-    public String cancelReservation(Long id, Map<String, Object> cancelBody) {
+    public ResponseEntity<Reservations> cancelReservation(Long id, Map<String, Object> cancelBody) {
         Reservations baseReservation = reservationRepository.findById(id).get();
 
         Reservations patchedReservation = setPatchedLikeDetails(cancelBody, baseReservation);
         patchedReservation.setCanceledAt(LocalDate.now());
 
-        reservationRepository.save(patchedReservation);
-
-        return "";
+        return ResponseEntity.ok(reservationRepository.save(patchedReservation));
     }
 
     //Foglalasi tipusok
-    public List<ReservationType> getAllReservationType() {
-        return reservationTypeRepository.findAll();
+    public ResponseEntity<List<ReservationType>> getAllReservationType() {
+        return ResponseEntity.ok(reservationTypeRepository.findAll());
     }
 
     public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType){

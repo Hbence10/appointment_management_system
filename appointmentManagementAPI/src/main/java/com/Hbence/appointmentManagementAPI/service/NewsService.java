@@ -19,8 +19,8 @@ public class NewsService {
         this.newsRepository = newsRepository;
     }
 
-    public List<News> getAllNews(){
-        return newsRepository.findAll();
+    public ResponseEntity<List<News>> getAllNews(){
+        return ResponseEntity.ok(newsRepository.findAll());
     }
 
     public ResponseEntity<News> addNewNews(News newNews){

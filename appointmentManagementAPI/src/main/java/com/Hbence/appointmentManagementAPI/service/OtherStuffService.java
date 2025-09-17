@@ -34,20 +34,20 @@ public class OtherStuffService {
     }
 
     //Galleria:
-    public List<Gallery> getGalleryImages() {
-        return galleryRepository.findAll();
+    public ResponseEntity<List<Gallery>> getGalleryImages() {
+        return ResponseEntity.ok(galleryRepository.findAll());
     }
 
-    public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage){
+    public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
         return null;
     }
 
     //Szabalyzat:
-    public Rules getRule() {
-        return ruleRepository.findById(Long.valueOf(1)).get();
+    public ResponseEntity<Rules> getRule() {
+        return ResponseEntity.ok(ruleRepository.findById(Long.valueOf(1)).get());
     }
 
-    public ResponseEntity<Rules> updateRules(Rules updatedRules){
+    public ResponseEntity<Rules> updateRules(Rules updatedRules) {
         return null;
     }
 }

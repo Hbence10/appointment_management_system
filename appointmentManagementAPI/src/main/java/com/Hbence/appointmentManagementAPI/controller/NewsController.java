@@ -22,7 +22,7 @@ public class NewsController {
 
 
     @GetMapping("")
-    public List<News> getAllNews() {
+    public ResponseEntity<List<News>> getAllNews() {
         return newsService.getAllNews();
     }
 

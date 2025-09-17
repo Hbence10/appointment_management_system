@@ -22,23 +22,23 @@ public class OtherStuffController {
 
     //Galleria:
     @GetMapping("/gallery")
-    public List<Gallery> getAllGalleryImages() {
+    public ResponseEntity<List<Gallery>> getAllGalleryImages() {
         return otherStuffService.getGalleryImages();
     }
 
     @PutMapping("/gallery")
-    public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery){
+    public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery) {
         return otherStuffService.updateGalleryImage(updatedGallery);
     }
 
     //Szabalyzat:
     @GetMapping("/rule")
-    public Rules getRule() {
+    public ResponseEntity<Rules> getRule() {
         return otherStuffService.getRule();
     }
 
     @PutMapping("/rule")
-    public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule){
+    public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule) {
         return otherStuffService.updateRules(updatedRule);
     }
 }
