@@ -71,9 +71,9 @@
 </div>
 
 @if(isShowPupUp()){
-  <app-pop-up (closePopUp)="isShowPupUp.set(false)" [title]="popUpTitle()" [buttonText]="popUpButtonText()">
+  <app-pop-up (closePopUp)="closePopUp()" [title]="popUpTitle()" [buttonText]="popUpButtonText()">
     @for (cardItem of cardList; track $index) {
-      <!-- <app-list-card [title]="cardItem.name"></app-list-card> -->
+      <app-list-card [cardItem]="cardItem"></app-list-card>
     }
   </app-pop-up>
 }

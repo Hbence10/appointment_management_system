@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { CardItem } from '../../models/card.model';
 
 @Component({
@@ -7,6 +7,11 @@ import { CardItem } from '../../models/card.model';
   templateUrl: './list-card.html',
   styleUrl: './list-card.scss'
 })
-export class ListCard {
+export class ListCard implements OnInit{
   cardItem = input.required<CardItem>()
+  eventsTypeList: string[] = []
+
+  ngOnInit(): void {
+
+  }
 }

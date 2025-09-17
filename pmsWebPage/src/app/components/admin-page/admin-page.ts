@@ -42,12 +42,17 @@ export class AdminPage implements OnInit {
 
     if (objectType == 'deviceCategory') {
       this.deviceService.getAllDevicesByCategories().subscribe({
-        // next: response => this.cardList = response,
-        // complete: () => console.log(this.cardList)
+        next: response => {
+          response.forEach(element => this.cardList.push(new CardItem(element.name, "deviceCategory", element)))
+        },
+        complete: () => this.isShowPupUp.set(true)
       })
     }
+  }
 
-    this.isShowPupUp.set(true)
+  closePopUp(){
+    this.isShowPupUp.set(false)
+    this.cardList = []
   }
 
   //Ez majd az output altal fog ervenyesulni

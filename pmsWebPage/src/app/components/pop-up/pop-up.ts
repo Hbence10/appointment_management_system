@@ -12,7 +12,12 @@ export class PopUp {
   buttonText = input<string>()
 
   closePopUp = output()
+
   close(){
     this.closePopUp.emit()
+  }
+
+  buttonEvent(){
+
   }
 }
