@@ -37,7 +37,7 @@
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('', '', 'news')">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Hírek kezelése', 'Hír hozzáadása', 'news')">
         <p class="text-center">Hírek kezelése</p>
       </div>
     </div>
@@ -51,7 +51,7 @@
 
   <div class="row">
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('', '', 'rule')">
+      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Szabályzat szerkesztése', 'Mentés', 'rule')">
         <p class="text-center">Szabályzat szerkesztése</p>
       </div>
     </div>
@@ -72,8 +72,14 @@
 
 @if(isShowPupUp()){
   <app-pop-up (closePopUp)="closePopUp()" [title]="popUpTitle()" [buttonText]="popUpButtonText()">
-    @for (cardItem of cardList; track $index) {
-      <app-list-card [cardItem]="cardItem"></app-list-card>
+    @if(popUpTitle() == "Szabályzat szerkesztése"){
+      <app-rule-editor />
+    } @else if (popUpTitle().includes("Foglalás")){
+      <app-reservation-detail [reservation]="selectedReservation()!" />
+    } @else if(popUpTitle() != "Szabályzat szerkesztése"){
+      @for (cardItem of cardList; track $index) {
+      <app-list-card [cardItem]="cardItem" (changeList)="closePopUp()"></app-list-card>
+      }
     }
   </app-pop-up>
 }

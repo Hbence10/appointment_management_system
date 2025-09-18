@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { CardItem } from '../../models/card.model';
 
 @Component({
   selector: 'app-pop-up',
@@ -8,8 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './pop-up.scss'
 })
 export class PopUp {
-  title = input<string>()
-  buttonText = input<string>()
+  title = input.required<string>()
+  buttonText = input.required<string>()
 
   closePopUp = output()
 
@@ -18,6 +19,6 @@ export class PopUp {
   }
 
   buttonEvent(){
-
+    console.log(this.buttonText())
   }
 }

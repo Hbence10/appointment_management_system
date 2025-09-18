@@ -1,7 +1,19 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-12">
-      {{cardItem().name}}
+    <div class="col-lg-9" style="cursor: pointer;" (click)="showDevices()">
+      {{ cardItem().name }}
+    </div>
+    <div class="col-lg-3">
+      <button (click)="button1Event()">
+        @if(cardItem().button1Event == "delete"){
+        <span class="material-symbols-outlined"> delete </span>
+        } @else if (cardItem().button1Event == "viewImage"){
+        <span class="material-symbols-outlined"> visibility </span>
+        }
+      </button>
+      <button (click)="editObject()">
+        <span class="material-symbols-outlined"> edit </span>
+      </button>
     </div>
   </div>
 </div>

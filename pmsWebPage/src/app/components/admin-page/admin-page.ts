@@ -8,10 +8,13 @@ import { Reservation } from '../../models/reservation.model';
 import { ListCard } from '../list-card/list-card';
 import { DeviceService } from '../../services/device-service';
 import { CardItem } from '../../models/card.model';
+import { NewsService } from '../../services/news-service';
+import { ReservationDetail } from '../reservation-detail/reservation-detail';
+import { RuleEditor } from '../rule-editor/rule-editor';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [MatCardModule, MatDatepickerModule, PopUp, ListCard],
+  imports: [MatCardModule, MatDatepickerModule, PopUp, ListCard, ReservationDetail, RuleEditor],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -22,10 +25,11 @@ export class AdminPage implements OnInit {
   private reservationService = inject(ReservationService)
 
   private deviceService = inject(DeviceService)
-
+  private newsService = inject(NewsService)
 
   todaysReservation = signal<Reservation[]>([])
   reservationsOfSelectedDate = signal<Reservation[]>([])
+  selectedReservation = signal<null | Reservation>(null)
 
   isShowPupUp = signal<boolean>(false)
   popUpTitle = signal<string>("")
@@ -43,20 +47,29 @@ export class AdminPage implements OnInit {
     if (objectType == 'deviceCategory') {
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.push(new CardItem(element.name, "deviceCategory", element)))
+          response.forEach(element => this.cardList.push(new CardItem(element.name, "deviceCategory", element, "delete")))
         },
         complete: () => this.isShowPupUp.set(true)
       })
+    } else if (objectType == "news") {
+      this.newsService.getAllNews().subscribe({
+        next: response => {
+          response.forEach(element => this.cardList.push(new CardItem(element.title, "news", element, "delete")))
+        },
+        complete: () => this.isShowPupUp.set(true)
+      })
+    } else if (objectType == "reservationType"){
+
     }
   }
 
-  closePopUp(){
+  closePopUp() {
     this.isShowPupUp.set(false)
     this.cardList = []
   }
 
   //Ez majd az output altal fog ervenyesulni
-  changeObjectList() {
-
+  changeObjectList(eventParam: any) {
+    console.log("asd")
   }
 }

@@ -1,5 +1,6 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 import { CardItem } from '../../models/card.model';
+import { Device } from '../../models/device.model';
 
 @Component({
   selector: 'app-list-card',
@@ -10,8 +11,27 @@ import { CardItem } from '../../models/card.model';
 export class ListCard implements OnInit{
   cardItem = input.required<CardItem>()
   eventsTypeList: string[] = []
+  changeList = output<Device[]>()
 
   ngOnInit(): void {
 
+  }
+
+  button1Event(){
+    console.log("button1Event")
+  }
+
+  editObject(){
+    console.log("editObject")
+  }
+
+  showDevices(){
+    if(this.cardItem().objectType != "deviceCategory"){
+      return
+    }
+
+    console.log("showDevices")
+    console.log(this.cardItem().object!.devicesList)
+    this.changeList.emit(this.cardItem().object!.devicesList)
   }
 }
