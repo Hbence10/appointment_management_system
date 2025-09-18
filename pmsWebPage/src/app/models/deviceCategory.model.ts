@@ -16,7 +16,7 @@ export class DeviceCategory{
     return this._name;
   }
 
-  get deviceList(): Device[]{
+  get devicesList(): Device[]{
     return this._devicesList;
   }
 }

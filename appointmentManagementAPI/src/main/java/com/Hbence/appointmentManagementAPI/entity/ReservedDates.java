@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "reserved_dates")
 @NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "getReservedDatesOfPeriod", procedureName = "getReservedDatesOfPeriod", parameters = {
+        @NamedStoredProcedureQuery(name = "getReservedDatesOfPeriod"    , procedureName = "getReservedDatesOfPeriod", parameters = {
                 @StoredProcedureParameter(name = "startDateIN", type = LocalDate.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN)
         }, resultClasses = {ReservedDates.class})

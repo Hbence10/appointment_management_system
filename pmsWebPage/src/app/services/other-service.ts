@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { ReviewDetails } from '../models/reviewDetails.model';
 import { Observable } from 'rxjs';
 import { GalleryImage } from '../models/galleryImage.model';
 

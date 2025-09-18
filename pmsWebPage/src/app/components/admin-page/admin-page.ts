@@ -2,19 +2,12 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal 
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ReservationService } from '../../services/reservation-service';
-import { PopUp } from '../pop-up/pop-up';
 import { Reservation } from '../../models/reservation.model';
-import { ListCard } from '../list-card/list-card';
-import { DeviceService } from '../../services/device-service';
-import { CardItem } from '../../models/card.model';
-import { NewsService } from '../../services/news-service';
-import { ReservationDetail } from '../reservation-detail/reservation-detail';
-import { RuleEditor } from '../rule-editor/rule-editor';
+import { PopUp } from '../pop-up/pop-up';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [MatCardModule, MatDatepickerModule, PopUp, ListCard, ReservationDetail, RuleEditor],
+  imports: [MatCardModule, MatDatepickerModule, PopUp],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -22,10 +15,7 @@ import { RuleEditor } from '../rule-editor/rule-editor';
 })
 export class AdminPage implements OnInit {
   private destroyRef = inject(DestroyRef)
-  private reservationService = inject(ReservationService)
 
-  private deviceService = inject(DeviceService)
-  private newsService = inject(NewsService)
 
   todaysReservation = signal<Reservation[]>([])
   reservationsOfSelectedDate = signal<Reservation[]>([])
@@ -34,8 +24,7 @@ export class AdminPage implements OnInit {
   isShowPupUp = signal<boolean>(false)
   popUpTitle = signal<string>("")
   popUpButtonText = signal<string>("")
-
-  cardList: CardItem[] = []
+  popUpObjectType = signal<string>("")
 
   ngOnInit(): void {
   }
@@ -43,29 +32,12 @@ export class AdminPage implements OnInit {
   selectObjectList(title: string, buttonText: string, objectType: "deviceCategory" | "news" | "device" | "gallery" | "reservationType" | "rule" | "other") {
     this.popUpTitle.set(title)
     this.popUpButtonText.set(buttonText)
-
-    if (objectType == 'deviceCategory') {
-      this.deviceService.getAllDevicesByCategories().subscribe({
-        next: response => {
-          response.forEach(element => this.cardList.push(new CardItem(element.name, "deviceCategory", element, "delete")))
-        },
-        complete: () => this.isShowPupUp.set(true)
-      })
-    } else if (objectType == "news") {
-      this.newsService.getAllNews().subscribe({
-        next: response => {
-          response.forEach(element => this.cardList.push(new CardItem(element.title, "news", element, "delete")))
-        },
-        complete: () => this.isShowPupUp.set(true)
-      })
-    } else if (objectType == "reservationType"){
-
-    }
+    this.popUpObjectType.set(objectType)
+    this.isShowPupUp.set(true)
   }
 
   closePopUp() {
     this.isShowPupUp.set(false)
-    this.cardList = []
   }
 
   //Ez majd az output altal fog ervenyesulni
