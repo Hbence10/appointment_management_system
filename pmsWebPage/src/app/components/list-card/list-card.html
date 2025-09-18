@@ -1,19 +1,21 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-9" style="cursor: pointer;" (click)="showDevices()">
-      {{ cardItem().name }}
+<div class="container-fluid my-4">
+  <div class="row h-100" [class.deviceCard]="cardItem().objectType == 'device'">
+    <div class="col-lg-9 d-flex justify-content-start align-items-center" (click)="showDevices()">
+      {{ cardItem().name | titlecase}}
     </div>
-    <div class="col-lg-3">
-      <button (click)="button1Event()">
+
+    <div class="col-lg-3 d-flex justify-content-end align-items-center">
+      <button class="d-flex justify-content-center align-items-center" (click)="button1Event()">
         @if(cardItem().button1Event == "delete"){
         <span class="material-symbols-outlined"> delete </span>
         } @else if (cardItem().button1Event == "viewImage"){
         <span class="material-symbols-outlined"> visibility </span>
         }
       </button>
-      <button (click)="editObject()">
+      <button class="d-flex justify-content-center align-items-center" (click)="editObject()">
         <span class="material-symbols-outlined"> edit </span>
       </button>
     </div>
+
   </div>
 </div>

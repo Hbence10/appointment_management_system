@@ -29,7 +29,7 @@ public class DevicesCategory {
     @OneToMany(
             mappedBy = "categoryId",
             fetch = FetchType.LAZY,
-            cascade = {}
+            cascade = {CascadeType.REMOVE}
     )
     private List<Devices> devicesList;
 
