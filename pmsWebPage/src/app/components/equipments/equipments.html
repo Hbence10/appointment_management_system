@@ -21,7 +21,7 @@
 
               <div class="row">
                 <div class="col-lg-12">
-                  @for (device of deviceCategory.deviceList; track $index) {
+                  @for (device of deviceCategory.devicesList; track $index) {
                     <p class="text-center">{{device.name}}({{device.amount}})</p>
                   }
                 </div>

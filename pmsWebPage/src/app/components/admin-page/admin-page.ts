@@ -1,13 +1,18 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Reservation } from '../../models/reservation.model';
 import { PopUp } from '../pop-up/pop-up';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { ReservationCard } from '../reservation-card/reservation-card';
+import { ReservationService } from '../../services/reservation-service';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [MatCardModule, MatDatepickerModule, PopUp],
+  imports: [MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -15,7 +20,7 @@ import { PopUp } from '../pop-up/pop-up';
 })
 export class AdminPage implements OnInit {
   private destroyRef = inject(DestroyRef)
-
+  private reservationService = inject(ReservationService)
 
   todaysReservation = signal<Reservation[]>([])
   reservationsOfSelectedDate = signal<Reservation[]>([])
@@ -26,7 +31,18 @@ export class AdminPage implements OnInit {
   popUpButtonText = signal<string>("")
   popUpObjectType = signal<string>("")
 
+  //Naptar dolgai:
+  currentDate: Date = new Date()
+  selectedDate = signal<Date>(this.currentDate);
+  maxDate: Date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate())
+  monthsName = signal(["Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"])
+  daysName = signal(["Vasárnap", "Hetfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"])
+  selectedDateText: Signal<String> = computed(() =>
+    `${this.monthsName()[this.selectedDate().getMonth()]} ${this.selectedDate().getDate()}, ${this.daysName()[this.selectedDate().getDay()]}`
+  )
+
   ngOnInit(): void {
+    // const subscription = this.reservationService.getReservationByDate
   }
 
   selectObjectList(title: string, buttonText: string, objectType: "deviceCategory" | "news" | "device" | "gallery" | "reservationType" | "rule" | "other") {
@@ -40,8 +56,7 @@ export class AdminPage implements OnInit {
     this.isShowPupUp.set(false)
   }
 
-  //Ez majd az output altal fog ervenyesulni
-  changeObjectList(eventParam: any) {
-    console.log("asd")
+  showSelectedDaysReservation(){
+
   }
 }

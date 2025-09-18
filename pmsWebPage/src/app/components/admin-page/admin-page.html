@@ -1,13 +1,23 @@
 <div class="container-fluid">
   <div class="row mt-4">
-    <div class="col-lg-4">
+    <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <mat-card class="demo-inline-calendar-card">
-        <mat-calendar></mat-calendar>
+        <mat-card-header>
+          <mat-card-subtitle style="color: white;">Válasszon dátumot:</mat-card-subtitle>
+          <mat-card-title style="color: white;">{{ selectedDateText() }}</mat-card-title>
+        </mat-card-header>
+        <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate" (selectedChange)="showSelectedDaysReservation()"></mat-calendar>
       </mat-card>
     </div>
+
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div class="cardDiv reservationCard">
-
+        <h1 class="text-center">{{selectedDateText()}}</h1>
+        <div>
+          @for (reservation of reservationsOfSelectedDate(); track $index) {
+            <app-reservation-card [reservationDetails]="reservation" />
+          }
+        </div>
       </div>
     </div>
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
@@ -16,6 +26,14 @@
         <div class="row">
           <div class="col-lg-12">
             <h1 class="text-center">Mai nap foglalásai</h1>
+            <div>
+              @for (reservation of todaysReservation(); track $index) {
+                <app-reservation-card [reservationDetails]="reservation" />
+              }
+            </div>
+            <a routerLink="/makeReservation">
+              <button matButton="filled">Időpont foglalása</button>
+            </a>
           </div>
         </div>
 

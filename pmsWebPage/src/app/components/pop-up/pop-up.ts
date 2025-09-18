@@ -1,24 +1,27 @@
 import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { CardItem } from '../../models/card.model';
+import { DeviceCategory } from '../../models/deviceCategory.model';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
-import { ReservationService } from '../../services/reservation-service';
 import { OtherService } from '../../services/other-service';
+import { ReservationService } from '../../services/reservation-service';
 import { ListCard } from '../list-card/list-card';
-import { Device } from '../../models/device.model';
-import { DeviceCategory } from '../../models/deviceCategory.model';
+import { RuleEditor } from '../rule-editor/rule-editor';
+import { ReservationDetail } from '../reservation-detail/reservation-detail';
+import { Reservation } from '../../models/reservation.model';
 
 @Component({
   selector: 'app-pop-up',
-  imports: [MatButtonModule, ListCard],
+  imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss'
 })
 export class PopUp implements OnInit {
   title = input.required<string>()
   buttonText = input.required<string>()
-  objectType = input<string>()
+  objectType = input.required<string>()
+  reservation = input<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
   baseDetails!: { title: string, buttonText: string, objectType: string };
@@ -86,6 +89,9 @@ export class PopUp implements OnInit {
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
           response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", element, "delete")]))
+        },
+        complete: () => {
+          this.baseDetails = {title: "Kategóriák listája", buttonText: "Kategória hozzáadása", objectType: "deviceCategory"}
         }
       })
     } else {
