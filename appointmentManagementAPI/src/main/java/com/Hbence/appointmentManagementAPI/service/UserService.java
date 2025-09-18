@@ -4,7 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +13,12 @@ import java.util.regex.Pattern;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     private static final String SPECIAL = "!@#$%^&*()-_=+[]{};:,.?/";
-
-    @Autowired
-    public UserService(UserRepository userRepository, ObjectMapper objectMapper) {
-        this.userRepository = userRepository;
-        this.objectMapper = objectMapper;
-    }
 
     //Endpointok
     public ResponseEntity<User> login(String username, String password) {

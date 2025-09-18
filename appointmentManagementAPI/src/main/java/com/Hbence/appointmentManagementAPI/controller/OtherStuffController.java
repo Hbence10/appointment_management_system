@@ -3,7 +3,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.Gallery;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +11,10 @@ import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
+@RequiredArgsConstructor
 public class OtherStuffController {
 
     private final OtherStuffService otherStuffService;
-
-    @Autowired
-    public OtherStuffController(OtherStuffService otherStuffService) {
-        this.otherStuffService = otherStuffService;
-    }
 
     //Galleria:
     @GetMapping("/gallery")

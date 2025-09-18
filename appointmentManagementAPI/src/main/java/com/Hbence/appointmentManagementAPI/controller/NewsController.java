@@ -2,7 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.service.NewsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,15 +11,10 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/news")
+@RequiredArgsConstructor
 public class NewsController {
 
     public final NewsService newsService;
-
-    @Autowired
-    public NewsController(NewsService newsService) {
-        this.newsService = newsService;
-    }
-
 
     @GetMapping("")
     public ResponseEntity<List<News>> getAllNews() {

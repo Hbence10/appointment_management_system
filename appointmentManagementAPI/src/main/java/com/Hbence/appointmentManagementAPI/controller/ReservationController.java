@@ -1,8 +1,11 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.entity.PaymentMethods;
+import com.Hbence.appointmentManagementAPI.entity.ReservationType;
+import com.Hbence.appointmentManagementAPI.entity.Reservations;
+import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +16,10 @@ import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/reservation")
+@RequiredArgsConstructor
 public class ReservationController {
-    private final ReservationService reservationService;
 
-    @Autowired
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
-    }
+    private final ReservationService reservationService;
 
     //Foglalasok
     @GetMapping("/user/{id}")

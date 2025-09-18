@@ -3,7 +3,7 @@ package com.Hbence.appointmentManagementAPI.service;
 import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.repository.NewsRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,9 @@ import java.util.List;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class NewsService {
     private final NewsRepository newsRepository;
-
-    @Autowired
-    public NewsService(NewsRepository newsRepository) {
-        this.newsRepository = newsRepository;
-    }
 
     public ResponseEntity<List<News>> getAllNews(){
         return ResponseEntity.ok(newsRepository.findAll());

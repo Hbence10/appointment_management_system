@@ -3,7 +3,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
 import com.Hbence.appointmentManagementAPI.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +13,10 @@ import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/reviews")
+@RequiredArgsConstructor
 public class ReviewController {
-    private final ReviewService reviewService;
 
-    @Autowired
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
-    }
+    private final ReviewService reviewService;
 
     //Review:
     @GetMapping("")
@@ -33,12 +30,12 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteReview(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteReview(@PathVariable("id") Long id) {
         return reviewService.deleteReview(id);
     }
 
     @PutMapping("")
-    public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview){
+    public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview) {
         return reviewService.updateReview(updatedReview);
     }
 
@@ -49,7 +46,7 @@ public class ReviewController {
     }
 
     @PatchMapping("/review/{id}")
-    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType){
+    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType) {
         return reviewService.changeLikeTypeOfReview(id, newLikeType);
     }
 }

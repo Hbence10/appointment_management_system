@@ -8,7 +8,7 @@ import com.Hbence.appointmentManagementAPI.repository.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +17,11 @@ import java.util.Map;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewHistoryRepository reviewLikeHistoryRepository;
     private final ObjectMapper objectMapper;
-
-    @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ReviewHistoryRepository reviewLikeHistoryRepository, ObjectMapper objectMapper) {
-        this.reviewRepository = reviewRepository;
-        this.reviewLikeHistoryRepository = reviewLikeHistoryRepository;
-        this.objectMapper = objectMapper;
-    }
 
     public List<Review> getAllReview() {
         return reviewRepository.findAll();

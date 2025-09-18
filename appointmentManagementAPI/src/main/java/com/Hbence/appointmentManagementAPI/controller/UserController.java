@@ -2,7 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +12,10 @@ import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/login")
     public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password) {
@@ -32,23 +28,23 @@ public class UserController {
     }
 
     @PutMapping("")
-    public ResponseEntity<User> updateUser(@RequestBody User updatedUser){
+    public ResponseEntity<User> updateUser(@RequestBody User updatedUser) {
         return userService.updateUser(updatedUser);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable("id") Long id, @RequestBody Map<String, String> newPasswordBody){
+    public ResponseEntity<User> updatePassword(@PathVariable("id") Long id, @RequestBody Map<String, String> newPasswordBody) {
         return userService.updatePassword(id, newPasswordBody);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         return userService.deleteUser(id);
     }
 
     //Error lekezelesek:
     @ExceptionHandler
-    public ResponseEntity<User> handleUniqueError(DataIntegrityViolationException e){
+    public ResponseEntity<User> handleUniqueError(DataIntegrityViolationException e) {
         return ResponseEntity.notFound().build();
     }
 }

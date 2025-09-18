@@ -5,16 +5,19 @@ import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class ReservationService {
 
     private final PaymentMethodRepository paymentMethodRepository;
@@ -23,16 +26,6 @@ public class ReservationService {
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
     private final ObjectMapper objectMapper;
-
-    @Autowired
-    public ReservationService(PaymentMethodRepository paymentMethodRepository, ReservationRepository reservationRepository, ReservationTypeRepository reservationTypeRepository, ReservedDateRepository reservedDateRepository, ReservedHoursRepository reservedHoursRepository, ObjectMapper objectMapper) {
-        this.paymentMethodRepository = paymentMethodRepository;
-        this.reservationRepository = reservationRepository;
-        this.reservationTypeRepository = reservationTypeRepository;
-        this.reservedDateRepository = reservedDateRepository;
-        this.reservedHoursRepository = reservedHoursRepository;
-        this.objectMapper = objectMapper;
-    }
 
     //Foglalasok:
     public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
