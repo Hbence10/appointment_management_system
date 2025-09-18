@@ -3,6 +3,7 @@
     <div class="col-lg-12 d-flex justify-content-center align-items-center">
       <div id="mainContainer" class="container-fluid">
         <div class="row h-100">
+          <!-- Naptar: -->
           <div class="col-lg-4">
             <mat-card class="demo-inline-calendar-card h-100">
               <mat-card-header>
@@ -13,13 +14,14 @@
             </mat-card>
           </div>
 
+          <!-- Ora adatok megadasa -->
           <div class="col-lg-8">
             <div id="hourContainer" class="container-fluid">
               <div class="row h-100">
                 @if(!baseReservation().reservedHours.date.isClosed && !baseReservation().reservedHours.date.isHoliday && !baseReservation().reservedHours.date.isFull){
                   <div class="col-lg-3 d-flex flex-column align-items-center" style="overflow-y: auto;max-height: 500px;padding: 30px 0px !important;">
                     @for (hour of availableHours; track $index) {
-                      <div class="hourDiv my-1" (click)="baseReservation().reservedHours.start = hour; selectedHourAmount.set(null);setCheckerList()" [class.selectedHourDiv]="hour == baseReservation().reservedHours.start" [class.reservedHour]="baseReservation().reservedHours.date.unavailableHours.includes(hour)">
+                      <div class="hourDiv my-1" (click)="baseReservation().reservedHours.start = hour; selectedHourAmount.set(null);setCheckerList()" [class.selectedHourDiv]="hour == baseReservation().reservedHours.start" [class.reservedHour]="baseReservation()?.reservedHours?.date?.unavailableHours?.includes(hour)">
                         <p class="hour my-3 text-center numberFont" >
                           {{ hour }}:00
                         </p>

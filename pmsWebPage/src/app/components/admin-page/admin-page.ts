@@ -40,9 +40,14 @@ export class AdminPage implements OnInit {
   selectedDateText: Signal<String> = computed(() =>
     `${this.monthsName()[this.selectedDate().getMonth()]} ${this.selectedDate().getDate()}, ${this.daysName()[this.selectedDate().getDay()]}`
   )
+  formattedSelectedDate = computed(() =>
+    `${this.selectedDate().getFullYear()}-${this.selectedDate().getMonth() + 1 < 10 ? '0' : ''}${this.selectedDate().getMonth() + 1}-${this.selectedDate().getDate() < 10 ? '0' : ''}${this.selectedDate().getDate()}`
+  )
 
   ngOnInit(): void {
-    // const subscription = this.reservationService.getReservationByDate
+    const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
+      next: response => console.log(response)
+    })
   }
 
   selectObjectList(title: string, buttonText: string, objectType: "deviceCategory" | "news" | "device" | "gallery" | "reservationType" | "rule" | "other") {

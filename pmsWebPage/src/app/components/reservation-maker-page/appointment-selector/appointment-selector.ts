@@ -60,7 +60,7 @@ export class AppointmentSelector implements OnInit {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
 
     try {
-      this.selectedHourAmount.set(this.baseReservation().reservedHours.end - this.baseReservation().reservedHours.start)
+      this.selectedHourAmount.set(this.baseReservation()?.reservedHours.end - this.baseReservation()?.reservedHours.start)
     } catch (error) { }
 
     try {
@@ -69,7 +69,9 @@ export class AppointmentSelector implements OnInit {
     } catch (error) { }
 
     const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate(), this.maxDate.toISOString().split("T")[0]).subscribe({
-      next: response => this.reservedDatesOfActualPeriod.set(response),
+      next: response => {
+        this.reservedDatesOfActualPeriod.set(response)
+      },
       complete: () => {
         this.showSelectedDatesOfHours(false)
       }
@@ -82,6 +84,7 @@ export class AppointmentSelector implements OnInit {
 
   showSelectedDatesOfHours(isSelect: boolean) {
     const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.date)))
+    console.log(selectedReservedDate)
 
     if (this.baseReservation().reservedHours.date == undefined) {
       if (!selectedReservedDate) {
