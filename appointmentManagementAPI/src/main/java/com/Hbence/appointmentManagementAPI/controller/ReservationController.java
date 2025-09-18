@@ -28,7 +28,7 @@ public class ReservationController {
     }
 
     @GetMapping("/reservedDates")
-    public ResponseEntity<List<ReservedDates>> getReservationByMonth(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+    public ResponseEntity<Object> getReservationByMonth(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
         return reservationService.getReservationByMonth(startDate, endDate);
     }
 

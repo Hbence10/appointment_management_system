@@ -1,6 +1,8 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +42,8 @@ public class ReservedHours {
     //Kapcsolatok
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "date_id")
+//    @JsonBackReference
+    @JsonManagedReference
     private ReservedDates date;
 
     @JsonIgnore
@@ -47,14 +51,13 @@ public class ReservedHours {
     private Reservations reservationHour;
 
     //Constructorok
-    public ReservedHours(int start, int end, ReservedDates date) {
+    public ReservedHours(int start, int end) {
         this.start = start;
         this.end = end;
-        this.date = date;
     }
 
     @Override
     public String toString() {
-        return "ReservedHours{" + "date=" + date + ", end=" + end + ", start=" + start + ", id=" + id + '}';
+        return "ReservedHours{" + ", end=" + end + ", start=" + start + ", id=" + id + '}';
     }
 }

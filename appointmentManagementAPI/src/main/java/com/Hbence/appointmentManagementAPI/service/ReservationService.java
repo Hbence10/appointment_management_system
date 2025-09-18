@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
+import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,23 @@ public class ReservationService {
         return ResponseEntity.ok(reservationRepository.reservations(userId));
     }
 
-    public ResponseEntity<List<ReservedDates>> getReservationByMonth(String startDate, String endDate) {
-        List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDate), LocalDate.parse(endDate));
-        return ResponseEntity.ok(reservedDatesList);
+    public ResponseEntity<Object> getReservationByMonth(String startDateText, String endDateText) {
+        LocalDate startDate = LocalDate.parse(startDateText);
+        LocalDate endDate = LocalDate.parse(endDateText);
+
+        if (startDate.compareTo(endDate) == 1) {
+            return ResponseEntity.status(417).body("A kezdo datum nem lehet kesobb mint a vegdatum");
+        }
+
+        List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(startDate, endDate);
+        List<ReservedDatesWithHour> returnList = new ArrayList<>();
+        for(ReservedDates i : reservedDatesList){
+            returnList.add(new ReservedDatesWithHour(
+                    i.getId(), i.getDate(), i.getIsHoliday(), i.getIsClosed(), i.getIsFull(), i.getReservedHours()
+            ));
+        }
+
+        return ResponseEntity.ok(returnList);
     }
 
     public ResponseEntity<List<ReservedHours>> getReservedHoursByDay(String wantedDayDate) {

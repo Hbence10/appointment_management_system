@@ -1,6 +1,8 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,7 +46,8 @@ public class ReservedDates {
     private Boolean isFull = false;
 
     //Kapcsolatok
-    @JsonIgnore
+//    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,
