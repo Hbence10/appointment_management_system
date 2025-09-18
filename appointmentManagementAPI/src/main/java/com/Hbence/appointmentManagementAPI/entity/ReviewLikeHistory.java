@@ -2,15 +2,11 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.cglib.core.Local;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,6 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class ReviewLikeHistory {
 
     @Id
@@ -54,15 +51,5 @@ public class ReviewLikeHistory {
         this.likeType = likeType;
         this.likedReview = likedReview;
         this.likerUser = likerUser;
-    }
-
-    @Override
-    public String toString() {
-        return "ReviewLikeHistory{" +
-                "id=" + id +
-                ", likeType='" + likeType + '\'' +
-                ", likeAt=" + likeAt +
-                ", likerUser=" + likerUser +
-                '}';
     }
 }

@@ -2,9 +2,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class ReservationType {
 
     @Id
@@ -57,17 +56,5 @@ public class ReservationType {
     public ReservationType(String name, int price) {
         this.name = name;
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "ReservationType{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", reservation=" + reservation +
-                ", specialOffer=" + specialOffer +
-                ", devicesList=" + devicesList +
-                '}';
     }
 }

@@ -1,9 +1,7 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +11,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Gallery {
 
     @Id
@@ -38,10 +37,5 @@ public class Gallery {
         this.photoName = photoName;
         this.photoPath = photoPath;
         this.placement = placement;
-    }
-
-    @Override
-    public String toString() {
-        return "Gallery{" + "Id=" + Id + ", photoName='" + photoName + '\'' + ", photoPath='" + photoPath + '\'' + ", placement=" + placement + '}';
     }
 }

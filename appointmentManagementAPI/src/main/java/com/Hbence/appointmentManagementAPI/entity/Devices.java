@@ -2,9 +2,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,6 +12,7 @@ import java.util.List;
 @Table(name = "devices")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class Devices {
 
@@ -51,10 +50,5 @@ public class Devices {
     public Devices(String name, int amount) {
         this.name = name;
         this.amount = amount;
-    }
-
-    @Override
-    public String toString() {
-        return "Devices{" + "Id=" + Id + ", name='" + name + '\'' + ", categoryId=" + categoryId + ", amount=" + amount + '}';
     }
 }

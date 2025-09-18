@@ -2,9 +2,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -24,6 +22,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class User {
 
     @Id
@@ -120,11 +119,5 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    //ToString
-    @Override
-    public String toString() {
-        return "User{" + "role=" + role + ", deletedAt=" + deletedAt + ", isDeleted=" + isDeleted + ", lastLogin=" + lastLogin + ", createdAt=" + createdAt + ", pfpPath='" + pfpPath + '\'' + ", password='" + password + '\'' + ", email='" + email + '\'' + ", username='" + username + '\'' + ", id=" + id + '}';
     }
 }

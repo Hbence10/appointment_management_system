@@ -1,9 +1,7 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +11,7 @@ import java.util.List;
 @Table(name = "devices_category")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class DevicesCategory {
 
@@ -39,6 +38,4 @@ public class DevicesCategory {
         this.name = name;
         this.devicesList = devicesList;
     }
-
-
 }

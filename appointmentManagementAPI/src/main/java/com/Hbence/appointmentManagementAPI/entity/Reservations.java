@@ -1,15 +1,12 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -26,6 +23,7 @@ import java.util.Date;
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 public class Reservations {
 
     @Id
@@ -100,26 +98,5 @@ public class Reservations {
         this.email = email;
         this.phone = phone;
         this.comment = comment;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservations{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", comment='" + comment + '\'' +
-                ", reservedAt=" + reservedAt +
-                ", isCanceled=" + isCanceled +
-                ", canceledAt=" + canceledAt +
-                ", canceledBy=" + canceledBy +
-                ", user=" + user +
-                ", reservationTypeId=" + reservationTypeId +
-                ", paymentMethod=" + paymentMethod +
-                ", status=" + status +
-                ", reservedHours=" + reservedHours +
-                '}';
     }
 }
