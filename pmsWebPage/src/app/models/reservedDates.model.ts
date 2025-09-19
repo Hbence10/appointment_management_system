@@ -2,8 +2,8 @@ import { ReservedHours } from "./reservedHours.model";
 
 export class ReservedDates {
   constructor(
-    private _id: number,
     private _date:Date,
+    private _id: number| null = null,
     private _isHoliday: boolean = false,
     private _isClosed: boolean = false,
     private _isFull: boolean = false,
@@ -13,7 +13,7 @@ export class ReservedDates {
   ){}
 
   //Getterek:
-  get id(): number {
+  get id(): number | null {
     return this._id
   }
 

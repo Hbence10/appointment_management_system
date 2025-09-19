@@ -15,6 +15,8 @@ export class ReservationService {
   baseReservation = signal<Reservation>(new Reservation())
   ifRegistrationWithReservation = signal<boolean>(false)
 
+  progressBarSteps = [true, false, false, false]
+
   getReservationByUserId(userId: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
   }

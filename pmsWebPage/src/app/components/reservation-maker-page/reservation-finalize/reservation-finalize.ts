@@ -44,6 +44,9 @@ export class ReservationFinalize implements OnInit{
   }
 
   finalizeReservation(){
+    this.reservationService.baseReservation().reservedAt = new Date().toISOString()
+    console.log(this.baseReservation())
+
     this.reservationService.makeReservation().subscribe({
       next: response => console.log(response),
       complete: () => this.isReservationFinished.set(true)

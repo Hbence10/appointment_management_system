@@ -1,3 +1,4 @@
+import { Stats } from "fs";
 import { PaymentMethod } from "./paymentMethod.model";
 import { ReservationType } from "./reservationType.model";
 import { ReservedHours } from "./reservedHours.model";
@@ -7,20 +8,20 @@ import { User } from "./user.model";
 export class Reservation {
 
   constructor(
-    private _id?: number,
     private _firstName?: string,
     private _lastName?: string,
     private _email?: string,
     private _phone?: string,
+    private _reservedAt?: string,
+    private _id: number | null = null,
     private _comment: string | null = null,
-    private _reservedAt?: Date,
     private _isCanceled: boolean = false,
     private _canceledAt: Date | null = null,
     private _canceledBy: User | null = null,
     private _user: User | null = null,
     private _reservationTypeId?: ReservationType,
     private _paymentMethod?: PaymentMethod,
-    private _status?: Status,
+    private _status: Status = new Status(1, "Aktív"),
     private _reservedHours: ReservedHours = new ReservedHours(),
   ) { }
 
@@ -49,7 +50,7 @@ export class Reservation {
     return this._comment;
   }
 
-  get reservedAt(): Date {
+  get reservedAt(): string {
     return this._reservedAt!;
   }
 
@@ -110,7 +111,7 @@ export class Reservation {
     this._comment = newComment;
   }
 
-  set reservedAt(newDate: Date){
+  set reservedAt(newDate: string){
     this._reservedAt = newDate
   }
 

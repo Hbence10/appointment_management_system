@@ -2,6 +2,7 @@ import { AfterContentInit, AfterViewInit, Component, DestroyRef, ElementRef, inj
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { OtherService } from '../../../services/other-service';
+import { ReservationService } from '../../../services/reservation-service';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class RuleReader implements OnInit {
   private otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
+  private reservationService = inject(ReservationService)
 
   rule = signal<{ id: number, text: string, lastEditAt: Date }>({ id: -1, text: "", lastEditAt: new Date() })
   continueAble = signal<boolean>(false)
@@ -29,6 +31,7 @@ export class RuleReader implements OnInit {
   }
 
   acceptRule() {
+    this.reservationService.progressBarSteps[3] = true
     this.router.navigate(["makeReservation/reservationFinalize"])
   }
 

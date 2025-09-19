@@ -32,7 +32,7 @@ export class ListCard implements OnInit{
     if(this.cardItem().button1Event == "delete"){
 
       if(this.cardItem().objectType == "deviceCategory"){
-
+        console.log(`delete ${this.cardItem().object?.name} category`)
       } else if(this.cardItem().objectType == "device"){
 
       } else if(this.cardItem().objectType == "reservationType"){
@@ -45,7 +45,15 @@ export class ListCard implements OnInit{
   }
 
   editObject(){
-    console.log("editObject")
+      if(this.cardItem().objectType == "deviceCategory"){
+        console.log(`edit ${this.cardItem().object?.name} category`)
+      } else if(this.cardItem().objectType == "device"){
+
+      } else if(this.cardItem().objectType == "reservationType"){
+
+      } else if(this.cardItem().objectType == "news"){
+
+      }
   }
 
   showDevices(){

@@ -88,7 +88,7 @@ export class AppointmentSelector implements OnInit {
 
     if (this.baseReservation().reservedHours.date == undefined) {
       if (!selectedReservedDate) {
-        this.baseReservation().reservedHours.date = new ReservedDates(0, this.selectedDate(), false, false, false)
+        this.baseReservation().reservedHours.date = new ReservedDates(this.selectedDate(),null, false, false, false)
         this.baseReservation().reservedHours.date.availableHours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
       } else {
         this.baseReservation().reservedHours.date = selectedReservedDate
@@ -139,6 +139,7 @@ export class AppointmentSelector implements OnInit {
       this.baseReservation().reservedHours.end - this.baseReservation().reservedHours.start
     )
 
+    this.reservationService.progressBarSteps[1] = true
     this.router.navigate(["/makeReservation/reservationForm"])
   }
 

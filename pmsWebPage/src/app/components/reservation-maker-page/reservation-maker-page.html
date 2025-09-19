@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-lg-12 d-flex justify-content-center align-items-center mb-4">
       <button class="mx-2 progressButton" routerLink="appointmentSelect">Időpont kiválasztása</button>
-      <button class="mx-2 progressButton" routerLink="reservationForm">Adatok megadása</button>
-      <button class="mx-2 progressButton" routerLink="rule">Szabályzat elfogadása</button>
-      <button class="mx-2 progressButton" routerLink="reservationFinalize">Véglegesítés</button>
+      <button [disabled]="!checkList[1]" class="mx-2 progressButton" routerLink="reservationForm">Adatok megadása</button>
+      <button [disabled]="!checkList[2]" class="mx-2 progressButton" routerLink="rule">Szabályzat elfogadása</button>
+      <button [disabled]="!checkList[3]" class="mx-2 progressButton" routerLink="reservationFinalize">Véglegesítés</button>
     </div>
   </div>
 

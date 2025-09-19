@@ -74,6 +74,7 @@ export class ReservationForm implements OnInit {
     this.baseReservation().phone = this.form.controls["phone"].value
     this.baseReservation().comment = this.form.controls["comment"].value
 
+    this.reservationService.progressBarSteps[2] = true
     this.router.navigate(["/makeReservation/rule"])
   }
 
