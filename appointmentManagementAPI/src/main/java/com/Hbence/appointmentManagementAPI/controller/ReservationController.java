@@ -43,7 +43,7 @@ public class ReservationController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Reservations> makeReservation(@RequestBody Reservations newReservation){
+    public ResponseEntity<Object> makeReservation(@RequestBody Reservations newReservation){
         return reservationService.makeReservation(newReservation);
     }
 
@@ -77,6 +77,12 @@ public class ReservationController {
     @GetMapping("/paymentMethods")
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         return reservationService.getAllPaymentMethod();
+    }
+
+    //
+    @GetMapping("/asd")
+    public List<ReservedHours> asd(){
+        return reservationService.asd();
     }
 }
 

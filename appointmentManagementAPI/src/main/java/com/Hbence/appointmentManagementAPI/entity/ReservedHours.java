@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -38,19 +39,23 @@ public class ReservedHours {
     private int end;
 
     //Kapcsolatok
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "date_id")
-//    @JsonBackReference
-    @JsonManagedReference
     private ReservedDates date;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "reservedHours", cascade = {})
+    @OneToOne(mappedBy = "reservedHours", cascade = {CascadeType.ALL})
     private Reservations reservationHour;
 
     //Constructorok
     public ReservedHours(int start, int end) {
         this.start = start;
         this.end = end;
+    }
+
+    public ReservedHours(int start, int end, ReservedDates date) {
+        this.start = start;
+        this.end = end;
+        this.date = date;
     }
 }

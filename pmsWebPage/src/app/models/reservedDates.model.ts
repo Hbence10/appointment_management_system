@@ -2,7 +2,7 @@ import { ReservedHours } from "./reservedHours.model";
 
 export class ReservedDates {
   constructor(
-    private _date:Date,
+    private _date: Date,
     private _id: number| null = null,
     private _isHoliday: boolean = false,
     private _isClosed: boolean = false,

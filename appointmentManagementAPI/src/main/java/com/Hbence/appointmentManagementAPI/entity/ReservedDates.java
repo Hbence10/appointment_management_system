@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,12 +44,11 @@ public class ReservedDates {
     private Boolean isFull = false;
 
     //Kapcsolatok
-//    @JsonManagedReference
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,
-            cascade = {}
+            cascade = {CascadeType.REMOVE}
     )
     private List<ReservedHours> reservedHours;
 
