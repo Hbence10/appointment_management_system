@@ -15,31 +15,31 @@
 
               <p class="my-3 d-flex justify-content-between align-content-center">
                 <span class="fw-bold mainFont boldedSpans">Név: </span>
-                <span class="detailsValue">{{ baseReservation().firstName }} {{ baseReservation().lastName }}</span>
+                <span class="detailsValue">{{ baseReservation().getFirstName }} {{ baseReservation().getLastName }}</span>
               </p>
 
               <p class="my-3 d-flex justify-content-between align-content-center">
                 <span class="fw-bold mainFont boldedSpans">Email: </span>
-                <span class="detailsValue">{{ baseReservation().email }}</span>
+                <span class="detailsValue">{{ baseReservation().getEmail }}</span>
               </p>
 
               <p class="my-3 d-flex justify-content-between align-content-center">
                 <span class="fw-bold mainFont boldedSpans">Telefon: </span>
-                <span class="detailsValue">{{ baseReservation().phone }}</span>
+                <span class="detailsValue">{{ baseReservation().getPhone }}</span>
               </p>
 
               <p class="my-3 d-flex justify-content-between align-content-center">
                 <span class="fw-bold mainFont boldedSpans">Foglalás ideje:</span>
                 <span class="detailsValue">
-                  {{baseReservation().reservedHours.date.date.toISOString().split("T")[0]}}
-                  {{ baseReservation().reservedHours.start }}:00 -
-                  {{ baseReservation().reservedHours.end }}:00
+                  {{baseReservation().getReservedHours.getDate.getDate.toISOString().split("T")[0]}}
+                  {{ baseReservation().getReservedHours.getStart }}:00 -
+                  {{ baseReservation().getReservedHours.getEnd }}:00
                 </span>
               </p>
 
               <p class="my-3 d-flex justify-content-between align-content-center">
                 <span class="fw-bold mainFont boldedSpans">Foglalás típusa:</span>
-                <span class="detailsValue">{{baseReservation().reservationTypeId.name}}</span>
+                <span class="detailsValue">{{baseReservation().getReservationTypeId.name}}</span>
               </p>
 
               <p class="my-3 d-flex justify-content-between align-content-center">
@@ -54,7 +54,7 @@
               <p class="secondFont fw-bold m-0" style="border-bottom: 2px solid #004d40">Fizetési mód kiválasztása</p>
               <div>
                 @for (paymentMethod of paymentMethods(); track $index) {
-                  <mat-checkbox [checked]="baseReservation().paymentMethod == paymentMethod" (change)="selectPaymentMethod(paymentMethod)">{{ paymentMethod.name }}</mat-checkbox>
+                  <mat-checkbox [checked]="baseReservation().getPaymentMethod == paymentMethod" (change)="selectPaymentMethod(paymentMethod)">{{ paymentMethod.name }}</mat-checkbox>
                 }
               </div>
             </div>
@@ -72,7 +72,7 @@
 
         <div class="row" style="height: 125px;">
           <div class="col-lg-12 d-flex justify-content-center align-items-center">
-            <button matButton="filled" [disabled]="baseReservation().paymentMethod == undefined" (click)="finalizeReservation()">Foglalás véglegesítése</button>
+            <button matButton="filled" [disabled]="baseReservation().getPaymentMethod == undefined" (click)="finalizeReservation()">Foglalás véglegesítése</button>
           </div>
         </div>
       </div>

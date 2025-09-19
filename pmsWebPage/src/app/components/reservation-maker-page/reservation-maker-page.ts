@@ -26,7 +26,7 @@ export class ReservationMakerPage implements OnInit {
 
   //
   isStep2 = computed<boolean>(() => {
-    return this.reservationService.baseReservation().reservedHours.start == undefined && this.reservationService.baseReservation().reservedHours.end == undefined;
+    return this.reservationService.baseReservation().getReservedHours.getStart == undefined && this.reservationService.baseReservation().getReservedHours.getEnd == undefined;
   })
 
 }

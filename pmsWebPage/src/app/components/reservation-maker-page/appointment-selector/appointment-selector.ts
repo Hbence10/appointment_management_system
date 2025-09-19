@@ -60,11 +60,11 @@ export class AppointmentSelector implements OnInit {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
 
     try {
-      this.selectedHourAmount.set(this.baseReservation()?.reservedHours.end - this.baseReservation()?.reservedHours.start)
+      this.selectedHourAmount.set(this.baseReservation()?.getReservedHours.getEnd - this.baseReservation()?.getReservedHours.getStart)
     } catch (error) { }
 
     try {
-      this.selectedDate.set(new Date(this.baseReservation().reservedHours.date.date))
+      this.selectedDate.set(new Date(this.baseReservation().getReservedHours.getDate.getDate))
       this.setCheckerList()
     } catch (error) { }
 
@@ -83,29 +83,29 @@ export class AppointmentSelector implements OnInit {
   }
 
   showSelectedDatesOfHours(isSelect: boolean) {
-    const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.date)))
+    const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.getDate)))
     console.log(selectedReservedDate)
 
-    if (this.baseReservation().reservedHours.date == undefined) {
+    if (this.baseReservation().getReservedHours.getDate == undefined) {
       if (!selectedReservedDate) {
-        this.baseReservation().reservedHours.date = new ReservedDates(this.selectedDate(),null, false, false, false)
-        this.baseReservation().reservedHours.date.availableHours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+        this.baseReservation().getReservedHours.setDate = new ReservedDates(this.selectedDate(),null, false, false, false)
+        this.baseReservation().getReservedHours.getDate.setAvailableHours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
       } else {
-        this.baseReservation().reservedHours.date = selectedReservedDate
-        this.baseReservation().reservedHours.date.unavailableHours = this.setUnavailableHours()
-        this.baseReservation().reservedHours.date.availableHours = this.setAvailableHours()
+        this.baseReservation().getReservedHours.setDate = selectedReservedDate
+        this.baseReservation().getReservedHours.getDate.setUnavailableHours = this.setUnavailableHours()
+        this.baseReservation().getReservedHours.getDate.setAvailableHours = this.setAvailableHours()
       }
     }
   }
 
   resetReservedHour() {
-    this.baseReservation().reservedHours = new ReservedHours()
+    this.baseReservation().setReservedHours = new ReservedHours()
     this.selectedHourAmount.set(null)
   }
 
   setUnavailableHours(): number[] {
-    const startHours: number[] = this.baseReservation().reservedHours.date.reservedHours.map(element => element.start)
-    const endHours: number[] = this.baseReservation().reservedHours.date.reservedHours.map(element => element.end)
+    const startHours: number[] = this.baseReservation().getReservedHours.getDate.getReservedHours.map(element => element.getStart)
+    const endHours: number[] = this.baseReservation().getReservedHours.getDate.getReservedHours.map(element => element.getEnd)
     const unavailableHours: number[] = []
 
     for (let i: number = 0; i < startHours.length; i++) {
@@ -123,7 +123,7 @@ export class AppointmentSelector implements OnInit {
     const availableHours: number[] = []
 
     for (let i: number = 10; i < 22; i++) {
-      if (!this.baseReservation().reservedHours.date.unavailableHours.includes(i)) {
+      if (!this.baseReservation().getReservedHours.getDate.getUnavailableHours.includes(i)) {
         availableHours.push(i)
       }
     }
@@ -132,11 +132,11 @@ export class AppointmentSelector implements OnInit {
   }
 
   selectHoursAmountOfReservation(wantedHourAmount: number | string) {
-    const endHour: number = wantedHourAmount == "Egész napra" ? 22 : Number(this.baseReservation().reservedHours.start) + Number(wantedHourAmount)
-    this.baseReservation().reservedHours.end = endHour
+    const endHour: number = wantedHourAmount == "Egész napra" ? 22 : Number(this.baseReservation().getReservedHours.getStart) + Number(wantedHourAmount)
+    this.baseReservation().getReservedHours.setEnd = endHour
 
     this.selectedHourAmount.set(
-      this.baseReservation().reservedHours.end - this.baseReservation().reservedHours.start
+      this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart
     )
 
     this.reservationService.progressBarSteps[1] = true
@@ -145,8 +145,8 @@ export class AppointmentSelector implements OnInit {
 
   setCheckerList() {
     const checkerList: boolean[] = []
-    for (let i: number = this.baseReservation().reservedHours.start; i < this.baseReservation().reservedHours.start + this.listCardAmount; i++) {
-      let result: boolean = this.baseReservation().reservedHours.date.unavailableHours.includes(i)
+    for (let i: number = this.baseReservation().getReservedHours.getStart; i < this.baseReservation().getReservedHours.getStart + this.listCardAmount; i++) {
+      let result: boolean = this.baseReservation().getReservedHours.getDate.getUnavailableHours.includes(i)
       if (result) {
         while (checkerList.length != this.listCardAmount) {
           checkerList.push(true)

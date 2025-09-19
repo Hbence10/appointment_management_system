@@ -38,8 +38,8 @@ export class ReservationForm implements OnInit {
     this.user = this.userService.user()
     this.baseReservation = signal(this.reservationService.baseReservation())
 
-    if(this.baseReservation().reservationTypeId){
-      this.selectedReservationType.set(this.baseReservation().reservationTypeId)
+    if(this.baseReservation().getReservationTypeId){
+      this.selectedReservationType.set(this.baseReservation().getReservationTypeId)
     }
 
     const subscription = this.reservationService.getReservationTypes().subscribe({
@@ -52,27 +52,27 @@ export class ReservationForm implements OnInit {
     })
 
     this.form = new FormGroup({
-      firstName: new FormControl(this.baseReservation().firstName, [Validators.required]),
-      lastName: new FormControl(this.baseReservation().lastName, [Validators.required]),
-      email: new FormControl(this.baseReservation().email, [Validators.required, Validators.email]),
-      phone: new FormControl(this.baseReservation().phone, [Validators.required]),
-      comment: new FormControl(this.baseReservation().comment, []),
-      reservationType: new FormControl(!this.baseReservation().reservationTypeId ? "" : this.baseReservation().reservationTypeId.name, [Validators.required])
+      firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
+      lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
+      email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
+      phone: new FormControl(this.baseReservation().getPhone, [Validators.required]),
+      comment: new FormControl(this.baseReservation().getComment, []),
+      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.name, [Validators.required])
     })
   }
 
   selectReservationType(reservationType: ReservationType) {
     this.selectedReservationType.set(reservationType)
-    this.baseReservation().reservationTypeId = reservationType
+    this.baseReservation().setReservationTypeId = reservationType
     this.form.controls["reservationType"].setValue(this.selectedReservationType()!.name)
   }
 
   continueReservation() {
-    this.baseReservation().firstName = this.form.controls["firstName"].value
-    this.baseReservation().lastName = this.form.controls["lastName"].value
-    this.baseReservation().email = this.form.controls["email"].value
-    this.baseReservation().phone = this.form.controls["phone"].value
-    this.baseReservation().comment = this.form.controls["comment"].value
+    this.baseReservation().setFirstName = this.form.controls["firstName"].value
+    this.baseReservation().setLastName = this.form.controls["lastName"].value
+    this.baseReservation().setEmail = this.form.controls["email"].value
+    this.baseReservation().setPhone = this.form.controls["phone"].value
+    this.baseReservation().setComment = this.form.controls["comment"].value
 
     this.reservationService.progressBarSteps[2] = true
     this.router.navigate(["/makeReservation/rule"])

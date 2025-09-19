@@ -66,10 +66,12 @@ public class ReservationService {
     }
 
     public ResponseEntity<Object> makeReservation(Reservations newReservation) {
-        if(emailChecker(newReservation.getEmail())){
-            return ResponseEntity.status(417).body("InvalidEmail");
-        }
+//        if(emailChecker(newReservation.getEmail())){
+//            return ResponseEntity.status(417).body("InvalidEmail");
+//        }
 
+        System.out.println(newReservation);
+        System.out.println(newReservation.getReservedHours());
         reservedDateRepository.save(newReservation.getReservedHours().getDate());
 
         return ResponseEntity.ok(reservationRepository.save(newReservation));

@@ -1,4 +1,3 @@
-import { Stats } from "fs";
 import { PaymentMethod } from "./paymentMethod.model";
 import { ReservationType } from "./reservationType.model";
 import { ReservedHours } from "./reservedHours.model";
@@ -8,156 +7,139 @@ import { User } from "./user.model";
 export class Reservation {
 
   constructor(
-    private _firstName?: string,
-    private _lastName?: string,
-    private _email?: string,
-    private _phone?: string,
-    private _reservedAt?: string,
-    private _id: number | null = null,
-    private _comment: string | null = null,
-    private _isCanceled: boolean = false,
-    private _canceledAt: Date | null = null,
-    private _canceledBy: User | null = null,
-    private _user: User | null = null,
-    private _reservationTypeId?: ReservationType,
-    private _paymentMethod?: PaymentMethod,
-    private _status: Status = new Status(1, "Aktív"),
-    private _reservedHours: ReservedHours = new ReservedHours(),
+    private firstName?: string,
+    private lastName?: string,
+    private email?: string,
+    private phone?: string,
+    private reservedAt?: string,
+    private id: number | null = null,
+    private comment: string | null = null,
+    private isCanceled: boolean = false,
+    private canceledAt: Date | null = null,
+    private canceledBy: User | null = null,
+    private user: User | null = null,
+    private reservationTypeId?: ReservationType,
+    private paymentMethod?: PaymentMethod,
+    private status: Status = new Status(1, "Aktív"),
+    private reservedHours: ReservedHours = new ReservedHours(),
   ) { }
 
   // Getterek:
-  get id(): number {
-    return this._id!;
+  get getId(): number {
+    return this.id!;
   }
 
-  get firstName(): string {
-    return this._firstName!;
+  get getFirstName(): string {
+    return this.firstName!;
   }
 
-  get lastName(): string {
-    return this._lastName!;
+  get getLastName(): string {
+    return this.lastName!;
   }
 
-  get email(): string {
-    return this._email!;
+  get getEmail(): string {
+    return this.email!;
   }
 
-  get phone(): string {
-    return this._phone!;
+  get getPhone(): string {
+    return this.phone!;
   }
 
-  get comment(): string | null {
-    return this._comment;
+  get getComment(): string | null {
+    return this.comment;
   }
 
-  get reservedAt(): string {
-    return this._reservedAt!;
+  get getReservedAt(): string {
+    return this.reservedAt!;
   }
 
-  get isCanceled(): boolean {
-    return this._isCanceled
+  get getIsCanceled(): boolean {
+    return this.isCanceled
   }
 
-  get canceledAt(): Date | null {
-    return this._canceledAt;
+  get getCanceledAt(): Date | null {
+    return this.canceledAt;
   }
 
-  get canceledBy(): User | null {
-    return this._canceledBy
+  get getCanceledBy(): User | null {
+    return this.canceledBy
   }
 
-  get user(): User | null {
-    return this._user
+  get getUser(): User | null {
+    return this.user
   }
 
-  get reservationTypeId(): ReservationType {
-    return this._reservationTypeId!
+  get getReservationTypeId(): ReservationType {
+    return this.reservationTypeId!
   }
 
-  get paymentMethod(): PaymentMethod {
-    return this._paymentMethod!;
+  get getPaymentMethod(): PaymentMethod {
+    return this.paymentMethod!;
   }
 
-  get status(): Status {
-    return this._status!;
+  get getStatus(): Status {
+    return this.status!;
   }
 
-  get reservedHours(): ReservedHours {
-    return this._reservedHours!;
+  get getReservedHours(): ReservedHours {
+    return this.reservedHours!;
   }
 
   //Setterek:
-  set id(newId: number) {
-    this._id = newId;
+  set setFirstName(newFirstName: string) {
+    this.firstName = newFirstName;
   }
 
-  set firstName(newFirstName: string) {
-    this._firstName = newFirstName;
+  set setLastName(newLastName: string) {
+    this.lastName = newLastName;
   }
 
-  set lastName(newLastName: string) {
-    this._lastName = newLastName;
+  set setEmail(newEmail: string) {
+    this.email = newEmail;
   }
 
-  set email(newEmail: string) {
-    this._email = newEmail;
+  set setPhone(newPhone: string) {
+    this.phone = newPhone;
   }
 
-  set phone(newPhone: string) {
-    this._phone = newPhone;
+  set setComment(newComment: string) {
+    this.comment = newComment;
   }
 
-  set comment(newComment: string) {
-    this._comment = newComment;
+  set setReservedAt(newDate: string){
+    this.reservedAt = newDate
   }
 
-  set reservedAt(newDate: string){
-    this._reservedAt = newDate
+  set setIsCanceled(newValue: boolean){
+    this.isCanceled = newValue
   }
 
-  set isCanceled(newValue: boolean){
-    this._isCanceled = newValue
+  set setCanceledAt(newDate: Date){
+    this.canceledAt = newDate
   }
 
-  set canceledAt(newDate: Date){
-    this._canceledAt = newDate
+  set setCanceledBy(newUser: User){
+    this.canceledBy = newUser
   }
 
-  set canceledBy(newUser: User){
-    this._canceledBy = newUser
+  set setUser(newUser: User){
+    this.user = newUser
   }
 
-  set user(newUser: User){
-    this._user = newUser
+  set setReservationTypeId(newReservationType: ReservationType){
+    this.reservationTypeId = newReservationType
   }
 
-  set reservationTypeId(newReservationType: ReservationType){
-    this._reservationTypeId = newReservationType
+  set setPaymentMethod(newPaymentMethod: PaymentMethod){
+    this.paymentMethod = newPaymentMethod
   }
 
-  set paymentMethod(newPaymentMethod: PaymentMethod){
-    this._paymentMethod = newPaymentMethod
+  set setStatus(newStatus: Status){
+    this.status = newStatus
   }
 
-  set status(newStatus: Status){
-    this._status = newStatus
+  set setReservedHours(newReservedHours: ReservedHours){
+    this.reservedHours = newReservedHours
   }
 
-  set reservedHours(newReservedHours: ReservedHours){
-    this._reservedHours = newReservedHours
-  }
-
-  toString(): string {
-    return `
-      firstName: ${this._firstName}
-      lastName: ${this._lastName}
-      email: ${this._email}
-      phone: ${this._phone}
-      comment: ${this._comment}
-      reservedAt: ${this._reservedAt?.toString()}
-      isCanceled: ${this._isCanceled}
-      canceledAt: ${this._canceledAt?.toString()}
-      reservedHours: ${this._reservedHours.toString()}
-    `
-  }
 }

@@ -1,16 +1,15 @@
-import { Component, DestroyRef, inject, input, OnInit, Signal, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { ReservationService } from '../../../services/reservation-service';
-import { Reservation } from '../../../models/reservation.model';
 import { PaymentMethod } from '../../../models/paymentMethod.model';
-import { PopUp } from '../../pop-up/pop-up';
+import { Reservation } from '../../../models/reservation.model';
+import { ReservationService } from '../../../services/reservation-service';
 
 @Component({
   selector: 'app-reservation-finalize',
-  imports: [MatCheckboxModule, MatSlideToggleModule, MatButtonModule, PopUp],
+  imports: [MatCheckboxModule, MatSlideToggleModule, MatButtonModule],
   templateUrl: './reservation-finalize.html',
   styleUrl: './reservation-finalize.scss'
 })
@@ -28,7 +27,7 @@ export class ReservationFinalize implements OnInit{
 
   ngOnInit(): void {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
-    this.totalPrice = this.baseReservation().reservationTypeId.price * (this.baseReservation().reservedHours.end - this.baseReservation().reservedHours.start)
+    this.totalPrice = this.baseReservation().getReservationTypeId.price * (this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart)
 
     const subscription = this.reservationService.getPaymentMethods().subscribe({
       next: response => this.paymentMethods.set(response)
@@ -40,12 +39,13 @@ export class ReservationFinalize implements OnInit{
   }
 
   selectPaymentMethod(selectedPaymentMethod: PaymentMethod){
-    this.baseReservation().paymentMethod = selectedPaymentMethod
+    this.baseReservation().setPaymentMethod = selectedPaymentMethod
   }
 
   finalizeReservation(){
-    this.reservationService.baseReservation().reservedAt = new Date().toISOString()
-    console.log(this.baseReservation())
+    this.reservationService.baseReservation.set(this.baseReservation())
+    this.reservationService.baseReservation().setReservedAt = new Date().toISOString()
+    console.log(this.reservationService.baseReservation())
 
     this.reservationService.makeReservation().subscribe({
       next: response => console.log(response),
