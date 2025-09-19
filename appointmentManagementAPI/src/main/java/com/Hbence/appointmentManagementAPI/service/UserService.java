@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
+import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,6 @@ import java.util.regex.Pattern;
 public class UserService {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-    private static final String SPECIAL = "!@#$%^&*()-_=+[]{};:,.?/";
 
     //Endpointok
     public ResponseEntity<User> login(String username, String password) {
@@ -32,14 +31,14 @@ public class UserService {
     }
 
     public ResponseEntity<Object> register(User newUser) {
-        if (emailChecker(newUser.getEmail()) && passwordChecker(newUser.getPassword())) {
+        if (ValidatorCollection.emailChecker(newUser.getEmail()) && ValidatorCollection.passwordChecker(newUser.getPassword())) {
             User registeredUser = userRepository.save(newUser);
             return ResponseEntity.ok(registeredUser);
-        } else if (!emailChecker(newUser.getEmail()) && !passwordChecker(newUser.getPassword())) {
+        } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
-        } else if (!emailChecker(newUser.getEmail())) {
+        } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
             return ResponseEntity.status(417).body("InvalidEmail");
-        } else if (!passwordChecker(newUser.getPassword())) {
+        } else if (!ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPassword");
         }
 
@@ -56,43 +55,5 @@ public class UserService {
 
     public ResponseEntity<String> deleteUser(Long id){
         return null;
-    }
-
-    //---------------------------------
-    //Egyeb
-    public static boolean emailChecker(String email) {
-        if (email == null || email.length() > 100) {
-            return false;
-        }
-        return EMAIL_PATTERN.matcher(email).matches();
-    }
-
-    private static boolean passwordChecker(String password) {
-        if (password.length() < 8 || password.length() > 16) {
-            return false;
-        }
-
-        String specialCharacters = "\"!@#$%^&*()-_=+[]{};:,.?/\"";
-        String numbersText = "1234567890";
-        boolean specialChecker = false;
-        boolean upperCaseChecker = false;
-        boolean lowerCaseChecker = false;
-        boolean initChecker = false;
-
-        for (int i = 0; i < password.trim().length(); i++) {
-            String selectedChar = String.valueOf(password.charAt(i));
-
-            if (numbersText.contains(selectedChar)) {
-                initChecker = true;
-            } else if (specialCharacters.contains(selectedChar)) {
-                specialChecker = true;
-            } else if (selectedChar.equals(selectedChar.toUpperCase())) {
-                upperCaseChecker = true;
-            } else if (selectedChar.equals(selectedChar.toLowerCase())) {
-                lowerCaseChecker = true;
-            }
-        }
-
-        return specialChecker && upperCaseChecker && lowerCaseChecker && initChecker;
     }
 }

@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Transactional
 @Service
@@ -27,7 +26,6 @@ public class ReservationService {
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
     private final ObjectMapper objectMapper;
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     //Foglalasok:
     public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
@@ -121,13 +119,6 @@ public class ReservationService {
 
     public List<ReservedHours> asd() {
         return reservedHoursRepository.findAll();
-    }
-
-    public static boolean emailChecker(String email) {
-        if (email == null || email.length() > 100) {
-            return false;
-        }
-        return EMAIL_PATTERN.matcher(email).matches();
     }
 }
 

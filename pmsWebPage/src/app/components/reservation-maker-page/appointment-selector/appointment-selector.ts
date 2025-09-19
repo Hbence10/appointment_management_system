@@ -83,7 +83,15 @@ export class AppointmentSelector implements OnInit {
   }
 
   showSelectedDatesOfHours(isSelect: boolean) {
+    console.log(this.reservedDatesOfActualPeriod())
+    console.log(this.formattedSelectedDate())
+
     const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.getDate)))
+    this.reservedDatesOfActualPeriod().forEach(element => {
+      console.log(element)
+      console.log(element?.getDate)
+    })
+
     console.log(selectedReservedDate)
 
     if (this.baseReservation().getReservedHours.getDate == undefined) {
@@ -96,6 +104,8 @@ export class AppointmentSelector implements OnInit {
         this.baseReservation().getReservedHours.getDate.setAvailableHours = this.setAvailableHours()
       }
     }
+
+    console.log(this.baseReservation())
   }
 
   resetReservedHour() {
