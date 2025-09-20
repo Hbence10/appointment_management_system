@@ -25,8 +25,15 @@ public class DeviceService {
         return ResponseEntity.ok(devicesCategoryList);
     }
 
-    public ResponseEntity<DevicesCategory> addDeviceCategory(DevicesCategory newDevicesCategory){
-        return null;
+    public ResponseEntity<Object> addDeviceCategory(DevicesCategory newDevicesCategory){
+        System.out.println(newDevicesCategory);
+        List<DevicesCategory> isExistedDevice = deviceCategoryRepository.findAll().stream().filter(category -> category.getName().equals(newDevicesCategory.getName().trim())).toList();
+
+        if(isExistedDevice.size() == 1){
+            return ResponseEntity.status(409).body("");
+        } else {
+            return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
+        }
     }
 
     public ResponseEntity<String> deleteDevicesCategory(Long id){

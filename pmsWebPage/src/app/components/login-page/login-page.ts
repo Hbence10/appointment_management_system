@@ -29,7 +29,7 @@ export class LoginPage {
   })
 
   login() {
-    this.userService.login(this.loginForm.controls["username"].value!, this.loginForm.controls["password"].value!).subscribe({
+    this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
         this.userService.user.set(response)
       },

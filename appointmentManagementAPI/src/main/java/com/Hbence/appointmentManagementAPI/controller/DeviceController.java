@@ -24,7 +24,7 @@ public class DeviceController {
     }
 
     @PostMapping("/category")
-    public ResponseEntity<DevicesCategory> addDeviceCategory(DevicesCategory newDevicesCategory){
+    public ResponseEntity<Object> addDeviceCategory(@RequestBody DevicesCategory newDevicesCategory){
         return deviceService.addDeviceCategory(newDevicesCategory);
     }
 

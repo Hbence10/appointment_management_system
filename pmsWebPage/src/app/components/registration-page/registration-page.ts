@@ -74,7 +74,7 @@ export class RegistrationPage implements OnInit {
   }
 
   register() {
-    this.userService.register({ username: this.form.controls["username"].value!, email: this.form.controls["email"].value!, password: this.form.controls["password"].value!, pfpPath: "", }).subscribe({
+    this.userService.register({ username: this.form.controls["username"].value?.trim()!, email: this.form.controls["email"].value?.trim()!, password: this.form.controls["password"].value?.trim()!, pfpPath: "", }).subscribe({
       next: response => console.log(response),
       error: error => {
         console.log(error.error)
