@@ -70,10 +70,14 @@ export class AppointmentSelector implements OnInit {
 
     const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate(), this.maxDate.toISOString().split("T")[0]).subscribe({
       next: response => {
-        this.reservedDatesOfActualPeriod.set(response)
+        const resultList: ReservedDates[] = []
+        response.forEach(element => {
+          resultList.push(new ReservedDates(element.date, element.id, element.isHoliday, element.isClosed, element.isFull, element.reservedHours))
+        })
+        this.reservedDatesOfActualPeriod.set(resultList)
       },
       complete: () => {
-        this.showSelectedDatesOfHours(false)
+        this.showSelectedDatesOfHours()
       }
     })
 
@@ -82,17 +86,8 @@ export class AppointmentSelector implements OnInit {
     })
   }
 
-  showSelectedDatesOfHours(isSelect: boolean) {
-    console.log(this.reservedDatesOfActualPeriod())
-    console.log(this.formattedSelectedDate())
-
+  showSelectedDatesOfHours() {
     const selectedReservedDate: ReservedDates | undefined = (this.reservedDatesOfActualPeriod().find(element => this.formattedSelectedDate() == String(element.getDate)))
-    this.reservedDatesOfActualPeriod().forEach(element => {
-      console.log(element)
-      console.log(element?.getDate)
-    })
-
-    console.log(selectedReservedDate)
 
     if (this.baseReservation().getReservedHours.getDate == undefined) {
       if (!selectedReservedDate) {
@@ -105,7 +100,6 @@ export class AppointmentSelector implements OnInit {
       }
     }
 
-    console.log(this.baseReservation())
   }
 
   resetReservedHour() {
@@ -114,8 +108,8 @@ export class AppointmentSelector implements OnInit {
   }
 
   setUnavailableHours(): number[] {
-    const startHours: number[] = this.baseReservation().getReservedHours.getDate.getReservedHours.map(element => element.getStart)
-    const endHours: number[] = this.baseReservation().getReservedHours.getDate.getReservedHours.map(element => element.getEnd)
+    const startHours: number[] = this.baseReservation().getReservedHours.getDate.getReservedHours.map(element => element.start)
+    const endHours: number[] = this.baseReservation().getReservedHours.getDate.getReservedHours.map(element => element.end)
     const unavailableHours: number[] = []
 
     for (let i: number = 0; i < startHours.length; i++) {

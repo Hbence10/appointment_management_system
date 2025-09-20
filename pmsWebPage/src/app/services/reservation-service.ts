@@ -22,7 +22,7 @@ export class ReservationService {
   }
 
   //
-  getReservedDatesOfActualMonth(startDate: string, endDate: string): Observable<ReservedDates[]> {
+  getReservedDatesOfActualMonth(startDate: string, endDate: string): Observable<any[]> {
     return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?startDate=${startDate}&endDate=${endDate}`)
   }
 

@@ -52,6 +52,6 @@ export class ReservationFinalize implements OnInit{
       complete: () => this.isReservationFinished.set(true)
     })
 
-    // this.router.navigate([""])
+    this.router.navigate([""])
   }
 }
