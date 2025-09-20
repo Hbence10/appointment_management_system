@@ -3,6 +3,7 @@ package com.Hbence.appointmentManagementAPI.service;
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
+import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
@@ -42,7 +43,7 @@ public class ReservationService {
 
         List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(startDate, endDate);
         List<ReservedDatesWithHour> returnList = new ArrayList<>();
-        for(ReservedDates i : reservedDatesList){
+        for (ReservedDates i : reservedDatesList) {
             returnList.add(new ReservedDatesWithHour(
                     i.getId(), i.getDate(), i.getIsHoliday(), i.getIsClosed(), i.getIsFull(), i.getReservedHours()
             ));
@@ -64,9 +65,11 @@ public class ReservationService {
     }
 
     public ResponseEntity<Object> makeReservation(Reservations newReservation) {
-//        if(emailChecker(newReservation.getEmail())){
-//            return ResponseEntity.status(417).body("InvalidEmail");
-//        }
+        if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
+            return ResponseEntity.status(417).body("InvalidEmail");
+        } else if (ValidatorCollection.phoneValidator(newReservation.getPhone())) {
+            return ResponseEntity.status(417).body("InvalidPhoneNumber");
+        }
 
         System.out.println(newReservation);
         System.out.println(newReservation.getReservedHours());

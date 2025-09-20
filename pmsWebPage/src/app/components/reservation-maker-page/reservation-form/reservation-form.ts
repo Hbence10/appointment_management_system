@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, input, OnInit, Signal, signal } from '@angular/core';
 
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -13,6 +13,10 @@ import { ReservationType } from '../../../models/reservationType.model';
 import { User } from '../../../models/user.model';
 import { Reservation } from '../../../models/reservation.model';
 
+function validatePhone(control: AbstractControl): {[key: string]: any} | null {
+
+  return {valid: false}
+}
 
 @Component({
   selector: 'app-reservation-form',
@@ -20,6 +24,7 @@ import { Reservation } from '../../../models/reservation.model';
   templateUrl: './reservation-form.html',
   styleUrl: './reservation-form.scss'
 })
+
 export class ReservationForm implements OnInit {
   private reservationService = inject(ReservationService)
   private destroyRef = inject(DestroyRef)
@@ -55,8 +60,9 @@ export class ReservationForm implements OnInit {
       firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
       lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
       email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
-      phone: new FormControl(this.baseReservation().getPhone, [Validators.required]),
+      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, validatePhone]),
       comment: new FormControl(this.baseReservation().getComment, []),
+      // countryId: new FormControl(this.baseReservation().getPhone?.substring(0,2), []),
       reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.name, [Validators.required])
     })
   }
@@ -71,6 +77,7 @@ export class ReservationForm implements OnInit {
     this.baseReservation().setFirstName = this.form.controls["firstName"].value
     this.baseReservation().setLastName = this.form.controls["lastName"].value
     this.baseReservation().setEmail = this.form.controls["email"].value
+    // this.baseReservation().setPhone = this.form.controls["countryId"].value + this.form.controls["phone"].value
     this.baseReservation().setPhone = this.form.controls["phone"].value
     this.baseReservation().setComment = this.form.controls["comment"].value
 

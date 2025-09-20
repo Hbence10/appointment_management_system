@@ -21,7 +21,7 @@
                 @if(!baseReservation().getReservedHours.getDate.getIsClosed && !baseReservation().getReservedHours.getDate.getIsHoliday && !baseReservation().getReservedHours.getDate.getIsFull){
                   <div class="col-lg-3 d-flex flex-column align-items-center" style="overflow-y: auto;max-height: 500px;padding: 30px 0px !important;">
                     @for (hour of availableHours; track $index) {
-                      <div class="hourDiv my-1" (click)="baseReservation().getReservedHours.setStart = hour; selectedHourAmount.set(null);setCheckerList()" [class.selectedHourDiv]="hour == baseReservation().getReservedHours.getStart" [class.reservedHour]="baseReservation()?.getReservedHours?.getDate?.getUnavailableHours?.includes(hour)">
+                      <div class="hourDiv my-1" (click)="baseReservation().getReservedHours.setStart = hour; selectedHourAmount.set(null);setCheckerList()" [class.selectedHourDiv]="hour == baseReservation().getReservedHours.getStart" [class.reservedHour]="baseReservation().getReservedHours.getDate.getUnavailableHours.includes(hour)">
                         <p class="hour my-3 text-center numberFont" >
                           {{ hour }}:00
                         </p>

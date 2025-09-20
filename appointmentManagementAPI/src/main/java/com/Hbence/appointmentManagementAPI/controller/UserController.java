@@ -44,7 +44,15 @@ public class UserController {
 
     //Error lekezelesek:
     @ExceptionHandler
-    public ResponseEntity<User> handleUniqueError(DataIntegrityViolationException e) {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<String> handleUniqueError(DataIntegrityViolationException e) {
+        String errorMsg = "";
+
+        if (e.getMessage().contains("key 'email'")) {
+            errorMsg = "duplicateEmail";
+        } else {
+            errorMsg = "duplicateUsername";
+        }
+
+        return ResponseEntity.status(409).body(errorMsg);
     }
 }

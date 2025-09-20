@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { AbstractControl, FormsModule, ValidatorFn } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,31 +7,83 @@ import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
 
+//
+function validatePassword(control: AbstractControl): {[key: string]: any} | null  {
+  const password: string = control.value
+
+  const specialCharacters: string = "!@#$%^&*()-_=+[]{};:,.?/"
+  const numberTexts: string = "1234567890"
+  const checkerList: boolean[] = [false, false, false, false]
+
+  for (let i: number = 0; i < password.length; i++) {
+    if (specialCharacters.includes(password[i])) {
+      checkerList[0] = true
+    } else if (numberTexts.includes(password[i])) {
+      checkerList[1] = true
+    } else if (password[i] === password[i].toUpperCase()) {
+      checkerList[2] = true
+    } else if (password[i] === password[i].toLowerCase()) {
+      checkerList[3] = true
+    }
+  }
+
+  if (!checkerList.includes(false)) {
+    return null
+  } else {
+    return { invalid: false }
+  }
+}
+
+
 @Component({
   selector: 'app-registration-page',
-  imports: [MatFormFieldModule, MatInputModule, MatLabel, ReactiveFormsModule, MatButtonModule, RouterModule],
+  imports: [MatFormFieldModule, MatInputModule, MatLabel, ReactiveFormsModule, MatButtonModule, RouterModule, FormsModule],
   templateUrl: './registration-page.html',
   styleUrl: './registration-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegistrationPage {
+
+export class RegistrationPage implements OnInit {
   private userService = inject(UserService)
   private router = inject(Router)
 
   isShowPassword = signal<Boolean>(false)
   isShowPasswordAgain = signal<Boolean>(false)
 
-  form = new FormGroup({
+  emailErrorMsg = signal<string>("")
+  usernameErrorMsg = signal<string>("")
+
+  form: FormGroup = new FormGroup({
     username: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
-    passwordAgain: new FormControl("", [Validators.required])
+    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16), validatePassword]),
+    passwordAgain: new FormControl("", [Validators.required, validatePassword])
   })
+
+  samePasswordValidator = (control: AbstractControl): {[key: string]: any} | null  => {
+    let originalPassword = this.form.controls["password"].value
+    if (control.value === originalPassword) {
+      return null
+    } else {
+      return { invalid: false }
+    }
+  }
+
+  ngOnInit(): void {
+    this.form.controls["passwordAgain"].addValidators(this.samePasswordValidator)
+  }
 
   register() {
     this.userService.register({ username: this.form.controls["username"].value!, email: this.form.controls["email"].value!, password: this.form.controls["password"].value!, pfpPath: "", }).subscribe({
       next: response => console.log(response),
-      error: error => console.log(error.message),
+      error: error => {
+        console.log(error.error)
+        if (error.error == "duplicateEmail"){
+          this.emailErrorMsg.set("Ezzel az email címmel már létezik profil.")
+        } else if (error.error == "duplicateUsername"){
+          this.usernameErrorMsg.set("Ezzel a felhasználónévvel már létezik profil.")
+        }
+      },
       complete: () => this.router.navigate(["login"])
     })
   }
@@ -42,7 +95,7 @@ export class RegistrationPage {
     console.log(this.form.invalid)
   }
 
-  showPasswordAgain(event: MouseEvent){
+  showPasswordAgain(event: MouseEvent) {
     this.isShowPasswordAgain.update(old => !old)
     event.stopPropagation();
   }
