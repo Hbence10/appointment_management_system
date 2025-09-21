@@ -4,6 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.service.DeviceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,5 +53,11 @@ public class DeviceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteDevice(@PathVariable("id") Long id){
         return deviceService.deleteDevice(id);
+    }
+
+    //
+    @ExceptionHandler
+    public ResponseEntity<String> handleUniqueError(DataIntegrityViolationException e) {
+        return ResponseEntity.status(409).body("duplicateCategory");
     }
 }

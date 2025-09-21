@@ -20,40 +20,34 @@ public class DeviceService {
     private final DeviceCategoryRepository deviceCategoryRepository;
 
     //Eszkoz_kategoria
-    public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory(){
+    public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
         return ResponseEntity.ok(devicesCategoryList);
     }
 
-    public ResponseEntity<Object> addDeviceCategory(DevicesCategory newDevicesCategory){
-        System.out.println(newDevicesCategory);
-        List<DevicesCategory> isExistedDevice = deviceCategoryRepository.findAll().stream().filter(category -> category.getName().equals(newDevicesCategory.getName().trim())).toList();
-
-        if(isExistedDevice.size() == 1){
-            return ResponseEntity.status(409).body("");
-        } else {
-            return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
-        }
+    public ResponseEntity<Object> addDeviceCategory(DevicesCategory newDevicesCategory) {
+        newDevicesCategory.setName(newDevicesCategory.getName().trim());
+        return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
     }
 
-    public ResponseEntity<String> deleteDevicesCategory(Long id){
+    public ResponseEntity<String> deleteDevicesCategory(Long id) {
         return null;
     }
 
-    public ResponseEntity<DevicesCategory> updateDevicesCategory (DevicesCategory updatedDevicesCategory){
+    public ResponseEntity<DevicesCategory> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
         return null;
     }
 
     //Maga_az_eszkoz
-    public ResponseEntity<Devices> updateDevice (Devices updatedDevice){
+    public ResponseEntity<Devices> updateDevice(Devices updatedDevice) {
         return null;
     }
 
-    public ResponseEntity<Devices> addDevice(Devices newDevice){
+    public ResponseEntity<Devices> addDevice(Devices newDevice) {
         return null;
     }
 
-    public ResponseEntity<String> deleteDevice (Long id){
+    public ResponseEntity<String> deleteDevice(Long id) {
         return null;
     }
 }

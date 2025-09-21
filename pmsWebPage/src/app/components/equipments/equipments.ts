@@ -14,11 +14,14 @@ export class Equipments implements OnInit {
   private destroyRef = inject(DestroyRef)
 
   deviceCategoryList = signal<DeviceCategory[]>([])
-  deviceCategoryListByRows: DeviceCategory[][][] = []
+  deviceCategoryListByRows = signal<DeviceCategory[][]>([])
 
   ngOnInit(): void {
     const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
-      next: response => this.deviceCategoryList.set(response),
+      next: response => {
+        this.deviceCategoryList.set(response)
+        console.log(response)
+      },
       complete: () => {
         this.splitCategoryList()
       }
@@ -30,13 +33,16 @@ export class Equipments implements OnInit {
   }
 
   splitCategoryList() {
-    for (let i: number = 0; i < this.deviceCategoryList().length; i += 5) {
-      const rowList = this.deviceCategoryList().slice(i, i + 5)
-      const splittedList: DeviceCategory[][] = []
-      for (let j: number = 0; j< rowList.length; j+=2){
-        splittedList.push(rowList.slice(j, j+2))
+    for(let i: number = 0; i < this.deviceCategoryList().length; i+=5){
+      const rowList: DeviceCategory[] = []
+      for(let j: number = i; j < i+5; j++){
+        if(this.deviceCategoryList()[j] != undefined){
+          rowList.push(this.deviceCategoryList()[j])
+        }
       }
-      this.deviceCategoryListByRows.push(splittedList)
+      this.deviceCategoryListByRows.update(old => [...old, rowList])
     }
+
+    console.log(this.deviceCategoryListByRows())
   }
 }

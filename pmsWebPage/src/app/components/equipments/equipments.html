@@ -1,37 +1,50 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="text-center">Felszereléseink</h1>
-      <p class="text-center">Az alábbi eszközök érhetőek el a nálunk töltött idő alatt</p>
+      <h1 class="text-center mainFont">Felszereléseink</h1>
+      <p class="text-center secondFont" style="font-size: 25px;">Az alábbi eszközök érhetőek el a nálunk töltött idő alatt</p>
     </div>
   </div>
 
-  @for (deviceCategoryRow of deviceCategoryListByRows; track $index) {
-    <div class="row">
-      @for(deviceColumn of deviceCategoryRow; track $index){
-        <div class="col-lg-4 d-flex flex-column justify-content-center align-items-center">
-        @for(deviceCategory of deviceColumn; track $index){
-            <div class="cardDiv mb-4 container-fluid" [class.bigCard]="deviceCategoryRow.indexOf(deviceColumn) == 2">
-
-              <div class="row">
-                <div class="col-lg-12">
-                  <h1 class="text-center">{{deviceCategory.name | titlecase}}</h1>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-12">
-                  @for (device of deviceCategory.devicesList; track $index) {
-                    <p class="text-center">{{device.name}}({{device.amount}})</p>
-                  }
-                </div>
-              </div>
-
-            </div>
+  @for (deviceCategoryRow of deviceCategoryListByRows(); track $index) {
+  <div class="row my-3" [class.flex-row-reverse]="$index % 2 == 1">
+    <div class="d-flex justify-content-center align-items-center flex-column" [class.col-lg-12]="deviceCategoryRow.length <= 2" [class.col-lg-6]="deviceCategoryRow.length < 5 && deviceCategoryRow.length > 2" [class.col-lg-4]="deviceCategoryRow.length == 5">
+      @for(devicesCategory of deviceCategoryRow | slice: 0 : 2; track $index){
+      <div class="cardDiv my-4">
+        <h2 class="text-center mainFont my-3">{{devicesCategory.name | titlecase}}</h2>
+        <div>
+          @for (devices of devicesCategory.devicesList; track $index) {
+            <p class="text-center secondFont">{{devices.name}}</p>
           }
         </div>
+      </div>
       }
     </div>
+    @if(deviceCategoryRow.length >= 3){
+    <div class="d-flex justify-content-center align-items-center flex-column" [class.col-lg-6]="deviceCategoryRow.length < 5 && deviceCategoryRow.length > 2" [class.col-lg-4]="deviceCategoryRow.length == 5">
+      @for(devicesCategory of deviceCategoryRow | slice: 2 : 4; track $index){
+      <div class="cardDiv my-4">
+        <h2 class="text-center mainFont my-3">{{devicesCategory.name | titlecase}}</h2>
+        <div>
+          @for (devices of devicesCategory.devicesList; track $index) {
+            <p class="text-center secondFont">{{devices.name}}</p>
+          }
+        </div>
+      </div>
+      }
+    </div>
+    } @if(deviceCategoryRow.length == 5){
+    <div class="col-lg-4 d-flex justify-content-center align-items-center flex-column">
+      <div class="cardDiv bigCard my-4">
+        <h2 class="text-center mainFont my-3">{{deviceCategoryRow[4].name | titlecase}}</h2>
+        <div>
+          @for(devices of deviceCategoryRow[4].devicesList; track $index){
+            <p class="text-center secondFont">{{devices.name}}</p>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
   }
-
 </div>

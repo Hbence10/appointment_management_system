@@ -34,7 +34,6 @@ function validatePassword(control: AbstractControl): {[key: string]: any} | null
   }
 }
 
-
 @Component({
   selector: 'app-registration-page',
   imports: [MatFormFieldModule, MatInputModule, MatLabel, ReactiveFormsModule, MatButtonModule, RouterModule, FormsModule],
