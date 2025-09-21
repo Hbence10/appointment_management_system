@@ -1,29 +1,32 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 my-3">
-      <img [src]="galleryImages()[0].photoPath" alt="" class="img-fluid">
+      <div class="rowImg" style="height: 400px;" style="background-image: url({{galleryImages()[0].photoPath}});">
+
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-lg-4">
-      <img [src]="galleryImages()[1].photoPath" alt="" class="img-fluid">
-      <img [src]="galleryImages()[2].photoPath" alt="" class="img-fluid">
-    <div class="col-lg-4">
-      <img [src]="galleryImages()[3].photoPath" alt="" class="img-fluid">
+      <div class="singleImg" style="background-image: url({{galleryImages()[1].photoPath}});"></div>
+      <div class="singleImg" style="background-image: url({{galleryImages()[2].photoPath}});"></div>
     </div>
     <div class="col-lg-4">
-      <img [src]="galleryImages()[4].photoPath" alt="" class="img-fluid">
-      <img [src]="galleryImages()[5].photoPath" alt="" class="img-fluid">
+      <div class="standImg" style="background-image: url({{galleryImages()[3].photoPath}});"></div>
+    </div>
+    <div class="col-lg-4">
+      <div class="singleImg" style="background-image: url({{galleryImages()[4].photoPath}});"></div>
+      <div class="singleImg" style="background-image: url({{galleryImages()[5].photoPath}});"></div>
     </div>
 
   </div>
   <div class="row">
     <div class="col-lg-8">
-      <img [src]="galleryImages()[6].photoPath" alt="" class="img-fluid">
+      <div class="doubleImg" style="background-image: url({{galleryImages()[6].photoPath}});"></div>
     </div>
     <div class="col-lg-4">
-      <img [src]="galleryImages()[7].photoPath" alt="" class="img-fluid">
+      <div class="singleImg" style="background-image: url({{galleryImages()[7].photoPath}});"></div>
     </div>
   </div>
 
