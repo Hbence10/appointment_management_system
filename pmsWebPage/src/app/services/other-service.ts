@@ -9,6 +9,7 @@ import { GalleryImage } from '../models/galleryImage.model';
 export class OtherService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
+  selectedImgForCarousel = signal<null | GalleryImage>(null)
 
   //Galleria
   getAllGalleryImages(): Observable<GalleryImage[]> {
