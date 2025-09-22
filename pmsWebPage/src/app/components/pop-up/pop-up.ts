@@ -72,7 +72,7 @@ export class PopUp implements OnInit {
   }
 
   buttonEvent() {
-
+    console.log("buttonEvent()")
   }
 
   showDevices(deviceCategory: DeviceCategory) {
@@ -115,7 +115,9 @@ export class PopUp implements OnInit {
   }
 
   delete(wantedObject: CardItem) {
-    console.log("del;ete")
+
+    this.actualDetails = new Details("", "Törlés", wantedObject.objectType)
+
     this.actualPage = "deletePage"
   }
 }
