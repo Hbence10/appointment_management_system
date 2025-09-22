@@ -15,7 +15,7 @@
         <h1 class="text-center mainFont my-3">{{selectedDateText()}}</h1>
         <div>
           @for (reservation of reservationsOfSelectedDate(); track $index) {
-            <app-reservation-card [reservationDetails]="reservation" />
+            <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'"/>
           }
         </div>
       </div>
@@ -28,7 +28,7 @@
             <h1 class="text-center my-3">Mai nap foglalásai</h1>
             <div>
               @for (reservation of todaysReservation(); track $index) {
-                <app-reservation-card [reservationDetails]="reservation" />
+                <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'"/>
               }
             </div>
             <a routerLink="/makeReservation">

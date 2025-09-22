@@ -33,8 +33,6 @@ export class AdminPage implements OnInit {
   popUpObjectType = signal<string>("")
   popUpDetails!: Details
 
-  // title: popUpTitle(), buttonText: popUpButtonText(), objectType: popUpObjectType()
-
   //Naptar dolgai:
   currentDate: Date = new Date()
   selectedDate = signal<Date>(this.currentDate);
@@ -50,7 +48,14 @@ export class AdminPage implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
-      next: response => console.log(response)
+      next: response => {
+        this.todaysReservation.set(response)
+        this.reservationsOfSelectedDate.set(response)
+      }
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe()
     })
   }
 

@@ -1,17 +1,18 @@
 import { Component, inject, input } from '@angular/core';
-import { Reservation } from '../../models/reservation.model';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
 
 @Component({
   selector: 'app-reservation-card',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule],
   templateUrl: './reservation-card.html',
   styleUrl: './reservation-card.scss'
 })
 export class ReservationCard {
   private reservationService = inject(ReservationService)
+
+  parentComponent = input.required<"profilePage" | "adminPage">()
   reservationDetails = input.required<Reservation>()
 
   cancelReservation() {

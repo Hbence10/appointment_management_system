@@ -29,8 +29,12 @@ public class SecurityConfig {
                         return config;
                     }
                 }))
-                .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());
-        http.formLogin(Customizer.withDefaults());
+                .authorizeHttpRequests((requests) -> requests
+//                        .requestMatchers("").authenticated()                                       //Azok az endpointok amelyekhez szukseges lesz az authentikacio
+//                        .requestMatchers("").permitAll()                                           //Azok az endpointok amelyekhez nem lesz szukseges az authentikacio
+                                .anyRequest().permitAll()
+                )
+                .formLogin(config -> config.disable());
         http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
