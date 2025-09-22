@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { OtherService } from '../../services/other-service';
+import { OtherService } from '../../../services/other-service';
+
 type rule = { id: number, text: string, lastEditAt: Date }
 
 @Component({

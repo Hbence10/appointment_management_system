@@ -29,6 +29,8 @@ export class ListCard implements OnInit{
   button1Event(){
     if(this.cardItem().button1Event == "delete"){
       this.delete.emit(this.cardItem())
+    } else {
+
     }
   }
 

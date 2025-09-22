@@ -3,7 +3,8 @@ export class Details{
   constructor(
     private _title: string,
     private _buttonText: string,
-    private _objectType: string
+    private _objectType: string,
+    private _deviceCategory?: string
   ){}
 
   //getterek:
@@ -17,6 +18,10 @@ export class Details{
 
   get objectType(): string {
     return this._objectType
+  }
+
+  get deviceCategory(): string | undefined {
+    return this._deviceCategory
   }
 
   //setterek:

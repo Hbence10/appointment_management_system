@@ -1,21 +1,20 @@
 import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { CardItem } from '../../models/notEntityModels/card.model';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { DeviceCategory } from '../../models/deviceCategory.model';
+import { CardItem } from '../../models/notEntityModels/card.model';
+import { Details } from '../../models/notEntityModels/details.model';
+import { Reservation } from '../../models/reservation.model';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
 import { OtherService } from '../../services/other-service';
 import { ReservationService } from '../../services/reservation-service';
 import { ListCard } from '../list-card/list-card';
-import { RuleEditor } from '../rule-editor/rule-editor';
+import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
-import { Reservation } from '../../models/reservation.model';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { ObjectEditor } from '../object-editor/object-editor';
-import { Details } from '../../models/notEntityModels/details.model';
+import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 
 
-// type details = { title: string, buttonText: string, objectType: string }
 @Component({
   selector: 'app-pop-up',
   imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail, MatFormFieldModule, ObjectEditor],
@@ -38,7 +37,6 @@ export class PopUp implements OnInit {
   private otherService = inject(OtherService)
 
   ngOnInit() {
-    // this.actualDetails = this.baseDetails()
     this.actualDetails = new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().buttonText)
 
     if (this.baseDetails().objectType == 'deviceCategory') {
@@ -79,7 +77,7 @@ export class PopUp implements OnInit {
 
   showDevices(deviceCategory: DeviceCategory) {
     this.cardList.set([])
-    this.actualDetails = new Details(deviceCategory.name, "Eszköz hozzáadása", "device")
+    this.actualDetails = new Details(deviceCategory.name, "Eszköz hozzáadása", "device", deviceCategory.name)
 
     deviceCategory.devicesList.forEach(element => {
       this.cardList.update(old => [...old, new CardItem(element.name, "device", element, "delete")])
@@ -98,29 +96,26 @@ export class PopUp implements OnInit {
           this.actualDetails = new Details("Kategóriák listája", "Kategória hozzáadása", "deviceCategory")
         }
       })
-    } else if (this.actualPage == "editPage"){
-      console.log(this.baseDetails())
+    } else if (this.actualPage == "editPage" && this.actualDetails.objectType == "device") {
+      this.actualDetails = new Details("", "Eszköz hozzáadása", "device")
+      this.actualPage = "listPage"
+    } else if (this.actualPage == "editPage") {
       this.actualDetails = this.baseDetails()
-
+      this.actualPage = "listPage"
+    } else if (this.actualPage == "deletePage") {
       this.actualPage = "listPage"
     }
   }
 
   edit(wantedObject: CardItem) {
-    console.log(this.baseDetails())
-    this.actualDetails.buttonText = "Mentés"
-    this.actualDetails.title = wantedObject.name
+    let deviceCategoryName: string | undefined = this.actualDetails.deviceCategory
 
-    // console.log(this.baseDetails())
-
+    this.actualDetails = new Details(wantedObject.name, "Mentés", wantedObject.objectType, deviceCategoryName)
     this.actualPage = "editPage"
   }
 
-  setListCards(){
-
-  }
-
-  delete(wantedObject: CardItem){
-
+  delete(wantedObject: CardItem) {
+    console.log("del;ete")
+    this.actualPage = "deletePage"
   }
 }
