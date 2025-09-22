@@ -10,10 +10,12 @@ import { ListCard } from '../list-card/list-card';
 import { RuleEditor } from '../rule-editor/rule-editor';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { Reservation } from '../../models/reservation.model';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ObjectEditor } from '../object-editor/object-editor';
 
 @Component({
   selector: 'app-pop-up',
-  imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail],
+  imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail, MatFormFieldModule, ObjectEditor],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss'
 })
@@ -24,6 +26,7 @@ export class PopUp implements OnInit {
   reservation = input<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
+
   baseDetails!: { title: string, buttonText: string, objectType: string };
   actualPage: "listPage" | "editPage" = "listPage"
 
@@ -61,8 +64,6 @@ export class PopUp implements OnInit {
         }
       })
     }
-
-    console.log(this.cardList())
   }
 
   close() {
@@ -97,5 +98,11 @@ export class PopUp implements OnInit {
     } else {
 
     }
+  }
+
+  edita(wantedObject: any){
+    this.actualPage = "editPage"
+
+    console.log(wantedObject)
   }
 }

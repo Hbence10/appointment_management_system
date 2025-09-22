@@ -16,6 +16,7 @@ import { OtherService } from '../../services/other-service';
 })
 export class ListCard implements OnInit{
   cardItem = input.required<CardItem>()
+  edit = output<any>()
   eventsTypeList: string[] = []
   changeList = output<DeviceCategory>()
 
@@ -45,15 +46,7 @@ export class ListCard implements OnInit{
   }
 
   editObject(){
-      if(this.cardItem().objectType == "deviceCategory"){
-        console.log(`edit ${this.cardItem().object?.name} category`)
-      } else if(this.cardItem().objectType == "device"){
-
-      } else if(this.cardItem().objectType == "reservationType"){
-
-      } else if(this.cardItem().objectType == "news"){
-
-      }
+    this.edit.emit(this.cardItem().object)
   }
 
   showDevices(){
