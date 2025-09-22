@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { ReservationCard } from '../reservation-card/reservation-card';
 import { ReservationService } from '../../services/reservation-service';
+import { Details } from '../../models/notEntityModels/details.model';
 
 @Component({
   selector: 'app-admin-page',
@@ -30,6 +31,9 @@ export class AdminPage implements OnInit {
   popUpTitle = signal<string>("")
   popUpButtonText = signal<string>("")
   popUpObjectType = signal<string>("")
+  popUpDetails!: Details
+
+  // title: popUpTitle(), buttonText: popUpButtonText(), objectType: popUpObjectType()
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -54,6 +58,9 @@ export class AdminPage implements OnInit {
     this.popUpTitle.set(title)
     this.popUpButtonText.set(buttonText)
     this.popUpObjectType.set(objectType)
+
+    this.popUpDetails = new Details(title, buttonText, objectType)
+
     this.isShowPupUp.set(true)
   }
 

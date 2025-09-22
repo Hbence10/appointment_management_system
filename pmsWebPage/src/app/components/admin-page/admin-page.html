@@ -89,5 +89,5 @@
 </div>
 
 @if(isShowPupUp()){
-  <app-pop-up (closePopUp)="closePopUp()" [title]="popUpTitle()" [buttonText]="popUpButtonText()" [objectType]="popUpObjectType()" />
+  <app-pop-up (closePopUp)="closePopUp()" [baseDetails]="popUpDetails"/>
 }

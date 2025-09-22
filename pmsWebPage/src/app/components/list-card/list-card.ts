@@ -1,5 +1,5 @@
 import { Component, inject, input, OnInit, output } from '@angular/core';
-import { CardItem } from '../../models/card.model';
+import { CardItem } from '../../models/notEntityModels/card.model';
 import { Device } from '../../models/device.model';
 import { DeviceCategory } from '../../models/deviceCategory.model';
 import { CommonModule } from '@angular/common';
@@ -16,14 +16,11 @@ import { OtherService } from '../../services/other-service';
 })
 export class ListCard implements OnInit{
   cardItem = input.required<CardItem>()
-  edit = output<any>()
-  eventsTypeList: string[] = []
+  edit = output<CardItem>()
   changeList = output<DeviceCategory>()
+  delete = output<any>()
 
-  private deviceService = inject(DeviceService)
-  private newsService = inject(NewsService)
-  private reservationService = inject(ReservationService)
-  private otherService = inject(OtherService)
+  eventsTypeList: string[] = []
 
   ngOnInit(): void {
 
@@ -31,22 +28,12 @@ export class ListCard implements OnInit{
 
   button1Event(){
     if(this.cardItem().button1Event == "delete"){
-
-      if(this.cardItem().objectType == "deviceCategory"){
-        console.log(`delete ${this.cardItem().object?.name} category`)
-      } else if(this.cardItem().objectType == "device"){
-
-      } else if(this.cardItem().objectType == "reservationType"){
-
-      } else if(this.cardItem().objectType == "news"){
-
-      }
-
+      this.delete.emit(this.cardItem())
     }
   }
 
   editObject(){
-    this.edit.emit(this.cardItem().object)
+    this.edit.emit(this.cardItem())
   }
 
   showDevices(){
