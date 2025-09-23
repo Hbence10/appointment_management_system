@@ -7,7 +7,8 @@ export class NewsDetails {
     private _placement: number,
     private _createdAt: Date,
     private _isExpand: boolean = this.placement == 1 ? true : false,
-    private _placeholders: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó szöveg"]
+    private _placeholders: string[] = ["Írd ide a hír cÍmét", "Írd ide a hírnek a szövegét", "Válaszd ki a kivánt képet"],
+    private _labelText: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó kép"]
   ) { }
 
   // Getterek:
@@ -45,5 +46,9 @@ export class NewsDetails {
 
   get placeholdersText(): string[] {
     return this._placeholders
+  }
+
+  get labelText(): string[] {
+    return this._labelText
   }
 }

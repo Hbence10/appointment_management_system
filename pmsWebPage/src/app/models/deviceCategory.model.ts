@@ -1,12 +1,13 @@
 import { Device } from "./device.model";
 
-export class DeviceCategory{
+export class DeviceCategory {
   constructor(
     private _id: number,
     private _name: string,
     private _devicesList: Device[],
-    private _placeholders: string[] = ["Kategória neve"]
-  ){}
+    private _placeholders: string[] = ["Ird ide a kategória nevét"],
+    private _labelText: string[] = ["Kategória neve"]
+  ) { }
 
   // Getterek:
   get id(): number {
@@ -17,11 +18,15 @@ export class DeviceCategory{
     return this._name;
   }
 
-  get devicesList(): Device[]{
+  get devicesList(): Device[] {
     return this._devicesList;
   }
 
   get placeholdersText(): string[] {
     return this._placeholders
+  }
+
+  get labelText(): string[] {
+    return this._labelText
   }
 }

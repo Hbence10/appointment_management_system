@@ -3,7 +3,8 @@ export class Device {
     private _id: number,
     private _name: string,
     private _amount: number,
-    private _placeholders: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
+    private _placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
+    private _labelText: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
   ) { }
 
   // Getterek:
@@ -21,5 +22,9 @@ export class Device {
 
   get placeholdersText(): string[] {
     return this._placeholders
+  }
+
+  get labelText(): string[] {
+    return this._labelText
   }
 }

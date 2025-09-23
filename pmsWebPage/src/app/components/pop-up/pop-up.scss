@@ -49,4 +49,14 @@
   width: 35px;
   height: 35px;
   border: 1px solid #004D40;
+  background-color: transparent;
+  border-radius: 7px;
+}
+
+.navigationButton:hover{
+  background-color: #004D40;
+
+  span{
+    color: #B2DFDB !important;
+  }
 }

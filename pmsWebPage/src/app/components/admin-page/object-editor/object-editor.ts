@@ -20,8 +20,9 @@ export class ObjectEditor implements OnChanges {
   isFirstRowFull = computed<boolean>(() =>
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
   )
-  placeholderText: string[] = []
 
+  placeholderText: string[] = []
+  labelText: string[] = []
   form!: FormGroup;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -32,17 +33,22 @@ export class ObjectEditor implements OnChanges {
       property3: new FormControl("", [])
     })
 
-    this.placeholderText = this.selectedObject()?.placeholdersText
+    this.placeholderText = this.selectedObject().placeholdersText
+    this.labelText = this.selectedObject().labelText
 
     if (this.details()?.objectType == "news" || this.details()?.objectType == "device") {
       this.form.controls["property2"].addValidators(Validators.required)
       this.form.controls["property3"].addValidators(Validators.required)
-    } else if (this.details()?.objectType == "reservationType"){
+    } else if (this.details()?.objectType == "reservationType") {
       this.form.controls["property2"].addValidators(Validators.required)
     }
   }
 
   showFormGrou() {
     this.outputFormForPopUpContainer.emit(this.form)
+  }
+
+  uploadFile(){
+
   }
 }

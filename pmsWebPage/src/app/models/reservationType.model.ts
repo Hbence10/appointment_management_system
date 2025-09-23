@@ -3,7 +3,8 @@ export class ReservationType {
     private _id: number,
     private _name: string = "",
     private _price: number,
-    private _placeholders: string[] = ["Szolgáltatás neve", "Árazás"]
+    private _placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
+    private _labelText: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }
 
   //Getterek:
@@ -21,5 +22,9 @@ export class ReservationType {
 
   get placeholdersText(): string[] {
     return this._placeholders
+  }
+
+  get labelText(): string[] {
+    return this._labelText
   }
 }

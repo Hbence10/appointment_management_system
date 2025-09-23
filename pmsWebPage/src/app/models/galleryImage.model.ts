@@ -4,7 +4,8 @@ export class GalleryImage{
     private _photoName: string,
     private _photoPath: string,
     private _placement: number,
-    private _placeholders: string[] = ["Fájl feltöltése"]
+    private _placeholders: string[] = ["Válaszd ki a kivánt fényképet"],
+    private _labelText: string[] = ["Fájl feltöltése"]
   ){}
 
   // Getterek:
@@ -26,5 +27,9 @@ export class GalleryImage{
 
   get placeholdersText(): string[] {
     return this._placeholders
+  }
+
+  get labelText(): string[] {
+    return this._labelText
   }
 }
