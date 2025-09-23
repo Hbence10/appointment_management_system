@@ -35,10 +35,23 @@ export class PopUp implements OnInit {
   selectedObject: any = null
 
   buttonText = computed<string>(() => {
-    const buttonTextList: string[] = ["newEntity", "saveUpdate", "deleteEntity", "galleryView"]
-    const objectType: string[] = []
+    const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType"]
+    const objectText: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Próba kategória"]
 
-    return ""
+    let text = ""
+    if (this.actualDetails()?.buttonText == "cancelReservation") {
+      text = "Foglalás lemondása"
+    } else if (this.actualDetails()?.buttonText == "galleryView") {
+      text = "Előnézet"
+    } else if (this.actualDetails()?.buttonText == "deleteEntity") {
+      text = "Törlés"
+    } else if (this.actualDetails()?.buttonText == "saveChanges") {
+      text = "Mentés"
+    } else {
+      text = `${objectText[objectTypes.indexOf(this.actualDetails()!.objectType)]} hozzáadása`
+    }
+
+    return text
   })
 
   actualPage: "listPage" | "editPage" | "deletePage" = "listPage"
@@ -115,6 +128,7 @@ export class PopUp implements OnInit {
       this.actualDetails.set(this.baseDetails())
       this.actualPage = "listPage"
     } else if (this.actualPage == "deletePage") {
+      this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
       this.actualPage = "listPage"
     }
   }
@@ -123,7 +137,7 @@ export class PopUp implements OnInit {
     let deviceCategoryName: string | undefined = this.actualDetails()!.deviceCategory
 
     this.selectedObject = wantedObject.object
-    this.actualDetails.set(new Details(wantedObject.name, "saveUpdate", wantedObject.objectType, deviceCategoryName))
+    this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType, deviceCategoryName))
     this.actualPage = "editPage"
   }
 

@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -16,6 +21,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.function.Supplier;
 
@@ -46,8 +52,8 @@ public class SecurityConfig {
 
                 //Jogosultsagok:
                 .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll()
-//                        .requestMatchers("").authenticated()                                       //Azok az endpointok amelyekhez szukseges lesz az authentikacio
-//                        .requestMatchers("").permitAll()                                           //Azok az endpointok amelyekhez nem lesz szukseges az authentikacio
+//                                .requestMatchers("").hasAnyRole()                                       //Azok az endpointok amelyekhez szukseges lesz az authentikacio
+//                                .requestMatchers("").hasRole("")                                      //Azok az endpointok amelyekhez nem lesz szukseges az authentikacio
                 )
 
                 //CSRF settings:
@@ -60,4 +66,21 @@ public class SecurityConfig {
         http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
+
+    @Bean
+    UserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new Argon2PasswordEncoder(32, 64, 1, 1 << 12, 3);
+    }
+
+    /*
+    * Argon2 Parameterek:
+    *           - iterations --> annak a szama, hogy a jelszo hanyszor lett hashelve
+    *           - memoryCost --> az a mennyiseg amit az Argon2 fog hasznalni
+    *           - parallelism --> number of threads
+    * */
 }

@@ -2,7 +2,7 @@ export class Details {
 
   constructor(
     private _title: string,
-    private _buttonText: "newEntity" | "saveUpdate" | "deleteEntity" | "galleryView" | "cancelReservation" | "",
+    private _buttonText: "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "cancelReservation" | "",
     private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation",
     private _deviceCategory?: string
   ) { }
@@ -12,7 +12,7 @@ export class Details {
     return this._title
   }
 
-  get buttonText(): "newEntity" | "saveUpdate" | "deleteEntity" | "galleryView" | "cancelReservation" | "" {
+  get buttonText(): "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "cancelReservation" | "" {
     return this._buttonText
   }
 
@@ -29,7 +29,7 @@ export class Details {
     this._title = newTitle
   }
 
-  set buttonText(newButtonText: "newEntity" | "saveUpdate" | "deleteEntity" | "galleryView" | "cancelReservation" | "") {
+  set buttonText(newButtonText: "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "cancelReservation" | "") {
     this._buttonText = newButtonText
   }
 
