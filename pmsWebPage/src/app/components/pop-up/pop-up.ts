@@ -13,6 +13,7 @@ import { ListCard } from '../list-card/list-card';
 import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
+import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class PopUp implements OnInit {
 
   readonly baseDetails = input.required<Details>()
   actualDetails!: Details;
+  selectedObject: any = null
 
   actualPage: "listPage" | "editPage" | "deletePage" = "listPage"
 
@@ -110,6 +112,7 @@ export class PopUp implements OnInit {
   edit(wantedObject: CardItem) {
     let deviceCategoryName: string | undefined = this.actualDetails.deviceCategory
 
+    this.selectedObject = wantedObject.object
     this.actualDetails = new Details(wantedObject.name, "Mentés", wantedObject.objectType, deviceCategoryName)
     this.actualPage = "editPage"
   }
@@ -120,4 +123,9 @@ export class PopUp implements OnInit {
 
     this.actualPage = "deletePage"
   }
+
+  test(form: FormGroup){
+    console.log(form)
+  }
 }
+
