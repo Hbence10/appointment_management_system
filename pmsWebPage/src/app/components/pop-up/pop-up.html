@@ -32,7 +32,7 @@
                 }
               }
             } @else if (actualPage == "editPage") {
-              <app-object-editor [objectType]="actualDetails" [selectedObject]="selectedObject" (outputFormForPopUpContainer)="test($event)"/>
+              <app-object-editor [objectType]="actualDetails" [selectedObject]="selectedObject"/>
             } @else if (actualPage == "deletePage"){
               <h1 class="text-center">Biztosan törölni szeretnéd a(z)?</h1>
             }

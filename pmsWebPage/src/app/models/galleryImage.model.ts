@@ -3,7 +3,8 @@ export class GalleryImage{
     private _id: number,
     private _photoName: string,
     private _photoPath: string,
-    private _placement: number
+    private _placement: number,
+    private _placeholders: string[] = ["Fájl feltöltése"]
   ){}
 
   // Getterek:
@@ -21,5 +22,9 @@ export class GalleryImage{
 
   get placement(): number {
     return this._placement
+  }
+
+  get placeholdersText(): string[] {
+    return this._placeholders
   }
 }

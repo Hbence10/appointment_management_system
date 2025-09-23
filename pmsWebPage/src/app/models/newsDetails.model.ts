@@ -6,7 +6,8 @@ export class NewsDetails {
     private _bannerImgPath: string | null,
     private _placement: number,
     private _createdAt: Date,
-    private _isExpand: boolean = this.placement == 1 ? true : false
+    private _isExpand: boolean = this.placement == 1 ? true : false,
+    private _placeholders: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó szöveg"]
   ) { }
 
   // Getterek:
@@ -40,5 +41,9 @@ export class NewsDetails {
 
   set isExpand(newState: boolean) {
     this._isExpand = newState
+  }
+
+  get placeholdersText(): string[] {
+    return this._placeholders
   }
 }

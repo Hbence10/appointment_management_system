@@ -2,7 +2,8 @@ export class Device {
   constructor(
     private _id: number,
     private _name: string,
-    private _amount: number
+    private _amount: number,
+    private _placeholders: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
   ) { }
 
   // Getterek:
@@ -16,5 +17,9 @@ export class Device {
 
   get amount(): number {
     return this._amount
+  }
+
+  get placeholdersText(): string[] {
+    return this._placeholders
   }
 }

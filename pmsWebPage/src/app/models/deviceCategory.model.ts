@@ -4,7 +4,8 @@ export class DeviceCategory{
   constructor(
     private _id: number,
     private _name: string,
-    private _devicesList: Device[]
+    private _devicesList: Device[],
+    private _placeholders: string[] = ["Kategória neve"]
   ){}
 
   // Getterek:
@@ -18,5 +19,9 @@ export class DeviceCategory{
 
   get devicesList(): Device[]{
     return this._devicesList;
+  }
+
+  get placeholdersText(): string[] {
+    return this._placeholders
   }
 }

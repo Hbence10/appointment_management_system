@@ -3,42 +3,51 @@
     <div
       [class.col-lg-12]="isFirstRowFull()"
       [class.col-lg-9]="!isFirstRowFull()"
-      >
-      <mat-form-field>
+    >
+      <mat-form-field class="w-100">
         <mat-label>Input</mat-label>
-        <input matInput (input)="showFormGrou()" formControlName="property1"/>
+        <input matInput type="text" (input)="showFormGrou()" formControlName="property1" [placeholder]="placeholderText[0]" />
       </mat-form-field>
     </div>
 
     @if (!isFirstRowFull()){
     <div class="col-lg-3">
-      <mat-form-field>
+      <mat-form-field class="w-100">
         <mat-label>Input</mat-label>
-        <input matInput (input)="showFormGrou()"/>
+        <input matInput (input)="showFormGrou()" formControlName="property2" />
       </mat-form-field>
     </div>
     }
   </div>
 
-  @if (details()!.objectType != 'deviceCategory' && details()?.objectType != "gallery"){
-    <div class="row">
-      <div class="col-lg-12">
-      <mat-form-field>
+  @if (details()!.objectType != 'deviceCategory' && details()?.objectType !=
+  "gallery"){
+  <div class="row">
+    <div class="col-lg-12">
+      @if (details()?.objectType == "news"){
+      <mat-form-field class="w-100">
         <mat-label>Input</mat-label>
-        <input matInput (input)="showFormGrou()"/>
+        <input matInput (input)="showFormGrou()" formControlName="property2" />
       </mat-form-field>
-      </div>
+      } @else if (details()?.objectType == "device"){
+      <mat-form-field class="w-100">
+        <mat-label>Select</mat-label>
+        <mat-select formControlName="property3" >
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+      }
     </div>
-  }
-
-  @if(details()!.objectType == "news"){
-    <div class="row">
-      <div class="col-lg-12">
-        <mat-form-field>
-          <mat-label>Input</mat-label>
-          <input matInput />
-        </mat-form-field>
-      </div>
+  </div>
+  } @if(details()!.objectType == "news"){
+  <div class="row">
+    <div class="col-lg-12">
+      <mat-form-field class="w-100">
+        <mat-label>Input</mat-label>
+        <input matInput formControlName="property3" />
+      </mat-form-field>
     </div>
+  </div>
   }
 </form>

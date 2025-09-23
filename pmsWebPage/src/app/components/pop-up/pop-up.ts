@@ -14,6 +14,10 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { FormGroup } from '@angular/forms';
+import { NewsDetails } from '../../models/newsDetails.model';
+import { ReservationType } from '../../models/reservationType.model';
+import { GalleryImage } from '../../models/galleryImage.model';
+import { Device } from '../../models/device.model';
 
 
 @Component({
@@ -44,26 +48,26 @@ export class PopUp implements OnInit {
     if (this.baseDetails().objectType == 'deviceCategory') {
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", element, "delete")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", new DeviceCategory(element.id, element.name, element.devicesList), "delete")]))
         }
       })
     }
     else if (this.baseDetails().objectType == "news") {
       this.newsService.getAllNews().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", element, "delete")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", new NewsDetails(element.id, element.title, element.text, element.bannerImgPath, element.placement, element.createdAt), "delete")]))
         }
       })
     } else if (this.baseDetails().objectType == "reservationType") {
       this.reservationService.getReservationTypes().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "reservationType", element, "delete")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "reservationType", new ReservationType(element.id, element.name, element.price), "delete")]))
         }
       })
     } else if (this.baseDetails().objectType == "gallery") {
       this.otherService.getAllGalleryImages().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.photoName, "gallery", element, "viewImage")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.photoName, "gallery", new GalleryImage(element.id, element.photoName, element.photoPath, element.placement), "viewImage")]))
         }
       })
     }
@@ -82,7 +86,7 @@ export class PopUp implements OnInit {
     this.actualDetails = new Details(deviceCategory.name, "Eszköz hozzáadása", "device", deviceCategory.name)
 
     deviceCategory.devicesList.forEach(element => {
-      this.cardList.update(old => [...old, new CardItem(element.name, "device", element, "delete")])
+      this.cardList.update(old => [...old, new CardItem(element.name, "device", new Device(element.id, element.name, element.amount), "delete")])
     })
   }
 
@@ -122,10 +126,6 @@ export class PopUp implements OnInit {
     this.actualDetails = new Details("", "Törlés", wantedObject.objectType)
 
     this.actualPage = "deletePage"
-  }
-
-  test(form: FormGroup){
-    console.log(form)
   }
 }
 

@@ -2,7 +2,8 @@ export class ReservationType {
   constructor(
     private _id: number,
     private _name: string = "",
-    private _price: number
+    private _price: number,
+    private _placeholders: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }
 
   //Getterek:
@@ -16,5 +17,9 @@ export class ReservationType {
 
   get price(): number {
     return this._price
+  }
+
+  get placeholdersText(): string[] {
+    return this._placeholders
   }
 }
