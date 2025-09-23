@@ -44,7 +44,7 @@ export class ObjectEditor implements OnChanges {
     }
   }
 
-  showFormGrou() {
+  showFormGroup() {
     this.outputFormForPopUpContainer.emit(this.form)
   }
 

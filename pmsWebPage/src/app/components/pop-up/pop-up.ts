@@ -1,23 +1,22 @@
-import { Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Device } from '../../models/device.model';
 import { DeviceCategory } from '../../models/deviceCategory.model';
+import { GalleryImage } from '../../models/galleryImage.model';
+import { NewsDetails } from '../../models/newsDetails.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
+import { ReservationType } from '../../models/reservationType.model';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
 import { OtherService } from '../../services/other-service';
 import { ReservationService } from '../../services/reservation-service';
-import { ListCard } from '../list-card/list-card';
 import { ObjectEditor } from '../admin-page/object-editor/object-editor';
-import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
-import { FormGroup } from '@angular/forms';
-import { NewsDetails } from '../../models/newsDetails.model';
-import { ReservationType } from '../../models/reservationType.model';
-import { GalleryImage } from '../../models/galleryImage.model';
-import { Device } from '../../models/device.model';
+import { ListCard } from '../list-card/list-card';
+import { ReservationDetail } from '../reservation-detail/reservation-detail';
 
 
 @Component({
@@ -31,9 +30,16 @@ export class PopUp implements OnInit {
   closePopUp = output()
   cardList = signal<CardItem[]>([])
 
-  readonly baseDetails = input.required<Details>()
-  actualDetails!: Details;
+  baseDetails = input.required<Details>()
+  actualDetails = signal<Details | null>(null);
   selectedObject: any = null
+
+  buttonText = computed<string>(() => {
+    const buttonTextList: string[] = ["newEntity", "saveUpdate", "deleteEntity", "galleryView"]
+    const objectType: string[] = []
+
+    return ""
+  })
 
   actualPage: "listPage" | "editPage" | "deletePage" = "listPage"
 
@@ -43,7 +49,7 @@ export class PopUp implements OnInit {
   private otherService = inject(OtherService)
 
   ngOnInit() {
-    this.actualDetails = new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().buttonText)
+    this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
 
     if (this.baseDetails().objectType == 'deviceCategory') {
       this.deviceService.getAllDevicesByCategories().subscribe({
@@ -83,7 +89,7 @@ export class PopUp implements OnInit {
 
   showDevices(deviceCategory: DeviceCategory) {
     this.cardList.set([])
-    this.actualDetails = new Details(deviceCategory.name, "Eszköz hozzáadása", "device", deviceCategory.name)
+    this.actualDetails.set(new Details(deviceCategory.name, "newEntity", "device", deviceCategory.name))
 
     deviceCategory.devicesList.forEach(element => {
       this.cardList.update(old => [...old, new CardItem(element.name, "device", new Device(element.id, element.name, element.amount), "delete")])
@@ -91,7 +97,7 @@ export class PopUp implements OnInit {
   }
 
   backToListPage() {
-    if (this.baseDetails().objectType == "deviceCategory" && this.actualDetails.objectType == "device" && this.actualPage == "listPage") {
+    if (this.baseDetails().objectType == "deviceCategory" && this.actualDetails()!.objectType == "device" && this.actualPage == "listPage") {
       this.cardList.set([])
 
       this.deviceService.getAllDevicesByCategories().subscribe({
@@ -99,14 +105,14 @@ export class PopUp implements OnInit {
           response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", element, "delete")]))
         },
         complete: () => {
-          this.actualDetails = new Details("Kategóriák listája", "Kategória hozzáadása", "deviceCategory")
+          this.actualDetails.set(new Details("Kategóriák listája", "newEntity", "deviceCategory"))
         }
       })
-    } else if (this.actualPage == "editPage" && this.actualDetails.objectType == "device") {
-      this.actualDetails = new Details("", "Eszköz hozzáadása", "device")
+    } else if (this.actualPage == "editPage" && this.actualDetails()!.objectType == "device") {
+      this.actualDetails.set(new Details("", "newEntity", "device"))
       this.actualPage = "listPage"
     } else if (this.actualPage == "editPage") {
-      this.actualDetails = this.baseDetails()
+      this.actualDetails.set(this.baseDetails())
       this.actualPage = "listPage"
     } else if (this.actualPage == "deletePage") {
       this.actualPage = "listPage"
@@ -114,16 +120,16 @@ export class PopUp implements OnInit {
   }
 
   edit(wantedObject: CardItem) {
-    let deviceCategoryName: string | undefined = this.actualDetails.deviceCategory
+    let deviceCategoryName: string | undefined = this.actualDetails()!.deviceCategory
 
     this.selectedObject = wantedObject.object
-    this.actualDetails = new Details(wantedObject.name, "Mentés", wantedObject.objectType, deviceCategoryName)
+    this.actualDetails.set(new Details(wantedObject.name, "saveUpdate", wantedObject.objectType, deviceCategoryName))
     this.actualPage = "editPage"
   }
 
   delete(wantedObject: CardItem) {
 
-    this.actualDetails = new Details("", "Törlés", wantedObject.objectType)
+    this.actualDetails.set(new Details("", "deleteEntity", wantedObject.objectType))
 
     this.actualPage = "deletePage"
   }

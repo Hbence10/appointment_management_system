@@ -28,9 +28,6 @@ export class AdminPage implements OnInit {
   selectedReservation = signal<null | Reservation>(null)
 
   isShowPupUp = signal<boolean>(false)
-  popUpTitle = signal<string>("")
-  popUpButtonText = signal<string>("")
-  popUpObjectType = signal<string>("")
   popUpDetails!: Details
 
   //Naptar dolgai:
@@ -59,13 +56,8 @@ export class AdminPage implements OnInit {
     })
   }
 
-  selectObjectList(title: string, buttonText: string, objectType: "deviceCategory" | "news" | "device" | "gallery" | "reservationType" | "rule" | "other") {
-    this.popUpTitle.set(title)
-    this.popUpButtonText.set(buttonText)
-    this.popUpObjectType.set(objectType)
-
+  selectObjectList(title: string, buttonText: "newEntity" | "saveUpdate" | "deleteEntity" | "galleryView" | "", objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other") {
     this.popUpDetails = new Details(title, buttonText, objectType)
-
     this.isShowPupUp.set(true)
   }
 
@@ -73,7 +65,7 @@ export class AdminPage implements OnInit {
     this.isShowPupUp.set(false)
   }
 
-  showSelectedDaysReservation(){
+  showSelectedDaysReservation() {
 
   }
 }

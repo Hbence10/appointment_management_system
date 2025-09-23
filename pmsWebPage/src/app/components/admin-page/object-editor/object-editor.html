@@ -6,7 +6,7 @@
     >
       <mat-form-field class="w-100">
         <mat-label>{{labelText[0]}}</mat-label>
-        <input matInput type="text" (input)="showFormGrou()" formControlName="property1" [placeholder]="placeholderText[0]" />
+        <input matInput type="text" (input)="showFormGroup()" formControlName="property1" [placeholder]="placeholderText[0]" />
       </mat-form-field>
     </div>
 
@@ -14,7 +14,7 @@
     <div class="col-lg-3">
       <mat-form-field class="w-100">
         <mat-label>{{labelText[1]}}</mat-label>
-        <input matInput type="number" (input)="showFormGrou()" formControlName="property2" [placeholder]="placeholderText[1]" />
+        <input matInput type="number" (input)="showFormGroup()" formControlName="property2" [placeholder]="placeholderText[1]" />
       </mat-form-field>
     </div>
     }
@@ -28,7 +28,7 @@
 
       <mat-form-field class="w-100">
         <mat-label>{{labelText[1]}}</mat-label>
-        <textarea matInput type="text" (input)="showFormGrou()" formControlName="property2" [placeholder]="placeholderText[1]"></textarea>
+        <textarea matInput type="text" (input)="showFormGroup()" formControlName="property2" [placeholder]="placeholderText[1]"></textarea>
       </mat-form-field>
 
       } @else if (details()?.objectType == "device"){
