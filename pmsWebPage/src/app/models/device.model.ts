@@ -1,6 +1,6 @@
 export class Device {
   constructor(
-    private _id: number,
+    private _id: number | null,
     private _name: string,
     private _amount: number,
     private _placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
@@ -8,7 +8,7 @@ export class Device {
   ) { }
 
   // Getterek:
-  get id(): number {
+  get id(): number | null {
     return this._id;
   }
 

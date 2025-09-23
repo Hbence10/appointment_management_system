@@ -17,6 +17,7 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
+import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class PopUp implements OnInit {
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
   selectedObject: any = null
+  editForm!: FormGroup
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType"]
@@ -86,7 +88,7 @@ export class PopUp implements OnInit {
     } else if (this.baseDetails().objectType == "gallery") {
       this.otherService.getAllGalleryImages().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.photoName, "gallery", new GalleryImage(element.id, element.photoName, element.photoPath, element.placement), "viewImage")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "gallery", new GalleryImage(element.id, element.name, element.photoPath, element.placement), "viewImage")]))
         }
       })
     }
@@ -97,7 +99,19 @@ export class PopUp implements OnInit {
   }
 
   buttonEvent() {
-    console.log("buttonEvent()")
+    if (this.actualDetails()?.buttonText == "newEntity") {
+      if (this.actualDetails()?.objectType == "deviceCategory") {
+        this.selectedObject = new DeviceCategory(null, "", [])
+      } else if (this.actualDetails()?.objectType == "device") {
+        this.selectedObject = new Device(null, "", 1)
+      } else if (this.actualDetails()?.objectType == "news") {
+        this.selectedObject = new NewsDetails(null, "", "", "", 0)
+      } else if (this.actualDetails()?.objectType == "reservationType") {
+        this.selectedObject = new ReservationType(null, "", null)
+      }
+
+      this.actualPage = "editPage"
+    }
   }
 
   showDevices(deviceCategory: DeviceCategory) {

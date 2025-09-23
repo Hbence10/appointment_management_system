@@ -13,7 +13,7 @@ export class GalleryImage{
     return this._id;
   }
 
-  get photoName(): string {
+  get name(): string {
     return this._photoName
   }
 

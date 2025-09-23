@@ -1,9 +1,11 @@
-import { Component, computed, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Details } from '../../../models/notEntityModels/details.model';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { DeviceService } from '../../../services/device-service';
+import { DeviceCategory } from '../../../models/deviceCategory.model';
 
 @Component({
   selector: 'app-object-editor',
@@ -12,26 +14,48 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './object-editor.scss'
 })
 export class ObjectEditor implements OnChanges {
+  private deviceService = inject(DeviceService)
+  private destroyRef = inject(DestroyRef)
   readonly objectType = input.required<Details>()
-  selectedObject = input<any>()
-  details = signal<Details | null>(null)
   outputFormForPopUpContainer = output<FormGroup>()
+  selectedObject = input<any>()
+
+  details = signal<Details | null>(null)
+  placeholderText: string[] = []
+  labelText: string[] = []
+  form!: FormGroup;
+  deviceCategoryList = signal<DeviceCategory[]>([])
 
   isFirstRowFull = computed<boolean>(() =>
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
   )
 
-  placeholderText: string[] = []
-  labelText: string[] = []
-  form!: FormGroup;
-
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.selectedObject())
+
     this.details.set(this.objectType())
     this.form = new FormGroup({
       property1: new FormControl("", [Validators.required]),
       property2: new FormControl("", []),
       property3: new FormControl("", [])
     })
+
+    if (this.objectType().objectType == "device") {
+      this.form.controls["property1"].setValue(this.selectedObject().name)
+      this.form.controls["property2"].setValue(this.selectedObject().amount)
+      // this.form.controls["property3"].setValue("")
+    } else if (this.objectType().objectType == "deviceCategory") {
+      this.form.controls["property1"].setValue(this.selectedObject().name)
+    } else if (this.objectType().objectType == "news") {
+      this.form.controls["property1"].setValue(this.selectedObject().title)
+      this.form.controls["property2"].setValue(this.selectedObject().text)
+      // this.form.controls["property3"].setValue("")
+    } else if (this.objectType().objectType == "reservationType") {
+      this.form.controls["property1"].setValue(this.selectedObject().name)
+      this.form.controls["property2"].setValue(this.selectedObject().price)
+    } else if (this.objectType().objectType == "gallery") {
+      this.form.controls["property1"].setValue(this.selectedObject().name)
+    }
 
     this.placeholderText = this.selectedObject().placeholdersText
     this.labelText = this.selectedObject().labelText
@@ -42,13 +66,29 @@ export class ObjectEditor implements OnChanges {
     } else if (this.details()?.objectType == "reservationType") {
       this.form.controls["property2"].addValidators(Validators.required)
     }
+
+    if (this.details()?.objectType == "device") {
+      const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
+        next: response => {
+          const list: DeviceCategory[] = []
+          response.forEach(element => {
+            list.push(new DeviceCategory(element.id, element.name, element.devicesList))
+          })
+          this.deviceCategoryList.set(list)
+        }
+      })
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe()
+      })
+    }
   }
 
   showFormGroup() {
     this.outputFormForPopUpContainer.emit(this.form)
   }
 
-  uploadFile(){
+  uploadFile() {
 
   }
 }

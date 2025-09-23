@@ -27,7 +27,7 @@ export class ReservationFinalize implements OnInit{
 
   ngOnInit(): void {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
-    this.totalPrice = this.baseReservation().getReservationTypeId.price * (this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart)
+    this.totalPrice = this.baseReservation().getReservationTypeId.price! * (this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart)
 
     const subscription = this.reservationService.getPaymentMethods().subscribe({
       next: response => this.paymentMethods.set(response)

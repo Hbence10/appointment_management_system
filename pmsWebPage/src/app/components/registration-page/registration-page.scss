@@ -34,7 +34,6 @@
 
 
 mat-form-field {
-  width: 100%;
   @include mat.form-field-overrides((
     filled-input-text-color: #004D40,
     filled-caret-color: #004D40,

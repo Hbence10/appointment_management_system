@@ -1,14 +1,14 @@
 export class ReservationType {
   constructor(
-    private _id: number,
+    private _id: number | null,
     private _name: string = "",
-    private _price: number,
+    private _price: number | null,
     private _placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
     private _labelText: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }
 
   //Getterek:
-  get id(): number {
+  get id(): number | null {
     return this._id;
   }
 
@@ -16,7 +16,7 @@ export class ReservationType {
     return this._name
   }
 
-  get price(): number {
+  get price(): number | null {
     return this._price
   }
 

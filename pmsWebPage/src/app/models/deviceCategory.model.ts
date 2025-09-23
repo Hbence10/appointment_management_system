@@ -2,7 +2,7 @@ import { Device } from "./device.model";
 
 export class DeviceCategory {
   constructor(
-    private _id: number,
+    private _id: number | null,
     private _name: string,
     private _devicesList: Device[],
     private _placeholders: string[] = ["Ird ide a kategória nevét"],
@@ -10,7 +10,7 @@ export class DeviceCategory {
   ) { }
 
   // Getterek:
-  get id(): number {
+  get id(): number | null {
     return this._id;
   }
 
