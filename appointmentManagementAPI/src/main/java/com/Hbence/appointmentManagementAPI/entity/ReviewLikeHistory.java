@@ -40,16 +40,16 @@ public class ReviewLikeHistory {
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
-    private Users likerUsers;
+    private User likerUser;
 
     //Constructorok
     public ReviewLikeHistory(String likeType) {
         this.likeType = likeType;
     }
 
-    public ReviewLikeHistory(String likeType, Review likedReview, Users likerUsers) {
+    public ReviewLikeHistory(String likeType, Review likedReview, User likerUser) {
         this.likeType = likeType;
         this.likedReview = likedReview;
-        this.likerUsers = likerUsers;
+        this.likerUser = likerUser;
     }
 }

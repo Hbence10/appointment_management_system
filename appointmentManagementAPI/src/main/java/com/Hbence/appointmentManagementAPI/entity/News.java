@@ -61,10 +61,10 @@ public class News {
     @ManyToOne(cascade = {})
     @JoinColumn(name = "writer_id")
     @JsonIgnore
-    private Users writer;
+    private User writer;
 
     //Constructorok:
-    public News(String title, String text, String bannerImgPath, Users writer, Integer placement) {
+    public News(String title, String text, String bannerImgPath, User writer, Integer placement) {
         this.title = title;
         this.text = text;
         this.bannerImgPath = bannerImgPath;

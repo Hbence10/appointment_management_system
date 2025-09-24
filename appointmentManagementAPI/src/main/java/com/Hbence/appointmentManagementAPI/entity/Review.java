@@ -41,7 +41,7 @@ public class Review {
     //Kapcsolatok
     @ManyToOne(cascade = {})
     @JoinColumn(name = "author_id")
-    private Users author;
+    private User author;
 
     @OneToMany(
             mappedBy = "likedReview",

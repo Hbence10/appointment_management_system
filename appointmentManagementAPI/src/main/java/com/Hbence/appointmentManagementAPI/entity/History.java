@@ -50,7 +50,7 @@ public class History {
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
-    private Users editedBy;
+    private User editedBy;
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "event_type_id")

@@ -14,7 +14,7 @@ import java.util.List;
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getUserByUsername", procedureName = "getUserByUsername", parameters = {
                 @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN)
-        }, resultClasses = {Users.class})
+        }, resultClasses = {User.class})
 })
 
 @Table(name = "user")
@@ -22,7 +22,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -114,7 +114,7 @@ public class Users {
     private List<ReviewLikeHistory> reviewLikeHistories;
 
     //Constructorok
-    public Users(String username, String email, String password) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;

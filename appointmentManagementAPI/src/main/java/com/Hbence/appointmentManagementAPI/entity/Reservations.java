@@ -68,12 +68,12 @@ public class Reservations {
     @OneToOne(cascade = {})
     @JoinColumn(name = "canceled_by")
     @Null
-    private Users canceledBy;
+    private User canceledBy;
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
     @Null
-    private Users users;
+    private User user;
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "reservation_type_id")
