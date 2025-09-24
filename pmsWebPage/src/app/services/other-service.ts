@@ -12,8 +12,8 @@ export class OtherService {
   selectedImgForCarousel = signal<null | GalleryImage>(null)
 
   //Galleria
-  getAllGalleryImages(): Observable<GalleryImage[]> {
-    return this.http.get<GalleryImage[]>(`${this.baseURL()}/gallery`)
+  getAllGalleryImages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseURL()}/gallery`)
   }
 
   //Szabalyzat

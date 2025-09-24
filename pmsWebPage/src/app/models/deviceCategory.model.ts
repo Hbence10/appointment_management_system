@@ -2,31 +2,31 @@ import { Device } from "./device.model";
 
 export class DeviceCategory {
   constructor(
-    private _id: number | null,
-    private _name: string,
-    private _devicesList: Device[],
-    private _placeholders: string[] = ["Ird ide a kategória nevét"],
-    private _labelText: string[] = ["Kategória neve"]
+    private id: number | null,
+    private name: string,
+    private devicesList: (Device | any)[],
+    private placeholders: string[] = ["Ird ide a kategória nevét"],
+    private labelText: string[] = ["Kategória neve"]
   ) { }
 
   // Getterek:
-  get id(): number | null {
-    return this._id;
+  get getId(): number | null {
+    return this.id;
   }
 
-  get name(): string {
-    return this._name;
+  get getName(): string {
+    return this.name;
   }
 
-  get devicesList(): Device[] {
-    return this._devicesList;
+  get getDevicesList(): (Device | any)[] {
+    return this.devicesList;
   }
 
-  get placeholdersText(): string[] {
-    return this._placeholders
+  get getPlaceholdersText(): string[] {
+    return this.placeholders
   }
 
-  get labelText(): string[] {
-    return this._labelText
+  get getLabelText(): string[] {
+    return this.labelText
   }
 }

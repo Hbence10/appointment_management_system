@@ -132,9 +132,9 @@ export class PopUp implements OnInit {
 
   showDevices(deviceCategory: DeviceCategory) {
     this.cardList.set([])
-    this.actualDetails.set(new Details(deviceCategory.name, "newEntity", "device", deviceCategory.name))
+    this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory.getName))
 
-    deviceCategory.devicesList.forEach(element => {
+    deviceCategory.getDevicesList.forEach(element => {
       this.cardList.update(old => [...old, new CardItem(element.name, "device", new Device(element.id, element.name, element.amount), "delete")])
     })
   }

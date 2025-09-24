@@ -1,30 +1,30 @@
 export class Device {
   constructor(
-    private _id: number | null,
-    private _name: string,
-    private _amount: number,
-    private _placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
-    private _labelText: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
+    private id: number | null,
+    private name: string,
+    private amount: number,
+    private placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
+    private labelText: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
   ) { }
 
   // Getterek:
-  get id(): number | null {
-    return this._id;
+  get getId(): number | null {
+    return this.id;
   }
 
-  get name(): string {
-    return this._name;
+  get getName(): string {
+    return this.name;
   }
 
-  get amount(): number {
-    return this._amount
+  get getAmount(): number {
+    return this.amount
   }
 
-  get placeholdersText(): string[] {
-    return this._placeholders
+  get getPlaceholdersText(): string[] {
+    return this.placeholders
   }
 
-  get labelText(): string[] {
-    return this._labelText
+  get getLabelText(): string[] {
+    return this.labelText
   }
 }

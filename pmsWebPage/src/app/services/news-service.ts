@@ -10,7 +10,7 @@ export class NewsService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
 
-  getAllNews(): Observable<NewsDetails[]> {
-    return this.http.get<NewsDetails[]>("http://localhost:8080/news")
+  getAllNews(): Observable<any[]> {
+    return this.http.get<any[]>("http://localhost:8080/news")
   }
 }

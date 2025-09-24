@@ -11,9 +11,9 @@
     <div class="d-flex justify-content-center align-items-center flex-column" [class.col-lg-12]="deviceCategoryRow.length <= 2" [class.col-lg-6]="deviceCategoryRow.length < 5 && deviceCategoryRow.length > 2" [class.col-lg-4]="deviceCategoryRow.length == 5">
       @for(devicesCategory of deviceCategoryRow | slice: 0 : 2; track $index){
       <div class="cardDiv my-4">
-        <h2 class="text-center mainFont my-3">{{devicesCategory.name | titlecase}}</h2>
+        <h2 class="text-center mainFont my-3">{{devicesCategory.getName | titlecase}}</h2>
         <div>
-          @for (devices of devicesCategory.devicesList; track $index) {
+          @for (devices of devicesCategory.getDevicesList; track $index) {
             <p class="text-center secondFont">{{devices.name}}</p>
           }
         </div>
@@ -24,9 +24,9 @@
     <div class="d-flex justify-content-center align-items-center flex-column" [class.col-lg-6]="deviceCategoryRow.length < 5 && deviceCategoryRow.length > 2" [class.col-lg-4]="deviceCategoryRow.length == 5">
       @for(devicesCategory of deviceCategoryRow | slice: 2 : 4; track $index){
       <div class="cardDiv my-4">
-        <h2 class="text-center mainFont my-3">{{devicesCategory.name | titlecase}}</h2>
+        <h2 class="text-center mainFont my-3">{{devicesCategory.getName | titlecase}}</h2>
         <div>
-          @for (devices of devicesCategory.devicesList; track $index) {
+          @for (devices of devicesCategory.getDevicesList; track $index) {
             <p class="text-center secondFont">{{devices.name}}</p>
           }
         </div>
@@ -36,9 +36,9 @@
     } @if(deviceCategoryRow.length == 5){
     <div class="col-lg-4 d-flex justify-content-center align-items-center flex-column">
       <div class="cardDiv bigCard my-4">
-        <h2 class="text-center mainFont my-3">{{deviceCategoryRow[4].name | titlecase}}</h2>
+        <h2 class="text-center mainFont my-3">{{deviceCategoryRow[4].getName | titlecase}}</h2>
         <div>
-          @for(devices of deviceCategoryRow[4].devicesList; track $index){
+          @for(devices of deviceCategoryRow[4].getDevicesList; track $index){
             <p class="text-center secondFont">{{devices.name}}</p>
           }
         </div>

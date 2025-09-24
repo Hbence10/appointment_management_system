@@ -19,8 +19,9 @@ export class Equipments implements OnInit {
   ngOnInit(): void {
     const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
       next: response => {
-        this.deviceCategoryList.set(response)
-        console.log(response)
+        response.forEach(element => {
+          this.deviceCategoryList.update(old => [...old, new DeviceCategory(element.id, element.name, element.devicesList)])
+        })
       },
       complete: () => {
         this.splitCategoryList()

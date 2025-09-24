@@ -31,15 +31,28 @@ export class ObjectEditor implements OnChanges {
   )
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.selectedObject())
-
     this.details.set(this.objectType())
     this.form().reset()
+    if (this.details()?.objectType == "device") {
+      const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
+        next: response => {
+          console.log(response)
+          response.forEach(element => {
+            this.deviceCategoryList.update(old => [...old, new DeviceCategory(element.id, element.name, element.devicesList)])
+          })
+          console.log(this.deviceCategoryList())
+        }
+      })
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe()
+      })
+    }
 
     if (this.objectType().objectType == "device") {
       this.form().controls["property1"].setValue(this.selectedObject().name)
       this.form().controls["property2"].setValue(this.selectedObject().amount)
-      // this.form.controls["property3"].setValue("")
+      // this.form.controls["property3"].setValue("") 
     } else if (this.objectType().objectType == "deviceCategory") {
       this.form().controls["property1"].setValue(this.selectedObject().name)
     } else if (this.objectType().objectType == "news") {
@@ -53,30 +66,14 @@ export class ObjectEditor implements OnChanges {
       this.form().controls["property1"].setValue(this.selectedObject().name)
     }
 
-    this.placeholderText = this.selectedObject().placeholdersText
-    this.labelText = this.selectedObject().labelText
+    this.placeholderText = this.selectedObject().getPlaceholdersText
+    this.labelText = this.selectedObject().getLabelText
 
     if (this.details()?.objectType == "news" || this.details()?.objectType == "device") {
       this.form().controls["property2"].addValidators(Validators.required)
       this.form().controls["property3"].addValidators(Validators.required)
     } else if (this.details()?.objectType == "reservationType") {
       this.form().controls["property2"].addValidators(Validators.required)
-    }
-
-    if (this.details()?.objectType == "device") {
-      const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
-        next: response => {
-          const list: DeviceCategory[] = []
-          response.forEach(element => {
-            list.push(new DeviceCategory(element.id, element.name, element.devicesList))
-          })
-          this.deviceCategoryList.set(list)
-        }
-      })
-
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe()
-      })
     }
   }
 

@@ -36,7 +36,7 @@
         <mat-label>{{labelText[2]}}</mat-label>
         <mat-select formControlName="property3" [placeholder]="placeholderText[2]">
           @for(category of deviceCategoryList(); track $index){
-            <mat-option [value]="category.id">{{category.name}}</mat-option>
+            <mat-option [value]="category.getId">{{category.getName}}</mat-option>
           }
 
         </mat-select>
