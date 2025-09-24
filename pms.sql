@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Sze 13. 16:59
+-- Létrehozás ideje: 2025. Sze 24. 17:48
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,25 +25,13 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addReview` (IN `userIdIN` INT, IN `reviewTextIN` LONGTEXT, IN `ratingIN` DOUBLE, IN `isAnonymusIN` INT)   BEGIN
-	INSERT INTO `review`(`author_id`, `review_text`, `rating`, `is_anonymus`) VALUES (userIdIN, reviewTextIN, ratingIN, isAnonymusIN);
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation` (IN `userIdIN` INT, IN `reservationIdIN` INT)   BEGIN
-
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `closeBetweenTwoDate` ()   BEGIN
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `closeSingleDay` ()   BEGIN
 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` DATE)   BEGIN
 	SELECT 
-    r.id,
+ 	r.id,
     r.first_name,
     r.last_name,
     r.email,
@@ -53,13 +41,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` 
     r.user_id,
     r.payment_method_id,
     r.status_id,
+    r.reserved_hour_id,
     r.reserved_at,
     r.is_canceled,
     r.canceled_at,
     r.canceled_by
     FROM reservations r
     INNER JOIN reserved_hours rh 
-    ON r.id = rh.reservation_id
+    ON r.reserved_hour_id = rh.id
     INNER JOIN reserved_dates rd 
     ON rh.date_id = rd.id
     WHERE rd.date = dateIN
@@ -71,8 +60,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userId
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `startDateIN` DATE, IN `endDateIN` DATE)   BEGIN
-	SELECT * FROM reserved_dates WHERE
-    `reserved_dates`.`date` BETWEEN startDateIN AND endDateIN;
+	SELECT
+    	rd.id,
+        rd.date,
+        rd.is_holiday,
+        rd.is_closed,
+        rd.is_full
+    FROM reserved_dates rd
+    WHERE
+    rd.date BETWEEN startDateIN AND endDateIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedHoursByDate` (IN `dateIN` DATE)   BEGIN
@@ -84,20 +80,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedHoursByDate` (IN `dateIN
     AND DAY(reserved_dates.date) = DAY(dateIN);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `usernameIN` VARCHAR(100), IN `passwordIN` VARCHAR(100))   BEGIN
-	SELECT * FROM user WHERE user.username = usernameIN AND user.password = passwordIN;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `usernameIN` VARCHAR(100), IN `emailIN` VARCHAR(100), IN `passwordIN` VARCHAR(100), OUT `result` VARCHAR(100))   BEGIN
-	INSERT INTO `user`
-    (`username`, `email`, `password`, `pfp_path`) 
-    VALUES (
-        usernameIN, 
-        emailIN, 
-        SHA2(passwordIN,256), 
-        ""
-    );
-    SET result = "successfull registration";
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByUsername` (IN `usernameIN` VARCHAR(100))   BEGIN
+	SELECT * FROM user 
+    WHERE user.username = usernameIN;
 END$$
 
 DELIMITER ;
@@ -172,11 +157,11 @@ CREATE TABLE `devices_category` (
 --
 
 INSERT INTO `devices_category` (`id`, `name`) VALUES
-(1, 'mikrofonok'),
-(2, 'gitarok'),
+(5, 'dobok'),
 (3, 'erositok'),
-(4, 'zongorak'),
-(5, 'dobok');
+(2, 'gitarok'),
+(1, 'mikrofonok'),
+(4, 'zongorak');
 
 -- --------------------------------------------------------
 
@@ -321,6 +306,15 @@ CREATE TABLE `reservations` (
   `canceled_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `reservations`
+--
+
+INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `comment`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
+(28, 'asd', 'asd', 'asd@gmail.com', 'asd', 'asd', 2, NULL, 2, 1, 46, '2025-09-19 19:47:00', 0, NULL, NULL),
+(29, 'asd', 'asd', 'asd@gmail.com', 'asd', 'asd', 2, NULL, 2, 1, 48, '2025-09-20 05:29:04', 0, NULL, NULL),
+(30, 'asd', 'asd', 'asd@gmail.com', 'asd', NULL, 2, NULL, 2, 1, 49, '2025-09-20 05:32:32', 0, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -363,12 +357,8 @@ CREATE TABLE `reserved_dates` (
 --
 
 INSERT INTO `reserved_dates` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
-(29, '2025-09-08', 0, 0, 0),
-(30, '2025-09-09', 0, 0, 0),
-(31, '2025-09-17', 0, 0, 0),
-(32, '2025-09-30', 1, 0, 0),
-(33, '2025-09-29', 0, 1, 0),
-(34, '2025-09-28', 0, 0, 1);
+(54, '2025-09-20', 0, 0, 0),
+(55, '2025-09-22', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -388,8 +378,10 @@ CREATE TABLE `reserved_hours` (
 --
 
 INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`) VALUES
-(15, 14, 16, 29),
-(16, 10, 12, 29);
+(46, 13, 15, 54),
+(47, 15, 17, 54),
+(48, 12, 14, 55),
+(49, 10, 12, 55);
 
 -- --------------------------------------------------------
 
@@ -402,9 +394,7 @@ CREATE TABLE `review` (
   `author_id` int(11) NOT NULL,
   `review_text` longtext NOT NULL,
   `rating` double NOT NULL,
-  `like_count` int(4) DEFAULT '0',
-  `dislike_count` int(4) DEFAULT '0',
-  `is_anonymus` tinyint(1) NOT NULL DEFAULT '0',
+  `is_anonymous` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -412,13 +402,15 @@ CREATE TABLE `review` (
 -- A tábla adatainak kiíratása `review`
 --
 
-INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `like_count`, `dislike_count`, `is_anonymus`, `created_at`) VALUES
-(1, 1, 'Nagyon jól felszerelt próbaterem, minden rendben működött. A foglalás gyors és egyszerű volt, biztosan jövünk még!', 2, 1, 1, 0, '2025-09-08 09:59:25'),
-(2, 1, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, 0, 0, '2025-09-08 10:21:46'),
-(3, 26, 'Már több próbateremben jártunk a városban, de ez az egyik legjobb élményünk eddig. A hely tágas, kényelmes, a hangszerek és az erősítők hibátlan állapotban voltak, a dob is tökéletesen beállítva. Érezhető, hogy a tulajdonos szívvel-lélekkel foglalkozik a hellyel. Nagy plusz, hogy a környéken könnyű parkolni, így nem kellett cipekednünk messziről. Az ár-érték arány is teljesen korrekt, szóval biztosan rendszeres vendégek leszünk.', 2, 0, 0, 0, '2025-09-08 10:21:46'),
-(4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 2, 0, 0, 0, '2025-09-08 10:21:46'),
-(5, 1, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, 0, 0, '2025-09-08 10:21:46'),
-(6, 1, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, 0, 0, '2025-09-08 10:21:46');
+INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `is_anonymous`, `created_at`) VALUES
+(1, 1, 'Nagyon jól felszerelt próbaterem, minden rendben működött. A foglalás gyors és egyszerű volt, biztosan jövünk még!', 5, 0, '2025-09-08 09:59:25'),
+(2, 1, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, '2025-09-08 10:21:46'),
+(3, 26, 'Már több próbateremben jártunk a városban, de ez az egyik legjobb élményünk eddig. A hely tágas, kényelmes, a hangszerek és az erősítők hibátlan állapotban voltak, a dob is tökéletesen beállítva. Érezhető, hogy a tulajdonos szívvel-lélekkel foglalkozik a hellyel. Nagy plusz, hogy a környéken könnyű parkolni, így nem kellett cipekednünk messziről. Az ár-érték arány is teljesen korrekt, szóval biztosan rendszeres vendégek leszünk.', 2, 0, '2025-09-08 10:21:46'),
+(4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 3.5, 0, '2025-09-08 10:21:46'),
+(5, 1, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, '2025-09-08 10:21:46'),
+(6, 1, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, '2025-09-08 10:21:46'),
+(7, 1, 'asd', 1, 0, '2025-09-17 15:57:56'),
+(8, 1, 'asd', 1, 0, '2025-09-17 15:58:12');
 
 -- --------------------------------------------------------
 
@@ -439,7 +431,8 @@ CREATE TABLE `review_like_history` (
 --
 
 INSERT INTO `review_like_history` (`id`, `review_id`, `like_type`, `user_id`, `like_at`) VALUES
-(1, 1, 'like', 1, '2025-09-13 16:54:14');
+(1, 1, 'like', 1, '2025-09-13 16:54:14'),
+(2, 3, 'like', 1, '2025-09-14 12:11:31');
 
 -- --------------------------------------------------------
 
@@ -459,7 +452,7 @@ CREATE TABLE `role` (
 INSERT INTO `role` (`id`, `name`) VALUES
 (1, 'user'),
 (2, 'admin'),
-(3, 'super admin');
+(3, 'superAdmin');
 
 -- --------------------------------------------------------
 
@@ -525,8 +518,8 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `pfp_path` longtext NOT NULL,
+  `password` longtext NOT NULL,
+  `pfp_path` varchar(100) NOT NULL DEFAULT 'asd',
   `role_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` datetime DEFAULT NULL,
@@ -539,11 +532,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`, `created_at`, `last_login`, `is_deleted`, `deleted_at`) VALUES
-(1, 'test', 'test', 'test', 'test', 1, '2025-08-23 04:45:44', NULL, 0, NULL),
-(2, 'testAdmin', 'testAdmin', 'testAdmin', 'testAdmin', 2, '2025-08-23 04:50:02', NULL, 0, NULL),
-(3, 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 'testSuperAdmin', 3, '2025-08-23 04:50:02', NULL, 0, NULL),
-(26, 'test4', 'test4', 'a4e624d686e03ed2767c0abd85c14426b0b1157d2ce81d27bb4fe4f6f01d688a', '', 1, '2025-09-07 12:15:02', NULL, 1, NULL),
-(29, 'test5', 'test5', 'a140c0c1eda2def2b830363ba362aa4d7d255c262960544821f556e16661b6ff', '', 1, '2025-09-10 11:08:30', NULL, 1, NULL);
+(1, 'test', 'test@gmail.com', '{noop}test', 'test', 1, '2025-08-23 04:45:44', NULL, 0, NULL),
+(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'testAdmin', 2, '2025-08-23 04:50:02', NULL, 0, NULL),
+(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'testSuperAdmin', 3, '2025-08-23 04:50:02', NULL, 0, NULL),
+(26, 'test4', 'test4', '{noop}asd', '', 1, '2025-09-07 12:15:02', NULL, 1, NULL),
+(29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'asd', 1, '2025-09-17 15:47:25', NULL, 0, NULL),
+(42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', '', 1, '2025-09-20 16:18:03', NULL, 0, NULL),
+(44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'asd', 1, '2025-09-24 10:03:22', NULL, 0, NULL),
+(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'asd', 1, '2025-09-24 10:07:39', NULL, 0, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -560,7 +556,8 @@ ALTER TABLE `devices`
 -- A tábla indexei `devices_category`
 --
 ALTER TABLE `devices_category`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- A tábla indexei `devices_reservation_type`
@@ -680,6 +677,7 @@ ALTER TABLE `status`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`),
   ADD KEY `role` (`role_id`);
 
 --
@@ -738,7 +736,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -750,25 +748,25 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_dates`
 --
 ALTER TABLE `reserved_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hours`
 --
 ALTER TABLE `reserved_hours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `review_like_history`
 --
 ALTER TABLE `review_like_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `role`
@@ -798,7 +796,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Megkötések a kiírt táblákhoz
