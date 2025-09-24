@@ -42,7 +42,6 @@ public class User {
 
     @Column(name = "password")
     @NotNull
-    @Size(max = 64)
     private String password;
 
     @Column(name = "pfp_path")

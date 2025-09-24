@@ -1,29 +1,21 @@
 package com.Hbence.appointmentManagementAPI.config;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import javax.sql.DataSource;
 import java.util.Collections;
-import java.util.function.Supplier;
 
 @Configuration
 public class SecurityConfig {
@@ -51,17 +43,14 @@ public class SecurityConfig {
                 }))
 
                 //Jogosultsagok:
-                .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll()
-//                                .requestMatchers("").hasAnyRole()                                       //Azok az endpointok amelyekhez szukseges lesz az authentikacio
-//                                .requestMatchers("").hasRole("")                                      //Azok az endpointok amelyekhez nem lesz szukseges az authentikacio
-                )
+                .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll())
 
                 //CSRF settings:
 //                .csrf(csrfConfig -> csrfConfig
 //                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 //                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-
+                .csrf(csrf -> csrf.disable())
                 .formLogin(config -> config.disable());
         http.httpBasic(Customizer.withDefaults());
         return http.build();
@@ -74,7 +63,7 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new Argon2PasswordEncoder(32, 64, 1, 1 << 12, 3);
+        return new Argon2PasswordEncoder(16, 32, 1, 1<<12, 3);
     }
 
     /*

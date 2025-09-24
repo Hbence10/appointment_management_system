@@ -111,6 +111,8 @@ export class PopUp implements OnInit {
       }
 
       this.actualPage = "editPage"
+    } else if (this.actualDetails()?.buttonText == "saveChanges"){
+
     }
   }
 
@@ -160,6 +162,18 @@ export class PopUp implements OnInit {
     this.actualDetails.set(new Details("", "deleteEntity", wantedObject.objectType))
 
     this.actualPage = "deletePage"
+  }
+
+  sendPutRequest(){
+
+  }
+
+  sendPostRequest(){
+
+  }
+
+  sendDeleteRequest(){
+
   }
 }
 

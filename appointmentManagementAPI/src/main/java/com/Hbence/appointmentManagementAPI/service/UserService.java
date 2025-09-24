@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -18,12 +19,15 @@ import java.util.regex.Pattern;
 public class UserService {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
+    private final PasswordEncoder passwordEncoder;
 
     //Endpointok
     public ResponseEntity<User> login(String username, String password) {
         User loggedUser = userRepository.login(username, password);
 
-        if (loggedUser == null || loggedUser.getIsDeleted()) {
+        boolean successFullLogin = passwordEncoder.matches(password, loggedUser.getPassword());
+
+        if (!successFullLogin || loggedUser.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -32,6 +36,8 @@ public class UserService {
 
     public ResponseEntity<Object> register(User newUser) {
         if (ValidatorCollection.emailChecker(newUser.getEmail()) && ValidatorCollection.passwordChecker(newUser.getPassword())) {
+            String hashedPassword = passwordEncoder.encode(newUser.getPassword());
+            newUser.setPassword(hashedPassword);
             User registeredUser = userRepository.save(newUser);
             return ResponseEntity.ok(registeredUser);
         } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
@@ -45,15 +51,15 @@ public class UserService {
         return ResponseEntity.internalServerError().build();
     }
 
-    public ResponseEntity<User> updateUser(User updatedUser){
+    public ResponseEntity<User> updateUser(User updatedUser) {
         return null;
     }
 
-    public ResponseEntity<User> updatePassword(Long id, Map<String, String> newPasswordBody){
+    public ResponseEntity<User> updatePassword(Long id, Map<String, String> newPasswordBody) {
         return null;
     }
 
-    public ResponseEntity<String> deleteUser(Long id){
+    public ResponseEntity<String> deleteUser(Long id) {
         return null;
     }
 }
