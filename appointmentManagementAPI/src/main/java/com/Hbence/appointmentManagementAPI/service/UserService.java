@@ -1,6 +1,6 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.entity.User;
+import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Transactional
 @Service
@@ -22,40 +21,40 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     //Endpointok
-    public ResponseEntity<User> login(String username, String password) {
-        User loggedUser = userRepository.login(username);
+    public ResponseEntity<Users> login(String username, String password) {
+        Users loggedUsers = userRepository.login(username);
 
-        boolean successFullLogin = passwordEncoder.matches(password, loggedUser.getPassword());
+        boolean successFullLogin = passwordEncoder.matches(password, loggedUsers.getPassword());
 
-        if (!successFullLogin || loggedUser.getIsDeleted()) {
+        if (!successFullLogin || loggedUsers.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(loggedUser);
+        return ResponseEntity.ok(loggedUsers);
     }
 
-    public ResponseEntity<Object> register(User newUser) {
-        if (ValidatorCollection.emailChecker(newUser.getEmail()) && ValidatorCollection.passwordChecker(newUser.getPassword())) {
-            String hashedPassword = passwordEncoder.encode(newUser.getPassword());
-            newUser.setPassword(hashedPassword);
-            User registeredUser = userRepository.save(newUser);
-            return ResponseEntity.ok(registeredUser);
-        } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
+    public ResponseEntity<Object> register(Users newUsers) {
+        if (ValidatorCollection.emailChecker(newUsers.getEmail()) && ValidatorCollection.passwordChecker(newUsers.getPassword())) {
+            String hashedPassword = passwordEncoder.encode(newUsers.getPassword());
+            newUsers.setPassword(hashedPassword);
+            Users registeredUsers = userRepository.save(newUsers);
+            return ResponseEntity.ok(registeredUsers);
+        } else if (!ValidatorCollection.emailChecker(newUsers.getEmail()) && !ValidatorCollection.passwordChecker(newUsers.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
-        } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
+        } else if (!ValidatorCollection.emailChecker(newUsers.getEmail())) {
             return ResponseEntity.status(417).body("InvalidEmail");
-        } else if (!ValidatorCollection.passwordChecker(newUser.getPassword())) {
+        } else if (!ValidatorCollection.passwordChecker(newUsers.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPassword");
         }
 
         return ResponseEntity.internalServerError().build();
     }
 
-    public ResponseEntity<User> updateUser(User updatedUser) {
+    public ResponseEntity<Users> updateUser(Users updatedUsers) {
         return null;
     }
 
-    public ResponseEntity<User> updatePassword(Long id, Map<String, String> newPasswordBody) {
+    public ResponseEntity<Users> updatePassword(Long id, Map<String, String> newPasswordBody) {
         return null;
     }
 

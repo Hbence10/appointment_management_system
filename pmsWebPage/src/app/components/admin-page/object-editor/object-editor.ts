@@ -1,11 +1,11 @@
-import { Component, computed, DestroyRef, inject, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, DestroyRef, inject, input, OnChanges, output, signal, SimpleChanges } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Details } from '../../../models/notEntityModels/details.model';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { DeviceService } from '../../../services/device-service';
 import { DeviceCategory } from '../../../models/deviceCategory.model';
+import { Details } from '../../../models/notEntityModels/details.model';
+import { DeviceService } from '../../../services/device-service';
 
 @Component({
   selector: 'app-object-editor',
@@ -52,7 +52,7 @@ export class ObjectEditor implements OnChanges {
     if (this.objectType().objectType == "device") {
       this.form().controls["property1"].setValue(this.selectedObject().name)
       this.form().controls["property2"].setValue(this.selectedObject().amount)
-      // this.form.controls["property3"].setValue("") 
+      // this.form.controls["property3"].setValue("")
     } else if (this.objectType().objectType == "deviceCategory") {
       this.form().controls["property1"].setValue(this.selectedObject().name)
     } else if (this.objectType().objectType == "news") {
