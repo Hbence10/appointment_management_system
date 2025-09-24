@@ -7,14 +7,11 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import javax.sql.DataSource;
 import java.util.Collections;
 
 @Configuration
@@ -52,24 +49,20 @@ public class SecurityConfig {
 //                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .formLogin(config -> config.disable());
+
         http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
     @Bean
-    UserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new Argon2PasswordEncoder(16, 32, 1, 1<<12, 3);
+    PasswordEncoder passwordEncoder() {
+        return new Argon2PasswordEncoder(16, 32, 1, 1 << 12, 3);
     }
 
     /*
-    * Argon2 Parameterek:
-    *           - iterations --> annak a szama, hogy a jelszo hanyszor lett hashelve
-    *           - memoryCost --> az a mennyiseg amit az Argon2 fog hasznalni
-    *           - parallelism --> number of threads
-    * */
+     * Argon2 Parameterek:
+     *           - iterations --> annak a szama, hogy a jelszo hanyszor lett hashelve
+     *           - memoryCost --> az a mennyiseg amit az Argon2 fog hasznalni
+     *           - parallelism --> number of threads
+     * */
 }
