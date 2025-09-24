@@ -23,7 +23,7 @@ export class ObjectEditor implements OnChanges {
   details = signal<Details | null>(null)
   placeholderText: string[] = []
   labelText: string[] = []
-  form!: FormGroup;
+  form = input.required<FormGroup>();
   deviceCategoryList = signal<DeviceCategory[]>([])
 
   isFirstRowFull = computed<boolean>(() =>
@@ -34,37 +34,33 @@ export class ObjectEditor implements OnChanges {
     console.log(this.selectedObject())
 
     this.details.set(this.objectType())
-    this.form = new FormGroup({
-      property1: new FormControl("", [Validators.required]),
-      property2: new FormControl("", []),
-      property3: new FormControl("", [])
-    })
+    this.form().reset()
 
     if (this.objectType().objectType == "device") {
-      this.form.controls["property1"].setValue(this.selectedObject().name)
-      this.form.controls["property2"].setValue(this.selectedObject().amount)
+      this.form().controls["property1"].setValue(this.selectedObject().name)
+      this.form().controls["property2"].setValue(this.selectedObject().amount)
       // this.form.controls["property3"].setValue("")
     } else if (this.objectType().objectType == "deviceCategory") {
-      this.form.controls["property1"].setValue(this.selectedObject().name)
+      this.form().controls["property1"].setValue(this.selectedObject().name)
     } else if (this.objectType().objectType == "news") {
-      this.form.controls["property1"].setValue(this.selectedObject().title)
-      this.form.controls["property2"].setValue(this.selectedObject().text)
+      this.form().controls["property1"].setValue(this.selectedObject().title)
+      this.form().controls["property2"].setValue(this.selectedObject().text)
       // this.form.controls["property3"].setValue("")
     } else if (this.objectType().objectType == "reservationType") {
-      this.form.controls["property1"].setValue(this.selectedObject().name)
-      this.form.controls["property2"].setValue(this.selectedObject().price)
+      this.form().controls["property1"].setValue(this.selectedObject().name)
+      this.form().controls["property2"].setValue(this.selectedObject().price)
     } else if (this.objectType().objectType == "gallery") {
-      this.form.controls["property1"].setValue(this.selectedObject().name)
+      this.form().controls["property1"].setValue(this.selectedObject().name)
     }
 
     this.placeholderText = this.selectedObject().placeholdersText
     this.labelText = this.selectedObject().labelText
 
     if (this.details()?.objectType == "news" || this.details()?.objectType == "device") {
-      this.form.controls["property2"].addValidators(Validators.required)
-      this.form.controls["property3"].addValidators(Validators.required)
+      this.form().controls["property2"].addValidators(Validators.required)
+      this.form().controls["property3"].addValidators(Validators.required)
     } else if (this.details()?.objectType == "reservationType") {
-      this.form.controls["property2"].addValidators(Validators.required)
+      this.form().controls["property2"].addValidators(Validators.required)
     }
 
     if (this.details()?.objectType == "device") {
@@ -85,7 +81,7 @@ export class ObjectEditor implements OnChanges {
   }
 
   showFormGroup() {
-    this.outputFormForPopUpContainer.emit(this.form)
+    this.outputFormForPopUpContainer.emit(this.form())
   }
 
   uploadFile() {

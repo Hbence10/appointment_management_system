@@ -17,7 +17,7 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -30,6 +30,11 @@ export class PopUp implements OnInit {
   reservation = input<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
+  form: FormGroup = new FormGroup({
+    property1: new FormControl("", [Validators.required]),
+    property2: new FormControl("", []),
+    property3: new FormControl("", [])
+  });
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
@@ -47,7 +52,7 @@ export class PopUp implements OnInit {
       text = "Előnézet"
     } else if (this.actualDetails()?.buttonText == "deleteEntity") {
       text = "Törlés"
-    } else if (this.actualDetails()?.buttonText == "saveChanges") {
+    } else if (this.actualDetails()?.buttonText == "saveChanges" || (this.actualDetails()?.buttonText == "newEntity" && this.actualPage == "editPage")) {
       text = "Mentés"
     } else {
       text = `${objectText[objectTypes.indexOf(this.actualDetails()!.objectType)]} hozzáadása`
@@ -100,6 +105,11 @@ export class PopUp implements OnInit {
 
   buttonEvent() {
     if (this.actualDetails()?.buttonText == "newEntity") {
+      if (this.selectedObject != null && this.selectedObject?.id == null) {
+        this.sendPostRequest()
+        return
+      }
+
       if (this.actualDetails()?.objectType == "deviceCategory") {
         this.selectedObject = new DeviceCategory(null, "", [])
       } else if (this.actualDetails()?.objectType == "device") {
@@ -110,9 +120,13 @@ export class PopUp implements OnInit {
         this.selectedObject = new ReservationType(null, "", null)
       }
 
+      this.actualDetails.set(new Details(this.actualDetails()!.title, "newEntity", this.actualDetails()!.objectType))
+      console.log(this.actualDetails())
       this.actualPage = "editPage"
-    } else if (this.actualDetails()?.buttonText == "saveChanges"){
-
+    } else if (this.actualDetails()?.buttonText == "saveChanges") {
+      this.sendPutRequest()
+    } else if (this.actualDetails()?.buttonText == "deleteEntity") {
+      this.sendDeleteRequest()
     }
   }
 
@@ -158,22 +172,20 @@ export class PopUp implements OnInit {
   }
 
   delete(wantedObject: CardItem) {
-
     this.actualDetails.set(new Details("", "deleteEntity", wantedObject.objectType))
-
     this.actualPage = "deletePage"
   }
 
-  sendPutRequest(){
-
+  sendPutRequest() {
+    console.log("saveUpdates")
   }
 
-  sendPostRequest(){
-
+  sendPostRequest() {
+    console.log("saveEntity")
   }
 
-  sendDeleteRequest(){
-
+  sendDeleteRequest() {
+    console.log("deleteEntity")
   }
 }
 

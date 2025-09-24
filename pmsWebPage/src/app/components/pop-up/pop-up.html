@@ -34,7 +34,7 @@
                 }
               }
             } @else if (actualPage == "editPage") {
-              <app-object-editor [objectType]="actualDetails()!" [selectedObject]="selectedObject" (outputFormForPopUpContainer)="editForm = $event" />
+              <app-object-editor [form]="form" [objectType]="actualDetails()!" [selectedObject]="selectedObject" (outputFormForPopUpContainer)="editForm = $event" />
             } @else if (actualPage == "deletePage"){
               <h1 class="text-center">Biztosan törölni szeretnéd a(z)?</h1>
             }
@@ -44,7 +44,7 @@
         <!-- 3. -->
         <div class="row">
           <div class="col-lg-12 px-4">
-            <button class="mb-4" id="eventButton" matButton="filled" (click)="buttonEvent()">{{buttonText()}}</button>
+            <button [disabled]="form.invalid" class="mb-4" id="eventButton" matButton="filled" (click)="buttonEvent()">{{buttonText()}}</button>
           </div>
         </div>
 

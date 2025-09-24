@@ -23,7 +23,7 @@ public class UserService {
 
     //Endpointok
     public ResponseEntity<User> login(String username, String password) {
-        User loggedUser = userRepository.login(username, password);
+        User loggedUser = userRepository.login(username);
 
         boolean successFullLogin = passwordEncoder.matches(password, loggedUser.getPassword());
 

@@ -12,9 +12,8 @@ import java.util.List;
 
 @Entity
 @NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "login", procedureName = "login", parameters = {
-                @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN),
-                @StoredProcedureParameter(name = "passwordIN", type = String.class, mode = ParameterMode.IN)
+        @NamedStoredProcedureQuery(name = "getUserByUsername", procedureName = "getUserByUsername", parameters = {
+                @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN)
         }, resultClasses = {User.class})
 })
 
@@ -42,6 +41,7 @@ public class User {
 
     @Column(name = "password")
     @NotNull
+    @JsonIgnore
     private String password;
 
     @Column(name = "pfp_path")

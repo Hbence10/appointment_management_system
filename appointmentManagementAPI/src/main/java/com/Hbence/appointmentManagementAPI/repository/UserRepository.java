@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Procedure(name = "login", procedureName = "login")
-    User login(@Param("usernameIN") String username, @Param("passwordIN") String password);
+    @Procedure(name = "getUserByUsername", procedureName = "getUserByUsername")
+    User login(@Param("usernameIN") String username);
 }
