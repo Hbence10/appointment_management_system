@@ -10,14 +10,17 @@ import org.springframework.stereotype.Component;
 public class EmailSender {
 
     private final JavaMailSender mailSender;
+    private final String fromEmail = "";
 
-    public void sendEmail() {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("sulisdolgok8@gmail.com");
-        message.setTo("bzhalmai@gmail.com");
-        message.setText("text");
-        message.setSubject("subject");
+    public void sendEmailAboutRegistration() {
 
-        mailSender.send(message);
+    }
+
+    public void sendVerificationCodeEmail(String toEmail, String verificationEmail) {
+
+    }
+
+    public void sendEmailAboutReservationCanceled(){
+
     }
 }

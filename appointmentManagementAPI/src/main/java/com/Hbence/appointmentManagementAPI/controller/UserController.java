@@ -41,6 +41,11 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    @GetMapping("/verificationCode")
+    public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email){
+        return userService.getVerificationCode(email);
+    }
+
     //Error lekezelesek:
     @ExceptionHandler
     public ResponseEntity<String> handleUniqueError(DataIntegrityViolationException e) {
