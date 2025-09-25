@@ -15,7 +15,7 @@ import { Reservation } from '../../../models/reservation.model';
 
 function validatePhone(control: AbstractControl): {[key: string]: any} | null {
 
-  return {valid: false}
+  return null
 }
 
 @Component({

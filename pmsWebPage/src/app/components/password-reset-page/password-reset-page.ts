@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user-service';
 import { RouterModule } from '@angular/router';
 
@@ -35,7 +35,7 @@ function validatePassword(control: AbstractControl): { [key: string]: any } | nu
 }
 @Component({
   selector: 'app-password-reset-page',
-  imports: [MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule, RouterModule],
+  imports: [MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './password-reset-page.html',
   styleUrl: './password-reset-page.scss'
 })
@@ -55,12 +55,16 @@ export class PasswordResetPage implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      emailAddress: new FormControl("", [Validators.required, Validators.email]),
+      email: new FormControl("", [Validators.required, Validators.email]),
       verificationCode: new FormControl("", [Validators.required]),
       password: new FormControl("", [Validators.required, validatePassword]),
       passwordAgain: new FormControl("", [Validators.required])
     })
 
     this.form.controls["passwordAgain"].addValidators(this.samePasswordValidator)
+  }
+
+  sendCode(){
+    //
   }
 }
