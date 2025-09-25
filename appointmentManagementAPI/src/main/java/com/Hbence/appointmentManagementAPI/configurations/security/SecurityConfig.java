@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.config;
+package com.Hbence.appointmentManagementAPI.configurations.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;

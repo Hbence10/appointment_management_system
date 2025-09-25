@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.config;
+package com.Hbence.appointmentManagementAPI.configurations.security;
 
 import com.Hbence.appointmentManagementAPI.entity.User;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
