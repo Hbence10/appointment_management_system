@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Transactional
@@ -69,15 +66,24 @@ public class UserService {
             return ResponseEntity.notFound().build();
         } else {
             String hashedPassword = passwordEncoder.encode(newPassword);
-            user.setPassword(newPassword);
+            user.setPassword(hashedPassword);
             userRepository.save(user);
             return ResponseEntity.ok("successfullyReset");
         }
     }
 
-    public ResponseEntity<String> getVerificationCode(String email){
-//        emailSender.
-        return null;
+    public ResponseEntity<String> getVerificationCode(String email) {
+        List<String> emailList = userRepository.getAllEmail();
+
+        if (!ValidatorCollection.emailChecker(email.trim())) {
+            return ResponseEntity.status(417).body("InvalidEmail");
+        } else if (!emailList.contains(email.trim())) {
+            return ResponseEntity.notFound().build();
+        } else {
+            String verificationCode = generateVerificationCode();
+            emailSender.sendVerificationCodeEmail(email, verificationCode);
+            return ResponseEntity.ok(verificationCode);
+        }
     }
 
     public ResponseEntity<String> deleteUser(Long id) {
@@ -91,18 +97,13 @@ public class UserService {
     //egyeb:
     public static String generateVerificationCode() {
         String code = "";
-        String specialCharacters = "\"!@#$%^&*()-_=+[]{};:,.?/\"";
         ArrayList<String> characters = new ArrayList<String>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
 
         for (int i = 97; i <= 122; i++) {
             characters.add(String.valueOf((char) i));
         }
 
-        for (int i = 0; i < specialCharacters.length(); i++) {
-            characters.add(String.valueOf(specialCharacters.charAt(i)));
-        }
-
-        while(code.length() != 10){
+        while (code.length() != 10) {
             Random random = new Random();
             code += characters.get(random.nextInt(characters.size()));
         }

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user-service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 //
 function validatePassword(control: AbstractControl): { [key: string]: any } | null {
@@ -41,7 +41,8 @@ function validatePassword(control: AbstractControl): { [key: string]: any } | nu
 })
 export class PasswordResetPage implements OnInit {
   private userService = inject(UserService)
-  vCode: string = "asd"
+  private router = inject(Router)
+  vCode: string | null = null
   form!: FormGroup
 
   samePasswordValidator = (control: AbstractControl): { [key: string]: any } | null => {
@@ -64,7 +65,34 @@ export class PasswordResetPage implements OnInit {
     this.form.controls["passwordAgain"].addValidators(this.samePasswordValidator)
   }
 
-  sendCode(){
-    //
+  sendCode() {
+    this.userService.getVerificationCode(this.form.controls["email"].value.trim()).subscribe({
+      next: response => {
+        console.log(response)
+        this.vCode = response.vCode
+      },
+      error: error => {
+        console.log(error)
+      },
+      complete: () => {
+        setTimeout(() => {
+          this.vCode = ""
+        }, 300000)
+      }
+    })
+  }
+
+  sendReset() {
+    this.userService.changePassword(this.form.controls["email"].value, this.form.controls["password"].value).subscribe({
+      next: response => {
+        console.log(response)
+      },
+      error: error => {
+        console.log(error)
+      },
+      complete: () => {
+        this.router.navigate(["/login"])
+      }
+    })
   }
 }

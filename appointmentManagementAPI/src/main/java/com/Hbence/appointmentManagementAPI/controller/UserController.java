@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -32,8 +33,10 @@ public class UserController {
     }
 
     @PatchMapping("/passwordReset")
-    public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> body) {
-        return userService.updatePassword(body.get("email"), body.get("newPassword"));
+    public ResponseEntity<HashMap<String, String>> updatePassword(@RequestBody Map<String, String> body) {
+        HashMap<String, String> returnObject = new HashMap<>();
+        returnObject.put("result", userService.updatePassword(body.get("email"), body.get("newPassword")).getBody());
+        return ResponseEntity.ok(returnObject);
     }
 
     @DeleteMapping("/{id}")
@@ -42,8 +45,10 @@ public class UserController {
     }
 
     @GetMapping("/verificationCode")
-    public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email){
-        return userService.getVerificationCode(email);
+    public ResponseEntity<HashMap<String, String>> getVerificationCode(@RequestParam("email") String email) {
+        HashMap<String, String> returnObject = new HashMap<>();
+        returnObject.put("vCode", userService.getVerificationCode(email).getBody());
+        return ResponseEntity.ok(returnObject);
     }
 
     //Error lekezelesek:
