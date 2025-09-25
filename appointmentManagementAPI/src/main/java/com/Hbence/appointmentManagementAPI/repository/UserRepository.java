@@ -9,4 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User, Long> {
     @Procedure(name = "getUserByUsername", procedureName = "getUserByUsername")
     User login(@Param("usernameIN") String username);
+
+    @Procedure(name = "getUserByEmail", procedureName = "getUserByEmail")
+    User getUserByEmail(@Param("emailIN") String username);
 }

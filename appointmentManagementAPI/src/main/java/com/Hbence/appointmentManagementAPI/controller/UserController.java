@@ -31,9 +31,9 @@ public class UserController {
         return userService.updateUser(updatedUser);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable("id") Long id, @RequestBody Map<String, String> newPasswordBody) {
-        return userService.updatePassword(id, newPasswordBody);
+    @PatchMapping("/passwordReset")
+    public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> body) {
+        return userService.updatePassword(body.get("email"), body.get("newPassword"));
     }
 
     @DeleteMapping("/{id}")

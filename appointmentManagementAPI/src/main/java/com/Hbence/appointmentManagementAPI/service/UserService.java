@@ -55,8 +55,23 @@ public class UserService {
         return null;
     }
 
-    public ResponseEntity<User> updatePassword(Long id, Map<String, String> newPasswordBody) {
-        return null;
+    public ResponseEntity<String> updatePassword(String email, String newPassword) {
+        User user = userRepository.getUserByEmail(email);
+
+        if (!ValidatorCollection.emailChecker(email) && !ValidatorCollection.passwordChecker(newPassword)) {
+            return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
+        } else if (!ValidatorCollection.emailChecker(email)) {
+            return ResponseEntity.status(417).body("InvalidEmail");
+        } else if (!ValidatorCollection.passwordChecker(newPassword)) {
+            return ResponseEntity.status(417).body("InvalidPassword");
+        } else if (user == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            String hashedPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            return ResponseEntity.ok("successfullyReset");
+        }
     }
 
     public ResponseEntity<String> deleteUser(Long id) {
