@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -15,7 +15,7 @@ import { UserService } from '../../services/user-service';
   styleUrl: './login-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   private userService = inject(UserService)
   private router = inject(Router)
 
@@ -23,17 +23,21 @@ export class LoginPage {
   isError = signal<Boolean>(false)
   isRemember = signal<Boolean>(false)
 
-  loginForm = new FormGroup({
-    username: new FormControl("", [Validators.required]),
-    password: new FormControl("", [Validators.required])
-  })
+  loginForm!: FormGroup
+
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      username: new FormControl("", [Validators.required]),
+      password: new FormControl("", [Validators.required])
+    })
+  }
 
   login() {
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
         this.userService.user.set(response)
       },
-      error: error => {this.isError.set(true)},
+      error: error => { this.isError.set(true) },
       complete: () => {
         if (this.isRemember()) {
         }

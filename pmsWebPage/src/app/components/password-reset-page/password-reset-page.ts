@@ -1,5 +1,5 @@
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,11 +37,15 @@ function validatePassword(control: AbstractControl): { [key: string]: any } | nu
   selector: 'app-password-reset-page',
   imports: [MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './password-reset-page.html',
-  styleUrl: './password-reset-page.scss'
+  styleUrl: './password-reset-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordResetPage implements OnInit {
   private userService = inject(UserService)
   private router = inject(Router)
+  isShowPassword = signal<boolean>(false)
+  isShowPasswordAgain = signal<boolean>(false)
+
   vCode: string | null = null
   form!: FormGroup
 
@@ -94,5 +98,17 @@ export class PasswordResetPage implements OnInit {
         this.router.navigate(["/login"])
       }
     })
+  }
+
+  showPassword(event: MouseEvent) {
+    this.isShowPassword.update(old => !old)
+    event.stopPropagation();
+
+    console.log(this.form.invalid)
+  }
+
+  showPasswordAgain(event: MouseEvent) {
+    this.isShowPasswordAgain.update(old => !old)
+    event.stopPropagation();
   }
 }

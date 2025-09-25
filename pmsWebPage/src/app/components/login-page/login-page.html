@@ -16,7 +16,7 @@
               @if(isError()){
                 <mat-error>Érvénytelen felhasználónevet vagy jelszót adtál meg. Próbáld meg újra!</mat-error>
               }
-              <form action="" [formGroup]="loginForm" [class.mt-4]="isError()">
+              <form [formGroup]="loginForm" [class.mt-4]="isError()">
                 <mat-form-field class="w-100">
                   <mat-label>Felhasználó név</mat-label>
                   <input type="text" matInput placeholder="Felhasználó név" formControlName="username" />

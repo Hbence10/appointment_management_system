@@ -8,7 +8,7 @@ import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
 
 //
-function validatePassword(control: AbstractControl): {[key: string]: any} | null  {
+function validatePassword(control: AbstractControl): { [key: string]: any } | null {
   const password: string = control.value
 
   const specialCharacters: string = "!@#$%^&*()-_=+[]{};:,.?/"
@@ -52,14 +52,9 @@ export class RegistrationPage implements OnInit {
   emailErrorMsg = signal<string>("")
   usernameErrorMsg = signal<string>("")
 
-  form: FormGroup = new FormGroup({
-    username: new FormControl("", [Validators.required]),
-    email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16), validatePassword]),
-    passwordAgain: new FormControl("", [Validators.required, validatePassword])
-  })
+  form!: FormGroup;
 
-  samePasswordValidator = (control: AbstractControl): {[key: string]: any} | null  => {
+  samePasswordValidator = (control: AbstractControl): { [key: string]: any } | null => {
     let originalPassword = this.form.controls["password"].value
     if (control.value === originalPassword) {
       return null
@@ -69,6 +64,13 @@ export class RegistrationPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      username: new FormControl("", [Validators.required]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16), validatePassword]),
+      passwordAgain: new FormControl("", [Validators.required, validatePassword])
+    })
+
     this.form.controls["passwordAgain"].addValidators(this.samePasswordValidator)
   }
 
@@ -77,9 +79,9 @@ export class RegistrationPage implements OnInit {
       next: response => console.log(response),
       error: error => {
         console.log(error.error)
-        if (error.error == "duplicateEmail"){
+        if (error.error == "duplicateEmail") {
           this.emailErrorMsg.set("Ezzel az email címmel már létezik profil.")
-        } else if (error.error == "duplicateUsername"){
+        } else if (error.error == "duplicateUsername") {
           this.usernameErrorMsg.set("Ezzel a felhasználónévvel már létezik profil.")
         }
       },

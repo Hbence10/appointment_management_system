@@ -13,7 +13,7 @@
 
           <div class="row">
             <div class="col-lg-12">
-              <form action="#" [formGroup]="form">
+              <form [formGroup]="form">
                 @if(usernameErrorMsg() != ""){
                   <mat-error>{{usernameErrorMsg()}}</mat-error>
                 }
@@ -34,7 +34,7 @@
 
                  <mat-form-field class="w-100">
                   <mat-label>Jelszó</mat-label>
-                  <input  matInput [type]="isShowPassword() ? 'text' : 'password'" formControlName="password"  />
+                  <input matInput [type]="isShowPassword() ? 'text' : 'password'" formControlName="password"  />
                   <button matIconButton matSuffix (click)="showPassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >
                     <span class="material-symbols-outlined">{{isShowPassword() ? "visibility" : "visibility_lock"}}</span>
                   </button>
