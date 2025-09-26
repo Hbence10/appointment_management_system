@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
-import { reservationRoutes } from './app.reservation.routes';
 import { HomePage } from './components/home-page/home-page';
 import { LoginPage } from './components/login-page/login-page';
 import { PasswordResetPage } from './components/password-reset-page/password-reset-page';
 import { RegistrationPage } from './components/registration-page/registration-page';
-import { ReservationMakerPage } from './components/reservation-maker-page/reservation-maker-page';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },
@@ -12,14 +10,14 @@ export const routes: Routes = [
   { path: "login", component: LoginPage, title: "Pécs Music Society - Bejelentkezés" },
   { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
   { path: "passwordReset", component: PasswordResetPage, title: "Pécs Music Society - Jelszó emlékesztető" },
-  {
-    path: "makeReservation",
-    component: ReservationMakerPage,
-    title: "Pécs Music Society - Időpont foglalás",
-    children: reservationRoutes
-  },
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
+  {
+    path: "makeReservation",
+    loadComponent: () => import("./components/reservation-maker-page/reservation-maker-page").then(mod => mod.ReservationMakerPage),
+    title: "Pécs Music Society - Időpont foglalás",
+  },
+
   {
     path: "priceList",
     loadComponent: () => import("./components/price-list/price-list").then(mod => mod.PriceList),
