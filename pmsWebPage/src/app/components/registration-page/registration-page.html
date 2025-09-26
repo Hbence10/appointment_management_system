@@ -50,7 +50,7 @@
                   </button>
                 </mat-form-field>
 
-                <mat-checkbox (change)="showRule()" [checked]="ruleAccepted()" class="example-margin">A regisztrációval elfogadom a <span class="fw-bold">szabályzatot</span></mat-checkbox>
+                <mat-checkbox (change)="showRule()" [checked]="ruleAccepted()" [disabled]="ruleAccepted()" class="example-margin">A regisztrációval elfogadom a <span class="fw-bold">szabályzatot</span></mat-checkbox>
               </form>
             </div>
           </div>
@@ -58,7 +58,7 @@
 
         <div class="row mb-2">
           <div class="col-lg-12 d-flex justify-content-center align-items-center flex-column">
-            <button id="registerButton" class="my-2 secondFont" [disabled]="form.invalid" matButton="filled" (click)="register()">Regisztráció</button>
+            <button id="registerButton" class="my-2 secondFont" [disabled]="form.invalid || !ruleAccepted()" matButton="filled" (click)="register()">Regisztráció</button>
             <p>
               Van már fiókja?
               <a routerLink="/login" class="fw-bold text-decoration-none secondFont">Jelentkezzen be!</a>
@@ -72,5 +72,5 @@
 
 
 @if(isRuleShow()){
-  <app-rule-reader [parentComponent]="'registerPage'" (ruleIsAccepted)="isRuleShow.set(false); ruleAccepted.set(true)"/>
+  <app-rule-reader [parentComponentInput]="'registerPage'" (ruleIsAccepted)="isRuleShow.set(false); ruleAccepted.set(true)"/>
 }

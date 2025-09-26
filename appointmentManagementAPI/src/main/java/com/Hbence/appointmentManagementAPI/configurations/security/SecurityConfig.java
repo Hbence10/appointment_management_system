@@ -51,7 +51,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/users/verificationCode","/users/passwordReset", "/users/login", "/users/register", "/reviews", "/news", "/devices/getAllCategory", "/gallery", "/rule", "/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/paymentMethods", "/reservation/getReservationType").permitAll()
 //                        .requestMatchers("/addReview", "/reviews/deleteReview/**", "/reviews/update", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
 //                        .requestMatchers("/users/updateUser", "/users/deleteUser/**").hasRole("user")
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
 
 

@@ -19,10 +19,14 @@ export class RuleReader implements OnInit {
 
   rule = signal<{ id: number, text: string, lastEditAt: Date }>({ id: -1, text: "", lastEditAt: new Date() })
   continueAble = signal<boolean>(false)
-  parentComponent = input<"reservationMaker" | "registerPage">("reservationMaker")
+  parentComponentInput = input<"reservationMaker" | "registerPage">("reservationMaker")
+  parentComponent = signal<string>("")
   ruleIsAccepted = output()
 
   ngOnInit(): void {
+    console.log(this.parentComponentInput())
+    // this.parentComponent.set(this.parentComponentInput == undefined ? "reservationMaker" : "registerPage")
+
     const subscription = this.otherService.getRule().subscribe({
       next: response => this.rule.set(response),
     });
@@ -33,10 +37,10 @@ export class RuleReader implements OnInit {
   }
 
   acceptRule() {
-    if (this.parentComponent() == "reservationMaker") {
+    if (this.parentComponentInput() == "reservationMaker") {
       this.reservationService.progressBarSteps[3] = true
       this.router.navigate(["makeReservation/reservationFinalize"])
-    } else if (this.parentComponent() == "registerPage") {
+    } else if (this.parentComponentInput() == "registerPage") {
       this.ruleIsAccepted.emit()
     }
   }

@@ -20,13 +20,4 @@ export class ReservationMakerPage implements OnInit {
   ngOnInit(): void {
     this.reservationService.baseReservation.set(new Reservation())
   }
-
-  //Az elso lepes mindig elerheto lesz
-  isStep1 = signal<boolean>(true)
-
-  //
-  isStep2 = computed<boolean>(() => {
-    return this.reservationService.baseReservation().getReservedHours.getStart == undefined && this.reservationService.baseReservation().getReservedHours.getEnd == undefined;
-  })
-
 }
