@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { RuleReader } from '../reservation-maker-page/rule-reader/rule-reader';
 
 //
 function validatePassword(control: AbstractControl): { [key: string]: any } | null {
@@ -36,7 +38,7 @@ function validatePassword(control: AbstractControl): { [key: string]: any } | nu
 
 @Component({
   selector: 'app-registration-page',
-  imports: [MatFormFieldModule, MatInputModule, MatLabel, ReactiveFormsModule, MatButtonModule, RouterModule, FormsModule],
+  imports: [MatFormFieldModule, MatCheckboxModule, MatInputModule, MatLabel, ReactiveFormsModule, MatButtonModule, RouterModule, FormsModule, RuleReader],
   templateUrl: './registration-page.html',
   styleUrl: './registration-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -51,6 +53,8 @@ export class RegistrationPage implements OnInit {
 
   emailErrorMsg = signal<string>("")
   usernameErrorMsg = signal<string>("")
+  isRuleShow = signal<boolean>(false)
+  ruleAccepted = signal<boolean>(false)
 
   form!: FormGroup;
 
@@ -99,5 +103,9 @@ export class RegistrationPage implements OnInit {
   showPasswordAgain(event: MouseEvent) {
     this.isShowPasswordAgain.update(old => !old)
     event.stopPropagation();
+  }
+
+  showRule(){
+    this.isRuleShow.set(true)
   }
 }

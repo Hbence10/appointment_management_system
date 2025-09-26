@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, DestroyRef, ElementRef, inject, input, OnInit, signal, ViewChild, viewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, DestroyRef, ElementRef, inject, input, OnInit, output, signal, ViewChild, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { OtherService } from '../../../services/other-service';
@@ -19,6 +19,8 @@ export class RuleReader implements OnInit {
 
   rule = signal<{ id: number, text: string, lastEditAt: Date }>({ id: -1, text: "", lastEditAt: new Date() })
   continueAble = signal<boolean>(false)
+  parentComponent = input<"reservationMaker" | "registerPage">("reservationMaker")
+  ruleIsAccepted = output()
 
   ngOnInit(): void {
     const subscription = this.otherService.getRule().subscribe({
@@ -31,8 +33,12 @@ export class RuleReader implements OnInit {
   }
 
   acceptRule() {
-    this.reservationService.progressBarSteps[3] = true
-    this.router.navigate(["makeReservation/reservationFinalize"])
+    if (this.parentComponent() == "reservationMaker") {
+      this.reservationService.progressBarSteps[3] = true
+      this.router.navigate(["makeReservation/reservationFinalize"])
+    } else if (this.parentComponent() == "registerPage") {
+      this.ruleIsAccepted.emit()
+    }
   }
 
   readRule(event: any) {
@@ -40,6 +46,8 @@ export class RuleReader implements OnInit {
       this.continueAble.set(true)
     }
   }
+
+
 
 
 }

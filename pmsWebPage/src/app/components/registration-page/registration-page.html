@@ -49,6 +49,8 @@
                     <span class="material-symbols-outlined">{{isShowPasswordAgain() ? "visibility" : "visibility_lock"}}</span>
                   </button>
                 </mat-form-field>
+
+                <mat-checkbox (change)="showRule()" [checked]="ruleAccepted()" class="example-margin">A regisztrációval elfogadom a <span class="fw-bold">szabályzatot</span></mat-checkbox>
               </form>
             </div>
           </div>
@@ -67,3 +69,8 @@
     </div>
   </div>
 </div>
+
+
+@if(isRuleShow()){
+  <app-rule-reader [parentComponent]="'registerPage'" (ruleIsAccepted)="isRuleShow.set(false); ruleAccepted.set(true)"/>
+}
