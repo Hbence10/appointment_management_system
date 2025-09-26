@@ -41,7 +41,7 @@ public class ReservationController {
         return reservationService.getReservationByDate(wantedDate);
     }
 
-    @PostMapping("")
+    @PostMapping("/makeReservation")
     public ResponseEntity<Object> makeReservation(@RequestBody Reservations newReservation){
         return reservationService.makeReservation(newReservation);
     }
@@ -52,22 +52,22 @@ public class ReservationController {
     }
 
     //Foglalasi tipusok
-    @GetMapping("/reservationType")
+    @GetMapping("/getReservationType")
     public ResponseEntity<List<ReservationType>> getAllReservationTypes() {
         return reservationService.getAllReservationType();
     }
 
-    @PostMapping("/reservationType")
+    @PostMapping("/addReservationType")
     public ResponseEntity<ReservationType> addNewReservationType(@RequestBody ReservationType newReservationType){
         return reservationService.addNewReservationType(newReservationType);
     }
 
-    @DeleteMapping("/reservationType/{id}")
+    @DeleteMapping("/deleteReservationType/{id}")
     public ResponseEntity<String> deleteReservationType(@PathVariable("id") Long id){
         return reservationService.deleteReservationType(id);
     }
 
-    @PutMapping("/reservationType")
+    @PutMapping("/updateReservationType")
     public ResponseEntity<ReservationType> updateReservationType(@RequestBody ReservationType updatedReservationType){
         return reservationService.updateReservationType(updatedReservationType);
     }
@@ -76,12 +76,6 @@ public class ReservationController {
     @GetMapping("/paymentMethods")
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         return reservationService.getAllPaymentMethod();
-    }
-
-    //
-    @GetMapping("/asd")
-    public List<ReservedHours> asd(){
-        return reservationService.asd();
     }
 }
 

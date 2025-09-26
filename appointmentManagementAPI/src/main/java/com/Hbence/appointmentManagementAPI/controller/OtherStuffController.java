@@ -21,7 +21,7 @@ public class OtherStuffController {
         return otherStuffService.getGalleryImages();
     }
 
-    @PutMapping("/gallery")
+    @PutMapping("/gallery/update")
     public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery) {
         return otherStuffService.updateGalleryImage(updatedGallery);
     }
@@ -32,7 +32,7 @@ public class OtherStuffController {
         return otherStuffService.getRule();
     }
 
-    @PutMapping("/rule")
+    @PutMapping("/rule/update")
     public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule) {
         return otherStuffService.updateRules(updatedRule);
     }

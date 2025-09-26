@@ -119,9 +119,5 @@ public class ReservationService {
 
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
     }
-
-    public List<ReservedHours> asd() {
-        return reservedHoursRepository.findAll();
-    }
 }
 

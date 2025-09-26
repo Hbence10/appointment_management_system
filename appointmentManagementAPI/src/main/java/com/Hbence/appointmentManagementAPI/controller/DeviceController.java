@@ -18,38 +18,38 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     //Eszkoz_kategoria
-    @GetMapping("/category")
+    @GetMapping("/getAllCategory")
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory(){
         return deviceService.getAllDevicesByCategory();
     }
 
-    @PostMapping("/category")
+    @PostMapping("/addCategory")
     public ResponseEntity<Object> addDeviceCategory(@RequestBody DevicesCategory newDevicesCategory){
         return deviceService.addDeviceCategory(newDevicesCategory);
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/deleteCategory/{id}")
     public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") Long id){
         return deviceService.deleteDevicesCategory(id);
     }
 
-    @PutMapping("/category")
+    @PutMapping("/updateCategory")
     public ResponseEntity<DevicesCategory> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory){
         return deviceService.updateDevicesCategory(updatedDevicesCategory);
     }
 
     //Maga_az_eszkoz
-    @PutMapping("")
+    @PutMapping("/update")
     public ResponseEntity<Devices> updateDevice(@RequestBody Devices updatedDevice){
         return deviceService.updateDevice(updatedDevice);
     }
 
-    @PostMapping("")
+    @PostMapping("addDevice")
     public ResponseEntity<Devices> addDevice(@RequestBody Devices newDevice){
         return deviceService.addDevice(newDevice);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteDevice(@PathVariable("id") Long id){
         return deviceService.deleteDevice(id);
     }

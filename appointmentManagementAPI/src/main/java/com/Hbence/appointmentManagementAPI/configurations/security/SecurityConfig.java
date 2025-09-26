@@ -3,18 +3,18 @@ package com.Hbence.appointmentManagementAPI.configurations.security;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import javax.sql.DataSource;
 import java.util.Collections;
 
 @Configuration
@@ -25,8 +25,8 @@ public class SecurityConfig {
         CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
 
         http
-//                .securityContext(contextConfig -> contextConfig.requireExplicitSave(false))
-//                .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .securityContext(contextConfig -> contextConfig.requireExplicitSave(false))
+                .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 
                 //CORS settings:
                 .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
@@ -44,7 +44,10 @@ public class SecurityConfig {
 
                 //Jogosultsagok:
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/news").authenticated()
+                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory", "/devices/update", "/devices/addDevice", "/devices/delete/**", "/news/add", "/news/update", "/news/delete/**", "/gallery/update", "/rule/update", "/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("users/verificationCode","/users/passwordReset", "/users/login", "/users/register", "/reviews", "/news", "/devices/getAllCategory", "/gallery", "/rule", "/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/paymentMethods", "/reservation/getReservationType").permitAll()
+                        .requestMatchers("/addReview", "/reviews/deleteReview/**", "/reviews/update", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
+                        .requestMatchers("/users/updateUser", "/users/deleteUser/**").hasRole("user")
                 )
 
                 //CSRF settings:
@@ -64,10 +67,8 @@ public class SecurityConfig {
         return new Argon2PasswordEncoder(16, 32, 1, 1 << 12, 3);
     }
 
-    /*
-     * Argon2 Parameterek:
-     *           - iterations --> annak a szama, hogy a jelszo hanyszor lett hashelve
-     *           - memoryCost --> az a mennyiseg amit az Argon2 fog hasznalni
-     *           - parallelism --> number of threads
-     * */
+    @Bean
+    public CompromisedPasswordChecker compromisedPasswordChecker() {
+        return new HaveIBeenPwnedRestApiPasswordChecker();
+    }
 }

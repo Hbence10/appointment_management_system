@@ -23,28 +23,28 @@ public class ReviewController {
         return reviewService.getAllReview();
     }
 
-    @PostMapping("")
+    @PostMapping("/addReview")
     public ResponseEntity<Review> addReview(@RequestBody Review newReview) {
         return reviewService.addReview(newReview);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteReview/{id}")
     public ResponseEntity<String> deleteReview(@PathVariable("id") Long id) {
         return reviewService.deleteReview(id);
     }
 
-    @PutMapping("")
+    @PutMapping("/update")
     public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview) {
         return reviewService.updateReview(updatedReview);
     }
 
     //LikeHistory
-    @PostMapping("/likeHistory")
+    @PostMapping("/addLike")
     public ResponseEntity<ReviewLikeHistory> addLikeHistory(@RequestBody Map<String, Object> requestBody) {
         return reviewService.addReviewLikeHistory(requestBody);
     }
 
-    @PatchMapping("/review/{id}")
+    @PatchMapping("/changeLikeType/{id}")
     public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType) {
         return reviewService.changeLikeTypeOfReview(id, newLikeType);
     }
