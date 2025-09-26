@@ -33,7 +33,7 @@ public class Role {
             cascade = {}
     )
     @JsonIgnore
-    private List<User> users;
+    private List<Users> users;
 
     //Constructorok
     public Role(String name) {

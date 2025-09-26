@@ -1,6 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.User;
+import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,17 +18,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public ResponseEntity<Users> login(@RequestParam("username") String username, @RequestParam("password") String password) {
         return userService.login(username, password);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registration(@RequestBody User newUser) {
+    public ResponseEntity<Object> registration(@RequestBody Users newUser) {
         return userService.register(newUser);
     }
 
     @PutMapping("")
-    public ResponseEntity<User> updateUser(@RequestBody User updatedUser) {
+    public ResponseEntity<Users> updateUser(@RequestBody Users updatedUser) {
         return userService.updateUser(updatedUser);
     }
 

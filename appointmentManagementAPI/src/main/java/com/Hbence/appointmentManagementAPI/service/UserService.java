@@ -1,7 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
-import com.Hbence.appointmentManagementAPI.entity.User;
+import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Transactional
 @Service
@@ -24,8 +23,8 @@ public class UserService {
     private final EmailSender emailSender;
 
     //Endpointok
-    public ResponseEntity<User> login(String username, String password) {
-        User loggedUser = userRepository.login(username);
+    public ResponseEntity<Users> login(String username, String password) {
+        Users loggedUser = userRepository.login(username);
 
         boolean successFullLogin = passwordEncoder.matches(password, loggedUser.getPassword());
 
@@ -36,11 +35,11 @@ public class UserService {
         return ResponseEntity.ok(loggedUser);
     }
 
-    public ResponseEntity<Object> register(User newUser) {
+    public ResponseEntity<Object> register(Users newUser) {
         if (ValidatorCollection.emailChecker(newUser.getEmail()) && ValidatorCollection.passwordChecker(newUser.getPassword())) {
             String hashedPassword = passwordEncoder.encode(newUser.getPassword());
             newUser.setPassword(hashedPassword);
-            User registeredUser = userRepository.save(newUser);
+            Users registeredUser = userRepository.save(newUser);
             return ResponseEntity.ok(registeredUser);
         } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
@@ -54,7 +53,7 @@ public class UserService {
     }
 
     public ResponseEntity<String> updatePassword(String email, String newPassword) {
-        User user = userRepository.getUserByEmail(email);
+        Users user = userRepository.getUserByEmail(email);
 
         if (!ValidatorCollection.emailChecker(email) && !ValidatorCollection.passwordChecker(newPassword)) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
@@ -90,7 +89,7 @@ public class UserService {
         return null;
     }
 
-    public ResponseEntity<User> updateUser(User updatedUser) {
+    public ResponseEntity<Users> updateUser(Users updatedUser) {
         return null;
     }
 

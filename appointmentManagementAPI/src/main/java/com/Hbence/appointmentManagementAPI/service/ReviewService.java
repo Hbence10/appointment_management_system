@@ -2,7 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
-import com.Hbence.appointmentManagementAPI.entity.User;
+import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.ReviewHistoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +36,7 @@ public class ReviewService {
                 new ReviewLikeHistory(
                         String.valueOf(requestBody.get("likeType")),
                         objectMapper.convertValue(requestBody.get("review"), Review.class),
-                        objectMapper.convertValue(requestBody.get("user"), User.class)
+                        objectMapper.convertValue(requestBody.get("user"), Users.class)
                 )
         );
 
