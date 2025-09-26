@@ -50,10 +50,8 @@ public class Users {
     private String password;
 
     @Column(name = "pfp_path")
+    @NotNull
     private String pfpPath = "asd";
-
-    @Column(name = "is_notification_about_news")
-    private Boolean isNotificationAboutNews;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)

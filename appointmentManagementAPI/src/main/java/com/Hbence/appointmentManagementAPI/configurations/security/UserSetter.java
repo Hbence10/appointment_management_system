@@ -24,7 +24,6 @@ public class UserSetter implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users users = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Ajjaj"));
-        System.out.println(users.getEmail());
 
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(users.getRole().getName()));
 

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!prod")
 @RequiredArgsConstructor
-public class ProviderClass implements AuthenticationProvider {
+public class EazyBankUsernamePwdAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;

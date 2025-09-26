@@ -30,11 +30,13 @@ public class DeviceController {
 
     @DeleteMapping("/deleteCategory/{id}")
     public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") Long id){
+        System.out.println("asd");
         return deviceService.deleteDevicesCategory(id);
     }
 
     @PutMapping("/updateCategory")
     public ResponseEntity<DevicesCategory> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory){
+        System.out.println("asd");
         return deviceService.updateDevicesCategory(updatedDevicesCategory);
     }
 
