@@ -15,7 +15,7 @@ export class ReviewService {
   }
 
   addReview(newReview: ReviewDetails) {
-    return this.http.post(`${(this.baseURL())}/reviews`, newReview)
+    return this.http.post(`${(this.baseURL())}/reviews/addReview`, newReview)
   }
 
   addLikeToReview(reviewId: number, likeBody: { likeCount: number, dislikeCount: number }): Observable<ReviewDetails> {

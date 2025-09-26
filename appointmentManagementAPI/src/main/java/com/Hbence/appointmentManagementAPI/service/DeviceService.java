@@ -35,16 +35,31 @@ public class DeviceService {
     }
 
     public ResponseEntity<DevicesCategory> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
-        return null;
+        if(updatedDevicesCategory.getId() == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(deviceCategoryRepository.save(updatedDevicesCategory));
+        }
     }
 
     //Maga_az_eszkoz
     public ResponseEntity<Devices> updateDevice(Devices updatedDevice) {
-        return null;
+        if(updatedDevice.getId() == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(deviceRepository.save(updatedDevice));
+        }
     }
 
-    public ResponseEntity<Devices> addDevice(Devices newDevice) {
-        return null;
+    public ResponseEntity<Object> addDevice(Devices newDevice) {
+        List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
+        if(!devicesCategoryList.contains(newDevice.getCategoryId())){
+            return ResponseEntity.status(409).body("invalidDeviceCategory");
+        } else if (newDevice.getId() != null){
+            return ResponseEntity.status(422).body("invalidInput");
+        } else {
+            return ResponseEntity.ok(deviceRepository.save(newDevice));
+        }
     }
 
     public ResponseEntity<String> deleteDevice(Long id) {

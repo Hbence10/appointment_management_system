@@ -23,7 +23,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
+//        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
 
         http
 //                .securityContext(contextConfig -> contextConfig.requireExplicitSave(false))
@@ -45,13 +45,15 @@ public class SecurityConfig {
 
                 //Jogosultsagok:
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/addDevice", "/devices/delete/**", "/news/add", "/news/update", "/news/delete/**", "/gallery/update", "/rule/update", "/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("/devices/updateCategory", "/devices/update").hasAnyRole("admin")
-
-                        .requestMatchers("/users/verificationCode","/users/passwordReset", "/users/login", "/users/register", "/reviews", "/news", "/devices/getAllCategory", "/gallery", "/rule", "/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/paymentMethods", "/reservation/getReservationType").permitAll()
-                        .requestMatchers("/addReview", "/reviews/deleteReview/**", "/reviews/update", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
-                        .requestMatchers("/users/updateUser", "/users/deleteUser/**").hasRole("user")
+//                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/addDevice", "/devices/delete/**", "/news/add", "/news/update", "/news/delete/**", "/gallery/update", "/rule/update", "/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
+//                        .requestMatchers("/devices/updateCategory", "/devices/update").hasAnyRole("admin")
+//
+//                        .requestMatchers("/users/verificationCode","/users/passwordReset", "/users/login", "/users/register", "/reviews", "/news", "/devices/getAllCategory", "/gallery", "/rule", "/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/paymentMethods", "/reservation/getReservationType").permitAll()
+//                        .requestMatchers("/addReview", "/reviews/deleteReview/**", "/reviews/update", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
+//                        .requestMatchers("/users/updateUser", "/users/deleteUser/**").hasRole("user")
+                                .anyRequest().authenticated()
                 )
+
 
                 //CSRF settings:
 //                .csrf(csrfConfig -> csrfConfig
@@ -70,8 +72,8 @@ public class SecurityConfig {
         return new Argon2PasswordEncoder(16, 32, 1, 1 << 12, 3);
     }
 //
-//    @Bean
-//    public CompromisedPasswordChecker compromisedPasswordChecker() {
-//        return new HaveIBeenPwnedRestApiPasswordChecker();
-//    }
+    @Bean
+    public CompromisedPasswordChecker compromisedPasswordChecker() {
+        return new HaveIBeenPwnedRestApiPasswordChecker();
+    }
 }

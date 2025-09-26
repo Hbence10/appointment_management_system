@@ -47,7 +47,7 @@ public class DeviceController {
     }
 
     @PostMapping("addDevice")
-    public ResponseEntity<Devices> addDevice(@RequestBody Devices newDevice){
+    public ResponseEntity<Object> addDevice(@RequestBody Devices newDevice){
         return deviceService.addDevice(newDevice);
     }
 

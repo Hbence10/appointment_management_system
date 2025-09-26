@@ -21,24 +21,24 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
   }
 
-  //
   getReservedDatesOfActualMonth(startDate: string, endDate: string): Observable<any[]> {
     return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?startDate=${startDate}&endDate=${endDate}`)
-  }
-
-  getReservationTypes(): Observable<ReservationType[]> {
-    return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/reservationType`)
-  }
-
-  getPaymentMethods(): Observable<PaymentMethod[]> {
-    return this.http.get<PaymentMethod[]>(`${this.baseURL()}/reservation/paymentMethods`)
   }
 
   getReservationByDate(wantedDate: string): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/date/${wantedDate}`)
   }
 
-  makeReservation(){
-    return this.http.post(`${this.baseURL()}/reservation`, this.baseReservation())
+  makeReservation() {
+    return this.http.post(`${this.baseURL()}/reservation/makeReservation`, this.baseReservation())
+  }
+
+  //
+  getReservationTypes(): Observable<ReservationType[]> {
+    return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/getReservationType`)
+  }
+
+  getPaymentMethods(): Observable<PaymentMethod[]> {
+    return this.http.get<PaymentMethod[]>(`${this.baseURL()}/reservation/paymentMethods`)
   }
 }

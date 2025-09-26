@@ -11,6 +11,6 @@ export class DeviceService {
   baseURL = signal<string>("http://localhost:8080")
 
   getAllDevicesByCategories(): Observable<any[]>{
-    return this.http.get<any[]>(`${this.baseURL()}/devices/category`)
+    return this.http.get<any[]>(`${this.baseURL()}/devices/getAllCategory`)
   }
 }
