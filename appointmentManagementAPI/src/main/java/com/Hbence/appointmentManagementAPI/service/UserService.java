@@ -36,20 +36,20 @@ public class UserService {
     }
 
     public ResponseEntity<Object> register(Users newUser) {
-        if (ValidatorCollection.emailChecker(newUser.getEmail()) && ValidatorCollection.passwordChecker(newUser.getPassword())) {
-            String hashedPassword = passwordEncoder.encode(newUser.getPassword());
-            newUser.setPassword(hashedPassword);
-            Users registeredUser = userRepository.save(newUser);
-            return ResponseEntity.ok(registeredUser);
-        } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
+        if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
         } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
             return ResponseEntity.status(417).body("InvalidEmail");
         } else if (!ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPassword");
+        } else {
+            String hashedPassword = passwordEncoder.encode(newUser.getPassword());
+            newUser.setPassword(hashedPassword);
+            Users registeredUser = userRepository.save(newUser);
+            return ResponseEntity.ok(registeredUser);
         }
 
-        return ResponseEntity.internalServerError().build();
+
     }
 
     public ResponseEntity<String> updatePassword(String email, String newPassword) {
