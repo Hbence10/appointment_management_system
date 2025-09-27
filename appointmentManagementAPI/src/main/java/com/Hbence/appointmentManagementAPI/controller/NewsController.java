@@ -15,23 +15,25 @@ public class NewsController {
 
     public final NewsService newsService;
 
-    @GetMapping("")
+    @GetMapping("/getAll")
     public ResponseEntity<List<News>> getAllNews() {
         return newsService.getAllNews();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addNews")
     public ResponseEntity<Object> addNewNews(@RequestBody News newNews){
         return newsService.addNewNews(newNews);
     }
 
     @PutMapping("/update")
     public ResponseEntity<News> updateNews(@RequestBody News updatedNews){
+        System.out.println("updateNews()");
         return newsService.updateNews(updatedNews);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteNews(@PathVariable("id") Long id){
+        System.out.println("deleteNews()");
         return newsService.deleteNews(id);
     }
 }

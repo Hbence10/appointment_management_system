@@ -3,7 +3,6 @@ package com.Hbence.appointmentManagementAPI.configurations.security;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,13 +22,13 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
+        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
 
         http
-//                .securityContext(contextConfig -> contextConfig.requireExplicitSave(false))
-//                .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .securityContext(contextConfig -> contextConfig.requireExplicitSave(false))
+                .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 
-                //CORS settings:
+                //CORS settings: (CORS - )
                 .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
@@ -45,15 +44,15 @@ public class SecurityConfig {
 
                 //Jogosultsagok:
                 .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/addDevice", "/devices/delete/**", "/news/add", "/news/update", "/news/delete/**", "/gallery/update", "/rule/update", "/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
-//                        .requestMatchers("/devices/updateCategory", "/devices/update").hasAnyRole("admin")
-//
-//                        .requestMatchers("/users/verificationCode","/users/passwordReset", "/users/login", "/users/register", "/reviews", "/news", "/devices/getAllCategory", "/gallery", "/rule", "/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/paymentMethods", "/reservation/getReservationType").permitAll()
-//                        .requestMatchers("/addReview", "/reviews/deleteReview/**", "/reviews/update", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
-//                        .requestMatchers("/users/updateUser", "/users/deleteUser/**").hasRole("user")
-                                .anyRequest().permitAll()
+                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory").hasAnyRole("admin", "superAdmin")     //deviceController
+                        .requestMatchers("rule/update", "gallery/update").hasAnyRole("admin", "superAdmin")                                                     //otherStuffController
+                        .requestMatchers("/news/addNews", "/news/update", "/news/delete**").hasAnyRole("admin", "superAdmin")                                   //newsController
+                        .requestMatchers("/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/getReservationType", "/reservation/paymentMethods", "/reservation/phoneCodes").permitAll() //reservationController
+                        .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservation/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin") //reservationController
+                        .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
+                        .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "users/deleteUser/**").hasAnyRole("user")
+                        .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/users/login", "/users/register", "/users/passwordReset", "/users/verificationCode", "/news/getAll", "/devices/getAllCategory").permitAll()
                 )
-
 
                 //CSRF settings:
 //                .csrf(csrfConfig -> csrfConfig
@@ -61,7 +60,7 @@ public class SecurityConfig {
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 //                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
-                .formLogin(config -> config.disable());
+                .formLogin(Customizer.withDefaults());
 
         http.httpBasic(Customizer.withDefaults());
         return http.build();
@@ -71,7 +70,8 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new Argon2PasswordEncoder(16, 32, 1, 1 << 12, 3);
     }
-//
+
+    //
     @Bean
     public CompromisedPasswordChecker compromisedPasswordChecker() {
         return new HaveIBeenPwnedRestApiPasswordChecker();

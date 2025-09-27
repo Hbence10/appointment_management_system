@@ -60,7 +60,6 @@ public class News {
     //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "writer_id")
-    @JsonIgnore
     private Users writer;
 
     //Constructorok:
