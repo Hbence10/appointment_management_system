@@ -1,10 +1,33 @@
-.progressButton{
-  background-color: #F4FBFF;
-  border: 1px solid #004D40;
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+.mainFont {
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  font-size: 40px;
+  color: #004D40;
 }
 
-.progressButton:hover, .active{
-  background-color: #004D40;
-  color: white;
+.secondFont {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 20px;
 }
 
+mat-stepper {
+  @include mat.stepper-overrides((
+    line-color: #004D40,
+    header-icon-background-color: #004D40,
+    header-icon-foreground-color: #cfecea,
+    header-label-text-color: #004D40,
+    header-selected-state-icon-background-color: #004D40,
+    container-text-font: Rubik,
+    header-label-text-font: Montserrat
+  ));
+}

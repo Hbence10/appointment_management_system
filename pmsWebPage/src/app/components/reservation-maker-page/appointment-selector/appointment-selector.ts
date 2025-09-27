@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, output, Signal, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,7 @@ export class AppointmentSelector implements OnInit {
   private reservationService = inject(ReservationService)
   private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
-  private router = inject(Router)
+  nextStep = output()
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -144,7 +144,7 @@ export class AppointmentSelector implements OnInit {
     )
 
     this.reservationService.progressBarSteps[1] = true
-    this.router.navigate(["/makeReservation/reservationForm"])
+    this.nextStep.emit()
   }
 
   setCheckerList() {

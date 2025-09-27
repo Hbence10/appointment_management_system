@@ -17,7 +17,6 @@ import { ReservationService } from '../../../services/reservation-service';
 export class ReservationFinalize implements OnInit{
   private reservationService = inject(ReservationService)
   private destroyRef = inject(DestroyRef)
-  private router = inject(Router)
 
   paymentMethods = signal<PaymentMethod[]>([])
   isAddedToGoogleCalendar = signal<boolean>(false)
@@ -52,6 +51,6 @@ export class ReservationFinalize implements OnInit{
       complete: () => this.isReservationFinished.set(true)
     })
 
-    this.router.navigate([""])
+    // this.router.navigate([""])
   }
 }

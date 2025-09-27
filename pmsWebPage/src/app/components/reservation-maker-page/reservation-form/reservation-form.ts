@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, OnInit, Signal, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, output, Signal, signal } from '@angular/core';
 
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -29,15 +29,13 @@ export class ReservationForm implements OnInit {
   private reservationService = inject(ReservationService)
   private destroyRef = inject(DestroyRef)
   private userService = inject(UserService)
-  private router = inject(Router)
-
+  nextStep = output()
 
   reservationTypes = signal<ReservationType[]>([])
   user: null | User = null
   selectedReservationType = signal<ReservationType | null>(null)
   baseReservation!: Signal<Reservation>;
   form!: FormGroup;
-
 
   ngOnInit(): void {
     this.user = this.userService.user()
@@ -82,7 +80,7 @@ export class ReservationForm implements OnInit {
     this.baseReservation().setComment = this.form.controls["comment"].value
 
     this.reservationService.progressBarSteps[2] = true
-    this.router.navigate(["/makeReservation/rule"])
+    this.nextStep.emit()
   }
 
 

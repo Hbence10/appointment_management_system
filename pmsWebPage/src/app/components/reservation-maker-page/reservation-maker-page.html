@@ -3,26 +3,38 @@
     <div class="col-lg-12 d-flex justify-content-center align-items-center mb-4">
       <mat-stepper [linear]="true" #stepper>
 
-        <mat-step>
+        <mat-step [completed]="checkList[1]">
           <ng-template matStepLabel>Időpont választás</ng-template>
-          <app-appointment-selector />
+          <ng-template matStepContent>
+            <app-appointment-selector (nextStep)="stepper.next()"/>
+          </ng-template>
         </mat-step>
 
-        <mat-step>
+        <mat-step [completed]="checkList[2]">
           <ng-template matStepLabel>Adatok megadása</ng-template>
-          <app-reservation-form />
+          <ng-template matStepContent>
+            <app-reservation-form (nextStep)="stepper.next()"/>
+          </ng-template>
         </mat-step>
 
-        <mat-step>
+        <mat-step [completed]="checkList[3]">
           <ng-template matStepLabel>Szabályzat elfogadása</ng-template>
-          <app-rule-reader [parentComponentInput]="'reservationMaker'"/>
+          <ng-template matStepContent>
+            <app-rule-reader [parentComponentInput]="'reservationMaker'" (nextStep)="stepper.next()"/>
+          </ng-template>
         </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>Fizetés & Véglegesítés</ng-template>
-          <app-reservation-finalize />
+          <ng-template matStepContent>
+            <app-reservation-finalize />
+          </ng-template>
         </mat-step>
 
+        <!-- Iconok: -->
+        <ng-template matStepperIcon="done">
+            <span class="material-symbols-outlined">check</span>
+        </ng-template>
       </mat-stepper>
     </div>
   </div>
