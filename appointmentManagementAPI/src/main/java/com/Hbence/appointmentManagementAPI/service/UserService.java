@@ -86,7 +86,16 @@ public class UserService {
     }
 
     public ResponseEntity<String> deleteUser(Long id) {
-        return null;
+        Users searchedUser = userRepository.findById(id).orElse(null);
+        if (searchedUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        searchedUser.setIsDeleted(true);
+        searchedUser.setDeletedAt(new Date());
+
+        userRepository.save(searchedUser);
+        return ResponseEntity.ok("successfullyDelete");
     }
 
     public ResponseEntity<Object> updateUser(Users updatedUser) {
