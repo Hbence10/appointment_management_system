@@ -1,22 +1,25 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injectable, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
 import { NewsDetails } from '../../models/newsDetails.model';
 import { NewsService } from '../../services/news-service';
-import { NewsCard } from '../news-card/news-card';
-import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-home-page',
-  imports: [MatButtonModule, NewsCard, RouterModule],
+  imports: [MatButtonModule, RouterModule, MatExpansionModule],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.scss'
+  styleUrl: './home-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [MatExpansionPanel]
 })
 
 export class HomePage implements OnInit {
   news = signal<NewsDetails[]>([])
   private newsService = inject(NewsService)
   private destroyRef = inject(DestroyRef)
+  openingCheckerList: boolean[] = []
 
   ngOnInit(): void {
     const subscription = this.newsService.getAllNews().subscribe({
@@ -24,6 +27,7 @@ export class HomePage implements OnInit {
       complete: () => {
         this.news().forEach(news => {
           news.isExpand = news.placement == 1 ? true : false
+          this.openingCheckerList.push(false)
         })
       }
     })
@@ -33,7 +37,7 @@ export class HomePage implements OnInit {
     })
   }
 
-  setNewsCardExpand(selectedNewsDetail: NewsDetails){
+  setNewsCardExpand(selectedNewsDetail: NewsDetails) {
     console.log("sad")
     this.news().forEach(element => {
       element.isExpand = false
