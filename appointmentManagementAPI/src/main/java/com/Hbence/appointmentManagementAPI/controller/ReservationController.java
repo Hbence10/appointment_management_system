@@ -1,9 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.PaymentMethods;
-import com.Hbence.appointmentManagementAPI.entity.ReservationType;
-import com.Hbence.appointmentManagementAPI.entity.Reservations;
-import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
+import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +73,12 @@ public class ReservationController {
     @GetMapping("/paymentMethods")
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         return reservationService.getAllPaymentMethod();
+    }
+
+    //Telefonszam:
+    @GetMapping("/phoneCodes")
+    public ResponseEntity<List<PhoneCountryCode>> getAllPhoneCode() {
+        return reservationService.getAllPhoneCode();
     }
 }
 

@@ -26,6 +26,7 @@ public class ReservationService {
     private final ReservationTypeRepository reservationTypeRepository;
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
+    private final PhoneCountryCodeRepository phoneCountryCodeRepository;
     private final ObjectMapper objectMapper;
 
     //Foglalasok:
@@ -107,6 +108,11 @@ public class ReservationService {
     //Fizetesi modszerek
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         return ResponseEntity.ok(paymentMethodRepository.findAll());
+    }
+
+    //Telefonszam
+    public ResponseEntity<List<PhoneCountryCode>> getAllPhoneCode(){
+        return ResponseEntity.ok(phoneCountryCodeRepository.findAll());
     }
 
     //----------------------------------------
