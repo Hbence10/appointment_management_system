@@ -19,7 +19,6 @@ export class HomePage implements OnInit {
   news = signal<NewsDetails[]>([])
   private newsService = inject(NewsService)
   private destroyRef = inject(DestroyRef)
-  openingCheckerList: boolean[] = []
 
   ngOnInit(): void {
     const subscription = this.newsService.getAllNews().subscribe({
@@ -27,7 +26,6 @@ export class HomePage implements OnInit {
       complete: () => {
         this.news().forEach(news => {
           news.isExpand = news.placement == 1 ? true : false
-          this.openingCheckerList.push(false)
         })
       }
     })
