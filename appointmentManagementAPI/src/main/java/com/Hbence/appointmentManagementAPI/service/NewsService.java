@@ -19,12 +19,22 @@ public class NewsService {
         return ResponseEntity.ok(newsRepository.findAll());
     }
 
-    public ResponseEntity<News> addNewNews(News newNews){
-        return null;
+    public ResponseEntity<Object> addNewNews(News newNews){
+        if(newNews.getId() != null){
+            return ResponseEntity.status(422).body("invalidInput");
+        } else {
+            newNews.setTitle(newNews.getTitle().trim());
+            return ResponseEntity.ok(newsRepository.save(newNews));
+        }
     }
 
     public ResponseEntity<News> updateNews(News updatedNews){
-        return null;
+        if(updatedNews.getId() == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            updatedNews.setTitle(updatedNews.getTitle().trim());
+            return ResponseEntity.ok(newsRepository.save(updatedNews));
+        }
     }
 
     public ResponseEntity<String> deleteNews(Long id){

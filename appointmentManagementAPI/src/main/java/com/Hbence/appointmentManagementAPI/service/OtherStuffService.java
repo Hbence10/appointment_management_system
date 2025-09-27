@@ -29,7 +29,7 @@ public class OtherStuffService {
     }
 
     public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
-        return null;
+        return ResponseEntity.ok(galleryRepository.save(updatedGalleryImage));
     }
 
     //Szabalyzat:
@@ -38,6 +38,6 @@ public class OtherStuffService {
     }
 
     public ResponseEntity<Rules> updateRules(Rules updatedRules) {
-        return null;
+        return ResponseEntity.ok(ruleRepository.save(updatedRules));
     }
 }

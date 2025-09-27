@@ -89,8 +89,15 @@ public class UserService {
         return null;
     }
 
-    public ResponseEntity<Users> updateUser(Users updatedUser) {
-        return null;
+    public ResponseEntity<Object> updateUser(Users updatedUser) {
+        if (updatedUser.getId() == null) {
+            return ResponseEntity.notFound().build();
+        } else if (!ValidatorCollection.emailChecker(updatedUser.getEmail())) {
+            return ResponseEntity.status(417).body("InvalidEmail");
+        } else {
+            return ResponseEntity.ok(userRepository.save(updatedUser));
+        }
+
     }
 
     //egyeb:

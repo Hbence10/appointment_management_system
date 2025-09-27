@@ -26,8 +26,12 @@ public class DeviceService {
     }
 
     public ResponseEntity<Object> addDeviceCategory(DevicesCategory newDevicesCategory) {
-        newDevicesCategory.setName(newDevicesCategory.getName().trim());
-        return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
+        if (newDevicesCategory.getId() != null) {
+            return ResponseEntity.status(422).body("invalidInput");
+        } else {
+            newDevicesCategory.setName(newDevicesCategory.getName().trim());
+            return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
+        }
     }
 
     public ResponseEntity<String> deleteDevicesCategory(Long id) {
@@ -35,7 +39,7 @@ public class DeviceService {
     }
 
     public ResponseEntity<DevicesCategory> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
-        if(updatedDevicesCategory.getId() == null){
+        if (updatedDevicesCategory.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(deviceCategoryRepository.save(updatedDevicesCategory));
@@ -44,20 +48,22 @@ public class DeviceService {
 
     //Maga_az_eszkoz
     public ResponseEntity<Devices> updateDevice(Devices updatedDevice) {
-        if(updatedDevice.getId() == null){
+        if (updatedDevice.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
+            updatedDevice.setName(updatedDevice.getName().trim());
             return ResponseEntity.ok(deviceRepository.save(updatedDevice));
         }
     }
 
     public ResponseEntity<Object> addDevice(Devices newDevice) {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
-        if(!devicesCategoryList.contains(newDevice.getCategoryId())){
+        if (!devicesCategoryList.contains(newDevice.getCategoryId())) {
             return ResponseEntity.status(409).body("invalidDeviceCategory");
-        } else if (newDevice.getId() != null){
+        } else if (newDevice.getId() != null) {
             return ResponseEntity.status(422).body("invalidInput");
         } else {
+            newDevice.setName(newDevice.getName().trim());
             return ResponseEntity.ok(deviceRepository.save(newDevice));
         }
     }
