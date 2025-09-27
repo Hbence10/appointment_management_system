@@ -22,6 +22,7 @@ export class Reservation {
     private paymentMethod?: PaymentMethod,
     private status: Status = new Status(1, "Aktív"),
     private reservedHours: ReservedHours = new ReservedHours(),
+    private phoneCountryCode: {id: number, countryCode: number, countryName: string} | null = null
   ) { }
 
   // Getterek:
@@ -85,6 +86,10 @@ export class Reservation {
     return this.reservedHours!;
   }
 
+  get getPhoneCode(): {id: number, countryCode: number, countryName: string} | null{
+    return this.phoneCountryCode;
+  }
+
   //Setterek:
   set setFirstName(newFirstName: string) {
     this.firstName = newFirstName;
@@ -142,4 +147,7 @@ export class Reservation {
     this.reservedHours = newReservedHours
   }
 
+  set setPhoneCode(newPhoneCode: {id: number, countryCode: number, countryName: string}){
+    this.phoneCountryCode = newPhoneCode
+  }
 }

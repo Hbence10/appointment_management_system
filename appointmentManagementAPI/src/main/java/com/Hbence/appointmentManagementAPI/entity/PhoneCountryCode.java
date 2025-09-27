@@ -1,10 +1,12 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "phone_country_codes")
@@ -27,10 +29,18 @@ public class PhoneCountryCode {
     @Column(name = "country_name")
     @NotNull
     @Size(max = 150)
-    private String country;
+    private String countryName;
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "phoneCountryCode",
+            fetch = FetchType.LAZY,
+            cascade = {}
+    )
+    private List<Reservations> reservationsList;
 
     public PhoneCountryCode(int countryCode, String country) {
         this.countryCode = countryCode;
-        this.country = country;
+        this.countryName = country;
     }
 }

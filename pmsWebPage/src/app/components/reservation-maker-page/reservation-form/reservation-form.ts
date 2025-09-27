@@ -1,28 +1,27 @@
-import { Component, DestroyRef, inject, input, OnInit, output, Signal, signal } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output, Signal, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { Router } from '@angular/router';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { ReservationService } from '../../../services/reservation-service';
-import { UserService } from '../../../services/user-service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Reservation } from '../../../models/reservation.model';
 import { ReservationType } from '../../../models/reservationType.model';
 import { User } from '../../../models/user.model';
-import { Reservation } from '../../../models/reservation.model';
+import { ReservationService } from '../../../services/reservation-service';
+import { UserService } from '../../../services/user-service';
+import { MatSelectModule } from '@angular/material/select';
 
-function validatePhone(control: AbstractControl): {[key: string]: any} | null {
+function validatePhone(control: AbstractControl): { [key: string]: any } | null {
 
   return null
 }
 
 @Component({
   selector: 'app-reservation-form',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule, MatSelectModule],
   templateUrl: './reservation-form.html',
-  styleUrl: './reservation-form.scss'
+  styleUrl: './reservation-form.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class ReservationForm implements OnInit {
@@ -32,35 +31,40 @@ export class ReservationForm implements OnInit {
   nextStep = output()
 
   reservationTypes = signal<ReservationType[]>([])
+  phoneCodes = signal<{ id: number, countryCode: number, countryName: string }[]>([])
   user: null | User = null
   selectedReservationType = signal<ReservationType | null>(null)
   baseReservation!: Signal<Reservation>;
   form!: FormGroup;
+  selectedPhoneCode = 102
 
   ngOnInit(): void {
     this.user = this.userService.user()
     this.baseReservation = signal(this.reservationService.baseReservation())
 
-    if(this.baseReservation().getReservationTypeId){
+    if (this.baseReservation().getReservationTypeId) {
       this.selectedReservationType.set(this.baseReservation().getReservationTypeId)
     }
 
-    const subscription = this.reservationService.getReservationTypes().subscribe({
-      next: response => this.reservationTypes.set(response),
-      complete: () => console.log(this.reservationTypes())
+    const typeSubscription = this.reservationService.getReservationTypes().subscribe({
+      next: response => this.reservationTypes.set(response)
+    })
+
+    const phoneSubscription = this.reservationService.getPhoneCodes().subscribe({
+      next: response => this.phoneCodes.set(response)
     })
 
     this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe()
+      typeSubscription.unsubscribe()
+      phoneSubscription.unsubscribe()
     })
 
     this.form = new FormGroup({
       firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
       lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
       email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
-      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, validatePhone]),
+      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, Validators.minLength(9), Validators.maxLength(9), validatePhone]),
       comment: new FormControl(this.baseReservation().getComment, []),
-      // countryId: new FormControl(this.baseReservation().getPhone?.substring(0,2), []),
       reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.name, [Validators.required])
     })
   }
@@ -75,7 +79,7 @@ export class ReservationForm implements OnInit {
     this.baseReservation().setFirstName = this.form.controls["firstName"].value
     this.baseReservation().setLastName = this.form.controls["lastName"].value
     this.baseReservation().setEmail = this.form.controls["email"].value
-    // this.baseReservation().setPhone = this.form.controls["countryId"].value + this.form.controls["phone"].value
+    this.baseReservation().setPhoneCode = this.phoneCodes()[this.selectedPhoneCode - 1]
     this.baseReservation().setPhone = this.form.controls["phone"].value
     this.baseReservation().setComment = this.form.controls["comment"].value
 

@@ -41,4 +41,9 @@ export class ReservationService {
   getPaymentMethods(): Observable<PaymentMethod[]> {
     return this.http.get<PaymentMethod[]>(`${this.baseURL()}/reservation/paymentMethods`)
   }
+
+  getPhoneCodes(): Observable<{id: number, countryCode: number, countryName: string}[]>{
+    return this.http.get<{id: number, countryCode: number, countryName: string}[]>(`${this.baseURL()}/reservation/phoneCodes`)
+  }
+  //
 }

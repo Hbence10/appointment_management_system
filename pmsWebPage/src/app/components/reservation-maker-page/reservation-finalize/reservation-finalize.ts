@@ -23,6 +23,7 @@ export class ReservationFinalize implements OnInit{
   baseReservation!: Signal<Reservation>;
   totalPrice: number = 0
   isReservationFinished = signal<boolean>(false)
+  phoneNumber: string = ""
 
   ngOnInit(): void {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
@@ -35,6 +36,9 @@ export class ReservationFinalize implements OnInit{
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
     })
+
+    let basePhoneNumber = this.baseReservation().getPhone
+    this.phoneNumber = "+"+this.baseReservation().getPhoneCode?.countryCode + " " + basePhoneNumber.slice(0,2) + " " + basePhoneNumber.slice(2,5) + " " + basePhoneNumber.slice(5)
   }
 
   selectPaymentMethod(selectedPaymentMethod: PaymentMethod){

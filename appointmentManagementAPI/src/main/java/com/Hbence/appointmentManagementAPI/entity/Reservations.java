@@ -91,6 +91,10 @@ public class Reservations {
     @JoinColumn(name = "reserved_hour_id")
     private ReservedHours reservedHours;
 
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "phone_country_code_id")
+    private PhoneCountryCode phoneCountryCode;
+
     //Constructorok:
     public Reservations(String firstName, String lastName, String email, String phone, String comment) {
         this.firstName = firstName;
