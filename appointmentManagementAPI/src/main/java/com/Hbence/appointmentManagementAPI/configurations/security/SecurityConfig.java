@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
-                .formLogin(Customizer.withDefaults());
+                .formLogin(flc -> flc.disable());
 
         http.httpBasic(Customizer.withDefaults());
         return http.build();

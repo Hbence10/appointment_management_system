@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsDetails } from '../models/newsDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +10,6 @@ export class NewsService {
   baseURL = signal<string>("http://localhost:8080")
 
   getAllNews(): Observable<any[]> {
-    return this.http.get<any[]>("http://localhost:8080/news")
+    return this.http.get<any[]>("http://localhost:8080/news/getAll")
   }
 }

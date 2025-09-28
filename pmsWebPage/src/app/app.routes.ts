@@ -1,8 +1,14 @@
-import { Routes } from '@angular/router';
+import { CanMatch, CanMatchFn, Routes } from '@angular/router';
 import { HomePage } from './components/home-page/home-page';
 import { LoginPage } from './components/login-page/login-page';
 import { PasswordResetPage } from './components/password-reset-page/password-reset-page';
 import { RegistrationPage } from './components/registration-page/registration-page';
+import { adminAuthGuard } from './adminAuthGuard';
+
+const checkRole: CanMatchFn = (route, segments) => {
+
+  return true
+}
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },
@@ -46,6 +52,7 @@ export const routes: Routes = [
   {
     path: "adminPage",
     loadComponent: () => import("./components/admin-page/admin-page").then(mod => mod.AdminPage),
-    title: "Pécs Music Society - Admin Page"
+    title: "Pécs Music Society - Admin Page",
+    canMatch: [adminAuthGuard]
   }
 ];

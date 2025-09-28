@@ -1,4 +1,4 @@
-type role = {id: number, name: "user" | "admin" | "superAdmin"}
+type role = {id: number, name: "ROLE_user" | "ROLE_admin" | "ROLE_superAdmin"}
 export class User {
 
   constructor(

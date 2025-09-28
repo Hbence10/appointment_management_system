@@ -29,7 +29,8 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                 String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
                 SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
                 String jwt = Jwts.builder().issuer("PMS").subject("JWT Token").claim("username", authentication.getName()).claim("authorities", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","))).issuedAt(new Date()).expiration(new Date((new Date()).getTime() + 30000000)).signWith(secretKey).compact();
-                response.setHeader(ApplicationConstants.JWT_HEADER, jwt);
+                response.setHeader("Asd", jwt);
+                System.out.println(response.getHeader("Asd"));
             }
         }
         filterChain.doFilter(request, response);
