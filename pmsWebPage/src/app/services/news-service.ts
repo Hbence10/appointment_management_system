@@ -10,6 +10,6 @@ export class NewsService {
   baseURL = signal<string>("http://localhost:8080")
 
   getAllNews(): Observable<any[]> {
-    return this.http.get<any[]>("http://localhost:8080/news/getAll")
+    return this.http.get<any[]>("http://localhost:8080/news/getAll",)
   }
 }

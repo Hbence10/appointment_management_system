@@ -16,9 +16,7 @@ export class UserService {
   })
 
   login(username: string, password: string): Observable<any> {
-    // this.httpHeader.append("Authorization", "Basic " + btoa(username + ":" + password))
-
-    return this.http.get<User>(`${this.baseURL()}/users/login?username=${username}&password=${password}`, { headers: new HttpHeaders({"Authorization": "Basic " + btoa(username + ":" + password)}), observe: "response"})
+    return this.http.get<User>(`${this.baseURL()}/users/login?username=${username}&password=${password}`, {observe: "response"})
   }
 
   register(requestedBody: { username: string, email: string, password: string, pfpPath: string }) {
