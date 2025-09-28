@@ -3,7 +3,10 @@ import { HomePage } from './components/home-page/home-page';
 import { LoginPage } from './components/login-page/login-page';
 import { PasswordResetPage } from './components/password-reset-page/password-reset-page';
 import { RegistrationPage } from './components/registration-page/registration-page';
-import { adminAuthGuard } from './adminAuthGuard';
+import { adminAuthGuard } from './routerGuards/adminAuthGuard';
+import { Unauthorized } from './components/unauthorized/unauthorized';
+import { userAuthGuard } from './routerGuards/userAuthGuard';
+import { NotFound } from './components/not-found/not-found';
 
 const checkRole: CanMatchFn = (route, segments) => {
 
@@ -16,6 +19,8 @@ export const routes: Routes = [
   { path: "login", component: LoginPage, title: "Pécs Music Society - Bejelentkezés" },
   { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
   { path: "passwordReset", component: PasswordResetPage, title: "Pécs Music Society - Jelszó emlékesztető" },
+  { path: "unauthorized", component: Unauthorized },
+  { path: "**", component: NotFound },
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
   {
@@ -47,7 +52,8 @@ export const routes: Routes = [
   {
     path: "profilePage",
     loadComponent: () => import("./components/profile-page/profile-page").then(mod => mod.ProfilePage),
-    title: "Pécs Music Society - Fiókom"
+    title: "Pécs Music Society - Fiókom",
+    canMatch: [userAuthGuard]
   },
   {
     path: "adminPage",

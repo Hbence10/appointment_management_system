@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, CanMatch, GuardResult, MaybeAsync, RedirectCommand, Route, Router, RouterStateSnapshot, UrlSegment } from "@angular/router";
-import { UserService } from "./services/user-service";
+import { CanMatch, RedirectCommand, Route, Router, UrlSegment } from "@angular/router";
+import { UserService } from "../services/user-service";
 
 @Injectable({
   providedIn: "root"
@@ -14,6 +14,6 @@ export class adminAuthGuard implements CanMatch {
       return true
     }
 
-    return new RedirectCommand(this.router.parseUrl(""))
+    return new RedirectCommand(this.router.parseUrl("/unauthorized"))
   }
 }
