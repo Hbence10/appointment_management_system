@@ -2,7 +2,7 @@ import { Component, computed, inject, input, OnInit, output, signal } from '@ang
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Device } from '../../models/device.model';
-import { DeviceCategory } from '../../models/deviceCategory.model';
+import { DevicesCategory } from '../../models/deviceCategory.model';
 import { GalleryImage } from '../../models/galleryImage.model';
 import { NewsDetails } from '../../models/newsDetails.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
@@ -74,7 +74,7 @@ export class PopUp implements OnInit {
     if (this.baseDetails().objectType == 'deviceCategory') {
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", new DeviceCategory(element.id, element.name, element.devicesList), "delete")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", new DevicesCategory(element.id, element.name, element.devicesList), "delete")]))
         }
       })
     }
@@ -111,7 +111,7 @@ export class PopUp implements OnInit {
       }
 
       if (this.actualDetails()?.objectType == "deviceCategory") {
-        this.selectedObject = new DeviceCategory(null, "", [])
+        this.selectedObject = new DevicesCategory(null, "", [])
       } else if (this.actualDetails()?.objectType == "device") {
         this.selectedObject = new Device(null, "", 1)
       } else if (this.actualDetails()?.objectType == "news") {
@@ -130,7 +130,7 @@ export class PopUp implements OnInit {
     }
   }
 
-  showDevices(deviceCategory: DeviceCategory) {
+  showDevices(deviceCategory: DevicesCategory) {
     this.cardList.set([])
     this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory.getName))
 

@@ -1,7 +1,7 @@
 import { Component, inject, input, OnInit, output } from '@angular/core';
 import { CardItem } from '../../models/notEntityModels/card.model';
 import { Device } from '../../models/device.model';
-import { DeviceCategory } from '../../models/deviceCategory.model';
+import { DevicesCategory } from '../../models/deviceCategory.model';
 import { CommonModule } from '@angular/common';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
@@ -17,7 +17,7 @@ import { OtherService } from '../../services/other-service';
 export class ListCard implements OnInit {
   cardItem = input.required<CardItem>()
   edit = output<CardItem>()
-  changeList = output<DeviceCategory>()
+  changeList = output<DevicesCategory>()
   delete = output<any>()
 
   eventsTypeList: string[] = []
@@ -42,7 +42,7 @@ export class ListCard implements OnInit {
     if (this.cardItem().objectType != "deviceCategory") {
       return
     }
-    this.changeList.emit(this.cardItem().object! as DeviceCategory)
+    this.changeList.emit(this.cardItem().object! as DevicesCategory)
   }
 
 }

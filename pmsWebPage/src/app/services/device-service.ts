@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { DeviceCategory } from '../models/deviceCategory.model';
+import { DevicesCategory } from '../models/deviceCategory.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,5 +12,9 @@ export class DeviceService {
 
   getAllDevicesByCategories(): Observable<any[]>{
     return this.http.get<any[]>(`${this.baseURL()}/devices/getAllCategory`)
+  }
+
+  addDeviceCategory(newDevicesCategory: DevicesCategory){
+    return this.http.post(`${this.baseURL()}/devices/addCategory`, {id: newDevicesCategory.getId, name:newDevicesCategory.name, devicesList: newDevicesCategory.getDevicesList})
   }
 }

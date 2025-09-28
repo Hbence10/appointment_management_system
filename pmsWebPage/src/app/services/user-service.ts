@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
@@ -10,13 +10,14 @@ export class UserService {
   private http = inject(HttpClient)
   user = signal<null | User>(null)
   baseURL = signal<string>("http://localhost:8080")
+  token: string = ""
 
   httpHeader = new HttpHeaders({
 
   })
 
   login(username: string, password: string): Observable<any> {
-    return this.http.get<User>(`${this.baseURL()}/users/login?username=${username}&password=${password}`, {observe: "response"})
+    return this.http.get<User>(`${this.baseURL()}/users/login`, { observe: "response", params: new HttpParams().set("username", username).set("password", password) })
   }
 
   register(requestedBody: { username: string, email: string, password: string, pfpPath: string }) {

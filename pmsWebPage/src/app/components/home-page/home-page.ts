@@ -1,9 +1,11 @@
+import { DevicesCategory } from './../../models/deviceCategory.model';
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injectable, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { NewsDetails } from '../../models/newsDetails.model';
 import { NewsService } from '../../services/news-service';
+import { DeviceService } from '../../services/device-service';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class HomePage implements OnInit {
   news = signal<NewsDetails[]>([])
   private newsService = inject(NewsService)
   private destroyRef = inject(DestroyRef)
+  asd2 = inject(DeviceService)
 
   ngOnInit(): void {
     const subscription = this.newsService.getAllNews().subscribe({
@@ -43,4 +46,10 @@ export class HomePage implements OnInit {
     selectedNewsDetail.isExpand = !selectedNewsDetail.isExpand
   }
 
+  asd() {
+    let asd: DevicesCategory = new DevicesCategory(null, "asd", [])
+    this.asd2.addDeviceCategory(asd).subscribe({
+      next:response => console.log(response)
+    })
+  }
 }

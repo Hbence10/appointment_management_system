@@ -5,7 +5,7 @@ import { Details } from '../../../models/notEntityModels/details.model';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { DeviceService } from '../../../services/device-service';
-import { DeviceCategory } from '../../../models/deviceCategory.model';
+import { DevicesCategory } from '../../../models/deviceCategory.model';
 
 @Component({
   selector: 'app-object-editor',
@@ -24,7 +24,7 @@ export class ObjectEditor implements OnChanges {
   placeholderText: string[] = []
   labelText: string[] = []
   form = input.required<FormGroup>();
-  deviceCategoryList = signal<DeviceCategory[]>([])
+  deviceCategoryList = signal<DevicesCategory[]>([])
 
   isFirstRowFull = computed<boolean>(() =>
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
@@ -38,7 +38,7 @@ export class ObjectEditor implements OnChanges {
         next: response => {
           console.log(response)
           response.forEach(element => {
-            this.deviceCategoryList.update(old => [...old, new DeviceCategory(element.id, element.name, element.devicesList)])
+            this.deviceCategoryList.update(old => [...old, new DevicesCategory(element.id, element.name, element.devicesList)])
           })
           console.log(this.deviceCategoryList())
         }
@@ -52,7 +52,7 @@ export class ObjectEditor implements OnChanges {
     if (this.objectType().objectType == "device") {
       this.form().controls["property1"].setValue(this.selectedObject().name)
       this.form().controls["property2"].setValue(this.selectedObject().amount)
-      // this.form.controls["property3"].setValue("") 
+      // this.form.controls["property3"].setValue("")
     } else if (this.objectType().objectType == "deviceCategory") {
       this.form().controls["property1"].setValue(this.selectedObject().name)
     } else if (this.objectType().objectType == "news") {

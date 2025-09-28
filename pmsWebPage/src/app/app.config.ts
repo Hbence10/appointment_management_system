@@ -7,10 +7,12 @@ import { provideServerRendering } from '@angular/ssr';
 import { routes } from './app.routes';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { asdInterceptor } from './auth.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    CookieService,
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()), provideClientHydration(withEventReplay()),

@@ -30,11 +30,14 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
                 Environment env = getEnvironment();
                 if (null != env) {
                     String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+                    System.out.println("secret: " + secret);
                     SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
                     if (null != secretKey) {
                         Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
                         String username = String.valueOf(claims.get("username"));
+                        System.out.println("username: " + username);
                         String authorities = String.valueOf(claims.get("authorities"));
+                        System.out.println("authorities: " + authorities);
                         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
@@ -49,7 +52,6 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        System.out.println(request.getServletPath());
         return request.getServletPath().equals("/users/login");
     }
 

@@ -29,6 +29,7 @@ public class DeviceService {
         if (newDevicesCategory.getId() != null) {
             return ResponseEntity.status(422).body("invalidInput");
         } else {
+            System.out.println(newDevicesCategory);
             newDevicesCategory.setName(newDevicesCategory.getName().trim());
             return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
         }

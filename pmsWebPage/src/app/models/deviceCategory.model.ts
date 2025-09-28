@@ -1,10 +1,10 @@
 import { Device } from "./device.model";
 
-export class DeviceCategory {
+export class DevicesCategory {
   constructor(
-    private id: number | null,
-    private name: string,
-    private devicesList: (Device | any)[],
+    public id: number | null,
+    public name: string,
+    public devicesList: (Device | any)[],
     private placeholders: string[] = ["Ird ide a kategória nevét"],
     private labelText: string[] = ["Kategória neve"]
   ) { }
