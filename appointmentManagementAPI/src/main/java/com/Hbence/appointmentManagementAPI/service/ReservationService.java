@@ -125,5 +125,9 @@ public class ReservationService {
 
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
     }
+
+    public Reservations asd() {
+        return reservationRepository.findAll().get(0);
+    }
 }
 

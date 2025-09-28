@@ -27,13 +27,11 @@ public class NewsController {
 
     @PutMapping("/update")
     public ResponseEntity<News> updateNews(@RequestBody News updatedNews){
-        System.out.println("updateNews()");
         return newsService.updateNews(updatedNews);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteNews(@PathVariable("id") Long id){
-        System.out.println("deleteNews()");
         return newsService.deleteNews(id);
     }
 }

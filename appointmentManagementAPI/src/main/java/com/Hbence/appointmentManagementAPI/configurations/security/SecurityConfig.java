@@ -41,20 +41,18 @@ public class SecurityConfig {
                         return config;
                     }
                 }))
-
-                //Jogosultsagok:
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory").hasAnyRole("admin", "superAdmin")     //deviceController
-                        .requestMatchers("rule/update", "gallery/update").hasAnyRole("admin", "superAdmin")                                                     //otherStuffController
-                        .requestMatchers("/news/addNews", "/news/update", "/news/delete**").hasAnyRole("admin", "superAdmin")                                   //newsController
+                        .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory", "/devices/update", "/devices/addDevice", "/devices/delete/**").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("rule/update", "gallery/update").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/news/addNews", "/news/update", "/news/delete/**").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reservation/user/**", "/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/getReservationType", "/reservation/paymentMethods", "/reservation/phoneCodes").permitAll() //reservationController
-                        .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservation/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin") //reservationController
+                        .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservation/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
-                        .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "users/deleteUser/**").hasAnyRole("user")
+                        .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "/reviews/addLike", "/reviews/changeLikeType/**", "users/deleteUser/**").hasRole("user")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/users/login", "/users/register", "/users/passwordReset", "/users/verificationCode", "/news/getAll", "/devices/getAllCategory").permitAll()
                 )
 
-                //CSRF settings:
+                //CSRF settings (CSRF - Cross Site Request Forgery):
 //                .csrf(csrfConfig -> csrfConfig
 //                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
