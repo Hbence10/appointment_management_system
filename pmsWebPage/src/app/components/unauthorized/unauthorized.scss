@@ -1,0 +1,33 @@
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+  color: #004D40;
+}
+
+.mainFont {
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  color: #004D40;
+  font-size: 75px;
+}
+
+.secondFont {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 30px;
+}
+
+button {
+  background-color: #004D40 !important;
+  border-radius: 10px;
+  height: 70px !important;
+  width: 400px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
