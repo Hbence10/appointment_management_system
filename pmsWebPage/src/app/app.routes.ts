@@ -20,7 +20,6 @@ export const routes: Routes = [
   { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
   { path: "passwordReset", component: PasswordResetPage, title: "Pécs Music Society - Jelszó emlékesztető" },
   { path: "unauthorized", component: Unauthorized },
-  { path: "**", component: NotFound },
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
   {
@@ -60,5 +59,7 @@ export const routes: Routes = [
     loadComponent: () => import("./components/admin-page/admin-page").then(mod => mod.AdminPage),
     title: "Pécs Music Society - Admin Page",
     canMatch: [adminAuthGuard]
-  }
+  },
+
+  { path: "**", component: NotFound }
 ];

@@ -14,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
+//        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
 
         http
 //                .securityContext(contextConfig -> contextConfig.requireExplicitSave(false))
@@ -40,6 +40,7 @@ public class SecurityConfig {
                         config.setAllowedMethods(Collections.singletonList("*"));                            //A tamogatott http verbeket adjuk meg
                         config.setAllowCredentials(true);                                                    //A cookiekat fogadjuk
                         config.setAllowedHeaders(Collections.singletonList("*"));                            //A http headerek adjuk meg
+                        config.setExposedHeaders(Arrays.asList("Authorization", "Access-Control-Expose-Headers"));
                         config.setMaxAge(3600L);
                         return config;
                     }
@@ -63,6 +64,7 @@ public class SecurityConfig {
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
+                .httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()))
                 .formLogin(flc -> flc.disable());
 
         http.httpBasic(Customizer.withDefaults());
