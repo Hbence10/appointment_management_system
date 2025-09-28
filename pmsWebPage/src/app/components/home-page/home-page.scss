@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -5,14 +6,14 @@
   color: #004D40;
 }
 
-.mainFont{
+.mainFont {
   font-family: "Oswald", sans-serif !important;
   font-optical-sizing: auto !important;
   font-weight: 800 !important;
   font-style: normal !important;
 }
 
-.secondFont{
+.secondFont {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -32,7 +33,7 @@ img {
 
 .material-box {
   border-radius: 16px !important;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 #newsContainer {
@@ -41,11 +42,11 @@ img {
   overflow-y: auto;
 }
 
-#promoBox{
+#promoBox {
   padding: 30px;
 }
 
-#paragraphBox{
+#paragraphBox {
   padding: 0px 50px;
 }
 
@@ -58,13 +59,13 @@ p {
   line-height: 30px;
 }
 
-#reservationButton{
+#reservationButton {
   width: 250px;
   height: 75px;
   font-size: 25px;
   background-color: #004D40;
   border-radius: 15px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 ::-webkit-scrollbar {
@@ -79,4 +80,27 @@ p {
 ::-webkit-scrollbar-thumb {
   background: #004D40 !important;
   border-radius: 10px !important;
+}
+
+mat-expansion-panel {
+  @include mat.expansion-overrides((container-text-color: #004D40,
+      // Container
+      container-text-font: Montserrat,
+
+      // Header
+      header-text-font: Oswald,
+      header-text-size: 25px,
+      header-text-line-height: 35px,
+      header-text-color: #004D40
+
+  ));
+}
+
+.mat-expansion-panel-body {
+  padding: 0px !important;
+  height: 400px;
+}
+
+mat-expansion-panel-header {
+  height: 85px;
 }

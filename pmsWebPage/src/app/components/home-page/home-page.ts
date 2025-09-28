@@ -21,7 +21,6 @@ export class HomePage implements OnInit {
   news = signal<NewsDetails[]>([])
   private newsService = inject(NewsService)
   private destroyRef = inject(DestroyRef)
-  asd2 = inject(DeviceService)
 
   ngOnInit(): void {
     const subscription = this.newsService.getAllNews().subscribe({
@@ -44,12 +43,5 @@ export class HomePage implements OnInit {
       element.isExpand = false
     })
     selectedNewsDetail.isExpand = !selectedNewsDetail.isExpand
-  }
-
-  asd() {
-    let asd: DevicesCategory = new DevicesCategory(null, "asd", [])
-    this.asd2.addDeviceCategory(asd).subscribe({
-      next:response => console.log(response)
-    })
   }
 }
