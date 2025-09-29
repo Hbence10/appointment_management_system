@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class DeviceService {
         return ResponseEntity.ok(devicesCategoryList);
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addDeviceCategory(DevicesCategory newDevicesCategory) {
         if (newDevicesCategory.getId() != null) {
             return ResponseEntity.status(422).body("invalidInput");
@@ -35,10 +37,12 @@ public class DeviceService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteDevicesCategory(Long id) {
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<DevicesCategory> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
         if (updatedDevicesCategory.getId() == null) {
             return ResponseEntity.notFound().build();
@@ -48,6 +52,7 @@ public class DeviceService {
     }
 
     //Maga_az_eszkoz
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Devices> updateDevice(Devices updatedDevice) {
         if (updatedDevice.getId() == null) {
             return ResponseEntity.notFound().build();
@@ -57,6 +62,7 @@ public class DeviceService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addDevice(Devices newDevice) {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
         if (!devicesCategoryList.contains(newDevice.getCategoryId())) {
@@ -69,6 +75,7 @@ public class DeviceService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteDevice(Long id) {
         return null;
     }

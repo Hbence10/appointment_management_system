@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -72,8 +73,6 @@ public class ReservationService {
             return ResponseEntity.status(417).body("InvalidPhoneNumber");
         }
 
-        System.out.println(newReservation);
-        System.out.println(newReservation.getReservedHours());
         reservedDateRepository.save(newReservation.getReservedHours().getDate());
 
         return ResponseEntity.ok(reservationRepository.save(newReservation));
@@ -93,14 +92,17 @@ public class ReservationService {
         return ResponseEntity.ok(reservationTypeRepository.findAll());
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteReservationType(Long id) {
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType) {
         return null;
     }

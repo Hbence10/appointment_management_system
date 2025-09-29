@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +49,6 @@ public class UserService {
             Users registeredUser = userRepository.save(newUser);
             return ResponseEntity.ok(registeredUser);
         }
-
-
     }
 
     public ResponseEntity<String> updatePassword(String email, String newPassword) {
@@ -85,6 +84,7 @@ public class UserService {
         }
     }
 
+    @PreAuthorize("hasRole('user')")
     public ResponseEntity<String> deleteUser(Long id) {
         Users searchedUser = userRepository.findById(id).orElse(null);
         if (searchedUser == null) {
@@ -92,12 +92,13 @@ public class UserService {
         }
 
         searchedUser.setIsDeleted(true);
-        searchedUser.setDeletedAt(new Date());
 
+        searchedUser.setDeletedAt(new Date());
         userRepository.save(searchedUser);
         return ResponseEntity.ok("successfullyDelete");
     }
 
+    @PreAuthorize("hasRole('user')")
     public ResponseEntity<Object> updateUser(Users updatedUser) {
         if (updatedUser.getId() == null) {
             return ResponseEntity.notFound().build();

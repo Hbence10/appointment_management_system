@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,10 +28,12 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Review> addReview(Review newReview) {
         return ResponseEntity.ok(reviewRepository.save(newReview));
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<ReviewLikeHistory> addReviewLikeHistory(Map<String, Object> requestBody) {
         ReviewLikeHistory newReviewLikeHistory = reviewLikeHistoryRepository.save(
                 new ReviewLikeHistory(
@@ -43,14 +46,17 @@ public class ReviewService {
         return ResponseEntity.ok(newReviewLikeHistory);
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<String> deleteReview(Long id){
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Review> updateReview(Review updatedReview){
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(Long id, Map<String, String> newLikeType){
         return null;
     }

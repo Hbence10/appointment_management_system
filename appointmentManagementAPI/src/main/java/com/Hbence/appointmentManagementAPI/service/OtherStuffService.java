@@ -9,6 +9,7 @@ import com.Hbence.appointmentManagementAPI.repository.SpecialOfferRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class OtherStuffService {
         return ResponseEntity.ok(galleryRepository.findAll());
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
         return ResponseEntity.ok(galleryRepository.save(updatedGalleryImage));
     }
@@ -37,6 +39,7 @@ public class OtherStuffService {
         return ResponseEntity.ok(ruleRepository.findById(Long.valueOf(1)).get());
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Rules> updateRules(Rules updatedRules) {
         return ResponseEntity.ok(ruleRepository.save(updatedRules));
     }

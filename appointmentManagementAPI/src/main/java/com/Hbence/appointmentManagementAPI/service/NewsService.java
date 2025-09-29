@@ -5,6 +5,7 @@ import com.Hbence.appointmentManagementAPI.repository.NewsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class NewsService {
         return ResponseEntity.ok(newsRepository.findAll());
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addNewNews(News newNews){
         if(newNews.getId() != null){
             return ResponseEntity.status(422).body("invalidInput");
@@ -28,6 +30,7 @@ public class NewsService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<News> updateNews(News updatedNews){
         if(updatedNews.getId() == null){
             return ResponseEntity.notFound().build();
@@ -37,6 +40,7 @@ public class NewsService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteNews(Long id){
         return null;
     }
