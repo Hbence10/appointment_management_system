@@ -58,8 +58,8 @@ export class LoginPage implements OnInit {
 
   checkIsRemember() {
     if (this.isRemember()) {
-      this.cookieService.set("pmsJwtToken", this.token)
-      this.cookieService.set("pmsUserD", JSON.stringify(this.userService.user()))
+      this.cookieService.set("pmsJwtToken", this.token, {expires: 30})
+      this.cookieService.set("pmsUserD", JSON.stringify(this.userService.user()), 30)
     } else {
       sessionStorage.setItem("pmsJwtToken", this.token)
       sessionStorage.setItem("pmsUserD", JSON.stringify(this.userService.user()))

@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: "login", component: LoginPage, title: "Pécs Music Society - Bejelentkezés" },
   { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
   { path: "passwordReset", component: PasswordResetPage, title: "Pécs Music Society - Jelszó emlékesztető" },
-  { path: "unauthorized", component: Unauthorized },
+  { path: "unauthorized", component: Unauthorized, title: "Pécs Music Society - Nincs hozzá jogosultságod" },
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
   {

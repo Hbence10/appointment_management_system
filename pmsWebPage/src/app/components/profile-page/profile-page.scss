@@ -19,6 +19,7 @@
   font-weight: 400;
   font-style: normal;
 }
+//
 
 #mainContainer{
   width: 1500px;
@@ -33,4 +34,11 @@ img{
   width: 300px !important;
   height: 300px !important;
   border-radius: 28px;
+}
+
+button {
+  background-color: #004D40 !important;
+  height: 54px;
+  border-radius: 14px;
+  width: 300px ;
 }
