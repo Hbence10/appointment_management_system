@@ -23,7 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReservationService {
 
-    private final PaymentMethodRepository paymentMethodRepository;
+    private final PaymentMethodRepository paymentMethodRepository;  
     private final ReservationRepository reservationRepository;
     private final ReservationTypeRepository reservationTypeRepository;
     private final ReservedDateRepository reservedDateRepository;

@@ -17,9 +17,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/login")
-    public ResponseEntity<Users> login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        return userService.login(username, password);
+    @PostMapping("/login")
+    public ResponseEntity<Users> login(@RequestBody Map<String, String> loginBody) {
+        return userService.login(loginBody.get("username"), loginBody.get("password"));
     }
 
     @PostMapping("/register")

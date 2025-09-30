@@ -17,7 +17,7 @@ export class UserService {
   })
 
   login(username: string, password: string): Observable<any> {
-    return this.http.get<User>(`${this.baseURL()}/users/login`, { observe: "response", params: new HttpParams().set("username", username).set("password", password) })
+    return this.http.post<User>(`${this.baseURL()}/users/login`, { username: username, password: password }, {observe: "response"})
   }
 
   register(requestedBody: { username: string, email: string, password: string, pfpPath: string }) {
