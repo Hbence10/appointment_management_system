@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Sze 27. 11:28
+-- Létrehozás ideje: 2025. Sze 30. 07:55
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -264,7 +264,7 @@ CREATE TABLE `news` (
 --
 
 INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `placement`, `created_at`, `is_deleted`, `deleted_at`, `last_edit_at`) VALUES
-(1, 'Új hangszerek érkeztek a terembe', 'Megérkeztek a legújabb hangszereink, amelyeket bárki kipróbálhat próba közben. A dobkészletet teljesen felújítottuk, valamint új gitárerősítőket szereztünk be. Így még jobb hangzást tudunk biztosítani a zenekaroknak. Gyertek el és teszteljétek őket elsőként!', NULL, 1, 1, '2025-08-23 11:19:02', 0, NULL, NULL),
+(1, 'Új hangszerek érkeztek a terembe', 'Megérkeztek a legújabb hangszereink, amelyeket bárki kipróbálhat próba közben. A dobkészletet teljesen felújítottuk, valamint új gitárerősítőket szereztünk be. Így még jobb hangzást tudunk biztosítani a zenekaroknak. Gyertek el és teszteljétek őket elsőként!', NULL, 47, 1, '2025-08-23 11:19:02', 0, NULL, NULL),
 (2, 'Akciós próbadíjak szeptemberben', 'Ebben a hónapban kedvezményes áron bérelhetitek a próbatermet. A hétköznapi délutáni sávokra 20% kedvezményt biztosítunk. Ha rendszeresen jártok, még további engedményeket is adunk. Ne hagyjátok ki a lehetőséget!', 'assets/images/news/placeholder.png', 1, 2, '2025-08-23 11:19:02', 0, NULL, NULL),
 (3, 'Nyílt nap a próbateremben', 'Szeretettel várunk minden érdeklődőt a nyílt napunkon. Lehetőségetek lesz kipróbálni a termet és a hangszereket teljesen ingyen. A program során bemutatjuk a felszerelést és válaszolunk minden kérdésre. Gyere el, és hozd magaddal zenész barátaidat is!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL),
 (4, 'Új foglalási rendszer indult', 'Mostantól egyszerűbben és gyorsabban tudtok időpontot foglalni. Az online naptár segítségével azonnal látható, mikor szabad a terem. Így elkerülhetők a félreértések és ütközések. Próbáljátok ki, és foglaljatok pár kattintással!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-27 08:07:08', 0, NULL, NULL),
@@ -553,7 +553,7 @@ CREATE TABLE `reservations` (
   `last_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone_country_code_id` int(11) NOT NULL DEFAULT '102',
-  `phone_number` varchar(20) NOT NULL,
+  `phone_number` varchar(9) NOT NULL,
   `comment` longtext,
   `reservation_type_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -573,7 +573,10 @@ CREATE TABLE `reservations` (
 INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
 (28, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 46, '2025-09-19 19:47:00', 0, NULL, NULL),
 (29, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 48, '2025-09-20 05:29:04', 0, NULL, NULL),
-(30, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', NULL, 2, NULL, 2, 1, 49, '2025-09-20 05:32:32', 0, NULL, NULL);
+(30, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', NULL, 2, NULL, 2, 1, 49, '2025-09-20 05:32:32', 0, NULL, NULL),
+(31, 'postTest', 'postTest', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 50, '2025-09-19 19:47:00', 0, NULL, NULL),
+(32, 'continueAble@gmail.com', 'continueAble@gmail.com', 'continueAble@gmail.com', 102, '706285232', NULL, 1, NULL, 2, 1, 51, '2025-09-30 05:03:06', 0, NULL, NULL),
+(33, 'postTest', 'postTest', 'asd@gmail.com', 102, '702322232', 'asd', 2, NULL, 2, 1, 52, '2025-09-19 19:47:00', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -618,7 +621,8 @@ CREATE TABLE `reserved_dates` (
 
 INSERT INTO `reserved_dates` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
 (54, '2025-09-20', 0, 0, 0),
-(55, '2025-09-22', 0, 0, 0);
+(55, '2025-09-22', 0, 0, 0),
+(56, '2025-09-30', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -641,7 +645,10 @@ INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`) VALUES
 (46, 13, 15, 54),
 (47, 15, 17, 54),
 (48, 12, 14, 55),
-(49, 10, 12, 55);
+(49, 10, 12, 55),
+(50, 13, 15, 54),
+(51, 16, 21, 56),
+(52, 13, 15, 54);
 
 -- --------------------------------------------------------
 
@@ -800,7 +807,11 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'asd', 0, 1, '2025-09-17 15:47:25', NULL, 0, NULL),
 (42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', '', 0, 1, '2025-09-20 16:18:03', NULL, 0, NULL),
 (44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'asd', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
-(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'asd', 0, 2, '2025-09-24 10:07:39', NULL, 0, NULL);
+(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'asd', 0, 2, '2025-09-24 10:07:39', NULL, 0, NULL),
+(47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'test', 0, 1, '2025-08-23 04:45:44', NULL, 0, NULL),
+(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'test', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'test', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
+(50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'test', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -962,7 +973,7 @@ ALTER TABLE `devices`
 -- AUTO_INCREMENT a táblához `devices_category`
 --
 ALTER TABLE `devices_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `devices_reservation_type`
@@ -1010,7 +1021,7 @@ ALTER TABLE `phone_country_codes`
 -- AUTO_INCREMENT a táblához `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -1022,13 +1033,13 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_dates`
 --
 ALTER TABLE `reserved_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hours`
 --
 ALTER TABLE `reserved_hours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -1070,7 +1081,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Megkötések a kiírt táblákhoz

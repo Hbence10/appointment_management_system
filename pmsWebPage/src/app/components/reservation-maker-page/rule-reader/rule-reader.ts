@@ -22,6 +22,7 @@ export class RuleReader implements OnInit {
   ruleIsAccepted = output()
   nextStep = output()
 
+
   ngOnInit(): void {
     const subscription = this.otherService.getRule().subscribe({
       next: response => this.rule.set(response),
@@ -33,21 +34,17 @@ export class RuleReader implements OnInit {
   }
 
   acceptRule() {
-    if (this.parentComponentInput() == "reservationMaker") {
+    if (this.parentComponentInput() == "registerPage") {
+      this.ruleIsAccepted.emit()
+    } else {
       this.reservationService.progressBarSteps[3] = true
       this.nextStep.emit()
-    } else if (this.parentComponentInput() == "registerPage") {
-      this.ruleIsAccepted.emit()
     }
   }
 
   readRule(event: any) {
-    if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
+    if (event.target.offsetHeight + Math.round(event.target.scrollTop) == event.target.scrollHeight) {
       this.continueAble.set(true)
     }
   }
-
-
-
-
 }

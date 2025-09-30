@@ -12,6 +12,12 @@ import { UserService } from '../../../services/user-service';
 import { MatSelectModule } from '@angular/material/select';
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
+  const phoneServiceCodes: number[] = [30, 20, 70, 50, 31]
+  let inputValue: string = control.value + ""
+
+  if(!phoneServiceCodes.includes(Number(inputValue.slice(0,2)))){
+    return {invalid: true}
+  }
 
   return null
 }

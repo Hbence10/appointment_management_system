@@ -17,7 +17,7 @@
           </ng-template>
         </mat-step>
 
-        <mat-step [completed]="checkList[3]">
+        <mat-step>
           <ng-template matStepLabel>Szabályzat elfogadása</ng-template>
           <ng-template matStepContent>
             <app-rule-reader [parentComponentInput]="'reservationMaker'" (nextStep)="stepper.next()"/>

@@ -42,20 +42,4 @@ public class ValidatorCollection {
 
         return specialChecker && upperCaseChecker && lowerCaseChecker && initChecker;
     }
-
-    public static boolean phoneValidator(String phone) {
-
-        if (phone.length() != 12) {
-            return false;
-        } else if (phone.charAt(0) != '+') {
-            return false;
-        }
-
-        ArrayList<String> supplierIds = new ArrayList<String>(Arrays.asList("30", "20", "70", "50", "31"));
-        if (!supplierIds.contains(phone.substring(3, 5))) {
-            return false;
-        }
-
-        return true;
-    }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +70,7 @@ public class ReservationService {
     public ResponseEntity<Object> makeReservation(Reservations newReservation) {
         if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
             return ResponseEntity.status(417).body("InvalidEmail");
-        } else if (ValidatorCollection.phoneValidator(newReservation.getPhone())) {
+        } else if (!phoneValidator(newReservation.getPhone())) {
             return ResponseEntity.status(417).body("InvalidPhoneNumber");
         }
 
@@ -81,7 +82,7 @@ public class ReservationService {
     public ResponseEntity<Reservations> cancelReservation(Long id, Map<String, Object> cancelBody) {
         Reservations baseReservation = reservationRepository.findById(id).get();
 
-        Reservations patchedReservation = setPatchedLikeDetails(cancelBody, baseReservation);
+        Reservations patchedReservation = setCancelForReservation(cancelBody, baseReservation);
         patchedReservation.setCanceledAt(LocalDate.now());
 
         return ResponseEntity.ok(reservationRepository.save(patchedReservation));
@@ -119,7 +120,7 @@ public class ReservationService {
 
     //----------------------------------------
     //Egyéb
-    private Reservations setPatchedLikeDetails(Map<String, Object> cancelBody, Reservations baseReservation) {
+    private Reservations setCancelForReservation(Map<String, Object> cancelBody, Reservations baseReservation) {
         ObjectNode baseReservationNode = objectMapper.convertValue(baseReservation, ObjectNode.class);
         ObjectNode cancelDetailsNode = objectMapper.convertValue(cancelBody, ObjectNode.class);
 
@@ -128,8 +129,10 @@ public class ReservationService {
         return objectMapper.convertValue(baseReservationNode, Reservations.class);
     }
 
-    public Reservations asd() {
-        return reservationRepository.findAll().get(0);
+    public Boolean phoneValidator(String phoneNumber){
+        ArrayList<String> phoneServiceCodes = new ArrayList<String>(Arrays.asList("30", "20", "70", "50", "31"));
+        return phoneServiceCodes.contains(phoneNumber.substring(0,2)) && phoneNumber.length() == 9;
+        //https://hu.wikipedia.org/wiki/Magyar_mobilszolg%C3%A1ltat%C3%B3k
     }
 }
 

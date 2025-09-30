@@ -56,11 +56,9 @@
 }
 
 mat-form-field {
-  @include mat.form-field-overrides((
-    filled-input-text-color: #004D40,
-    filled-caret-color: #004D40,
-    filled-container-color: white
-    ));
+  @include mat.form-field-overrides((filled-input-text-color: #004D40,
+      filled-caret-color: #004D40,
+      filled-container-color: white));
 }
 
 button {
@@ -88,4 +86,10 @@ button:disabled {
 #reservationTypeContainer {
   max-height: 300px;
   overflow-y: auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

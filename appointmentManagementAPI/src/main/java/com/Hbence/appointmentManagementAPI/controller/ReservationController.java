@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final ReservationRepository reservationRepository;
 
     //Foglalasok
     @GetMapping("/user/{id}")
@@ -79,6 +81,11 @@ public class ReservationController {
     @GetMapping("/phoneCodes")
     public ResponseEntity<List<PhoneCountryCode>> getAllPhoneCode() {
         return reservationService.getAllPhoneCode();
+    }
+
+    @GetMapping("/asd")
+    public Object asd(){
+       return reservationRepository.findAll();
     }
 }
 

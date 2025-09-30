@@ -57,7 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservation/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/changeLikeType/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "/reviews/addLike", "/reviews/changeLikeType/**", "users/deleteUser/**").hasRole("user")
-                        .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/users/login", "/users/register", "/users/passwordReset", "/users/verificationCode", "/news/getAll", "/devices/getAllCategory").permitAll()
+                        .requestMatchers("/reservation/asd","/reviews/getAll", "/rule", "/gallery", "/users/login", "/users/register", "/users/passwordReset", "/users/verificationCode", "/news/getAll", "/devices/getAllCategory").permitAll()
                 )
 
                 //CSRF settings (CSRF - Cross Site Request Forgery):
@@ -75,6 +75,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    //
     @Bean
     PasswordEncoder passwordEncoder() {
         return new Argon2PasswordEncoder(16, 32, 1, 1 << 12, 3);
@@ -84,14 +85,5 @@ public class SecurityConfig {
     @Bean
     public CompromisedPasswordChecker compromisedPasswordChecker() {
         return new HaveIBeenPwnedRestApiPasswordChecker();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
-                                                       PasswordEncoder passwordEncoder) {
-        EazyBankUsernamePwdAuthenticationProvider authenticationProvider = new EazyBankUsernamePwdAuthenticationProvider(userDetailsService, passwordEncoder);
-        ProviderManager providerManager = new ProviderManager(authenticationProvider);
-        providerManager.setEraseCredentialsAfterAuthentication(false);
-        return providerManager;
     }
 }
