@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
 
@@ -8,6 +8,10 @@ import { ReservationService } from '../../services/reservation-service';
   templateUrl: './reservation-detail.html',
   styleUrl: './reservation-detail.scss'
 })
-export class ReservationDetail {
+export class ReservationDetail implements OnInit{
   reservation = input.required<Reservation>()
+
+  ngOnInit(): void {
+    console.log(this.reservation())
+  }
 }
