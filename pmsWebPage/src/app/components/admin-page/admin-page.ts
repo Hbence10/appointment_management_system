@@ -68,4 +68,13 @@ export class AdminPage implements OnInit {
   showSelectedDaysReservation() {
 
   }
+
+  showReservationDetails(wantedReservation: Reservation){
+    console.log(wantedReservation)
+    console.log(wantedReservation.getId)
+
+    this.popUpDetails = new Details(`#${wantedReservation.getId} Foglalás`, "cancelReservation", "reservation")
+    this.selectedReservation.set(wantedReservation)
+    this.isShowPupUp.set(true)
+  }
 }

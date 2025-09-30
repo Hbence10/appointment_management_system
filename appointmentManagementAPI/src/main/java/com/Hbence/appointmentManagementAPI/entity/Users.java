@@ -69,6 +69,10 @@ public class Users {
     @Null
     private Date deletedAt;
 
+//    @Column(name = "is_notification_about_news")
+//    @NotNull
+//    private Boolean isNotificationAboutNews;
+
     //Kapcsolatok:
     @ManyToOne(cascade = {CascadeType.DETACH})
     @JoinColumn(name = "role_id")

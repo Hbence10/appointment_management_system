@@ -18,3 +18,23 @@
   font-weight: 400;
   font-style: normal;
 }
+
+button{
+  background-color: #004D40 !important;
+  border-radius: 15px;
+
+  .material-symbols-outlined{
+    color: white;
+    font-size: 24px;
+  }
+}
+
+.adminPageView{
+  p {
+    font-size: 20px;
+  }
+
+  button {
+    width: 2005px !important;
+  }
+}

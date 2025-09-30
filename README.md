@@ -22,11 +22,13 @@
 
 ### Tárolt eljárások:
 - **closeBetweenTwoDate():**
+- **getAllEmail():**
 - **getReservationByDate():**
 - **getReservationByUserId():**
 - **getReservedDatesOfPeriod():**
 - **getReservedHoursByDate():**
-- **login():**
+- **getUserByEmail():**
+- **getUserByUsername():**
 
 ### Triggerek:
 - **checkFullDay:** Figyeli, hogy az adott napon van-e 
@@ -44,6 +46,11 @@ A spring boot projekt a következő **dependency**-ket tartalmazza:
 - Javax Validation
 - Lombok
 - Springdoc Openapi
+- JUnit
+- bcprov-jdk15on
+- JWT-API 
+- JWT-IMPL
+- JWT-Jackson
 
 **API dokumentáció linkje:** http://localhost:8080/swagger-ui/index.html#/
 
@@ -94,6 +101,7 @@ A frontend projektben a következő **service**-ek találhatóak meg:
 - **user-service**
 
 A frontent projektben a következő **model**-ek találhatóak meg:
+### Entity modellek:
 - device
 - deviceCategory
 - galleryImage
@@ -101,8 +109,15 @@ A frontent projektben a következő **model**-ek találhatóak meg:
 - reservation
 - reservationType
 - reservedDates
+- reservedHours
 - reviewDetails
+- reviewHistory
+- status
 - user
+
+### Nem entity modellek:
+- card
+- details
 
 ## Elérhetőség:
 - [Github]("")

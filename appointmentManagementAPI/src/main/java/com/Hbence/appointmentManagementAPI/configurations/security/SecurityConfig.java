@@ -69,7 +69,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()))
-                .formLogin(flc -> flc.disable());
+                .formLogin(Customizer.withDefaults());
 
         http.httpBasic(Customizer.withDefaults());
         return http.build();

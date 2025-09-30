@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" [class.profilePageView]="parentComponent() == 'profilePage'" [class.adminPageView]="parentComponent() == 'adminPage'">
   <div class="row">
     <div class="col-lg-8">
       <div class="container-fluid">
@@ -16,17 +16,17 @@
 
         <div class="row">
           <div class="col-lg-12">
-            <p class="m-0"><span class="fw-bold">Státusz</span></p>
+            <p class="m-0"><span class="fw-bold">Státusz:</span></p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-end">
-      <button class="mx-2" matButton="filled">
-        
+      <button class="mx-2 d-flex" matButton="filled">
+        <span class="material-symbols-outlined">cancel</span>
       </button>
-      <button class="mx-2" matButton="filled">Részletek</button>
+      <button id="detailsButton" class="mx-2" matButton="filled" (click)="showReservationDetails()">Részletek</button>
     </div>
   </div>
 

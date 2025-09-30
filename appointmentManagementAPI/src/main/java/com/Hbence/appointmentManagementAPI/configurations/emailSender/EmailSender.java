@@ -35,4 +35,7 @@ public class EmailSender {
     public void sendEmailAboutNews(){
 
     }
+
+    public void sendEmailAboutUserUpdate(){
+    }
 }
