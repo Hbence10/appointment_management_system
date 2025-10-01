@@ -11,7 +11,7 @@ export class ReviewService {
   baseURL = signal<string>("http://localhost:8080")
 
   getAllReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseURL()}/reviews`)
+    return this.http.get<Review[]>(`${this.baseURL()}/reviews/getAll`)
   }
 
   addReview(newReview: Review) {
