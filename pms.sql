@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Sze 30. 07:55
+-- Létrehozás ideje: 2025. Okt 01. 16:32
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -105,39 +105,41 @@ CREATE TABLE `devices` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `amount` int(2) NOT NULL
+  `amount` int(2) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `devices`
 --
 
-INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`) VALUES
-(3, 'mikrofon1', 1, 2),
-(4, 'mikrofon2', 1, 2),
-(5, 'gitar1', 2, 2),
-(6, 'gitar2', 2, 2),
-(7, 'mikrofon3', 1, 1),
-(8, 'mikrofon4', 1, 1),
-(9, 'mikrofon5', 1, 1),
-(10, 'gitar3', 2, 1),
-(11, 'gitar4', 2, 1),
-(12, 'gitar5', 2, 1),
-(13, 'erosito1', 3, 1),
-(14, 'erosito2', 3, 1),
-(15, 'erosito3', 3, 1),
-(16, 'erosito4', 3, 1),
-(17, 'erosito5', 3, 1),
-(18, 'zongora1', 4, 1),
-(19, 'zongora2', 4, 1),
-(20, 'zongora3', 4, 1),
-(21, 'zongora4', 4, 1),
-(22, 'zongora5', 4, 1),
-(23, 'dob1', 5, 1),
-(24, 'dob2', 5, 1),
-(25, 'dob3', 5, 1),
-(26, 'dob4', 5, 1),
-(27, 'dob5', 5, 1);
+INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`, `is_deleted`, `deleted_at`) VALUES
+(3, 'mikrofon1', 1, 2, 0, NULL),
+(4, 'mikrofon2', 1, 2, 0, NULL),
+(5, 'gitar1', 2, 2, 0, NULL),
+(6, 'gitar2', 2, 2, 0, NULL),
+(7, 'mikrofon3', 1, 1, 0, NULL),
+(8, 'mikrofon4', 1, 1, 0, NULL),
+(9, 'mikrofon5', 1, 1, 0, NULL),
+(10, 'gitar3', 2, 1, 0, NULL),
+(11, 'gitar4', 2, 1, 0, NULL),
+(12, 'gitar5', 2, 1, 0, NULL),
+(13, 'erosito1', 3, 1, 0, NULL),
+(14, 'erosito2', 3, 1, 0, NULL),
+(15, 'erosito3', 3, 1, 0, NULL),
+(16, 'erosito4', 3, 1, 0, NULL),
+(17, 'erosito5', 3, 1, 0, NULL),
+(18, 'zongora1', 4, 1, 0, NULL),
+(19, 'zongora2', 4, 1, 0, NULL),
+(20, 'zongora3', 4, 1, 0, NULL),
+(21, 'zongora4', 4, 1, 0, NULL),
+(22, 'zongora5', 4, 1, 0, NULL),
+(23, 'dob1', 5, 1, 0, NULL),
+(24, 'dob2', 5, 1, 0, NULL),
+(25, 'dob3', 5, 1, 0, NULL),
+(26, 'dob4', 5, 1, 0, NULL),
+(27, 'dob5', 5, 1, 0, NULL);
 
 --
 -- Eseményindítók `devices`
@@ -157,19 +159,21 @@ DELIMITER ;
 
 CREATE TABLE `devices_category` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `devices_category`
 --
 
-INSERT INTO `devices_category` (`id`, `name`) VALUES
-(5, 'dobok'),
-(3, 'erositok'),
-(2, 'gitarok'),
-(1, 'mikrofonok'),
-(4, 'zongorak');
+INSERT INTO `devices_category` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
+(1, 'mikrofonok', 0, NULL),
+(2, 'gitarok', 0, NULL),
+(3, 'erositok', 0, NULL),
+(4, 'zongorak', 0, NULL),
+(5, 'dobok', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -180,7 +184,9 @@ INSERT INTO `devices_category` (`id`, `name`) VALUES
 CREATE TABLE `devices_reservation_type` (
   `id` int(11) NOT NULL,
   `reservation_tpye_id` int(11) NOT NULL,
-  `device_id` int(11) NOT NULL
+  `device_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -278,17 +284,19 @@ INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `plac
 
 CREATE TABLE `payment_methods` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `payment_methods`
 --
 
-INSERT INTO `payment_methods` (`id`, `name`) VALUES
-(1, 'Kártyás'),
-(2, 'Készpénz'),
-(3, 'Revolut');
+INSERT INTO `payment_methods` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
+(1, 'Kártyás', 0, NULL),
+(2, 'Készpénz', 0, NULL),
+(3, 'Revolut', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -574,9 +582,9 @@ INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_cou
 (28, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 46, '2025-09-19 19:47:00', 0, NULL, NULL),
 (29, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 48, '2025-09-20 05:29:04', 0, NULL, NULL),
 (30, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', NULL, 2, NULL, 2, 1, 49, '2025-09-20 05:32:32', 0, NULL, NULL),
-(31, 'postTest', 'postTest', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 50, '2025-09-19 19:47:00', 0, NULL, NULL),
-(32, 'continueAble@gmail.com', 'continueAble@gmail.com', 'continueAble@gmail.com', 102, '706285232', NULL, 1, NULL, 2, 1, 51, '2025-09-30 05:03:06', 0, NULL, NULL),
-(33, 'postTest', 'postTest', 'asd@gmail.com', 102, '702322232', 'asd', 2, NULL, 2, 1, 52, '2025-09-19 19:47:00', 0, NULL, NULL);
+(31, 'postTest', 'postTest', 'asd@gmail.com', 102, 'asd', 'asd', 2, 48, 2, 1, 50, '2025-09-19 19:47:00', 0, NULL, NULL),
+(32, 'continueAble@gmail.com', 'continueAble@gmail.com', 'continueAble@gmail.com', 102, '706285232', NULL, 1, 48, 2, 1, 51, '2025-09-30 05:03:06', 0, NULL, NULL),
+(33, 'postTest', 'postTest', 'asd@gmail.com', 102, '702322232', 'asd', 2, 48, 2, 1, 52, '2025-09-19 19:47:00', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -587,19 +595,21 @@ INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_cou
 CREATE TABLE `reservation_type` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `price` int(6) NOT NULL
+  `price` int(6) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `reservation_type`
 --
 
-INSERT INTO `reservation_type` (`id`, `name`, `price`) VALUES
-(1, 'Egyéni Gyakorlás', 2000),
-(2, 'Zenekari Próba', 4000),
-(3, 'Önálló felvételek', 6000),
-(4, 'kategória 4', 1500),
-(5, 'kategória 5', 5500);
+INSERT INTO `reservation_type` (`id`, `name`, `price`, `is_deleted`, `deleted_at`) VALUES
+(1, 'Egyéni Gyakorlás', 2000, 0, NULL),
+(2, 'Zenekari Próba', 4000, 0, NULL),
+(3, 'Önálló felvételek', 6000, 0, NULL),
+(4, 'kategória 4', 1500, 0, NULL),
+(5, 'kategória 5', 5500, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -634,21 +644,23 @@ CREATE TABLE `reserved_hours` (
   `id` int(11) NOT NULL,
   `start` int(2) NOT NULL,
   `end` int(2) NOT NULL,
-  `date_id` int(11) NOT NULL
+  `date_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `reserved_hours`
 --
 
-INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`) VALUES
-(46, 13, 15, 54),
-(47, 15, 17, 54),
-(48, 12, 14, 55),
-(49, 10, 12, 55),
-(50, 13, 15, 54),
-(51, 16, 21, 56),
-(52, 13, 15, 54);
+INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`, `is_deleted`, `deleted_at`) VALUES
+(46, 13, 15, 56, 0, NULL),
+(47, 15, 17, 56, 0, NULL),
+(48, 12, 14, 56, 0, NULL),
+(49, 10, 12, 56, 0, NULL),
+(50, 13, 15, 56, 0, NULL),
+(51, 16, 21, 56, 0, NULL),
+(52, 13, 15, 54, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -662,22 +674,24 @@ CREATE TABLE `review` (
   `review_text` longtext NOT NULL,
   `rating` double NOT NULL,
   `is_anonymous` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `review`
 --
 
-INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `is_anonymous`, `created_at`) VALUES
-(1, 1, 'Nagyon jól felszerelt próbaterem, minden rendben működött. A foglalás gyors és egyszerű volt, biztosan jövünk még!', 5, 0, '2025-09-08 09:59:25'),
-(2, 1, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, '2025-09-08 10:21:46'),
-(3, 26, 'Már több próbateremben jártunk a városban, de ez az egyik legjobb élményünk eddig. A hely tágas, kényelmes, a hangszerek és az erősítők hibátlan állapotban voltak, a dob is tökéletesen beállítva. Érezhető, hogy a tulajdonos szívvel-lélekkel foglalkozik a hellyel. Nagy plusz, hogy a környéken könnyű parkolni, így nem kellett cipekednünk messziről. Az ár-érték arány is teljesen korrekt, szóval biztosan rendszeres vendégek leszünk.', 2, 0, '2025-09-08 10:21:46'),
-(4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 3.5, 0, '2025-09-08 10:21:46'),
-(5, 1, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, '2025-09-08 10:21:46'),
-(6, 1, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, '2025-09-08 10:21:46'),
-(7, 1, 'asd', 1, 0, '2025-09-17 15:57:56'),
-(8, 1, 'asd', 1, 0, '2025-09-17 15:58:12');
+INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `is_anonymous`, `created_at`, `is_deleted`, `deleted_at`) VALUES
+(1, 1, 'Nagyon jól felszerelt próbaterem, minden rendben működött. A foglalás gyors és egyszerű volt, biztosan jövünk még!', 5, 0, '2025-09-08 09:59:25', 0, NULL),
+(2, 1, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(3, 26, 'Már több próbateremben jártunk a városban, de ez az egyik legjobb élményünk eddig. A hely tágas, kényelmes, a hangszerek és az erősítők hibátlan állapotban voltak, a dob is tökéletesen beállítva. Érezhető, hogy a tulajdonos szívvel-lélekkel foglalkozik a hellyel. Nagy plusz, hogy a környéken könnyű parkolni, így nem kellett cipekednünk messziről. Az ár-érték arány is teljesen korrekt, szóval biztosan rendszeres vendégek leszünk.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 3.5, 0, '2025-09-08 10:21:46', 0, NULL),
+(5, 1, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(6, 1, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(7, 1, 'asd', 1, 0, '2025-09-17 15:57:56', 0, NULL),
+(8, 1, 'asd', 1, 0, '2025-09-17 15:58:12', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -709,17 +723,19 @@ INSERT INTO `review_like_history` (`id`, `review_id`, `like_type`, `user_id`, `l
 
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `role`
 --
 
-INSERT INTO `role` (`id`, `name`) VALUES
-(1, 'ROLE_user'),
-(2, 'ROLE_admin'),
-(3, 'ROLE_superAdmin');
+INSERT INTO `role` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
+(1, 'ROLE_user', 0, NULL),
+(2, 'ROLE_admin', 0, NULL),
+(3, 'ROLE_superAdmin', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -786,7 +802,7 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` longtext NOT NULL,
-  `pfp_path` varchar(100) NOT NULL DEFAULT 'asd',
+  `pfp_path` varchar(100) NOT NULL DEFAULT 'assets/placeholder.png',
   `is_notification_about_news` tinyint(1) NOT NULL DEFAULT '0',
   `role_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -800,18 +816,19 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notification_about_news`, `role_id`, `created_at`, `last_login`, `is_deleted`, `deleted_at`) VALUES
-(1, 'test', 'test@gmail.com', 'asd', 'test', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
-(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'testAdmin', 0, 2, '2025-08-23 04:50:02', NULL, 0, NULL),
-(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'testSuperAdmin', 0, 3, '2025-08-23 04:50:02', NULL, 0, NULL),
-(26, 'test4', 'test4@gmail.com', '{noop}asd', '', 0, 1, '2025-09-07 12:15:02', NULL, 1, NULL),
-(29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'asd', 0, 1, '2025-09-17 15:47:25', NULL, 0, NULL),
-(42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', '', 0, 1, '2025-09-20 16:18:03', NULL, 0, NULL),
-(44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'asd', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
-(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'asd', 0, 2, '2025-09-24 10:07:39', NULL, 0, NULL),
-(47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'test', 0, 1, '2025-08-23 04:45:44', NULL, 0, NULL),
-(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'test', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'test', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
-(50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'test', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL);
+(1, 'test', 'test@gmail.com', 'asd', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
+(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'assets/placeholder.png', 0, 2, '2025-08-23 04:50:02', NULL, 0, NULL),
+(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'assets/placeholder.png', 0, 3, '2025-08-23 04:50:02', NULL, 0, NULL),
+(26, 'test4', 'test4@gmail.com', '{noop}asd', 'assets/placeholder.png', 0, 1, '2025-09-07 12:15:02', NULL, 1, NULL),
+(29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-17 15:47:25', NULL, 0, NULL),
+(42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', 'assets/placeholder.png', 0, 1, '2025-09-20 16:18:03', NULL, 0, NULL),
+(44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
+(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 2, '2025-09-24 10:07:39', NULL, 0, NULL),
+(47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', NULL, 0, NULL),
+(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
+(50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
+(51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -1081,7 +1098,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Megkötések a kiírt táblákhoz

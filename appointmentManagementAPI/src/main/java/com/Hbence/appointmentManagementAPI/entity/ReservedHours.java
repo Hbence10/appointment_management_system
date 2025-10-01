@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reserved_hours")
@@ -37,6 +38,14 @@ public class ReservedHours {
     @NotNull
     @Size(max = 2)
     private int end;
+
+    @Column(name = "is_deleted")
+    @NotNull
+    private boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    @Null
+    private LocalDateTime deletedAt;
 
     //Kapcsolatok
     @ManyToOne(cascade = {})

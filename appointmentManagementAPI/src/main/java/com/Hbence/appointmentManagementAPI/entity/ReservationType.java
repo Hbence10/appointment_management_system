@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,6 +32,14 @@ public class ReservationType {
     @NotNull
     @Size(max = 6)
     private int price;
+
+    @Column(name = "is_deleted")
+    @NotNull
+    private boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    @Null
+    private LocalDateTime deletedAt;
 
     //Kapcsolatok
     @OneToMany(
