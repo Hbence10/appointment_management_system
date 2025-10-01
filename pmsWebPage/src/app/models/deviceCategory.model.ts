@@ -5,6 +5,8 @@ export class DevicesCategory {
     public id: number | null,
     public name: string,
     public devicesList: (Device | any)[],
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null,
     private placeholders: string[] = ["Ird ide a kategória nevét"],
     private labelText: string[] = ["Kategória neve"]
   ) { }

@@ -1,11 +1,9 @@
-import { DevicesCategory } from './../../models/deviceCategory.model';
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injectable, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
-import { NewsDetails } from '../../models/newsDetails.model';
+import { News } from '../../models/newsDetails.model';
 import { NewsService } from '../../services/news-service';
-import { DeviceService } from '../../services/device-service';
 
 
 @Component({
@@ -18,7 +16,7 @@ import { DeviceService } from '../../services/device-service';
 })
 
 export class HomePage implements OnInit {
-  news = signal<NewsDetails[]>([])
+  news = signal<News[]>([])
   private newsService = inject(NewsService)
   private destroyRef = inject(DestroyRef)
 
@@ -37,7 +35,7 @@ export class HomePage implements OnInit {
     })
   }
 
-  setNewsCardExpand(selectedNewsDetail: NewsDetails) {
+  setNewsCardExpand(selectedNewsDetail: News) {
     console.log("sad")
     this.news().forEach(element => {
       element.isExpand = false

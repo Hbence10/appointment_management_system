@@ -1,4 +1,4 @@
-export class NewsDetails {
+export class News {
   constructor(
     private _id: number | null,
     private _title: string,
@@ -6,6 +6,8 @@ export class NewsDetails {
     private _bannerImgPath: string | null = null,
     private _placement?: number,
     private _createdAt?: Date,
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null,
     private _isExpand: boolean = this.placement == 1 ? true : false,
     private _placeholders: string[] = ["Írd ide a hír cÍmét", "Írd ide a hírnek a szövegét", "Válaszd ki a kivánt képet"],
     private _labelText: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó kép"]

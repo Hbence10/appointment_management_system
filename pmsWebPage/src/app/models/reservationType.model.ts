@@ -3,6 +3,8 @@ export class ReservationType {
     private _id: number | null,
     private _name: string = "",
     private _price: number | null,
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null,
     private _placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
     private _labelText: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }

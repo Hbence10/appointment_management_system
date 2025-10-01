@@ -5,7 +5,9 @@ export class ReservedHours{
     private id: number | null = null,
     private start?: number,
     private end?: number,
-    private date?: ReservedDates
+    private date?: ReservedDates,
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null,
   ){}
 
   //Getterek:

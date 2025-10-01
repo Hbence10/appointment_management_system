@@ -1,11 +1,11 @@
-type role = {id: number, name: "ROLE_user" | "ROLE_admin" | "ROLE_superAdmin"}
+import { Role } from "./role.model"
 export class User {
 
   constructor(
     private _username?: string,
     private _email?: string,
     private _pfpPath?: string,
-    private _role?: role,
+    private _role?: Role,
     private _id: number | null = null,
     private _password?: string
   ) { }
@@ -31,7 +31,7 @@ export class User {
     return this._pfpPath!
   }
 
-  get role(): role {
+  get role(): Role {
     return this._role!
   }
 

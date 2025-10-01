@@ -1,7 +1,7 @@
 import { ReviewHistory } from "./reviewHistory.model"
 import { User } from "./user.model"
 
-export class ReviewDetails {
+export class Review {
 
   constructor(
     private _id: number | null,
@@ -10,6 +10,8 @@ export class ReviewDetails {
     private _author: User,
     private _isAnonymus: boolean = false,
     private _createdAt: Date = new Date(),
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null,
     private _likeCount: number = 0,
     private _dislikeCount: number = 0,
     private _likeHistories: ReviewHistory[] = []

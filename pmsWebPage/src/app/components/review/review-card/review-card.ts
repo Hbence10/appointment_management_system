@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ReviewDetails } from '../../../models/reviewDetails.model';
+import { Review } from '../../../models/reviewDetails.model';
 import { ReviewService } from '../../../services/review-service';
 import { UserService } from '../../../services/user-service';
 
@@ -14,7 +14,7 @@ export class ReviewCard implements OnInit {
   private reviewService = inject(ReviewService)
   private userService = inject(UserService)
 
-  reviewDetail = input.required<ReviewDetails>()
+  reviewDetail = input.required<Review>()
   startList = signal<number[]>([])
   selectedLikeType: "like" | "dislike" | "" = ""
 

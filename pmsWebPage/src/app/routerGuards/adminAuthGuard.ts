@@ -10,7 +10,7 @@ export class adminAuthGuard implements CanMatch {
   router = inject(Router)
 
   canMatch(route: Route, segments: UrlSegment[]) {
-    if (this.userService.user()?.role.name == "ROLE_admin") {
+    if (this.userService.user()?.role.getName == "ROLE_admin") {
       return true
     }
 

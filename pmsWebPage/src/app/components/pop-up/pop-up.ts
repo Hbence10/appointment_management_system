@@ -4,7 +4,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Device } from '../../models/device.model';
 import { DevicesCategory } from '../../models/deviceCategory.model';
 import { GalleryImage } from '../../models/galleryImage.model';
-import { NewsDetails } from '../../models/newsDetails.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
@@ -18,6 +17,7 @@ import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { News } from '../../models/newsDetails.model';
 
 
 @Component({
@@ -81,7 +81,7 @@ export class PopUp implements OnInit {
     else if (this.baseDetails().objectType == "news") {
       this.newsService.getAllNews().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", new NewsDetails(element.id, element.title, element.text, element.bannerImgPath, element.placement, element.createdAt), "delete")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", new News(element.id, element.title, element.text, element.bannerImgPath, element.placement, element.createdAt), "delete")]))
         }
       })
     } else if (this.baseDetails().objectType == "reservationType") {
@@ -115,7 +115,7 @@ export class PopUp implements OnInit {
       } else if (this.actualDetails()?.objectType == "device") {
         this.selectedObject = new Device(null, "", 1)
       } else if (this.actualDetails()?.objectType == "news") {
-        this.selectedObject = new NewsDetails(null, "", "", "", 0)
+        this.selectedObject = new News(null, "", "", "", 0)
       } else if (this.actualDetails()?.objectType == "reservationType") {
         this.selectedObject = new ReservationType(null, "", null)
       }

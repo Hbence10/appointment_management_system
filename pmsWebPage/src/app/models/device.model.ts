@@ -3,6 +3,8 @@ export class Device {
     private id: number | null,
     private name: string,
     private amount: number,
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null,
     private placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
     private labelText: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
   ) { }

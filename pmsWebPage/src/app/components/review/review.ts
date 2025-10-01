@@ -4,11 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReviewDetails } from '../../models/reviewDetails.model';
 import { User } from '../../models/user.model';
 import { ReviewService } from '../../services/review-service';
 import { UserService } from '../../services/user-service';
 import { ReviewCard } from './review-card/review-card';
+import { Review } from '../../models/reviewDetails.model';
 
 @Component({
   selector: 'app-review',
@@ -16,7 +16,7 @@ import { ReviewCard } from './review-card/review-card';
   templateUrl: './review.html',
   styleUrl: './review.scss'
 })
-export class Review implements OnInit {
+export class ReviewPage implements OnInit {
   private reviewService = inject(ReviewService)
   private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
@@ -26,7 +26,7 @@ export class Review implements OnInit {
     rating: new FormControl(2.5, [Validators.required])
   })
 
-  reviewDetails = signal<ReviewDetails[]>([])
+  reviewDetails = signal<Review[]>([])
   isAnonymus = signal<boolean>(false)
   user = signal<User | null>(null);
 
@@ -47,7 +47,7 @@ export class Review implements OnInit {
     if (this.userService.user() == null) {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
     } else {
-      const newReview = new ReviewDetails(null, this.reviewForm.controls["reviewText"].value!, 2.5, this.user()!, this.isAnonymus())
+      const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, 2.5, this.user()!, this.isAnonymus())
       this.reviewService.addReview(newReview).subscribe({
         next: response => console.log(response),
         complete: () => this.reviewDetails().push(newReview)

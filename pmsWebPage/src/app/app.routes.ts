@@ -40,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: "reviews",
-    loadComponent: () => import("./components/review/review").then(mod => mod.Review),
+    loadComponent: () => import("./components/review/review").then(mod => mod.ReviewPage),
     title: "Pécs Music Society - Vélemények"
   },
   {

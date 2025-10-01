@@ -1,7 +1,9 @@
 export class PaymentMethod{
   constructor(
     private _id: number,
-    private _name: string
+    private _name: string,
+    private isDeleted: boolean = false,
+    private deletedAt: Date | null = null
   ){}
 
   // Getterek:
