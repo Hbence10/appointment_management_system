@@ -12,4 +12,6 @@ export class Status {
   get getName(): string {
     return this.name;
   }
+
+  // Setterek
 }

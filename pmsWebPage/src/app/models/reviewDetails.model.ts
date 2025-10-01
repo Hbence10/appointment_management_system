@@ -20,7 +20,7 @@ export class Review {
     this._dislikeCount = this._likeHistories.filter(element => element.likeType == "dislike").length
   }
 
-  //Getterek:
+  // Getterek:
   get id(): number | null {
     return this._id
   }
@@ -57,7 +57,7 @@ export class Review {
     return this._likeHistories
   }
 
-  //Setterek:
+  // Setterek:
   set reviewText(newReviewText: string) {
     this._reviewText = newReviewText
   }

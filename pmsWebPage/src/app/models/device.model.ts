@@ -22,11 +22,40 @@ export class Device {
     return this.amount
   }
 
+  get getIsDeleted(): boolean {
+    return this.isDeleted;
+  }
+
+  get getDeletedAt(): Date | null {
+    return this.deletedAt;
+  }
+
   get getPlaceholdersText(): string[] {
     return this.placeholders
   }
 
   get getLabelText(): string[] {
     return this.labelText
+  }
+
+  // Setterek:
+  set setId(newId: number) {
+    this.id = newId
+  }
+
+  set setName(newName: string) {
+    this.name = newName
+  }
+
+  set setAmount(newAmount: number) {
+    this.amount = newAmount
+  }
+
+  set setIsDeleted(newValue: boolean) {
+    this.isDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date) {
+    this.deletedAt = newDate
   }
 }

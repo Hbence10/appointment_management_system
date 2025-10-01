@@ -10,7 +10,7 @@ export class User {
     private _password?: string
   ) { }
 
-  //
+  // Getterek
   get id(): number | null {
     return this._id!
   }
@@ -35,5 +35,5 @@ export class User {
     return this._role!
   }
 
-  //
+  // Setterek
 }

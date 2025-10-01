@@ -14,4 +14,6 @@ export class PaymentMethod{
   get name(): string {
     return this._name;
   }
+
+  // Setterek
 }

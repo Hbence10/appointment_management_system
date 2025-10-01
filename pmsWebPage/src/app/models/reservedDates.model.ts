@@ -12,7 +12,7 @@ export class ReservedDates {
     private availableHours: number[] = []
   ){}
 
-  //Getterek:
+  // Getterek:
   get getId(): number | null {
     return this.id
   }
@@ -45,6 +45,7 @@ export class ReservedDates {
     return this.availableHours
   }
 
+  // Setterek
   set setUnavailableHours(newList: number[]){
     this.unavailableHours = newList
   }

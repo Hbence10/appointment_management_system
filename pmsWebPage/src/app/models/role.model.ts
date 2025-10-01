@@ -6,7 +6,7 @@ export class Role{
     private deletedAt: Date | null = null,
   ){}
 
-  //getterek
+  // Getterek
   get getId(): number{
     return this.id
   }
@@ -23,7 +23,7 @@ export class Role{
     return this.deletedAt
   }
 
-  //setterek:
+  // Setterek:
   set setId(newId: number){
     this.id = newId
   }

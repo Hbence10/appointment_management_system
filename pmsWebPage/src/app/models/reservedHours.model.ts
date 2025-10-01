@@ -10,7 +10,7 @@ export class ReservedHours{
     private deletedAt: Date | null = null,
   ){}
 
-  //Getterek:
+  // Getterek:
   get getId(): number|null {
     return this.id!
   }
@@ -27,7 +27,7 @@ export class ReservedHours{
     return this.date!
   }
 
-  //Setterek:
+  // Setterek:
   set setStart(newStart: number){
     this.start = newStart
   }

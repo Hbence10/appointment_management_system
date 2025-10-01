@@ -31,4 +31,6 @@ export class DevicesCategory {
   get getLabelText(): string[] {
     return this.labelText
   }
+
+  // Setterek
 }

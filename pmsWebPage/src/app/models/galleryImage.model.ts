@@ -32,4 +32,6 @@ export class GalleryImage{
   get labelText(): string[] {
     return this._labelText
   }
+
+  // Setterek
 }

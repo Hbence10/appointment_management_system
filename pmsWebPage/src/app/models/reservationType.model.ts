@@ -9,7 +9,7 @@ export class ReservationType {
     private _labelText: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }
 
-  //Getterek:
+  // Getterek:
   get id(): number | null {
     return this._id;
   }
@@ -29,4 +29,6 @@ export class ReservationType {
   get labelText(): string[] {
     return this._labelText
   }
+
+  // Setterek:
 }

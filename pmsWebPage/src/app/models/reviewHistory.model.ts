@@ -8,7 +8,7 @@ export class ReviewHistory {
     private _likerUser: User
   ) { }
 
-  //Getterek
+  // Getterek
   get id(): number {
     return this._id;
   }
@@ -25,7 +25,7 @@ export class ReviewHistory {
     return this._likerUser
   }
 
-  //Setterek
+  // Setterek
   set id(newId: number) {
     this._id = newId;
   }

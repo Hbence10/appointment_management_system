@@ -42,10 +42,6 @@ export class News {
     return this._isExpand
   }
 
-  set isExpand(newState: boolean) {
-    this._isExpand = newState
-  }
-
   get placeholdersText(): string[] {
     return this._placeholders
   }
@@ -53,4 +49,6 @@ export class News {
   get labelText(): string[] {
     return this._labelText
   }
+
+  // Setterek
 }
