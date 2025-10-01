@@ -4,85 +4,101 @@ import { User } from "./user.model"
 export class Review {
 
   constructor(
-    private _id: number | null,
-    private _reviewText: string,
-    private _rating: number,
-    private _author: User,
-    private _isAnonymus: boolean = false,
-    private _createdAt: Date = new Date(),
+    private id: number | null,
+    private reviewText: string,
+    private rating: number,
+    private author: User,
+    private isAnonymus: boolean = false,
+    private createdAt: Date = new Date(),
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
-    private _likeCount: number = 0,
-    private _dislikeCount: number = 0,
-    private _likeHistories: ReviewHistory[] = []
+    private likeCount: number = 0,
+    private dislikeCount: number = 0,
+    private likeHistories: ReviewHistory[] = []
   ) {
-    this._likeCount = this._likeHistories.filter(element => element.likeType == "like").length
-    this._dislikeCount = this._likeHistories.filter(element => element.likeType == "dislike").length
+    this.likeCount = this.likeHistories.filter(element => element.likeType == "like").length
+    this.dislikeCount = this.likeHistories.filter(element => element.likeType == "dislike").length
   }
 
   // Getterek:
-  get id(): number | null {
-    return this._id
+  get getId(): number | null {
+    return this.id
   }
 
-  get author(): User {
-    return this._author
+  get getAuthor(): User {
+    return this.author
   }
 
-  get reviewText(): string {
-    return this._reviewText
+  get getReviewText(): string {
+    return this.reviewText
   }
 
-  get rating(): number {
-    return this._rating
+  get getRating(): number {
+    return this.rating
   }
 
-  get likeCount(): number {
-    return this._likeCount
+  get getLikeCount(): number {
+    return this.likeCount
   }
 
-  get dislikeCount(): number {
-    return this._dislikeCount
+  get getDislikeCount(): number {
+    return this.dislikeCount
   }
 
-  get isAnonymus(): boolean {
-    return this._isAnonymus
+  get getIsAnonymus(): boolean {
+    return this.isAnonymus
   }
 
-  get createdAt(): Date {
-    return this._createdAt
+  get getCreatedAt(): Date {
+    return this.createdAt
   }
 
-  get likeHistories(): ReviewHistory[] {
-    return this._likeHistories
+  get getLikeHistories(): ReviewHistory[] {
+    return this.likeHistories
+  }
+
+  get getIsDeleted(): boolean {
+    return this.isDeleted;
+  }
+
+  get getDeletedAt(): Date | null {
+    return this.deletedAt;
   }
 
   // Setterek:
-  set reviewText(newReviewText: string) {
-    this._reviewText = newReviewText
+  set setReviewText(newReviewText: string) {
+    this.reviewText = newReviewText
   }
 
-  set rating(newRating: number) {
-    this._rating = newRating
+  set setRating(newRating: number) {
+    this.rating = newRating
   }
 
-  set likeCount(newLikeCount: number) {
-    this._likeCount = newLikeCount
+  set setLikeCount(newLikeCount: number) {
+    this.likeCount = newLikeCount
   }
 
-  set dislikeCount(newDislikeCount: number) {
-    this._dislikeCount = newDislikeCount
+  set setDislikeCount(newDislikeCount: number) {
+    this.dislikeCount = newDislikeCount
   }
 
-  set isAnonymus(newAnonymus: boolean) {
-    this._isAnonymus = newAnonymus
+  set setIsAnonymus(newAnonymus: boolean) {
+    this.isAnonymus = newAnonymus
   }
 
-  set createdAt(newDate: Date) {
-    this._createdAt = newDate
+  set setCreatedAt(newDate: Date) {
+    this.createdAt = newDate
   }
 
-  set author(newAuthor: User) {
-    this._author = newAuthor
+  set setAuthor(newAuthor: User) {
+    this.author = newAuthor
+  }
+
+  set setIsDeleted(newValue: boolean) {
+    this.isDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date) {
+    this.deletedAt = newDate
   }
 }

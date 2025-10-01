@@ -1,19 +1,42 @@
-export class PaymentMethod{
+export class PaymentMethod {
   constructor(
-    private _id: number,
-    private _name: string,
+    private id: number,
+    private name: string,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null
-  ){}
+  ) { }
 
   // Getterek:
-  get id(): number {
-    return this._id;
+  get getId(): number {
+    return this.id;
   }
 
-  get name(): string {
-    return this._name;
+  get getName(): string {
+    return this.name;
+  }
+
+  get getIsDeleted(): boolean {
+    return this.isDeleted
+  }
+
+  get getDeletedAt(): Date | null {
+    return this.deletedAt
   }
 
   // Setterek
+  set setId(newId: number){
+    this.id = newId
+  }
+
+  set setName(newName: string){
+    this.name = newName
+  }
+
+  set setIsDeleted(newValue: boolean){
+    this.setIsDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date){
+    this.deletedAt = newDate
+  }
 }

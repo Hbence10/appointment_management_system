@@ -2,9 +2,9 @@ import { Device } from "./device.model";
 
 export class DevicesCategory {
   constructor(
-    public id: number | null,
-    public name: string,
-    public devicesList: (Device | any)[],
+    private id: number | null,
+    private name: string,
+    private devicesList: (Device | any)[],
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Ird ide a kategória nevét"],
@@ -24,6 +24,14 @@ export class DevicesCategory {
     return this.devicesList;
   }
 
+  get getIsDeleted(): boolean{
+    return this.isDeleted
+  }
+
+  get getDeletedAt(): Date | null {
+    return this.deletedAt
+  }
+
   get getPlaceholdersText(): string[] {
     return this.placeholders
   }
@@ -33,4 +41,23 @@ export class DevicesCategory {
   }
 
   // Setterek
+  set setId(newId: number){
+    this.id = newId
+  }
+
+  set setName(newName: string){
+    this.name = newName
+  }
+
+  set setDevicesList(newList: Device[]){
+    this.devicesList = newList
+  }
+
+  set setIsDeleted(newValue: boolean){
+    this.isDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date){
+    this.deletedAt = newDate
+  }
 }

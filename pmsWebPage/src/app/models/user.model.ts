@@ -2,38 +2,48 @@ import { Role } from "./role.model"
 export class User {
 
   constructor(
-    private _username?: string,
-    private _email?: string,
-    private _pfpPath?: string,
-    private _role?: Role,
-    private _id: number | null = null,
-    private _password?: string
+    private username?: string,
+    private email?: string,
+    private pfpPath?: string,
+    private role: Role = new Role(1, "ROLE_user"),
+    private id: number | null = null,
   ) { }
 
   // Getterek
-  get id(): number | null {
-    return this._id!
+  get getId(): number | null {
+    return this.id!
   }
 
-  get username(): string {
-    return this._username!
+  get getUsername(): string {
+    return this.username!
   }
 
-  get password(): string {
-    return this._password!
+  get getEmail(): string {
+    return this.email!
   }
 
-  get email(): string {
-    return this._email!
+  get getPfpPath(): string {
+    return this.pfpPath!
   }
 
-  get pfpPath(): string {
-    return this._pfpPath!
-  }
-
-  get role(): Role {
-    return this._role!
+  get getRole(): Role {
+    return this.role!
   }
 
   // Setterek
+  set setId(newId: number){
+    this.id = newId
+  }
+
+  set setUsername(newUsername: string){
+    this.username = newUsername
+  }
+
+  set setEmail(newEmail: string){
+    this.email = newEmail
+  }
+
+  set setPfpPath(newPath: string){
+    this.pfpPath = newPath
+  }
 }

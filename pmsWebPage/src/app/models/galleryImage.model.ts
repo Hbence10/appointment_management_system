@@ -1,37 +1,52 @@
-export class GalleryImage{
+export class Gallery{
   constructor(
-    private _id: number,
-    private _photoName: string,
-    private _photoPath: string,
-    private _placement: number,
-    private _placeholders: string[] = ["Válaszd ki a kivánt fényképet"],
-    private _labelText: string[] = ["Fájl feltöltése"]
+    private id: number,
+    private photoName: string,
+    private photoPath: string,
+    private placement: number,
+    private placeholders: string[] = ["Válaszd ki a kivánt fényképet"],
+    private labelText: string[] = ["Fájl feltöltése"]
   ){}
 
   // Getterek:
-  get id(): number {
-    return this._id;
+  get getId(): number {
+    return this.id;
   }
 
-  get name(): string {
-    return this._photoName
+  get getName(): string {
+    return this.photoName
   }
 
-  get photoPath(): string {
-    return this._photoPath
+  get getPhotoPath(): string {
+    return this.photoPath
   }
 
-  get placement(): number {
-    return this._placement
+  get getPlacement(): number {
+    return this.placement
   }
 
-  get placeholdersText(): string[] {
-    return this._placeholders
+  get getPlaceholdersText(): string[] {
+    return this.placeholders
   }
 
-  get labelText(): string[] {
-    return this._labelText
+  get getLabelText(): string[] {
+    return this.labelText
   }
 
   // Setterek
+  set setId(newId: number){
+    this.id = newId
+  }
+
+  set setPhotoName(newName: string){
+    this.photoName = newName
+  }
+
+  set setPhotoPath(newPath: string){
+    this.photoPath = newPath
+  }
+
+  set setPlacement(newPlacement: number){
+    this.placement = newPlacement
+  }
 }

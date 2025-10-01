@@ -1,6 +1,6 @@
 import { ReservedDates } from "./reservedDates.model"
 
-export class ReservedHours{
+export class ReservedHours {
   constructor(
     private id: number | null = null,
     private start?: number,
@@ -8,35 +8,51 @@ export class ReservedHours{
     private date?: ReservedDates,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
-  ){}
+  ) { }
 
   // Getterek:
-  get getId(): number|null {
+  get getId(): number | null {
     return this.id!
   }
 
-  get getStart(): number{
+  get getStart(): number {
     return this.start!
   }
 
-  get getEnd(): number{
+  get getEnd(): number {
     return this.end!
   }
 
-  get getDate(): ReservedDates{
+  get getDate(): ReservedDates {
     return this.date!
   }
 
+  get getIsDeleted(): boolean {
+    return this.isDeleted
+  }
+
+  get getDeletedAt(): Date | null {
+    return this.deletedAt
+  }
+
   // Setterek:
-  set setStart(newStart: number){
+  set setStart(newStart: number) {
     this.start = newStart
   }
 
-  set setEnd(newEnd: number){
+  set setEnd(newEnd: number) {
     this.end = newEnd
   }
 
-  set setDate(newDate: ReservedDates){
+  set setDate(newDate: ReservedDates) {
     this.date = newDate
+  }
+
+  set setIsDeleted(newValue: boolean) {
+    this.setIsDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date) {
+    this.deletedAt = newDate
   }
 }

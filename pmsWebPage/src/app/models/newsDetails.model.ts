@@ -1,54 +1,88 @@
 export class News {
   constructor(
-    private _id: number | null,
-    private _title: string,
-    private _text: string,
-    private _bannerImgPath: string | null = null,
-    private _placement?: number,
-    private _createdAt?: Date,
+    private id: number | null,
+    private title: string,
+    private text: string,
+    private bannerImgPath: string | null = null,
+    private placement?: number,
+    private createdAt: Date = new Date(),
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
-    private _isExpand: boolean = this.placement == 1 ? true : false,
-    private _placeholders: string[] = ["Írd ide a hír cÍmét", "Írd ide a hírnek a szövegét", "Válaszd ki a kivánt képet"],
-    private _labelText: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó kép"]
+    private placeholders: string[] = ["Írd ide a hír cÍmét", "Írd ide a hírnek a szövegét", "Válaszd ki a kivánt képet"],
+    private labelText: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó kép"]
   ) { }
 
   // Getterek:
-  get id(): number | null {
-    return this._id;
+  get getId(): number | null {
+    return this.id;
   }
 
-  get title(): string {
-    return this._title;
+  get getTitle(): string {
+    return this.title;
   }
 
-  get text(): string {
-    return this._text;
+  get getText(): string {
+    return this.text;
   }
 
-  get bannerImgPath(): string | null {
-    return this._bannerImgPath;
+  get getBannerImgPath(): string | null {
+    return this.bannerImgPath;
   }
 
-  get placement(): number {
-    return this._placement!;
+  get getPlacement(): number {
+    return this.placement!;
   }
 
-  get createdAt(): Date {
-    return this._createdAt!
+  get getCreatedAt(): Date {
+    return this.createdAt!
   }
 
-  get isExpand(): boolean {
-    return this._isExpand
+  get getIsDeleted(): boolean {
+    return this.isDeleted
   }
 
-  get placeholdersText(): string[] {
-    return this._placeholders
+  get getDeletedAt(): Date | null {
+    return this.deletedAt
   }
 
-  get labelText(): string[] {
-    return this._labelText
+  get getPlaceholdersText(): string[] {
+    return this.placeholders
+  }
+
+  get getLabelText(): string[] {
+    return this.labelText
   }
 
   // Setterek
+  set setId(newId: number) {
+    this.id = newId
+  }
+
+  set setTitle(newTitle: string) {
+    this.title = newTitle
+  }
+
+  set setText(newText: string) {
+    this.text = newText
+  }
+
+  set setBannerImgPath(newPath: string) {
+    this.bannerImgPath = newPath
+  }
+
+  set setPlacement(newPlacement: number) {
+    this.placement = newPlacement
+  }
+
+  set setCreatedAt(newDate: Date){
+    this.createdAt = newDate
+  }
+
+  set setIsDeleted(newValue: boolean){
+    this.isDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date){
+    this.deletedAt = newDate
+  }
 }

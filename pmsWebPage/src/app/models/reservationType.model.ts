@@ -1,34 +1,61 @@
 export class ReservationType {
   constructor(
-    private _id: number | null,
-    private _name: string = "",
-    private _price: number | null,
+    private id: number | null,
+    private name: string = "",
+    private price: number | null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
-    private _placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
-    private _labelText: string[] = ["Szolgáltatás neve", "Árazás"]
+    private placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
+    private labelText: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }
 
   // Getterek:
-  get id(): number | null {
-    return this._id;
+  get getId(): number | null {
+    return this.id;
   }
 
-  get name(): string {
-    return this._name
+  get getName(): string {
+    return this.name
   }
 
-  get price(): number | null {
-    return this._price
+  get getPrice(): number | null {
+    return this.price
   }
 
-  get placeholdersText(): string[] {
-    return this._placeholders
+  get getPlaceholdersText(): string[] {
+    return this.placeholders
   }
 
-  get labelText(): string[] {
-    return this._labelText
+  get getLabelText(): string[] {
+    return this.labelText
+  }
+
+  get getIsDeleted(): boolean {
+    return this.isDeleted
+  }
+
+  get getDeletedAt(): Date | null {
+    return this.deletedAt
   }
 
   // Setterek:
+  set setId(newId: number) {
+    this.id = newId
+  }
+
+  set setName(newName: string) {
+    this.name = newName
+  }
+
+  set setPrice(newPrice: number){
+    this.price = newPrice
+  }
+
+  set setIsDeleted(newValue: boolean) {
+    this.setIsDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date) {
+    this.deletedAt = newDate
+  }
 }
