@@ -19,7 +19,7 @@ export class ReviewCard implements OnInit {
   selectedLikeType: "like" | "dislike" | "" = ""
 
   ngOnInit(): void {
-    let counter = this.reviewDetail().rating
+    let counter = this.reviewDetail().getRating
 
     while (this.startList().length != 5) {
       if (counter % 1 == 0 && counter > 0) {
@@ -40,7 +40,7 @@ export class ReviewCard implements OnInit {
       alert("Jelentkezzél be!")
     }
 
-    let userLike = this.reviewDetail().likeHistories.find(history => history.likerUser.id == this.userService.user()!.id)
+    let userLike = this.reviewDetail().getLikeHistories.find(history => history.getLikerUser.getId == this.userService.user()!.getId)
 
     if (!userLike) {
       console.log("Uj history")

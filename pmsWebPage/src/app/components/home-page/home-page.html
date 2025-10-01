@@ -32,15 +32,15 @@
             <mat-accordion>
               <mat-expansion-panel [expanded]="$index == 0" class="my-lg-4">
                 <mat-expansion-panel-header>
-                  <mat-panel-title>{{newsDetails.title}}</mat-panel-title>
+                  <mat-panel-title>{{newsDetails.getTitle}}</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent class="p-0">
                   <div class="container-fluid" style="height: 175px;">
                     <div class="row p-0">
-                      <div class="p-0" style="overflow-y: auto;" [class.col-lg-12]="newsDetails.bannerImgPath == null" [class.col-lg-8]="newsDetails.bannerImgPath != null">
-                        <p style="font-size: 16px; line-height: 20px;">{{newsDetails.text}}</p>
+                      <div class="p-0" style="overflow-y: auto;" [class.col-lg-12]="newsDetails.getBannerImgPath == null" [class.col-lg-8]="newsDetails.getBannerImgPath != null">
+                        <p style="font-size: 16px; line-height: 20px;">{{newsDetails.getText}}</p>
                       </div>
-                      @if (newsDetails.bannerImgPath != null) {
+                      @if (newsDetails.getBannerImgPath != null) {
                         <div class="col-lg-4 p-0">
                           <img style="height: auto !important;" src="assets/placeholder.png" alt="" class="img-fluid" id="bannerImg">
                         </div>

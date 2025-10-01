@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
-import { GalleryImage } from '../../../models/galleryImage.model';
 import { OtherService } from '../../../services/other-service';
+import { Gallery } from '../../../models/galleryImage.model';
 
 @Component({
   selector: 'app-carousel',
@@ -12,9 +12,9 @@ export class Carousel {
   private otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
 
-  galleryImages = signal<GalleryImage[]>([])
+  galleryImages = signal<Gallery[]>([])
   closeCarousel = output()
-  selectedImg = signal<null | GalleryImage>(null)
+  selectedImg = signal<null | Gallery>(null)
 
 
   ngOnInit(): void {

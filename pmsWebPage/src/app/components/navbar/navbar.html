@@ -11,9 +11,9 @@
         <a routerLink="/homePage">Főoldal</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url.includes('/makeReservation') || router.url == '/adminPage'">
-        @if(userService.user()?.role?.name  == "ROLE_user" || userService.user() == null){
+        @if(userService.user()?.getRole?.getName  == "ROLE_user" || userService.user() == null){
           <a routerLink="/makeReservation">Időpont foglalás</a>
-        } @else if (userService.user()?.role?.name == "ROLE_admin" || userService.user()?.role?.name == "ROLE_superAdmin") {
+        } @else if (userService.user()?.getRole?.getName == "ROLE_admin" || userService.user()?.getRole?.getName == "ROLE_superAdmin") {
           <a routerLink="/adminPage">Admin Page</a>
         }
       </div>
@@ -35,7 +35,7 @@
       @if(userService.user() == null){
         <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
       }@else {
-        <img routerLink="/profilePage" [src]="userService.user()?.pfpPath" alt="" id="pfpImage">
+        <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="" id="pfpImage">
       }
     </div>
   </div>

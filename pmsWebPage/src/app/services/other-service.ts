@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GalleryImage } from '../models/galleryImage.model';
+import { Gallery } from '../models/galleryImage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { GalleryImage } from '../models/galleryImage.model';
 export class OtherService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
-  selectedImgForCarousel = signal<null | GalleryImage>(null)
+  selectedImgForCarousel = signal<null | Gallery>(null)
 
   //Galleria
   getAllGalleryImages(): Observable<any[]> {

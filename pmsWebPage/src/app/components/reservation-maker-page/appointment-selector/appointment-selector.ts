@@ -53,7 +53,7 @@ export class AppointmentSelector implements OnInit {
   ngOnInit(): void {
     this.user.set(this.userService.user())
 
-    if (this.user()?.role.getName == "ROLE_admin" || this.user()?.role.getName == "ROLE_superAdmin") {
+    if (this.user()?.getRole.getName == "ROLE_admin" || this.user()?.getRole.getName == "ROLE_superAdmin") {
       this.listCardAmount = this.reservableHourAmounts.length
     }
 

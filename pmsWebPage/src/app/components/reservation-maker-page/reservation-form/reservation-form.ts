@@ -71,14 +71,14 @@ export class ReservationForm implements OnInit {
       email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
       phone: new FormControl(this.baseReservation().getPhone, [Validators.required, Validators.minLength(9), Validators.maxLength(9), validatePhone]),
       comment: new FormControl(this.baseReservation().getComment, []),
-      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.name, [Validators.required])
+      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.getName, [Validators.required])
     })
   }
 
   selectReservationType(reservationType: ReservationType) {
     this.selectedReservationType.set(reservationType)
     this.baseReservation().setReservationTypeId = reservationType
-    this.form.controls["reservationType"].setValue(this.selectedReservationType()!.name)
+    this.form.controls["reservationType"].setValue(this.selectedReservationType()!.getName)
   }
 
   continueReservation() {

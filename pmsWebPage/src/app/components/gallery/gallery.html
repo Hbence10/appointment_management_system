@@ -1,30 +1,30 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 my-3 d-flex justify-content-center align-content-center">
-      <img (click)="openCarousel(galleryImages()[0])" style="object-fit: cover;" [src]="galleryImages()[0].photoPath" alt="" class="img-flud rowImg">
+      <img (click)="openCarousel(galleryImages()[0])" style="object-fit: cover;" [src]="galleryImages()[0].getPhotoPath" alt="" class="img-flud rowImg">
     </div>
   </div>
 
   <div class="row">
     <div class="col-lg-4 d-flex flex-column justify-content-center align-items-center">
-      <img (click)="openCarousel(galleryImages()[1])" class="singleImg" [src]="galleryImages()[1].photoPath" alt="">
-      <img (click)="openCarousel(galleryImages()[2])" class="singleImg" [src]="galleryImages()[2].photoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[1])" class="singleImg" [src]="galleryImages()[1].getPhotoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[2])" class="singleImg" [src]="galleryImages()[2].getPhotoPath" alt="">
     </div>
     <div class="col-lg-4 d-flex flex-column justify-content-center align-items-center">
-      <img (click)="openCarousel(galleryImages()[3])" class="standImg" [src]="galleryImages()[3].photoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[3])" class="standImg" [src]="galleryImages()[3].getPhotoPath" alt="">
     </div>
     <div class="col-lg-4 d-flex flex-column justify-content-center align-items-center">
-      <img (click)="openCarousel(galleryImages()[4])" class="singleImg" [src]="galleryImages()[4].photoPath" alt="">
-      <img (click)="openCarousel(galleryImages()[5])" class="singleImg" [src]="galleryImages()[5].photoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[4])" class="singleImg" [src]="galleryImages()[4].getPhotoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[5])" class="singleImg" [src]="galleryImages()[5].getPhotoPath" alt="">
     </div>
 
   </div>
   <div class="row">
     <div class="col-lg-8 d-flex flex-column justify-content-center align-items-center">
-      <img (click)="openCarousel(galleryImages()[6])" class="doubleImg" [src]="galleryImages()[6].photoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[6])" class="doubleImg" [src]="galleryImages()[6].getPhotoPath" alt="">
     </div>
     <div class="col-lg-4 d-flex flex-column justify-content-center align-items-center">
-      <img (click)="openCarousel(galleryImages()[7])" class="singleImg" [src]="galleryImages()[7].photoPath" alt="">
+      <img (click)="openCarousel(galleryImages()[7])" class="singleImg" [src]="galleryImages()[7].getPhotoPath" alt="">
     </div>
   </div>
 

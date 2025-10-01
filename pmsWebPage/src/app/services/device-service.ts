@@ -10,11 +10,11 @@ export class DeviceService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
 
-  getAllDevicesByCategories(): Observable<any[]>{
+  getAllDevicesByCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseURL()}/devices/getAllCategory`)
   }
 
-  addDeviceCategory(newDevicesCategory: DevicesCategory){
-    return this.http.post(`${this.baseURL()}/devices/addCategory`, {id: newDevicesCategory.getId, name:newDevicesCategory.name, devicesList: newDevicesCategory.getDevicesList})
+  addDeviceCategory(newDevicesCategory: DevicesCategory) {
+    return this.http.post(`${this.baseURL()}/devices/addCategory`, { id: newDevicesCategory.getId, name: newDevicesCategory.getName, devicesList: newDevicesCategory.getDevicesList })
   }
 }

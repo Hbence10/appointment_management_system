@@ -33,7 +33,7 @@
                   <h3 class="text-white secondFont" style="font-weight: 600">Kezdés: {{ baseReservation().getReservedHours.getStart }}:00</h3>
                   <hr class="m-0 text-white" />
                   <div id="amountCardContainer">
-                    @if((user()?.role?.getName == 'ROLE_superAdmin' || user()?.role?.getName == "ROLE_admin")){
+                    @if((user()?.getRole?.getName == 'ROLE_superAdmin' || user()?.getRole?.getName == "ROLE_admin")){
                       <div class="amountCard my-3 d-flex justify-content-between align-items-center px-4 py-0" (click)="selectHoursAmountOfReservation('Egész napra')">
                         <p class="m-0 fw-bold secondFont">Egész napra</p>
                         <span class="material-symbols-outlined">arrow_right</span>

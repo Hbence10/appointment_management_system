@@ -13,7 +13,7 @@
           <tr>
             <th></th>
             @for (reservationType of reservationTypeRow; track $index) {
-              <th scope="col" class="text-center align-content-end mainFont py-2" style="font-size: 25px;">{{reservationType.name}}</th>
+              <th scope="col" class="text-center align-content-end mainFont py-2" style="font-size: 25px;">{{reservationType.getName}}</th>
             }
           </tr>
         </thead>
@@ -25,7 +25,7 @@
                 </th>
                 @for (reservationType of reservationTypeRow; track $index;) {
                   <td class="text-center numberFont align-content-center testClass">
-                    <span class="text-white">{{calculateHourPrice(reservationType.price!, hourAmount)}} Ft</span>
+                    <span class="text-white">{{calculateHourPrice(reservationType.getPrice!, hourAmount)}} Ft</span>
                   </td>
                 }
               </tr>

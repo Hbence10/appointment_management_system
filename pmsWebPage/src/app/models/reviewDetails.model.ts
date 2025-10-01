@@ -16,8 +16,8 @@ export class Review {
     private dislikeCount: number = 0,
     private likeHistories: ReviewHistory[] = []
   ) {
-    this.likeCount = this.likeHistories.filter(element => element.likeType == "like").length
-    this.dislikeCount = this.likeHistories.filter(element => element.likeType == "dislike").length
+    this.likeCount = this.likeHistories.filter(element => element.getLikeType == "like").length
+    this.dislikeCount = this.likeHistories.filter(element => element.getLikeType == "dislike").length
   }
 
   // Getterek:

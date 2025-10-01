@@ -1,8 +1,8 @@
 export class News {
   constructor(
-    private id: number | null,
-    private title: string,
-    private text: string,
+    private id?: number | null,
+    private title?: string,
+    private text?: string,
     private bannerImgPath: string | null = null,
     private placement?: number,
     private createdAt: Date = new Date(),
@@ -14,15 +14,15 @@ export class News {
 
   // Getterek:
   get getId(): number | null {
-    return this.id;
+    return this.id!;
   }
 
   get getTitle(): string {
-    return this.title;
+    return this.title!;
   }
 
   get getText(): string {
-    return this.text;
+    return this.text!;
   }
 
   get getBannerImgPath(): string | null {

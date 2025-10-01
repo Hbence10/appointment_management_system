@@ -45,7 +45,7 @@ export const routes: Routes = [
   },
   {
     path: "gallery",
-    loadComponent: () => import("./components/gallery/gallery").then(mod => mod.Gallery),
+    loadComponent: () => import("./components/gallery/gallery").then(mod => mod.GalleryPage),
     title: "Pécs Music Society - Galléria"
   },
   {

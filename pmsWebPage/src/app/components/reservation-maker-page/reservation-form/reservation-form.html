@@ -82,9 +82,9 @@
                 [class.selected]="selectedReservationType() == reservationType"
                 [class.noneSelected]="selectedReservationType() != null && selectedReservationType() != reservationType"
               >
-                <span class="secondFont">{{ reservationType.name }}</span>
+                <span class="secondFont">{{ reservationType.getName }}</span>
                 <span class="secondFont"
-                  >{{ reservationType.price! }} Ft / óra</span
+                  >{{ reservationType.getPrice! }} Ft / óra</span
                 >
               </div>
               }

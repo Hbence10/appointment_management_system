@@ -32,7 +32,7 @@ export class ProfilePage implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.user()!
 
-    const subscription = this.reservationService.getReservationByUserId(this.user.id!).subscribe({
+    const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
       next: responseList => {
         const newList: Reservation[] = []
         responseList.forEach(response => {

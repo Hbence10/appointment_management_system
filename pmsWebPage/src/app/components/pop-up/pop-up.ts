@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Device } from '../../models/device.model';
 import { DevicesCategory } from '../../models/deviceCategory.model';
-import { GalleryImage } from '../../models/galleryImage.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
@@ -18,6 +17,7 @@ import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { News } from '../../models/newsDetails.model';
+import { Gallery } from '../../models/galleryImage.model';
 
 
 @Component({
@@ -93,7 +93,7 @@ export class PopUp implements OnInit {
     } else if (this.baseDetails().objectType == "gallery") {
       this.otherService.getAllGalleryImages().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "gallery", new GalleryImage(element.id, element.name, element.photoPath, element.placement), "viewImage")]))
+          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "gallery", new Gallery(element.id, element.name, element.photoPath, element.placement), "viewImage")]))
         }
       })
     }

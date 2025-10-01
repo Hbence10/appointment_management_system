@@ -11,7 +11,7 @@ import { UserService } from '../../services/user-service';
 
   ]
 })
-export class Navbar{
+export class Navbar {
   userService = inject(UserService)
   router = inject(Router)
 }
