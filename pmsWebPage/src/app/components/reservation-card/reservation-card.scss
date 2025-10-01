@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -22,6 +23,10 @@
 button{
   background-color: #004D40 !important;
   border-radius: 15px;
+    @include mat.badge-overrides((
+    background-color: white,
+    text-color: #004D40
+  ));
 
   .material-symbols-outlined{
     color: white;
@@ -38,3 +43,5 @@ button{
     width: 2005px !important;
   }
 }
+
+

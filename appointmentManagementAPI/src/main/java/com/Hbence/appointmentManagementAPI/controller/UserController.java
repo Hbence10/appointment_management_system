@@ -27,28 +27,33 @@ public class UserController {
         return userService.register(newUser);
     }
 
-    @PutMapping("/updateUser")
-    public ResponseEntity<Object> updateUser(@RequestBody Users updatedUser) {
-        return userService.updateUser(updatedUser);
+    @GetMapping("/getVerificationCode")
+    public ResponseEntity<HashMap<String, Object>> getVerificationCode(@RequestParam("email") String email) {
+        HashMap<String, Object> returnObject = new HashMap<>();
+        returnObject.put("isSent", userService.getVerificationCode(email).getBody());
+        return ResponseEntity.ok(returnObject);
+    }
+
+    @PostMapping("/checkVerificationCode")
+    public ResponseEntity<Object> checkVerificationCode(@RequestBody Map<String, String> codeObject){
+        return userService.checkVCode(codeObject.get("vCode"));
     }
 
     @PatchMapping("/passwordReset")
     public ResponseEntity<HashMap<String, String>> updatePassword(@RequestBody Map<String, String> body) {
         HashMap<String, String> returnObject = new HashMap<>();
-        returnObject.put("result", userService.updatePassword(body.get("email"), body.get("newPassword")).getBody());
+        returnObject.put("result", userService.updatePassword(body.get("email"), body.get("newPassword"), body.get("vCode")).getBody());
         return ResponseEntity.ok(returnObject);
+    }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<Object> updateUser(@RequestBody Users updatedUser) {
+        return userService.updateUser(updatedUser);
     }
 
     @DeleteMapping("deleteUser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         return userService.deleteUser(id);
-    }
-
-    @GetMapping("/verificationCode")
-    public ResponseEntity<HashMap<String, String>> getVerificationCode(@RequestParam("email") String email) {
-        HashMap<String, String> returnObject = new HashMap<>();
-        returnObject.put("vCode", userService.getVerificationCode(email).getBody());
-        return ResponseEntity.ok(returnObject);
     }
 
     //Error lekezelesek:

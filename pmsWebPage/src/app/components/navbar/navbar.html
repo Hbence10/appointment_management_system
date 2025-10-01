@@ -8,31 +8,35 @@
 
     <div class="col-lg-8 d-flex justify-content-center align-items-center">
       <div class="nav-item mx-2 d-flex justify-content-center align-items-center" [class.active]="router.url == '/homePage'">
-        <a routerLink="homePage">Főoldal</a>
+        <a routerLink="/homePage">Főoldal</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url.includes('/makeReservation') || router.url == '/adminPage'">
         @if(userService.user()?.role?.name  == "ROLE_user" || userService.user() == null){
-          <a routerLink="makeReservation">Időpont foglalás</a>
+          <a routerLink="/makeReservation">Időpont foglalás</a>
         } @else if (userService.user()?.role?.name == "ROLE_admin" || userService.user()?.role?.name == "ROLE_superAdmin") {
-          <a routerLink="adminPage">Admin Page</a>
+          <a routerLink="/adminPage">Admin Page</a>
         }
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/priceList'">
-        <a routerLink="priceList">Árlista</a>
+        <a routerLink="/priceList">Árlista</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/equipments'">
-        <a routerLink="equipments">Felszerelés</a>
+        <a routerLink="/equipments">Felszerelés</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/reviews'">
-        <a routerLink="reviews">Vélemények</a>
+        <a routerLink="/reviews">Vélemények</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/gallery'">
-        <a routerLink="gallery">Galléria</a>
+        <a routerLink="/gallery">Galléria</a>
       </div>
     </div>
 
     <div class="col-lg-2 d-flex justify-content-center align-items-center flex-column">
-      <span (click)="userNavigation()" id="userIcon" class="material-symbols-outlined">account_circle</span>
+      @if(userService.user() == null){
+        <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
+      }@else {
+        <img routerLink="/profilePage" [src]="userService.user()?.pfpPath" alt="" id="pfpImage">
+      }
     </div>
   </div>
 </div>

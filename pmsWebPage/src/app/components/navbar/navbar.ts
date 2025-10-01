@@ -1,7 +1,6 @@
-import { UserService } from '../../services/user-service';
-import { Component, inject, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { UserService } from '../../services/user-service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,12 +14,4 @@ import { Router, RouterModule } from '@angular/router';
 export class Navbar{
   userService = inject(UserService)
   router = inject(Router)
-
-  userNavigation() {
-    if (this.userService.user() == null) {
-      this.router.navigateByUrl("login")
-    } else {
-      this.router.navigateByUrl("profilePage")
-    }
-  }
 }

@@ -46,7 +46,7 @@ export class PasswordResetPage implements OnInit {
   isShowPassword = signal<boolean>(false)
   isShowPasswordAgain = signal<boolean>(false)
 
-  vCode: string | null = null
+  isCorrectVCode = signal<boolean>(false)
   form!: FormGroup
 
   samePasswordValidator = (control: AbstractControl): { [key: string]: any } | null => {
@@ -70,20 +70,7 @@ export class PasswordResetPage implements OnInit {
   }
 
   sendCode() {
-    this.userService.getVerificationCode(this.form.controls["email"].value.trim()).subscribe({
-      next: response => {
-        console.log(response)
-        this.vCode = response.vCode
-      },
-      error: error => {
-        console.log(error)
-      },
-      complete: () => {
-        setTimeout(() => {
-          this.vCode = ""
-        }, 300000)
-      }
-    })
+
   }
 
   sendReset() {
@@ -99,6 +86,7 @@ export class PasswordResetPage implements OnInit {
       }
     })
   }
+
 
   showPassword(event: MouseEvent) {
     this.isShowPassword.update(old => !old)

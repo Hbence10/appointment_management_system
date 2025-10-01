@@ -52,3 +52,11 @@ a {
   color: #E0F2F1;
   cursor: pointer;
 }
+
+#pfpImage{
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}

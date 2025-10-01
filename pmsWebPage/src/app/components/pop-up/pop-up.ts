@@ -27,7 +27,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './pop-up.scss'
 })
 export class PopUp implements OnInit {
-  reservation = input.required<Reservation | null>()
+  reservation = input.required<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
   form: FormGroup = new FormGroup({
