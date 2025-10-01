@@ -1,4 +1,4 @@
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user-service';
 import { Router, RouterModule } from '@angular/router';
+import { response } from 'express';
 
 //
 function validatePassword(control: AbstractControl): { [key: string]: any } | null {
@@ -35,7 +36,7 @@ function validatePassword(control: AbstractControl): { [key: string]: any } | nu
 }
 @Component({
   selector: 'app-password-reset-page',
-  imports: [MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule, RouterModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule, RouterModule, ReactiveFormsModule, MatError],
   templateUrl: './password-reset-page.html',
   styleUrl: './password-reset-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -47,7 +48,11 @@ export class PasswordResetPage implements OnInit {
   isShowPasswordAgain = signal<boolean>(false)
 
   isCorrectVCode = signal<boolean>(false)
+  isSuccessfullReset = signal<boolean>(false)
   form!: FormGroup
+
+  emailErrorMsg = signal<string>("")
+  vCodeErrorMsg = signal<string>("")
 
   samePasswordValidator = (control: AbstractControl): { [key: string]: any } | null => {
     let originalPassword = this.form.controls["password"].value
@@ -69,30 +74,47 @@ export class PasswordResetPage implements OnInit {
     this.form.controls["passwordAgain"].addValidators(this.samePasswordValidator)
   }
 
-  sendCode() {
-
-  }
-
-  sendReset() {
-    this.userService.changePassword(this.form.controls["email"].value, this.form.controls["password"].value).subscribe({
-      next: response => {
-        console.log(response)
-      },
+  getCode() {
+    this.userService.getVerificationCode(this.form.controls["email"].value).subscribe({
+      next: response => console.log(response),
       error: error => {
-        console.log(error)
-      },
-      complete: () => {
-        this.router.navigate(["/login"])
+        if (error.status == 404){
+          this.emailErrorMsg.set("Nincs ilyen email címmel létező fiók. Próbáld meg újra!")
+        } else if (error.status == 417){
+          this.emailErrorMsg.set("Érvénytelen email címet adtál meg. Próbáld meg újra!")
+        }
       }
     })
   }
 
+  checkVCode(vCodeInputValue: string){
+    if(vCodeInputValue.length == 10){
+      this.userService.checkVerificationCode(vCodeInputValue).subscribe({
+        next: response => this.isCorrectVCode.set(response),
+        error: error => {
+          if (error.status == 417){
+
+          }
+        },
+        complete: () => {
+          if(!this.isCorrectVCode()){
+            this.vCodeErrorMsg.set("Helytelen kódot adtál meg. Próbáld meg újra!")
+          }
+        }
+      })
+    }
+  }
+
+  sendReset(vCode: string) {
+    this.userService.passwordReset(this.form.controls["email"].value, this.form.controls["password"].value, vCode).subscribe({
+      next: response => console.log(response),
+      complete: () => {this.router.navigate(["/login"])}
+    })
+  }
 
   showPassword(event: MouseEvent) {
     this.isShowPassword.update(old => !old)
     event.stopPropagation();
-
-    console.log(this.form.invalid)
   }
 
   showPasswordAgain(event: MouseEvent) {

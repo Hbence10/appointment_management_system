@@ -52,7 +52,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> getVerificationCode(String email) {
+    public ResponseEntity<String> getVerificationCode(String email) {
         List<String> emailList = userRepository.getAllEmail();
 
         if (!ValidatorCollection.emailChecker(email.trim())) {
@@ -61,9 +61,8 @@ public class UserService {
             return ResponseEntity.notFound().build();
         } else {
             this.vCode = generateVerificationCode();
-            System.out.println(vCode);
             emailSender.sendVerificationCodeEmail(email, vCode);
-            return ResponseEntity.ok(true);
+            return ResponseEntity.ok("success");
         }
     }
 
@@ -74,7 +73,7 @@ public class UserService {
             if (userVCode.equals(this.vCode)) {
                 return ResponseEntity.ok(true);
             } else {
-                return ResponseEntity.status(422).body(false);
+                return ResponseEntity.ok(false);
             }
         }
     }

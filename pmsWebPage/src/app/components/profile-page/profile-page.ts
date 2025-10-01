@@ -36,7 +36,9 @@ export class ProfilePage implements OnInit {
       next: responseList => {
         const newList: Reservation[] = []
         responseList.forEach(response => {
-          newList.push(new Reservation(response.firstName, response.lastName, response.email, response.phone, response.reservedAt, response.id, response.comment, response.isCanceled, response.canceledAt, response.canceledBy, response.user, response.reservationTypeId, response.paymentMethod, response.status, response.reservedHours, response.phoneCountryCode))
+          // newList.push(new Reservation(response.firstName, response.lastName, response.email, response.phone, response.reservedAt, response.id, response.comment, response.isCanceled, response.canceledAt, response.canceledBy, response.user, response.reservationTypeId, response.paymentMethod, response.status, response.reservedHours, response.phoneCountryCode))
+          console.log(response)
+          console.log(Object.assign(new Reservation(), response))
         })
         this.reservations.set(newList)
       },

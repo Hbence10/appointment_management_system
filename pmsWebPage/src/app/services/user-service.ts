@@ -12,23 +12,24 @@ export class UserService {
   baseURL = signal<string>("http://localhost:8080")
   token: string = ""
 
-  httpHeader = new HttpHeaders({
-
-  })
-
   login(username: string, password: string): Observable<any> {
-    return this.http.post<User>(`${this.baseURL()}/users/login`, { username: username, password: password }, {observe: "response"})
+    return this.http.post<User>(`${this.baseURL()}/users/login`, { username: username, password: password }, { observe: "response" })
   }
 
   register(requestedBody: { username: string, email: string, password: string, pfpPath: string }) {
     return this.http.post(`${this.baseURL()}/users/register`, requestedBody)
   }
 
-  getVerificationCode(email: string): Observable<{ vCode: string }> {
-    return this.http.get<{ vCode: string }>(`${this.baseURL()}/users/verificationCode?email=${email}`)
+  //password reset
+  getVerificationCode(email: string) {
+    return this.http.get(`${this.baseURL()}/users/getVerificationCode`, { params: new HttpParams().set("email", email) })
   }
 
-  changePassword(email: string, newPassword: string): Observable<{ result: string }> {
-    return this.http.patch<{ result: string }>(`${this.baseURL()}/users/passwordReset`, { email: email, newPassword: newPassword })
+  checkVerificationCode(userVCode: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseURL()}/users/checkVerificationCode`, {vCode: userVCode})
+  }
+
+  passwordReset(email: string, newPassword: string, vCode: string) {
+    return this.http.patch(`${this.baseURL()}/users/passwordReset`, {email: email, newPassword: newPassword, vCode: vCode})
   }
 }

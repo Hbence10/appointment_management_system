@@ -28,10 +28,10 @@ public class UserController {
     }
 
     @GetMapping("/getVerificationCode")
-    public ResponseEntity<HashMap<String, Object>> getVerificationCode(@RequestParam("email") String email) {
-        HashMap<String, Object> returnObject = new HashMap<>();
-        returnObject.put("isSent", userService.getVerificationCode(email).getBody());
-        return ResponseEntity.ok(returnObject);
+    public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email) {
+//        HashMap<String, String> returnObject = new HashMap<>();
+//        returnObject.put("isSent", userService.getVerificationCode(email).getBody());
+        return userService.getVerificationCode(email);
     }
 
     @PostMapping("/checkVerificationCode")
