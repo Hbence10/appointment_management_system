@@ -74,7 +74,7 @@ export class PopUp implements OnInit {
     if (this.baseDetails().objectType == 'deviceCategory') {
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", new DevicesCategory(element.id, element.name, element.devicesList), "delete")]))
+          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", new DevicesCategory(element.id, element.name, element.devicesList), "delete")]))
         }
       })
     }
@@ -87,7 +87,7 @@ export class PopUp implements OnInit {
     } else if (this.baseDetails().objectType == "reservationType") {
       this.reservationService.getReservationTypes().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "reservationType", new ReservationType(element.id, element.name, element.price), "delete")]))
+          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "reservationType", new ReservationType(element.id, element.name, element.price), "delete")]))
         }
       })
     } else if (this.baseDetails().objectType == "gallery") {
@@ -111,13 +111,13 @@ export class PopUp implements OnInit {
       }
 
       if (this.actualDetails()?.objectType == "deviceCategory") {
-        this.selectedObject = new DevicesCategory(null, "", [])
+        // this.selectedObject = new DevicesCategory(null, "", [])
       } else if (this.actualDetails()?.objectType == "device") {
         this.selectedObject = new Device(null, "", 1)
       } else if (this.actualDetails()?.objectType == "news") {
         this.selectedObject = new News(null, "", "", "", 0)
       } else if (this.actualDetails()?.objectType == "reservationType") {
-        this.selectedObject = new ReservationType(null, "", null)
+        // this.selectedObject = new ReservationType(null, "", null)
       }
 
       this.actualDetails.set(new Details(this.actualDetails()!.title, "newEntity", this.actualDetails()!.objectType))
@@ -145,7 +145,7 @@ export class PopUp implements OnInit {
 
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", element, "delete")]))
+          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", element, "delete")]))
         },
         complete: () => {
           this.actualDetails.set(new Details("Kategóriák listája", "newEntity", "deviceCategory"))

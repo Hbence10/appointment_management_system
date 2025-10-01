@@ -20,7 +20,7 @@ export class Equipments implements OnInit {
     const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
       next: response => {
         response.forEach(element => {
-          this.deviceCategoryList.update(old => [...old, new DevicesCategory(element.id, element.name, element.devicesList)])
+          this.deviceCategoryList.update(old => [...old, Object.assign(new DevicesCategory(), element)])
         })
       },
       complete: () => {
@@ -43,7 +43,6 @@ export class Equipments implements OnInit {
       }
       this.deviceCategoryListByRows.update(old => [...old, rowList])
     }
-
     console.log(this.deviceCategoryListByRows())
   }
 }

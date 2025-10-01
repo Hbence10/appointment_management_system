@@ -10,7 +10,7 @@ export class DeviceService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080")
 
-  getAllDevicesByCategories(): Observable<any[]> {
+  getAllDevicesByCategories(): Observable<DevicesCategory[]> {
     return this.http.get<any[]>(`${this.baseURL()}/devices/getAllCategory`)
   }
 

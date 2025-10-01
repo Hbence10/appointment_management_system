@@ -18,7 +18,11 @@ export class PriceList implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.reservationService.getReservationTypes().subscribe({
-      next: response => this.reservationTypes.set(response),
+      next: responseList => {
+        responseList.forEach(response => {
+          this.reservationTypes.update(old => [...old, Object.assign(new ReservationType(), response)])
+        })
+      },
       complete: () => this.splitTheList()
     })
 

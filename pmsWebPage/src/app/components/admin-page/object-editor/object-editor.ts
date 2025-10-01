@@ -38,7 +38,7 @@ export class ObjectEditor implements OnChanges {
         next: response => {
           console.log(response)
           response.forEach(element => {
-            this.deviceCategoryList.update(old => [...old, new DevicesCategory(element.id, element.name, element.devicesList)])
+            // this.deviceCategoryList.update(old => [...old, new DevicesCategory(element.id, element.name, element.devicesList)])
           })
           console.log(this.deviceCategoryList())
         }

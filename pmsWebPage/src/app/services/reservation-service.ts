@@ -34,7 +34,7 @@ export class ReservationService {
   }
 
   //
-  getReservationTypes(): Observable<any[]> {
+  getReservationTypes(): Observable<ReservationType[]> {
     return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/getReservationType`)
   }
 

@@ -1,8 +1,8 @@
 export class ReservationType {
   constructor(
-    private id: number | null,
+    private price?: number,
+    private id: number | null = null,
     private name: string = "",
-    private price: number | null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
@@ -19,7 +19,7 @@ export class ReservationType {
   }
 
   get getPrice(): number | null {
-    return this.price
+    return this.price!
   }
 
   get getPlaceholdersText(): string[] {

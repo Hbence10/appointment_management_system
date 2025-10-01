@@ -2,9 +2,9 @@ import { Device } from "./device.model";
 
 export class DevicesCategory {
   constructor(
-    private id: number | null,
-    private name: string,
-    private devicesList: (Device | any)[],
+    private name?: string,
+    private devicesList?: (Device | any)[],
+    private id: number | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Ird ide a kategória nevét"],
@@ -17,11 +17,11 @@ export class DevicesCategory {
   }
 
   get getName(): string {
-    return this.name;
+    return this.name!;
   }
 
   get getDevicesList(): (Device | any)[] {
-    return this.devicesList;
+    return this.devicesList!;
   }
 
   get getIsDeleted(): boolean{
