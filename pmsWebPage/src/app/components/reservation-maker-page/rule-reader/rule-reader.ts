@@ -1,6 +1,6 @@
-import { AfterContentInit, AfterViewInit, Component, DestroyRef, ElementRef, inject, input, OnInit, output, signal, ViewChild, viewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { Rule } from '../../../models/rule.model';
 import { OtherService } from '../../../services/other-service';
 import { ReservationService } from '../../../services/reservation-service';
 
@@ -16,7 +16,7 @@ export class RuleReader implements OnInit {
   private destroyRef = inject(DestroyRef)
   private reservationService = inject(ReservationService)
 
-  rule = signal<{ id: number | null, text: string, lastEditAt: Date }>({ id: null, text: "", lastEditAt: new Date() })
+  rule = signal<Rule | null>(null)
   continueAble = signal<boolean>(false)
   parentComponentInput = input<"reservationMaker" | "registerPage">("reservationMaker")
   ruleIsAccepted = output()

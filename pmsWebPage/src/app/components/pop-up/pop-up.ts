@@ -81,7 +81,7 @@ export class PopUp implements OnInit {
     else if (this.baseDetails().objectType == "news") {
       this.newsService.getAllNews().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", new News(element.id, element.title, element.text, element.bannerImgPath, element.placement, element.createdAt), "delete")]))
+          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", new News(element.id, element.title, element.text, element.bannerImgPath, element.placement, element.createdAt), "delete")]))
         }
       })
     } else if (this.baseDetails().objectType == "reservationType") {
@@ -93,7 +93,7 @@ export class PopUp implements OnInit {
     } else if (this.baseDetails().objectType == "gallery") {
       this.otherService.getAllGalleryImages().subscribe({
         next: response => {
-          response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "gallery", new Gallery(element.id, element.name, element.photoPath, element.placement), "viewImage")]))
+          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "gallery", new Gallery(element.id, element.name, element.photoPath, element.placement), "viewImage")]))
         }
       })
     }

@@ -1,7 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { OtherService } from '../../../services/other-service';
-
-type rule = { id: number, text: string, lastEditAt: Date }
+import { Rule } from '../../../models/rule.model';
 
 @Component({
   selector: 'app-rule-editor',
@@ -13,11 +12,11 @@ type rule = { id: number, text: string, lastEditAt: Date }
 export class RuleEditor implements OnInit {
   private destroyRef = inject(DestroyRef)
   private otherStuffService = inject(OtherService)
-  rule!: rule;
+  rule = signal<Rule | null>(null)
 
   ngOnInit(): void {
     const subscription = this.otherStuffService.getRule().subscribe({
-      next: response => this.rule = response
+      next: response => this.rule.set(response)
     })
 
     this.destroyRef.onDestroy(()=>{

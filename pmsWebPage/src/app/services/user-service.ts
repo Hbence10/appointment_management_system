@@ -32,4 +32,9 @@ export class UserService {
   passwordReset(email: string, newPassword: string, vCode: string) {
     return this.http.patch(`${this.baseURL()}/users/passwordReset`, {email: email, newPassword: newPassword, vCode: vCode})
   }
+  //
+
+  updateUser(){
+
+  }
 }

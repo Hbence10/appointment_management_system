@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Gallery } from '../models/galleryImage.model';
+import { Rule } from '../models/rule.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class OtherService {
   selectedImgForCarousel = signal<null | Gallery>(null)
 
   //Galleria
-  getAllGalleryImages(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseURL()}/gallery`)
+  getAllGalleryImages(): Observable<Gallery[]> {
+    return this.http.get<Gallery[]>(`${this.baseURL()}/gallery`)
   }
 
   //Szabalyzat
-  getRule(): Observable<{ id: number, text: string, lastEditAt: Date }> {
-    return this.http.get<{ id: number, text: string, lastEditAt: Date }>(`${this.baseURL()}/rule`)
+  getRule(): Observable<Rule> {
+    return this.http.get<Rule>(`${this.baseURL()}/rule`)
   }
 }

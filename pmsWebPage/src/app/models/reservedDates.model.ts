@@ -7,7 +7,7 @@ export class ReservedDates {
     private isHoliday: boolean = false,
     private isClosed: boolean = false,
     private isFull: boolean = false,
-    private reservedHours: (ReservedHours | any)[] = [],
+    private reservedHours: ReservedHours[] = [],
     private unavailableHours: number[] = [],
     private availableHours: number[] = []
   ){}
