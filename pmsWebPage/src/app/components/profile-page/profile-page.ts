@@ -68,6 +68,7 @@ export class ProfilePage implements OnInit {
   }
 
   showDetailsOfReservation(wantedReservation: Reservation){
+    this.popUpDetails.title = `#${wantedReservation.getId}`
     this.selectedReservation.set(wantedReservation)
     this.showPopUp.set(true)
   }

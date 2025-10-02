@@ -10,7 +10,7 @@ import { MatBadgeModule } from '@angular/material/badge';
   templateUrl: './reservation-card.html',
   styleUrl: './reservation-card.scss'
 })
-export class ReservationCard implements OnInit {
+export class ReservationCard implements OnInit{
   private reservationService = inject(ReservationService)
   private elementRef = inject(ElementRef)
 
@@ -19,13 +19,10 @@ export class ReservationCard implements OnInit {
 
   showDetailsOutput = output<Reservation>()
   cancelReservationOutput = output()
+  dateText: string = ""
 
   ngOnInit(): void {
-    const badge: HTMLButtonElement[] = (this.elementRef.nativeElement.getElementsByClassName('mat-badge-content') as HTMLButtonElement[])
-    console.log(badge)
-    // badge.
 
-    // badge[0].innerHTML = `<span class="material-symbols-outlined">add_comment</span>`;
   }
 
   cancelReservation() {

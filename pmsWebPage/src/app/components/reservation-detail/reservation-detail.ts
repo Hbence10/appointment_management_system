@@ -9,9 +9,11 @@ import { ReservationService } from '../../services/reservation-service';
   styleUrl: './reservation-detail.scss'
 })
 export class ReservationDetail implements OnInit{
+  formattedPhoneNumber: string = ""
+
   reservation = input.required<Reservation>()
 
   ngOnInit(): void {
-    console.log(this.reservation())
+    this.formattedPhoneNumber = "+" + this.reservation().getPhoneCode?.countryCode + " " + this.reservation().getPhone
   }
 }

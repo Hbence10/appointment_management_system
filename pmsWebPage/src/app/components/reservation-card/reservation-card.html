@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-            <h5 class="m-0">#{{reservationDetails().getId}} - {{reservationDetails().getReservationTypeId.getName}}</h5>
+            <h5 class="m-0">#{{reservationDetails().getId}}</h5>
           </div>
         </div>
 
@@ -16,14 +16,14 @@
 
         <div class="row">
           <div class="col-lg-12">
-            <p class="m-0"><span class="fw-bold">Státusz:</span> </p>
+            <p class="m-0"><span class="fw-bold">Státusz:</span> {{reservationDetails().getStatus.getName}}</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-end">
-      <button class="mx-2 d-flex" matButton="filled">
+      <button class="mx-2 d-flex" matButton="filled" [disabled]="reservationDetails().getIsCanceled">
         <span class="material-symbols-outlined">cancel</span>
       </button>
       <button matBadge="o" id="detailsButton" class="mx-2" matButton="filled" (click)="showReservationDetails()">Részletek</button>

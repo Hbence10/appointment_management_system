@@ -1,19 +1,25 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="text-center"></h1>
-    </div>
-  </div>
 
   <div class="row">
     <div class="col-lg-12">
-      <p class="text-center"><span class="fw-bold">Foglaló neve:</span> {{reservation().getFirstName + " " + reservation().getLastName}}</p>
-      <p class="text-center"><span class="fw-bold">Telefon:</span></p>
-      <p class="text-center"><span class="fw-bold">Foglalás dátuma:</span></p>
-      <p class="text-center"><span class="fw-bold">Foglalás időtartalma:</span></p>
-      <p class="text-center"><span class="fw-bold">Foglalás tipúsa:</span></p>
-      <p class="text-center"><span class="fw-bold">Fizetési mód:</span> {{reservation().getPaymentMethod.getName}}</p>
-      <p class="text-center"><span class="fw-bold">Megjegyzés:</span></p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Foglaló neve:</span> {{reservation().getFirstName + " " + reservation().getLastName}}</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Telefon:</span> {{formattedPhoneNumber}}</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás dátuma:</span> {{reservation().getReservedHours.getDate.getDate}}</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás időtartalma:</span> {{reservation().getReservedHours.getStart}}:00 - {{reservation().getReservedHours.getEnd}}:00`</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás tipúsa:</span> {{reservation().getReservationTypeId.getName}}</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Fizetési mód:</span> {{reservation().getPaymentMethod.getName}}</p>
+      @if(reservation().getIsCanceled){
+        <p class="d-flex justify-content-between"><span class="fw-bold">Lemondva ekkor: </span> {{reservation().getCanceledAt}}</p>
+      }
+
+      <p class="d-flex justify-content-between"><span class="fw-bold">Megjegyzés:</span>
+        @if(reservation().getComment == null){
+          Nincs
+        }
+      </p>
+      @if(reservation().getComment != null){
+        <p>{{reservation().getComment}}</p>
+      }
     </div>
   </div>
 </div>
