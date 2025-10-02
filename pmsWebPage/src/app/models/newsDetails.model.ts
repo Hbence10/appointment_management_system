@@ -54,10 +54,6 @@ export class News {
   }
 
   // Setterek
-  set setId(newId: number) {
-    this.id = newId
-  }
-
   set setTitle(newTitle: string) {
     this.title = newTitle
   }
@@ -76,13 +72,5 @@ export class News {
 
   set setCreatedAt(newDate: Date){
     this.createdAt = newDate
-  }
-
-  set setIsDeleted(newValue: boolean){
-    this.isDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date){
-    this.deletedAt = newDate
   }
 }

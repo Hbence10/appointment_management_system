@@ -1,28 +1,28 @@
 export class Gallery{
   constructor(
-    private id: number,
-    private photoName: string,
-    private photoPath: string,
-    private placement: number,
+    private id?: number,
+    private photoName?: string,
+    private photoPath?: string,
+    private placement?: number,
     private placeholders: string[] = ["Válaszd ki a kivánt fényképet"],
     private labelText: string[] = ["Fájl feltöltése"]
   ){}
 
   // Getterek:
   get getId(): number {
-    return this.id;
+    return this.id!;
   }
 
   get getName(): string {
-    return this.photoName
+    return this.photoName!
   }
 
   get getPhotoPath(): string {
-    return this.photoPath
+    return this.photoPath!
   }
 
   get getPlacement(): number {
-    return this.placement
+    return this.placement!
   }
 
   get getPlaceholdersText(): string[] {
@@ -34,10 +34,6 @@ export class Gallery{
   }
 
   // Setterek
-  set setId(newId: number){
-    this.id = newId
-  }
-
   set setPhotoName(newName: string){
     this.photoName = newName
   }

@@ -1,12 +1,18 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <p class="text-center"><span class="fw-bold">Foglaló neve:</span>{{reservation().getFirstName + " " + reservation().getLastName}}</p>
+      <h1 class="text-center"></h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="text-center"><span class="fw-bold">Foglaló neve:</span> {{reservation().getFirstName + " " + reservation().getLastName}}</p>
       <p class="text-center"><span class="fw-bold">Telefon:</span></p>
       <p class="text-center"><span class="fw-bold">Foglalás dátuma:</span></p>
       <p class="text-center"><span class="fw-bold">Foglalás időtartalma:</span></p>
       <p class="text-center"><span class="fw-bold">Foglalás tipúsa:</span></p>
-      <p class="text-center"><span class="fw-bold">Fizetési mód:</span></p>
+      <p class="text-center"><span class="fw-bold">Fizetési mód:</span> {{reservation().getPaymentMethod.getName}}</p>
       <p class="text-center"><span class="fw-bold">Megjegyzés:</span></p>
     </div>
   </div>

@@ -4,10 +4,10 @@ import { User } from "./user.model"
 export class Review {
 
   constructor(
-    private id: number | null,
-    private reviewText: string,
-    private rating: number,
-    private author: User,
+    private reviewText?: string,
+    private rating?: number,
+    private author?: User,
+    private id: number | null = null,
     private isAnonymus: boolean = false,
     private createdAt: Date = new Date(),
     private isDeleted: boolean = false,
@@ -22,19 +22,19 @@ export class Review {
 
   // Getterek:
   get getId(): number | null {
-    return this.id
+    return this.id!
   }
 
   get getAuthor(): User {
-    return this.author
+    return this.author!
   }
 
   get getReviewText(): string {
-    return this.reviewText
+    return this.reviewText!
   }
 
   get getRating(): number {
-    return this.rating
+    return this.rating!
   }
 
   get getLikeCount(): number {

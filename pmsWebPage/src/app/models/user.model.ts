@@ -2,11 +2,11 @@ import { Role } from "./role.model"
 export class User {
 
   constructor(
+    private id: number | null = null,
     private username?: string,
     private email?: string,
     private pfpPath?: string,
     private role: Role = new Role(1, "ROLE_user"),
-    private id: number | null = null,
   ) { }
 
   // Getterek
@@ -31,10 +31,6 @@ export class User {
   }
 
   // Setterek
-  set setId(newId: number){
-    this.id = newId
-  }
-
   set setUsername(newUsername: string){
     this.username = newUsername
   }
@@ -45,5 +41,9 @@ export class User {
 
   set setPfpPath(newPath: string){
     this.pfpPath = newPath
+  }
+
+  set setRole(newRole: Role){
+    this.role = newRole
   }
 }

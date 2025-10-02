@@ -41,23 +41,11 @@ export class DevicesCategory {
   }
 
   // Setterek
-  set setId(newId: number){
-    this.id = newId
-  }
-
   set setName(newName: string){
     this.name = newName
   }
 
   set setDevicesList(newList: Device[]){
     this.devicesList = newList
-  }
-
-  set setIsDeleted(newValue: boolean){
-    this.isDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date){
-    this.deletedAt = newDate
   }
 }

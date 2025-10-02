@@ -39,23 +39,11 @@ export class Device {
   }
 
   // Setterek:
-  set setId(newId: number) {
-    this.id = newId
-  }
-
   set setName(newName: string) {
     this.name = newName
   }
 
   set setAmount(newAmount: number) {
     this.amount = newAmount
-  }
-
-  set setIsDeleted(newValue: boolean) {
-    this.isDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date) {
-    this.deletedAt = newDate
   }
 }

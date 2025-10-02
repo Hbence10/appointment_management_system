@@ -6,8 +6,8 @@
           <div class="col-lg-5 d-flex flex-column justify-content-center align-items-center">
             <img src="assets/placeholder.png" alt="" class="img-fluid mb-2">
 
-            <h6 class="text-start">Felhsználónév: </h6>
-            <h6 class="text-start">Email cím</h6>
+            <h6 class="text-start"><span class="fw-bold">Felhsználónév:</span> {{user.getUsername}}</h6>
+            <h6 class="text-start"><span class="fw-bold">Email cím:</span> {{user.getEmail}}</h6>
 
             <button id="logoutButton" matButton="filled" (click)="logOut()" class="mt-2">Kijelentkezés</button>
           </div>

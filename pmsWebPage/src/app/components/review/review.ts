@@ -34,7 +34,13 @@ export class ReviewPage implements OnInit {
     this.user = this.userService.user
 
     const subscription = this.reviewService.getAllReviews().subscribe({
-      next: response => this.reviewDetails.set(response),
+      next: responseList => {
+        responseList.forEach(response => {
+          let review: Review = Object.assign(new Review(), response)
+          review.setAuthor = Object.assign(new User(), review.getAuthor)
+          this.reviewDetails.update(old => [...old, review])
+        })
+      },
       complete: () => console.log(this.reviewDetails())
     })
 
@@ -47,11 +53,11 @@ export class ReviewPage implements OnInit {
     if (this.userService.user() == null) {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
     } else {
-      const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, 2.5, this.user()!, this.isAnonymus())
-      this.reviewService.addReview(newReview).subscribe({
-        next: response => console.log(response),
-        complete: () => this.reviewDetails().push(newReview)
-      })
+      // const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, 2.5, this.user()!, this.isAnonymus())
+      // this.reviewService.addReview(newReview).subscribe({
+      //   next: response => console.log(response),
+      //   complete: () => this.reviewDetails().push(newReview)
+      // })
     }
   }
 

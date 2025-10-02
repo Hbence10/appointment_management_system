@@ -18,7 +18,11 @@ export class GalleryPage implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.otherService.getAllGalleryImages().subscribe({
-      next: response => this.galleryImages.set(response),
+      next: responseList => {
+        responseList.forEach(response => {
+          this.galleryImages.update(old => [...old, Object.assign(new Gallery(), response)])
+        })
+      },
       complete: () => console.log(this.galleryImages())
     })
 

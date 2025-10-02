@@ -9,6 +9,11 @@ import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { PopUp } from '../pop-up/pop-up';
 import { Details } from '../../models/notEntityModels/details.model';
+import { PaymentMethod } from '../../models/paymentMethod.model';
+import { ReservationType } from '../../models/reservationType.model';
+import { ReservedHours } from '../../models/reservedHours.model';
+import { ReservedDates } from '../../models/reservedDates.model';
+import { Status } from '../../models/status.model';
 
 @Component({
   selector: 'app-profile-page',
@@ -34,13 +39,18 @@ export class ProfilePage implements OnInit {
 
     const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
       next: responseList => {
-        const newList: Reservation[] = []
+
         responseList.forEach(response => {
-          // newList.push(new Reservation(response.firstName, response.lastName, response.email, response.phone, response.reservedAt, response.id, response.comment, response.isCanceled, response.canceledAt, response.canceledBy, response.user, response.reservationTypeId, response.paymentMethod, response.status, response.reservedHours, response.phoneCountryCode))
-          console.log(response)
-          console.log(Object.assign(new Reservation(), response))
+          let reservation = Object.assign(new Reservation(), response)
+          reservation.setPaymentMethod = Object.assign(new PaymentMethod(), reservation.getPaymentMethod)
+          reservation.setReservationTypeId = Object.assign(new ReservationType(), reservation.getReservationTypeId)
+          let reservedHour = Object.assign(new ReservedHours(), reservation.getReservedHours)
+          reservedHour.setDate = Object.assign(new ReservedDates(), reservedHour.getDate)
+          reservation.setReservedHours = reservedHour
+          reservation.setStatus = Object.assign(new Status(), reservation.getStatus)
+          this.reservations.update(old => [...old, reservation])
         })
-        this.reservations.set(newList)
+
       },
       complete: () => console.log(this.reservations())
     })

@@ -4,6 +4,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user-service';
 import { CookieService } from 'ngx-cookie-service';
+import { User } from './models/user.model';
+import { Role } from './models/role.model';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +18,19 @@ export class App implements OnInit {
   private cookieService = inject(CookieService)
 
   ngOnInit(): void {
+    let user: User = new User()
+
     if (sessionStorage.getItem("pmsJwtToken")) {
-      this.userService.user.set(JSON.parse(sessionStorage.getItem("pmsUserD")!))
+      user = Object.assign(new User(), JSON.parse(sessionStorage.getItem("pmsUserD")!))
       this.userService.token = sessionStorage.getItem("pmsJwtToken")!
     } else if (this.cookieService.get("pmsJwtToken")) {
-      this.userService.user.set(JSON.parse(this.cookieService.get("pmsUserD")!))
+      user = Object.assign(new User(), JSON.parse(this.cookieService.get("pmsUserD")!))
       this.userService.token = this.cookieService.get("pmsJwtToken")!
     }
 
-    console.log(this.userService.user())
+    user.setRole = Object.assign(new Role(), user.getRole)
+    if(user.getId != null){
+      this.userService.user.set(user)
+    }
   }
 }

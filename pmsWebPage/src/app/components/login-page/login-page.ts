@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
 import { CookieService } from 'ngx-cookie-service';
+import { User } from '../../models/user.model';
+import { Role } from '../../models/role.model';
 
 @Component({
   selector: 'app-login-page',
@@ -39,8 +41,9 @@ export class LoginPage implements OnInit {
     console.log(this.loginForm.controls["username"].value!.trim()!)
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
-        this.userService.user.set(response.body)
-        console.log(response)
+        let user: User = Object.assign(new User(), response.body)
+        user.setRole = Object.assign(new Role(), user.getRole)
+        this.userService.user.set(user)
         this.token = response.headers.headers.get("authorization")[0]
       },
       error: error => { this.isError.set(true) },

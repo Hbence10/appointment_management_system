@@ -39,23 +39,11 @@ export class ReservationType {
   }
 
   // Setterek:
-  set setId(newId: number) {
-    this.id = newId
-  }
-
   set setName(newName: string) {
     this.name = newName
   }
 
   set setPrice(newPrice: number){
     this.price = newPrice
-  }
-
-  set setIsDeleted(newValue: boolean) {
-    this.setIsDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date) {
-    this.deletedAt = newDate
   }
 }
