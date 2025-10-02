@@ -14,7 +14,7 @@ import { ReservationService } from '../../../services/reservation-service';
   styleUrl: './reservation-finalize.scss'
 })
 
-export class ReservationFinalize implements OnInit{
+export class ReservationFinalize implements OnInit {
   private reservationService = inject(ReservationService)
   private destroyRef = inject(DestroyRef)
 
@@ -30,7 +30,12 @@ export class ReservationFinalize implements OnInit{
     this.totalPrice = this.baseReservation().getReservationTypeId.getPrice! * (this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart)
 
     const subscription = this.reservationService.getPaymentMethods().subscribe({
-      next: response => this.paymentMethods.set(response)
+      next: responseList => {
+        responseList.forEach(response => {
+          this.paymentMethods.update(old => [...old, Object.assign(new PaymentMethod(), response)])
+        })
+        console.log(this.paymentMethods())
+      },
     })
 
     this.destroyRef.onDestroy(() => {
@@ -38,14 +43,14 @@ export class ReservationFinalize implements OnInit{
     })
 
     let basePhoneNumber = this.baseReservation().getPhone
-    this.phoneNumber = "+"+this.baseReservation().getPhoneCode?.countryCode + " " + basePhoneNumber.slice(0,2) + " " + basePhoneNumber.slice(2,5) + " " + basePhoneNumber.slice(5)
+    this.phoneNumber = "+" + this.baseReservation().getPhoneCode?.countryCode + " " + basePhoneNumber.slice(0, 2) + " " + basePhoneNumber.slice(2, 5) + " " + basePhoneNumber.slice(5)
   }
 
-  selectPaymentMethod(selectedPaymentMethod: PaymentMethod){
+  selectPaymentMethod(selectedPaymentMethod: PaymentMethod) {
     this.baseReservation().setPaymentMethod = selectedPaymentMethod
   }
 
-  finalizeReservation(){
+  finalizeReservation() {
     this.reservationService.baseReservation.set(this.baseReservation())
     this.reservationService.baseReservation().setReservedAt = new Date().toISOString()
     console.log(this.reservationService.baseReservation())

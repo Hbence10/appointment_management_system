@@ -14,7 +14,7 @@
         <h2 class="text-center mainFont my-3">{{devicesCategory.getName | titlecase}}</h2>
         <div>
           @for (devices of devicesCategory.getDevicesList; track $index) {
-            <p class="text-center secondFont">{{devices.name}}</p>
+            <p class="text-center secondFont">{{devices.getName}}</p>
           }
         </div>
       </div>
@@ -27,7 +27,7 @@
         <h2 class="text-center mainFont my-3">{{devicesCategory.getName | titlecase}}</h2>
         <div>
           @for (devices of devicesCategory.getDevicesList; track $index) {
-            <p class="text-center secondFont">{{devices.name}}</p>
+            <p class="text-center secondFont">{{devices.getName}}</p>
           }
         </div>
       </div>
@@ -39,7 +39,7 @@
         <h2 class="text-center mainFont my-3">{{deviceCategoryRow[4].getName | titlecase}}</h2>
         <div>
           @for(devices of deviceCategoryRow[4].getDevicesList; track $index){
-            <p class="text-center secondFont">{{devices.name}}</p>
+            <p class="text-center secondFont">{{devices.getName}}</p>
           }
         </div>
       </div>

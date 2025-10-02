@@ -45,9 +45,9 @@ export class AdminPage implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
-      next: response => {
-        this.todaysReservation.set(response)
-        this.reservationsOfSelectedDate.set(response)
+      next: responseList => {
+        this.todaysReservation.set(this.reservationService.setObject(responseList))
+        this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))
       }
     })
 

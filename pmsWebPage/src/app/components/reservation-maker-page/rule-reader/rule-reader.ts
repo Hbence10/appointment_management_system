@@ -25,7 +25,7 @@ export class RuleReader implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.otherService.getRule().subscribe({
-      next: response => this.rule.set(response),
+      next: response => this.rule.set(Object.assign(new Rule(), response)),
     });
 
     this.destroyRef.onDestroy(() => {

@@ -38,21 +38,10 @@ export class ProfilePage implements OnInit {
     this.user = this.userService.user()!
 
     const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
-      next: responseList => {
+      next: responseList => this.reservations.set(this.reservationService.setObject(responseList)),
+      error: error => {
 
-        responseList.forEach(response => {
-          let reservation = Object.assign(new Reservation(), response)
-          reservation.setPaymentMethod = Object.assign(new PaymentMethod(), reservation.getPaymentMethod)
-          reservation.setReservationTypeId = Object.assign(new ReservationType(), reservation.getReservationTypeId)
-          let reservedHour = Object.assign(new ReservedHours(), reservation.getReservedHours)
-          reservedHour.setDate = Object.assign(new ReservedDates(), reservedHour.getDate)
-          reservation.setReservedHours = reservedHour
-          reservation.setStatus = Object.assign(new Status(), reservation.getStatus)
-          this.reservations.update(old => [...old, reservation])
-        })
-
-      },
-      complete: () => console.log(this.reservations())
+      }
     })
 
     this.destroyRef.onDestroy(() => {

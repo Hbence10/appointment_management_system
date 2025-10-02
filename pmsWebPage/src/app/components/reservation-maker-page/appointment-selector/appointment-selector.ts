@@ -69,12 +69,17 @@ export class AppointmentSelector implements OnInit {
     } catch (error) { }
 
     const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate(), this.maxDate.toISOString().split("T")[0]).subscribe({
-      next: response => {
-        const resultList: ReservedDates[] = []
-        response.forEach(element => {
-          resultList.push(new ReservedDates(element.date, element.id, element.isHoliday, element.isClosed, element.isFull, element.reservedHours))
+      next: responseList => {
+        responseList.forEach(response => {
+          let reservedDate = Object.assign(new ReservedDates(), response)
+          const hourList: ReservedHours[] = []
+          reservedDate.getReservedHours.forEach(element => {
+            hourList.push(Object.assign(new ReservedHours(), element))
+          });
+          reservedDate.setReservedHours = hourList
+          this.reservedDatesOfActualPeriod.update(old => [...old, reservedDate])
         })
-        this.reservedDatesOfActualPeriod.set(resultList)
+
       },
       complete: () => {
         this.showSelectedDatesOfHours()
@@ -99,7 +104,6 @@ export class AppointmentSelector implements OnInit {
         this.baseReservation().getReservedHours.getDate.setAvailableHours = this.setAvailableHours()
       }
     }
-
   }
 
   resetReservedHour() {

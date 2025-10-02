@@ -3,7 +3,7 @@ import { Device } from "./device.model";
 export class DevicesCategory {
   constructor(
     private name?: string,
-    private devicesList?: (Device | any)[],
+    private devicesList?: Device[],
     private id: number | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
@@ -20,7 +20,7 @@ export class DevicesCategory {
     return this.name!;
   }
 
-  get getDevicesList(): (Device | any)[] {
+  get getDevicesList(): Device[] {
     return this.devicesList!;
   }
 

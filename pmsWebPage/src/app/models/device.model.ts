@@ -1,8 +1,8 @@
 export class Device {
   constructor(
-    private id: number | null,
-    private name: string,
-    private amount: number,
+    private name?: string,
+    private amount?: number,
+    private id: number | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
@@ -15,11 +15,11 @@ export class Device {
   }
 
   get getName(): string {
-    return this.name;
+    return this.name!;
   }
 
   get getAmount(): number {
-    return this.amount
+    return this.amount!
   }
 
   get getIsDeleted(): boolean {

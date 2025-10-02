@@ -54,4 +54,8 @@ export class ReservedDates {
     this.availableHours = newList
   }
 
+  set setReservedHours(newList: ReservedHours[]){
+    this.reservedHours = newList
+  }
+
 }

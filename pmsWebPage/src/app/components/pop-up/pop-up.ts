@@ -113,7 +113,7 @@ export class PopUp implements OnInit {
       if (this.actualDetails()?.objectType == "deviceCategory") {
         // this.selectedObject = new DevicesCategory(null, "", [])
       } else if (this.actualDetails()?.objectType == "device") {
-        this.selectedObject = new Device(null, "", 1)
+        // this.selectedObject = new Device(null, "", 1)
       } else if (this.actualDetails()?.objectType == "news") {
         this.selectedObject = new News(null, "", "", "", 0)
       } else if (this.actualDetails()?.objectType == "reservationType") {
@@ -135,7 +135,7 @@ export class PopUp implements OnInit {
     this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory.getName))
 
     deviceCategory.getDevicesList.forEach(element => {
-      this.cardList.update(old => [...old, new CardItem(element.name, "device", new Device(element.id, element.name, element.amount), "delete")])
+      // this.cardList.update(old => [...old, new CardItem(element.name, "device", new Device(element.id, element.name, element.amount), "delete")])
     })
   }
 

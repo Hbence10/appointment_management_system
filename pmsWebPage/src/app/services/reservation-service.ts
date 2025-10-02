@@ -5,6 +5,8 @@ import { Reservation } from '../models/reservation.model';
 import { ReservationType } from '../models/reservationType.model';
 import { ReservedDates } from '../models/reservedDates.model';
 import { PaymentMethod } from '../models/paymentMethod.model';
+import { ReservedHours } from '../models/reservedHours.model';
+import { Status } from '../models/status.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +16,27 @@ export class ReservationService {
   baseURL = signal<string>("http://localhost:8080")
   baseReservation = signal<Reservation>(new Reservation())
   ifRegistrationWithReservation = signal<boolean>(false)
-
   progressBarSteps = [true, false, false, false]
 
+  setObject(responseList: any[]): Reservation[] {
+    const returnList: Reservation[] = []
+
+    responseList.forEach(response => {
+      let reservation = Object.assign(new Reservation(), response)
+      reservation.setPaymentMethod = Object.assign(new PaymentMethod(), reservation.getPaymentMethod)
+      reservation.setReservationTypeId = Object.assign(new ReservationType(), reservation.getReservationTypeId)
+      let reservedHour = Object.assign(new ReservedHours(), reservation.getReservedHours)
+      reservedHour.setDate = Object.assign(new ReservedDates(), reservedHour.getDate)
+      reservation.setReservedHours = reservedHour
+      reservation.setStatus = Object.assign(new Status(), reservation.getStatus)
+      returnList.push(reservation)
+    })
+
+    return returnList
+  }
+
+
+  //Keresek:
   getReservationByUserId(userId: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
   }
@@ -42,8 +62,8 @@ export class ReservationService {
     return this.http.get<PaymentMethod[]>(`${this.baseURL()}/reservation/paymentMethods`)
   }
 
-  getPhoneCodes(): Observable<{id: number, countryCode: number, countryName: string}[]>{
-    return this.http.get<{id: number, countryCode: number, countryName: string}[]>(`${this.baseURL()}/reservation/phoneCodes`)
+  getPhoneCodes(): Observable<{ id: number, countryCode: number, countryName: string }[]> {
+    return this.http.get<{ id: number, countryCode: number, countryName: string }[]>(`${this.baseURL()}/reservation/phoneCodes`)
   }
   //
 }

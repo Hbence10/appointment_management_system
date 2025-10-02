@@ -1,21 +1,21 @@
 export class Rule{
   constructor(
-    private id: number,
-    private text: string,
-    private lastEditAt: Date
+    private id?: number,
+    private text?: string,
+    private lastEditAt?: Date
   ){}
 
   // Getterek:
   get getId(): number {
-    return this.id
+    return this.id!
   }
 
   get getText(): string {
-    return this.text
+    return this.text!
   }
 
   get getLastEditAt(): Date {
-    return this.lastEditAt
+    return this.lastEditAt!
   }
 
   // Setterek:
