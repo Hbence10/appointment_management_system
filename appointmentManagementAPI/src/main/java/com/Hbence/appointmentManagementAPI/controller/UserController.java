@@ -29,8 +29,6 @@ public class UserController {
 
     @GetMapping("/getVerificationCode")
     public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email) {
-//        HashMap<String, String> returnObject = new HashMap<>();
-//        returnObject.put("isSent", userService.getVerificationCode(email).getBody());
         return userService.getVerificationCode(email);
     }
 
@@ -46,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok(returnObject);
     }
 
-    @PutMapping("/updateUser")
+    @PatchMapping("/updateUser")
     public ResponseEntity<Object> updateUser(@RequestBody Users updatedUser) {
         return userService.updateUser(updatedUser);
     }

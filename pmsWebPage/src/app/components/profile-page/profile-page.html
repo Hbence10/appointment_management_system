@@ -4,11 +4,24 @@
       <div id="mainContainer" class="container-fluid ">
         <div class="row" style="height: 100%;">
           <div class="col-lg-5 d-flex flex-column justify-content-center align-items-center">
-            <img src="assets/placeholder.png" alt="" class="img-fluid mb-2">
+            <img [src]="user.getPfpPath" alt="" class="img-fluid mb-3">
 
             <div class="my-2">
-              <h6 class="text-center"><span class="fw-bold">Felhsználónév:</span> {{user.getUsername}}</h6>
-              <h6 class="text-center"><span class="fw-bold">Email cím:</span> {{user.getEmail}}</h6>
+              <h6 class="text-center"><span class="fw-bold">Felhsználónév:</span>
+                @if(!isEditUsername()){
+                <span (dblclick)="isEditUsername.set(true)"> {{user.getUsername}}</span>
+                } @else {
+                  <input type="text" [value]="user.getUsername">
+                }
+              </h6>
+
+              <h6 class="text-center"><span class="fw-bold">Email cím:</span>
+                @if(!isEditEmail()){
+                  <span (dblclick)="isEditEmail.set(true)"> {{user.getEmail}}</span>
+                } @else {
+                  <input type="text" [value]="user.getEmail">
+                }
+              </h6>
             </div>
 
             <button id="logoutButton" matButton="filled" (click)="logOut()" class="mt-2">Kijelentkezés</button>
@@ -35,6 +48,13 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <button><span class="material-symbols-outlined">delete</span></button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
