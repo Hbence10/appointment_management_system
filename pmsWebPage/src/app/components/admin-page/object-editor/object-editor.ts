@@ -6,6 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { DeviceService } from '../../../services/device-service';
 import { DevicesCategory } from '../../../models/deviceCategory.model';
+import { Device } from '../../../models/device.model';
+import { News } from '../../../models/newsDetails.model';
+import { ReservationType } from '../../../models/reservationType.model';
+import { Gallery } from '../../../models/galleryImage.model';
 
 @Component({
   selector: 'app-object-editor',
@@ -18,7 +22,7 @@ export class ObjectEditor implements OnChanges {
   private destroyRef = inject(DestroyRef)
   readonly objectType = input.required<Details>()
   outputFormForPopUpContainer = output<FormGroup>()
-  selectedObject = input<any>()
+  selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | null>()
 
   details = signal<Details | null>(null)
   placeholderText: string[] = []
@@ -32,7 +36,7 @@ export class ObjectEditor implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.details.set(this.objectType())
-    this.form().reset()
+
     if (this.details()?.objectType == "device") {
       const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => this.deviceCategoryList.set(response.map(element => Object.assign(new DevicesCategory(), element)))
@@ -43,32 +47,10 @@ export class ObjectEditor implements OnChanges {
       })
     }
 
-    if (this.objectType().objectType == "device") {
-      this.form().controls["property1"].setValue(this.selectedObject().name)
-      this.form().controls["property2"].setValue(this.selectedObject().amount)
-      // this.form.controls["property3"].setValue("")
-    } else if (this.objectType().objectType == "deviceCategory") {
-      this.form().controls["property1"].setValue(this.selectedObject().name)
-    } else if (this.objectType().objectType == "news") {
-      this.form().controls["property1"].setValue(this.selectedObject().title)
-      this.form().controls["property2"].setValue(this.selectedObject().text)
-      // this.form.controls["property3"].setValue("")
-    } else if (this.objectType().objectType == "reservationType") {
-      this.form().controls["property1"].setValue(this.selectedObject().name)
-      this.form().controls["property2"].setValue(this.selectedObject().price)
-    } else if (this.objectType().objectType == "gallery") {
-      this.form().controls["property1"].setValue(this.selectedObject().name)
-    }
+    this.placeholderText = this.selectedObject()!.getPlaceholdersText
+    this.labelText = this.selectedObject()!.getLabelText
 
-    this.placeholderText = this.selectedObject().getPlaceholdersText
-    this.labelText = this.selectedObject().getLabelText
 
-    if (this.details()?.objectType == "news" || this.details()?.objectType == "device") {
-      this.form().controls["property2"].addValidators(Validators.required)
-      this.form().controls["property3"].addValidators(Validators.required)
-    } else if (this.details()?.objectType == "reservationType") {
-      this.form().controls["property2"].addValidators(Validators.required)
-    }
   }
 
   showFormGroup() {

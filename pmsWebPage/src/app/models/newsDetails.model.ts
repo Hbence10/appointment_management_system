@@ -17,7 +17,7 @@ export class News {
     return this.id;
   }
 
-  get getTitle(): string {
+  get getName(): string {
     return this.title!;
   }
 

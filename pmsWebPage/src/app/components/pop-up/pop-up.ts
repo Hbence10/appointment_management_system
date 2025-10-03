@@ -38,7 +38,7 @@ export class PopUp implements OnInit {
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
-  selectedObject: any = null
+  selectedObject: DevicesCategory | Device | News | ReservationType | Gallery | null = null
   editForm!: FormGroup
 
   buttonText = computed<string>(() => {
@@ -107,7 +107,7 @@ export class PopUp implements OnInit {
 
   setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery") {
     responseList.forEach(element => {
-      this.cardList.update(old => [...old, new CardItem(element instanceof News ? element.getTitle : element.getName, objectType, element, element instanceof Gallery ? "viewImage" : "delete")])
+      this.cardList.update(old => [...old, new CardItem(element.getName, objectType, element, element instanceof Gallery ? "viewImage" : "delete")])
     })
   }
 
@@ -117,7 +117,27 @@ export class PopUp implements OnInit {
   buttonEvent() {
     if (this.actualDetails()?.buttonText == "newEntity") {
       this.actualPage = "editPage"
-      this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType,))
+      this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType))
+      if (this.actualDetails()!.objectType == "device") {
+        this.selectedObject = new Device()
+      } else if (this.actualDetails()!.objectType == "deviceCategory") {
+        this.selectedObject = new DevicesCategory()
+      } else if (this.actualDetails()!.objectType == "reservationType") {
+        this.selectedObject = new ReservationType()
+      } else if (this.actualDetails()!.objectType == "news") {
+        this.selectedObject = new News()
+      } else if (this.actualDetails()!.objectType == "gallery") {
+        this.selectedObject = new Gallery()
+      }
+      this.setForm()
+    } else if (this.actualDetails()?.buttonText == "saveChanges") {
+      if (this.selectedObject?.getId == null) {
+        this.sendPostRequest()
+      } else if (this.selectedObject.getId != null) {
+        this.sendPutRequest()
+      }
+    } else if (this.actualDetails()?.buttonText == "deleteEntity"){
+      this.sendDeleteRequest()
     }
   }
 
@@ -152,6 +172,11 @@ export class PopUp implements OnInit {
   }
 
   edit(wantedObject: CardItem) {
+    this.selectedObject = wantedObject.object
+    this.form.reset()
+    this.setForm()
+
+
     this.actualPage = "editPage"
     this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType))
   }
@@ -172,6 +197,26 @@ export class PopUp implements OnInit {
 
   sendDeleteRequest() {
     console.log("deleteEntity")
+  }
+
+  setForm() {
+    this.form.controls["property1"].setValue(this.selectedObject!.getName)
+    if (this.selectedObject instanceof Device) {
+      this.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
+      // this.form.controls["property3"].setValue("")
+    } else if (this.selectedObject instanceof News) {
+      this.form.controls["property2"].setValue((this.selectedObject as News).getText)
+      // this.form.controls["property3"].setValue("")
+    } else if (this.selectedObject instanceof ReservationType) {
+      this.form.controls["property2"].setValue((this.selectedObject as ReservationType).getPrice)
+    }
+
+    if (this.selectedObject instanceof Device || this.selectedObject instanceof News) {
+      this.form.controls["property2"].addValidators(Validators.required)
+      this.form.controls["property3"].addValidators(Validators.required)
+    } else if (this.selectedObject instanceof ReservationType) {
+      this.form.controls["property2"].addValidators(Validators.required)
+    }
   }
 }
 

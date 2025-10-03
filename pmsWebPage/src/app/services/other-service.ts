@@ -21,4 +21,8 @@ export class OtherService {
   getRule(): Observable<Rule> {
     return this.http.get<Rule>(`${this.baseURL()}/rule`)
   }
+
+  saveRuleChanges(newRule: Rule) {
+    return this.http.post(`${this.baseURL}/rule/update`, {updatedRule: newRule})
+  }
 }
