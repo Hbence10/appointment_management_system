@@ -117,7 +117,7 @@ export class PopUp implements OnInit {
   buttonEvent() {
     if (this.actualDetails()?.buttonText == "newEntity") {
       this.actualPage = "editPage"
-      this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType))
+      this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType, this.actualDetails()?.deviceCategory))
       if (this.actualDetails()!.objectType == "device") {
         this.selectedObject = new Device()
       } else if (this.actualDetails()!.objectType == "deviceCategory") {
@@ -136,17 +136,19 @@ export class PopUp implements OnInit {
       } else if (this.selectedObject.getId != null) {
         this.sendPutRequest()
       }
-    } else if (this.actualDetails()?.buttonText == "deleteEntity"){
+    } else if (this.actualDetails()?.buttonText == "deleteEntity") {
       this.sendDeleteRequest()
     }
   }
 
   showDevices(deviceCategory: DevicesCategory) {
     this.cardList.set([])
-    deviceCategory.getDevicesList.map(device => Object.assign(new Device(), device)).forEach(device => {
+    deviceCategory.setDevicesList = deviceCategory.getDevicesList.map(element => Object.assign(new Device(), element))
+
+    deviceCategory.getDevicesList.forEach(device => {
       this.cardList.update(old => [...old, new CardItem(device.getName, "device", device, "delete")])
     })
-    this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device"))
+    this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory))
   }
 
   backToListPage() {
@@ -155,18 +157,23 @@ export class PopUp implements OnInit {
       this.deviceService.getAllDevicesByCategories().subscribe({
         next: responseList => this.setCardList(responseList.map(element => Object.assign(new DevicesCategory(), element)), "deviceCategory"),
         error: error => this.setErrors(error),
-        complete: () => { this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType)) }
+        complete: () => { this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory)) }
       })
     } else if (this.actualPage == "deletePage") {
       if (this.actualDetails()!.objectType == "device") {
-
+        this.actualDetails.set(new Details(this.actualDetails()!.deviceCategory.getName, "newEntity", "device", this.actualDetails()?.deviceCategory))
       } else {
-        this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
+        this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
       }
 
       this.actualPage = "listPage"
     } else if (this.actualPage == "editPage") {
-      this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
+      if (this.actualDetails()?.objectType == "device") {
+        this.actualDetails.set(new Details(this.actualDetails()!.deviceCategory.getName, "newEntity", "device", this.actualDetails()?.deviceCategory))
+      } else {
+      this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
+      }
+
       this.actualPage = "listPage"
     }
   }
@@ -178,11 +185,11 @@ export class PopUp implements OnInit {
 
 
     this.actualPage = "editPage"
-    this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType))
+    this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType, this.actualDetails()?.deviceCategory))
   }
 
   delete(wantedObject: CardItem) {
-    this.actualDetails.set(new Details("", "deleteEntity", wantedObject.objectType))
+    this.actualDetails.set(new Details("", "deleteEntity", wantedObject.objectType, this.actualDetails()?.deviceCategory))
     this.actualPage = "deletePage"
   }
 

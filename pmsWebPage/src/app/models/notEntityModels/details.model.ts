@@ -1,10 +1,12 @@
+import { DevicesCategory } from "../deviceCategory.model"
+
 export class Details {
 
   constructor(
     private _title: string,
     private _buttonText: "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "cancelReservation" | "",
     private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation",
-    private _deviceCategory?: string
+    private _deviceCategory?: DevicesCategory
   ) { }
 
   //getterek:
@@ -20,8 +22,8 @@ export class Details {
     return this._objectType
   }
 
-  get deviceCategory(): string | undefined {
-    return this._deviceCategory
+  get deviceCategory(): DevicesCategory {
+    return this._deviceCategory!
   }
 
   //setterek:
