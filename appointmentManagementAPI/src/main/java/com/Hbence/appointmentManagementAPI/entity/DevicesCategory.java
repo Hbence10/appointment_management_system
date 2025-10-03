@@ -29,7 +29,7 @@ public class DevicesCategory {
 
     @Column(name = "is_deleted")
     @NotNull
-    private boolean isDeleted = false;
+    private Boolean isDeleted;
 
     @Column(name = "deleted_at")
     @Null
@@ -47,5 +47,9 @@ public class DevicesCategory {
     public DevicesCategory(String name, List<Devices> devicesList) {
         this.name = name;
         this.devicesList = devicesList;
+    }
+
+    public DevicesCategory(Long id) {
+        this.id = id;
     }
 }

@@ -30,7 +30,7 @@ public class DeviceController {
     }
 
     @DeleteMapping("/deleteCategory/{id}")
-    public ResponseEntity<String> deleteDeviceCategory(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> deleteDeviceCategory(@PathVariable("id") Long id) {
         return deviceService.deleteDevicesCategory(id);
     }
 

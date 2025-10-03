@@ -1,9 +1,11 @@
 package com.Hbence.appointmentManagementAPI.service;
 
+import com.Hbence.appointmentManagementAPI.controller.DeviceController;
 import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.repository.DeviceCategoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
+import com.Hbence.appointmentManagementAPI.service.other.EntityNotFound;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional
@@ -38,8 +41,16 @@ public class DeviceService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<String> deleteDevicesCategory(Long id) {
-        return null;
+    public ResponseEntity<Boolean> deleteDevicesCategory(Long id) {
+        DevicesCategory searchedDeviceCategory = deviceCategoryRepository.findById(id).orElse(new DevicesCategory(null));
+
+        if (searchedDeviceCategory.getId() == null || searchedDeviceCategory.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            searchedDeviceCategory.setIsDeleted(true);
+            searchedDeviceCategory.setDeletedAt(LocalDateTime.now());
+            return ResponseEntity.ok(true);
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
