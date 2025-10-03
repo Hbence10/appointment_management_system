@@ -2,7 +2,7 @@ export class ReservationType {
   constructor(
     private price?: number,
     private id: number | null = null,
-    private name: string = "",
+    private name?: string,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
@@ -15,7 +15,7 @@ export class ReservationType {
   }
 
   get getName(): string {
-    return this.name
+    return this.name!
   }
 
   get getPrice(): number | null {

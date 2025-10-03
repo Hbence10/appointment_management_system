@@ -35,13 +35,7 @@ export class ObjectEditor implements OnChanges {
     this.form().reset()
     if (this.details()?.objectType == "device") {
       const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
-        next: response => {
-          console.log(response)
-          response.forEach(element => {
-            // this.deviceCategoryList.update(old => [...old, new DevicesCategory(element.id, element.name, element.devicesList)])
-          })
-          console.log(this.deviceCategoryList())
-        }
+        next: response => this.deviceCategoryList.set(response.map(element => Object.assign(new DevicesCategory(), element)))
       })
 
       this.destroyRef.onDestroy(() => {

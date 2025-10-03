@@ -14,17 +14,13 @@ import { OtherService } from '../../services/other-service';
   templateUrl: './list-card.html',
   styleUrl: './list-card.scss'
 })
-export class ListCard implements OnInit {
+export class ListCard {
   cardItem = input.required<CardItem>()
   edit = output<CardItem>()
   changeList = output<DevicesCategory>()
   delete = output<any>()
 
   eventsTypeList: string[] = []
-
-  ngOnInit(): void {
-
-  }
 
   button1Event() {
     if (this.cardItem().button1Event == "delete") {

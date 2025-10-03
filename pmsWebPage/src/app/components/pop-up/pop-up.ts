@@ -1,12 +1,11 @@
-import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Device } from '../../models/device.model';
 import { DevicesCategory } from '../../models/deviceCategory.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
-import { ReservationType } from '../../models/reservationType.model';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
 import { OtherService } from '../../services/other-service';
@@ -15,9 +14,10 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { News } from '../../models/newsDetails.model';
 import { Gallery } from '../../models/galleryImage.model';
+import { ReservationType } from '../../models/reservationType.model';
+import { News } from '../../models/newsDetails.model';
+import { Device } from '../../models/device.model';
 
 
 @Component({
@@ -67,29 +67,93 @@ export class PopUp implements OnInit {
   private newsService = inject(NewsService)
   private reservationService = inject(ReservationService)
   private otherService = inject(OtherService)
+  private destroyRef = inject(DestroyRef)
 
   ngOnInit() {
     this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
+    let subscription;
+    if (this.actualDetails()?.objectType == 'deviceCategory') {
+      subscription = this.deviceService.getAllDevicesByCategories().subscribe({
+        next: responseList => this.setCardList(responseList.map(element => Object.assign(new DevicesCategory(), element)), "deviceCategory"),
+        error: error => this.setErrors(error)
+      })
+
+    } else if (this.actualDetails()?.objectType == 'news') {
+      subscription = this.newsService.getAllNews().subscribe({
+        next: responseList => this.setCardList(responseList.map(element => Object.assign(new News(), element)), "news"),
+        error: error => this.setErrors(error)
+      })
+
+    } else if (this.actualDetails()?.objectType == 'gallery') {
+      subscription = this.otherService.getAllGalleryImages().subscribe({
+        next: responseList => this.setCardList(responseList.map(element => Object.assign(new Gallery(), element)), "gallery"),
+        error: error => this.setErrors(error)
+      })
+    } else if (this.actualDetails()?.objectType == 'reservationType') {
+      subscription = this.reservationService.getReservationTypes().subscribe({
+        next: responseList => this.setCardList(responseList.map(element => Object.assign(new ReservationType(), element)), "reservationType"),
+        error: error => this.setErrors(error)
+      })
+    }
+
+    this.destroyRef.onDestroy(() => {
+      subscription!.unsubscribe()
+    })
   }
 
   close() {
     this.closePopUp.emit()
   }
 
-  buttonEvent() {
+  setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery") {
+    responseList.forEach(element => {
+      this.cardList.update(old => [...old, new CardItem(element instanceof News ? element.getTitle : element.getName, objectType, element, element instanceof Gallery ? "viewImage" : "delete")])
+    })
+  }
 
+  setErrors(errorResponse: any) {
+  }
+
+  buttonEvent() {
+    if (this.actualDetails()?.buttonText == "newEntity") {
+      this.actualPage = "editPage"
+      this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType,))
+    }
   }
 
   showDevices(deviceCategory: DevicesCategory) {
-
+    this.cardList.set([])
+    deviceCategory.getDevicesList.map(device => Object.assign(new Device(), device)).forEach(device => {
+      this.cardList.update(old => [...old, new CardItem(device.getName, "device", device, "delete")])
+    })
+    this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device"))
   }
 
   backToListPage() {
+    if (this.actualPage == "listPage") {
+      this.cardList.set([])
+      this.deviceService.getAllDevicesByCategories().subscribe({
+        next: responseList => this.setCardList(responseList.map(element => Object.assign(new DevicesCategory(), element)), "deviceCategory"),
+        error: error => this.setErrors(error),
+        complete: () => { this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType)) }
+      })
+    } else if (this.actualPage == "deletePage") {
+      if (this.actualDetails()!.objectType == "device") {
 
+      } else {
+        this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
+      }
+
+      this.actualPage = "listPage"
+    } else if (this.actualPage == "editPage") {
+      this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
+      this.actualPage = "listPage"
+    }
   }
 
   edit(wantedObject: CardItem) {
-
+    this.actualPage = "editPage"
+    this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType))
   }
 
   delete(wantedObject: CardItem) {
@@ -97,6 +161,7 @@ export class PopUp implements OnInit {
     this.actualPage = "deletePage"
   }
 
+  //
   sendPutRequest() {
     console.log("saveUpdates")
   }

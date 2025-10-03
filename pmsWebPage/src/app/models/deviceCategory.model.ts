@@ -2,9 +2,9 @@ import { Device } from "./device.model";
 
 export class DevicesCategory {
   constructor(
+    private id: number | null = null,
     private name?: string,
     private devicesList?: Device[],
-    private id: number | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Ird ide a kategória nevét"],

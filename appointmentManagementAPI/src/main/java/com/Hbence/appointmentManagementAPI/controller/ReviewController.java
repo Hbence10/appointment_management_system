@@ -18,7 +18,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     //Review:
-    @GetMapping("/getAll")
+    @GetMapping("/s")
     public List<Review> getAllReview() {
         return reviewService.getAllReview();
     }
