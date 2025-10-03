@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, output, Signal, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { RouterModule } from '@angular/router';
+import { Reservation } from '../../../models/reservation.model';
 import { ReservedDates } from '../../../models/reservedDates.model';
 import { ReservedHours } from '../../../models/reservedHours.model';
 import { User } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
-import { Reservation } from '../../../models/reservation.model';
 
 @Component({
   selector: 'app-appointment-selector',

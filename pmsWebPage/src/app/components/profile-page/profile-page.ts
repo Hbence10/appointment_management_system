@@ -31,6 +31,7 @@ export class ProfilePage implements OnInit {
 
   isEditUsername = signal<boolean>(false)
   isEditEmail = signal<boolean>(false)
+  isShowDeletePopUp = signal<boolean>(false)
 
   ngOnInit(): void {
     this.user = this.userService.user()!

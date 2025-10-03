@@ -70,33 +70,6 @@ export class PopUp implements OnInit {
 
   ngOnInit() {
     this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
-
-    if (this.baseDetails().objectType == 'deviceCategory') {
-      this.deviceService.getAllDevicesByCategories().subscribe({
-        next: response => {
-          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", new DevicesCategory(element.id, element.name, element.devicesList), "delete")]))
-        }
-      })
-    }
-    else if (this.baseDetails().objectType == "news") {
-      this.newsService.getAllNews().subscribe({
-        next: response => {
-          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.title, "news", new News(element.id, element.title, element.text, element.bannerImgPath, element.placement, element.createdAt), "delete")]))
-        }
-      })
-    } else if (this.baseDetails().objectType == "reservationType") {
-      this.reservationService.getReservationTypes().subscribe({
-        next: response => {
-          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "reservationType", new ReservationType(element.id, element.name, element.price), "delete")]))
-        }
-      })
-    } else if (this.baseDetails().objectType == "gallery") {
-      this.otherService.getAllGalleryImages().subscribe({
-        next: response => {
-          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "gallery", new Gallery(element.id, element.name, element.photoPath, element.placement), "viewImage")]))
-        }
-      })
-    }
   }
 
   close() {
@@ -104,71 +77,19 @@ export class PopUp implements OnInit {
   }
 
   buttonEvent() {
-    if (this.actualDetails()?.buttonText == "newEntity") {
-      if (this.selectedObject != null && this.selectedObject?.id == null) {
-        this.sendPostRequest()
-        return
-      }
 
-      if (this.actualDetails()?.objectType == "deviceCategory") {
-        // this.selectedObject = new DevicesCategory(null, "", [])
-      } else if (this.actualDetails()?.objectType == "device") {
-        // this.selectedObject = new Device(null, "", 1)
-      } else if (this.actualDetails()?.objectType == "news") {
-        this.selectedObject = new News(null, "", "", "", 0)
-      } else if (this.actualDetails()?.objectType == "reservationType") {
-        // this.selectedObject = new ReservationType(null, "", null)
-      }
-
-      this.actualDetails.set(new Details(this.actualDetails()!.title, "newEntity", this.actualDetails()!.objectType))
-      console.log(this.actualDetails())
-      this.actualPage = "editPage"
-    } else if (this.actualDetails()?.buttonText == "saveChanges") {
-      this.sendPutRequest()
-    } else if (this.actualDetails()?.buttonText == "deleteEntity") {
-      this.sendDeleteRequest()
-    }
   }
 
   showDevices(deviceCategory: DevicesCategory) {
-    this.cardList.set([])
-    this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory.getName))
 
-    deviceCategory.getDevicesList.forEach(element => {
-      // this.cardList.update(old => [...old, new CardItem(element.name, "device", new Device(element.id, element.name, element.amount), "delete")])
-    })
   }
 
   backToListPage() {
-    if (this.baseDetails().objectType == "deviceCategory" && this.actualDetails()!.objectType == "device" && this.actualPage == "listPage") {
-      this.cardList.set([])
 
-      this.deviceService.getAllDevicesByCategories().subscribe({
-        next: response => {
-          // response.forEach(element => this.cardList.update(old => [...old, new CardItem(element.name, "deviceCategory", element, "delete")]))
-        },
-        complete: () => {
-          this.actualDetails.set(new Details("Kategóriák listája", "newEntity", "deviceCategory"))
-        }
-      })
-    } else if (this.actualPage == "editPage" && this.actualDetails()!.objectType == "device") {
-      this.actualDetails.set(new Details("", "newEntity", "device"))
-      this.actualPage = "listPage"
-    } else if (this.actualPage == "editPage") {
-      this.actualDetails.set(this.baseDetails())
-      this.actualPage = "listPage"
-    } else if (this.actualPage == "deletePage") {
-      this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
-      this.actualPage = "listPage"
-    }
   }
 
   edit(wantedObject: CardItem) {
-    let deviceCategoryName: string | undefined = this.actualDetails()!.deviceCategory
 
-    this.selectedObject = wantedObject.object
-    this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType, deviceCategoryName))
-    this.actualPage = "editPage"
   }
 
   delete(wantedObject: CardItem) {
