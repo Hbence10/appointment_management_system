@@ -25,7 +25,7 @@ public class DeviceService {
 
     //Eszkoz_kategoria
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
-        List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
+        List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
         return ResponseEntity.ok(devicesCategoryList);
     }
 

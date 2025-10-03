@@ -90,7 +90,7 @@ public class ReservationService {
 
     //Foglalasi tipusok
     public ResponseEntity<List<ReservationType>> getAllReservationType() {
-        return ResponseEntity.ok(reservationTypeRepository.findAll());
+        return ResponseEntity.ok(reservationTypeRepository.findAll().stream().filter(reservationType -> !reservationType.getIsDeleted()).toList());
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")

@@ -116,6 +116,9 @@ export class PopUp implements OnInit {
 
   buttonEvent() {
     if (this.actualDetails()?.buttonText == "newEntity") {
+      const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "gallery"]
+      const hunObjectNames: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Foglalás tipus", "Fénykép"]
+
       this.actualPage = "editPage"
       this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType, this.actualDetails()?.deviceCategory))
       if (this.actualDetails()!.objectType == "device") {
@@ -131,6 +134,7 @@ export class PopUp implements OnInit {
       }
       this.setForm()
     } else if (this.actualDetails()?.buttonText == "saveChanges") {
+
       if (this.selectedObject?.getId == null) {
         this.sendPostRequest()
       } else if (this.selectedObject.getId != null) {
@@ -171,7 +175,7 @@ export class PopUp implements OnInit {
       if (this.actualDetails()?.objectType == "device") {
         this.actualDetails.set(new Details(this.actualDetails()!.deviceCategory.getName, "newEntity", "device", this.actualDetails()?.deviceCategory))
       } else {
-      this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
+        this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
       }
 
       this.actualPage = "listPage"

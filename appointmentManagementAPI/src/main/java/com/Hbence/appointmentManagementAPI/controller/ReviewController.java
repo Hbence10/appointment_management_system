@@ -18,8 +18,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     //Review:
-    @GetMapping("/s")
-    public List<Review> getAllReview() {
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Review>> getAllReview() {
         return reviewService.getAllReview();
     }
 

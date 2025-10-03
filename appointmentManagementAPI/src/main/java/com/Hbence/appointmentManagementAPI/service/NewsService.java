@@ -17,7 +17,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
 
     public ResponseEntity<List<News>> getAllNews(){
-        return ResponseEntity.ok(newsRepository.findAll());
+        return ResponseEntity.ok(newsRepository.findAll().stream().filter(news -> !news.getIsDeleted()).toList());
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")

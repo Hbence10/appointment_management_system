@@ -24,8 +24,8 @@ public class ReviewService {
     private final ReviewHistoryRepository reviewLikeHistoryRepository;
     private final ObjectMapper objectMapper;
 
-    public List<Review> getAllReview() {
-        return reviewRepository.findAll();
+    public ResponseEntity<List<Review>> getAllReview() {
+        return ResponseEntity.ok().body(reviewRepository.findAll().stream().filter(review -> !review.isDeleted()).toList());
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
