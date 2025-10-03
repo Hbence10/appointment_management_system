@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { OtherService } from '../../../services/other-service';
 import { Rule } from '../../../models/rule.model';
+import { OtherService } from '../../../services/other-service';
 
 @Component({
   selector: 'app-rule-editor',
@@ -19,7 +19,7 @@ export class RuleEditor implements OnInit {
       next: response => this.rule.set(response)
     })
 
-    this.destroyRef.onDestroy(()=>{
+    this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
     })
   }

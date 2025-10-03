@@ -2,7 +2,6 @@ import { Component, DestroyRef, inject, OnInit, Signal, signal } from '@angular/
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Router } from '@angular/router';
 import { PaymentMethod } from '../../../models/paymentMethod.model';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservationService } from '../../../services/reservation-service';

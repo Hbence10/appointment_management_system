@@ -2,10 +2,14 @@ import { Component, computed, DestroyRef, inject, input, OnInit, output, signal 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Device } from '../../models/device.model';
 import { DevicesCategory } from '../../models/deviceCategory.model';
+import { Gallery } from '../../models/galleryImage.model';
+import { News } from '../../models/newsDetails.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
+import { ReservationType } from '../../models/reservationType.model';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
 import { OtherService } from '../../services/other-service';
@@ -14,10 +18,6 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
-import { Gallery } from '../../models/galleryImage.model';
-import { ReservationType } from '../../models/reservationType.model';
-import { News } from '../../models/newsDetails.model';
-import { Device } from '../../models/device.model';
 
 
 @Component({

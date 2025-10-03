@@ -47,17 +47,17 @@ public class ReviewService {
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<String> deleteReview(Long id){
+    public ResponseEntity<String> deleteReview(Long id) {
         return null;
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<Review> updateReview(Review updatedReview){
+    public ResponseEntity<Review> updateReview(Review updatedReview) {
         return null;
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(Long id, Map<String, String> newLikeType){
+    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(Long id, Map<String, String> newLikeType) {
         return null;
     }
 
@@ -73,9 +73,9 @@ public class ReviewService {
     }
 
     /*
-    * Validaciok:
-    *           nem talalt user
-    *           update --> nem talat review
-    *           history --> nem talalt review & user
-    * */
+     * Validaciok:
+     *           nem talalt user
+     *           update --> nem talat review
+     *           history --> nem talalt review & user
+     * */
 }

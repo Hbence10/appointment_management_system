@@ -34,7 +34,7 @@ public class OtherStuffController {
 
     @PutMapping("/rule/update")
     public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule) {
-        if(updatedRule.getId() == null) {
+        if (updatedRule.getId() == null) {
             return ResponseEntity.notFound().build();
         }
 

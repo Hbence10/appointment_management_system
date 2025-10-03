@@ -1,6 +1,5 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { Reservation } from '../../models/reservation.model';
-import { ReservationService } from '../../services/reservation-service';
 
 @Component({
   selector: 'app-reservation-detail',
@@ -8,7 +7,7 @@ import { ReservationService } from '../../services/reservation-service';
   templateUrl: './reservation-detail.html',
   styleUrl: './reservation-detail.scss'
 })
-export class ReservationDetail implements OnInit{
+export class ReservationDetail implements OnInit {
   formattedPhoneNumber: string = ""
 
   reservation = input.required<Reservation>()

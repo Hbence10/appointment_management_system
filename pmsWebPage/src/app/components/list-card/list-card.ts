@@ -1,12 +1,7 @@
-import { Component, inject, input, OnInit, output } from '@angular/core';
-import { CardItem } from '../../models/notEntityModels/card.model';
-import { Device } from '../../models/device.model';
-import { DevicesCategory } from '../../models/deviceCategory.model';
 import { CommonModule } from '@angular/common';
-import { DeviceService } from '../../services/device-service';
-import { NewsService } from '../../services/news-service';
-import { ReservationService } from '../../services/reservation-service';
-import { OtherService } from '../../services/other-service';
+import { Component, input, output } from '@angular/core';
+import { DevicesCategory } from '../../models/deviceCategory.model';
+import { CardItem } from '../../models/notEntityModels/card.model';
 
 @Component({
   selector: 'app-list-card',

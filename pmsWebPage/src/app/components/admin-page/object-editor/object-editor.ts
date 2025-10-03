@@ -1,15 +1,15 @@
-import { Component, computed, DestroyRef, inject, input, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, DestroyRef, inject, input, OnChanges, output, signal, SimpleChanges } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Details } from '../../../models/notEntityModels/details.model';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { DeviceService } from '../../../services/device-service';
-import { DevicesCategory } from '../../../models/deviceCategory.model';
 import { Device } from '../../../models/device.model';
-import { News } from '../../../models/newsDetails.model';
-import { ReservationType } from '../../../models/reservationType.model';
+import { DevicesCategory } from '../../../models/deviceCategory.model';
 import { Gallery } from '../../../models/galleryImage.model';
+import { News } from '../../../models/newsDetails.model';
+import { Details } from '../../../models/notEntityModels/details.model';
+import { ReservationType } from '../../../models/reservationType.model';
+import { DeviceService } from '../../../services/device-service';
 
 @Component({
   selector: 'app-object-editor',

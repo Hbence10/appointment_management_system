@@ -1,10 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PaymentMethod } from '../models/paymentMethod.model';
 import { Reservation } from '../models/reservation.model';
 import { ReservationType } from '../models/reservationType.model';
 import { ReservedDates } from '../models/reservedDates.model';
-import { PaymentMethod } from '../models/paymentMethod.model';
 import { ReservedHours } from '../models/reservedHours.model';
 import { Status } from '../models/status.model';
 

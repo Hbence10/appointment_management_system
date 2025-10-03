@@ -95,7 +95,7 @@ export class AppointmentSelector implements OnInit {
 
     if (this.baseReservation().getReservedHours.getDate == undefined) {
       if (!selectedReservedDate) {
-        this.baseReservation().getReservedHours.setDate = new ReservedDates(this.selectedDate(),null, false, false, false)
+        this.baseReservation().getReservedHours.setDate = new ReservedDates(this.selectedDate(), null, false, false, false)
         this.baseReservation().getReservedHours.getDate.setAvailableHours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
       } else {
         this.baseReservation().getReservedHours.setDate = selectedReservedDate

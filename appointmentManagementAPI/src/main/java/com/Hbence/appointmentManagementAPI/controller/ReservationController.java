@@ -41,12 +41,12 @@ public class ReservationController {
     }
 
     @PostMapping("/makeReservation")
-    public ResponseEntity<Object> makeReservation(@RequestBody Reservations newReservation){
+    public ResponseEntity<Object> makeReservation(@RequestBody Reservations newReservation) {
         return reservationService.makeReservation(newReservation);
     }
 
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody){
+    public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody) {
         return reservationService.cancelReservation(id, cancelBody);
     }
 
@@ -57,17 +57,17 @@ public class ReservationController {
     }
 
     @PostMapping("/addReservationType")
-    public ResponseEntity<ReservationType> addNewReservationType(@RequestBody ReservationType newReservationType){
+    public ResponseEntity<ReservationType> addNewReservationType(@RequestBody ReservationType newReservationType) {
         return reservationService.addNewReservationType(newReservationType);
     }
 
     @DeleteMapping("/deleteReservationType/{id}")
-    public ResponseEntity<String> deleteReservationType(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteReservationType(@PathVariable("id") Long id) {
         return reservationService.deleteReservationType(id);
     }
 
     @PutMapping("/updateReservationType")
-    public ResponseEntity<ReservationType> updateReservationType(@RequestBody ReservationType updatedReservationType){
+    public ResponseEntity<ReservationType> updateReservationType(@RequestBody ReservationType updatedReservationType) {
         return reservationService.updateReservationType(updatedReservationType);
     }
 
@@ -84,8 +84,8 @@ public class ReservationController {
     }
 
     @GetMapping("/asd")
-    public Object asd(){
-       return reservationRepository.findAll();
+    public Object asd() {
+        return reservationRepository.findAll();
     }
 }
 

@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Gallery } from '../../models/galleryImage.model';
 import { OtherService } from '../../services/other-service';
 import { Carousel } from './carousel/carousel';
-import { Gallery } from '../../models/galleryImage.model';
 
 @Component({
   selector: 'app-gallery',
@@ -31,12 +31,12 @@ export class GalleryPage implements OnInit {
     })
   }
 
-  openCarousel(selectedImg: Gallery){
+  openCarousel(selectedImg: Gallery) {
     this.otherService.selectedImgForCarousel.set(selectedImg)
     this.showCarousel.set(true)
   }
 
-  closeCarousel(){
+  closeCarousel() {
     this.showCarousel.set(false)
   }
 }

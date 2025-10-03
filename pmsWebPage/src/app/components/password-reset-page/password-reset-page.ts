@@ -1,12 +1,11 @@
-import { MatError, MatFormFieldModule } from '@angular/material/form-field';
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../services/user-service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
-import { response } from 'express';
+import { UserService } from '../../services/user-service';
 
 //
 function validatePassword(control: AbstractControl): { [key: string]: any } | null {
@@ -78,26 +77,26 @@ export class PasswordResetPage implements OnInit {
     this.userService.getVerificationCode(this.form.controls["email"].value).subscribe({
       next: response => console.log(response),
       error: error => {
-        if (error.status == 404){
+        if (error.status == 404) {
           this.emailErrorMsg.set("Nincs ilyen email címmel létező fiók. Próbáld meg újra!")
-        } else if (error.status == 417){
+        } else if (error.status == 417) {
           this.emailErrorMsg.set("Érvénytelen email címet adtál meg. Próbáld meg újra!")
         }
       }
     })
   }
 
-  checkVCode(vCodeInputValue: string){
-    if(vCodeInputValue.length == 10){
+  checkVCode(vCodeInputValue: string) {
+    if (vCodeInputValue.length == 10) {
       this.userService.checkVerificationCode(vCodeInputValue).subscribe({
         next: response => this.isCorrectVCode.set(response),
         error: error => {
-          if (error.status == 417){
+          if (error.status == 417) {
 
           }
         },
         complete: () => {
-          if(!this.isCorrectVCode()){
+          if (!this.isCorrectVCode()) {
             this.vCodeErrorMsg.set("Helytelen kódot adtál meg. Próbáld meg újra!")
           }
         }
@@ -108,7 +107,7 @@ export class PasswordResetPage implements OnInit {
   sendReset(vCode: string) {
     this.userService.passwordReset(this.form.controls["email"].value, this.form.controls["password"].value, vCode).subscribe({
       next: response => console.log(response),
-      complete: () => {this.router.navigate(["/login"])}
+      complete: () => { this.router.navigate(["/login"]) }
     })
   }
 

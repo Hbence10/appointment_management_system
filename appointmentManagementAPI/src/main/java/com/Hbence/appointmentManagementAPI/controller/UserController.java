@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/checkVerificationCode")
-    public ResponseEntity<Object> checkVerificationCode(@RequestBody Map<String, String> codeObject){
+    public ResponseEntity<Object> checkVerificationCode(@RequestBody Map<String, String> codeObject) {
         return userService.checkVCode(codeObject.get("vCode"));
     }
 

@@ -1,24 +1,23 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { MatStepperModule } from '@angular/material/stepper';
+import { Router, RouterModule } from '@angular/router';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
-import { MatStepperModule } from '@angular/material/stepper';
 import { AppointmentSelector } from './appointment-selector/appointment-selector';
+import { ReservationFinalize } from './reservation-finalize/reservation-finalize';
 import { ReservationForm } from './reservation-form/reservation-form';
 import { RuleReader } from './rule-reader/rule-reader';
-import { ReservationFinalize } from './reservation-finalize/reservation-finalize';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-reservation-maker-page',
   imports: [RouterModule, MatStepperModule, AppointmentSelector, ReservationForm, RuleReader, ReservationFinalize],
   templateUrl: './reservation-maker-page.html',
   styleUrl: './reservation-maker-page.scss',
-    providers: [
+  providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: {displayDefaultIndicatorType: false},
+      useValue: { displayDefaultIndicatorType: false },
     },
   ],
 })

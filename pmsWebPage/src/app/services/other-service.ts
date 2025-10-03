@@ -23,6 +23,6 @@ export class OtherService {
   }
 
   saveRuleChanges(newRule: Rule) {
-    return this.http.post(`${this.baseURL}/rule/update`, {updatedRule: newRule})
+    return this.http.post(`${this.baseURL}/rule/update`, { updatedRule: newRule })
   }
 }

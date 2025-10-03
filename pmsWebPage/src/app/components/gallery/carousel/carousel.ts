@@ -1,6 +1,6 @@
-import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
-import { OtherService } from '../../../services/other-service';
+import { Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { Gallery } from '../../../models/galleryImage.model';
+import { OtherService } from '../../../services/other-service';
 
 @Component({
   selector: 'app-carousel',
@@ -31,18 +31,18 @@ export class Carousel {
     })
   }
 
-  switchImage(nextIndex: 1 | -1){
+  switchImage(nextIndex: 1 | -1) {
     let actualIndex = this.galleryImages().indexOf(this.selectedImg()!)
-    if(actualIndex + nextIndex == this.galleryImages().length){
+    if (actualIndex + nextIndex == this.galleryImages().length) {
       this.selectedImg.set(this.galleryImages()[0])
-    } else if(actualIndex + nextIndex == -1){
+    } else if (actualIndex + nextIndex == -1) {
       this.selectedImg.set(this.galleryImages()[7])
     } else {
       this.selectedImg.set(this.galleryImages()[actualIndex + nextIndex])
     }
   }
 
-  close(){
+  close() {
     this.closeCarousel.emit()
   }
 }

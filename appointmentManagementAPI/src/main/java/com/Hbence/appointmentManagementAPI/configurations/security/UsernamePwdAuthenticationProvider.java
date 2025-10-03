@@ -24,7 +24,7 @@ public class UsernamePwdAuthenticationProvider implements AuthenticationProvider
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return new UsernamePasswordAuthenticationToken(username,pwd,userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(username, pwd, userDetails.getAuthorities());
     }
 
     @Override

@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output, Signal, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservationType } from '../../../models/reservationType.model';
 import { User } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
-import { MatSelectModule } from '@angular/material/select';
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
   const phoneServiceCodes: number[] = [30, 20, 70, 50, 31]
   let inputValue: string = control.value + ""
 
-  if(!phoneServiceCodes.includes(Number(inputValue.slice(0,2)))){
-    return {invalid: true}
+  if (!phoneServiceCodes.includes(Number(inputValue.slice(0, 2)))) {
+    return { invalid: true }
   }
 
   return null

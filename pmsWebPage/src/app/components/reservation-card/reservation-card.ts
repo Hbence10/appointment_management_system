@@ -1,8 +1,8 @@
-import { Component, ElementRef, inject, input, OnInit, output, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, output } from '@angular/core';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
-import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-reservation-card',
@@ -10,7 +10,7 @@ import { MatBadgeModule } from '@angular/material/badge';
   templateUrl: './reservation-card.html',
   styleUrl: './reservation-card.scss'
 })
-export class ReservationCard implements OnInit{
+export class ReservationCard implements OnInit {
   private reservationService = inject(ReservationService)
   private elementRef = inject(ElementRef)
 

@@ -4,11 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Review } from '../../models/reviewDetails.model';
 import { User } from '../../models/user.model';
 import { ReviewService } from '../../services/review-service';
 import { UserService } from '../../services/user-service';
 import { ReviewCard } from './review-card/review-card';
-import { Review } from '../../models/reviewDetails.model';
 
 @Component({
   selector: 'app-review',

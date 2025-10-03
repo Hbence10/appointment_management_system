@@ -21,17 +21,17 @@ public class NewsController {
     }
 
     @PostMapping("/addNews")
-    public ResponseEntity<Object> addNewNews(@RequestBody News newNews){
+    public ResponseEntity<Object> addNewNews(@RequestBody News newNews) {
         return newsService.addNewNews(newNews);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<News> updateNews(@RequestBody News updatedNews){
+    public ResponseEntity<News> updateNews(@RequestBody News updatedNews) {
         return newsService.updateNews(updatedNews);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteNews(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteNews(@PathVariable("id") Long id) {
         return newsService.deleteNews(id);
     }
 }

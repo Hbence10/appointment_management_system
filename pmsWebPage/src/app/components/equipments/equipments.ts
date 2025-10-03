@@ -1,8 +1,8 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { DeviceService } from '../../services/device-service';
-import { DevicesCategory } from '../../models/deviceCategory.model';
 import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Device } from '../../models/device.model';
+import { DevicesCategory } from '../../models/deviceCategory.model';
+import { DeviceService } from '../../services/device-service';
 
 @Component({
   selector: 'app-equipments',
@@ -41,10 +41,10 @@ export class Equipments implements OnInit {
   }
 
   splitCategoryList() {
-    for(let i: number = 0; i < this.deviceCategoryList().length; i+=5){
+    for (let i: number = 0; i < this.deviceCategoryList().length; i += 5) {
       const rowList: DevicesCategory[] = []
-      for(let j: number = i; j < i+5; j++){
-        if(this.deviceCategoryList()[j] != undefined){
+      for (let j: number = i; j < i + 5; j++) {
+        if (this.deviceCategoryList()[j] != undefined) {
           rowList.push(this.deviceCategoryList()[j])
         }
       }

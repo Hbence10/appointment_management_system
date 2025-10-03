@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { Reservation } from '../../models/reservation.model';
-import { PopUp } from '../pop-up/pop-up';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { ReservationCard } from '../reservation-card/reservation-card';
-import { ReservationService } from '../../services/reservation-service';
 import { Details } from '../../models/notEntityModels/details.model';
+import { Reservation } from '../../models/reservation.model';
+import { ReservationService } from '../../services/reservation-service';
+import { PopUp } from '../pop-up/pop-up';
+import { ReservationCard } from '../reservation-card/reservation-card';
 
 @Component({
   selector: 'app-admin-page',
@@ -69,7 +69,7 @@ export class AdminPage implements OnInit {
 
   }
 
-  showReservationDetails(wantedReservation: Reservation){
+  showReservationDetails(wantedReservation: Reservation) {
     console.log(wantedReservation)
     console.log(wantedReservation.getId)
 

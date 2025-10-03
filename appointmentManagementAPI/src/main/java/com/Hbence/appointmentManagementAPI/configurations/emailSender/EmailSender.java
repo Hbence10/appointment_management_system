@@ -32,10 +32,10 @@ public class EmailSender {
 
     }
 
-    public void sendEmailAboutNews(){
+    public void sendEmailAboutNews() {
 
     }
 
-    public void sendEmailAboutUserUpdate(){
+    public void sendEmailAboutUserUpdate() {
     }
 }

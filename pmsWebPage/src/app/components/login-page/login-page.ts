@@ -6,10 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
-import { UserService } from '../../services/user-service';
 import { CookieService } from 'ngx-cookie-service';
-import { User } from '../../models/user.model';
 import { Role } from '../../models/role.model';
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user-service';
 
 @Component({
   selector: 'app-login-page',
@@ -61,7 +61,7 @@ export class LoginPage implements OnInit {
 
   checkIsRemember() {
     if (this.isRemember()) {
-      this.cookieService.set("pmsJwtToken", this.token, {expires: 30})
+      this.cookieService.set("pmsJwtToken", this.token, { expires: 30 })
       this.cookieService.set("pmsUserD", JSON.stringify(this.userService.user()), 30)
     } else {
       sessionStorage.setItem("pmsJwtToken", this.token)

@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { ReservationService } from '../../services/reservation-service';
 import { ReservationType } from '../../models/reservationType.model';
+import { ReservationService } from '../../services/reservation-service';
 
 @Component({
   selector: 'app-price-list',
@@ -14,7 +14,7 @@ export class PriceList implements OnInit {
 
   reservationTypes = signal<ReservationType[]>([])
   splittedReservationTypes = signal<ReservationType[][]>([])
-  helperList: number[] = [1,2,3,4,5]
+  helperList: number[] = [1, 2, 3, 4, 5]
 
   ngOnInit(): void {
     const subscription = this.reservationService.getReservationTypes().subscribe({
@@ -33,13 +33,13 @@ export class PriceList implements OnInit {
 
   splitTheList() {
     for (let i: number = 0; i < this.reservationTypes().length; i += 3) {
-      this.splittedReservationTypes().push(this.reservationTypes().slice(i, i+3))
+      this.splittedReservationTypes().push(this.reservationTypes().slice(i, i + 3))
     }
 
     console.log(this.splittedReservationTypes())
   }
 
-  calculateHourPrice(basePrice: number, hour:number){
+  calculateHourPrice(basePrice: number, hour: number) {
     return basePrice * hour;
   }
 }

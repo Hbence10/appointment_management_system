@@ -1,7 +1,5 @@
 package com.Hbence.appointmentManagementAPI.service.other;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class ValidatorCollection {

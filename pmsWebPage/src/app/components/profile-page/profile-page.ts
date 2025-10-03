@@ -53,17 +53,17 @@ export class ProfilePage implements OnInit {
     this.router.navigate(["/homePage"])
   }
 
-  showDetailsOfReservation(wantedReservation: Reservation){
+  showDetailsOfReservation(wantedReservation: Reservation) {
     this.popUpDetails.title = `#${wantedReservation.getId}`
     this.selectedReservation.set(wantedReservation)
     this.showPopUp.set(true)
   }
 
-  deleteProfile(){
+  deleteProfile() {
 
   }
 
-  updateUser(){
+  updateUser() {
 
   }
 }

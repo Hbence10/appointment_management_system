@@ -1,12 +1,11 @@
-import { AbstractControl, FormsModule, ValidatorFn } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RuleReader } from '../reservation-maker-page/rule-reader/rule-reader';
 
 //
@@ -105,7 +104,7 @@ export class RegistrationPage implements OnInit {
     event.stopPropagation();
   }
 
-  showRule(){
+  showRule() {
     this.isRuleShow.set(true)
   }
 }
