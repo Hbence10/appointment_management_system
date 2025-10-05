@@ -6,30 +6,41 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
+<style>
+    option {
+        cursor: pointer !important;
+    }
+</style>
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <button onclick="editSelectedText()">Félkövér</button>
-                <button>Dolt</button>
-                <button>Aláhuzott</button>
-                <select name="" id="">
-                    <opinion>Heading 1</opinion>
-                    <opinion>Heading 2</opinion>
-                    <opinion>Heading 3</opinion>
-                    <opinion>Heading 4</opinion>
-                    <opinion>Heading 5</opinion>
-                    <opinion>Heading 6</opinion>
+                <button onclick="editSelectedText('bolt')">Félkövér</button>
+                <button onclick="editSelectedText('italic')" >Dolt</button>
+                <button onclick="editSelectedText('underLine')" >Aláhuzott</button>
+                <select name="h1Tags" id="headerSelect" onchange="editSelectedText('')">
+                    <option value="h1">Heading 1</option>
+                    <option value="h2">Heading 2</option>
+                    <option value="h3">Heading 3</option>
+                    <option value="h4">Heading 4</option>
+                    <option value="h5">Heading 5</option>
+                    <option value="h6">Heading 6</option>
                 </select>
-                <input type="color" name="" id="">
-                <button>szamozott lista</button>
-                <button>nem szamozott lista</button>
+                <input type="color" name="wantedColor" id="wantedColor">
+                <button onclick="editSelectedText('orderedList')">szamozott lista</button>
+                <button onclick="editSelectedText('unOrderedList')" >nem szamozott lista</button>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-12">
-                <p id="ruleText"></p>
+                <div id="ruleText" contenteditable></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button>Mentés</button>
             </div>
         </div>
     </div>

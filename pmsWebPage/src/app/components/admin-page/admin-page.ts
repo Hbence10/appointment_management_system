@@ -10,10 +10,12 @@ import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
 import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard],
+  imports: [MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -66,7 +68,9 @@ export class AdminPage implements OnInit {
   }
 
   showSelectedDaysReservation() {
-
+    this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
+      next: responseList => this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))
+    })
   }
 
   showReservationDetails(wantedReservation: Reservation) {

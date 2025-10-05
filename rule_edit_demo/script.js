@@ -1,4 +1,6 @@
 const ruleParagraph = document.getElementById("ruleText")
+const colorInput = document.getElementById("wantedColor")
+const headerSelect = document.getElementById("headerSelect")  
 
 async function getRules(){
     const apiCall = (await fetch("http://localhost:8080/rule")).json()
@@ -8,17 +10,11 @@ async function getRules(){
     ruleParagraph.innerHTML = apiData.text
 }
 
-function editSelectedText() {
+function editSelectedText(styleType) {
     const selectedText = window.getSelection()
+    const parentHTMLElement = selectedText.getRangeAt(0)
 
-    let range = selectedText.getRangeAt(0)
-    let selectionContents = range.extractContents()
-
-    let span = document.createElement("span")
-    span.classList.add("fw-bold")
-    console.log(selectionContents)
-    span.appendChild(selectionContents)
-    range.insertNode(span)
+    document.execCommand("bold", true)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
