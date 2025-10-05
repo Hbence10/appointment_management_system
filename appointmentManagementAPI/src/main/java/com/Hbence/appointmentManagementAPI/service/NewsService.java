@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -42,6 +43,16 @@ public class NewsService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteNews(Long id) {
-        return null;
+        News wantedNews = newsRepository.findById(id).get();
+
+        if(wantedNews == null || wantedNews.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else {
+            wantedNews.setIsDeleted(true);
+            wantedNews.setDeletedAt(new Date());
+            newsRepository.save(wantedNews);
+
+            return ResponseEntity.ok("");
+        }
     }
 }

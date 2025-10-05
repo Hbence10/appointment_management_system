@@ -7,6 +7,7 @@ import { ReservationType } from '../models/reservationType.model';
 import { ReservedDates } from '../models/reservedDates.model';
 import { ReservedHours } from '../models/reservedHours.model';
 import { Status } from '../models/status.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,12 @@ export class ReservationService {
   baseReservation = signal<Reservation>(new Reservation())
   ifRegistrationWithReservation = signal<boolean>(false)
   progressBarSteps = [true, false, false, false]
+
+  form: FormGroup = new FormGroup({
+    property1: new FormControl("", [Validators.required]),
+    property2: new FormControl("", []),
+    property3: new FormControl("", [])
+  });
 
   setObject(responseList: any[]): Reservation[] {
     const returnList: Reservation[] = []

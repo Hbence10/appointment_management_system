@@ -1,20 +1,30 @@
-<form [formGroup]="form()" class="container-fluid">
+<form [formGroup]="form" class="container-fluid">
   <div class="row">
     <div
       [class.col-lg-12]="isFirstRowFull()"
       [class.col-lg-9]="!isFirstRowFull()"
     >
       <mat-form-field class="w-100">
-        <mat-label>{{labelText[0]}}</mat-label>
-        <input matInput type="text" (input)="showFormGroup()" formControlName="property1" [placeholder]="placeholderText[0]" />
+        <mat-label>{{ labelText[0] }}</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="property1"
+          [placeholder]="placeholderText[0]"
+        />
       </mat-form-field>
     </div>
 
     @if (!isFirstRowFull()){
     <div class="col-lg-3">
       <mat-form-field class="w-100">
-        <mat-label>{{labelText[1]}}</mat-label>
-        <input matInput type="number" (input)="showFormGroup()" formControlName="property2" [placeholder]="placeholderText[1]" />
+        <mat-label>{{ labelText[1] }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="property2"
+          [placeholder]="placeholderText[1]"
+        />
       </mat-form-field>
     </div>
     }
@@ -26,19 +36,24 @@
     <div class="col-lg-12">
       @if (details()?.objectType == "news"){
 
-      <mat-form-field class="w-100">
-        <mat-label>{{labelText[1]}}</mat-label>
-        <textarea matInput type="text" (input)="showFormGroup()" formControlName="property2" [placeholder]="placeholderText[1]"></textarea>
+      <mat-form-field class="w-100" style="height: 400px;">
+        <mat-label>{{ labelText[1] }}</mat-label>
+        <textarea
+        style="height: 400px;"
+          matInput
+          type="text"
+          formControlName="property2"
+          [placeholder]="placeholderText[1]"
+        ></textarea>
       </mat-form-field>
 
       } @else if (details()?.objectType == "device"){
       <mat-form-field class="w-100">
         <mat-label>{{labelText[2]}}</mat-label>
-        <mat-select formControlName="property3" [placeholder]="placeholderText[2]">
-          @for(category of deviceCategoryList(); track $index){
-            <mat-option [value]="category.getId">{{category.getName}}</mat-option>
+        <mat-select [placeholder]="placeholderText[2]" [(value)]="selectedDeviceCategory">
+          @for(categories of deviceCategoryList(); track $index){
+            <mat-option [value]="categories.getId">{{categories.getName}}</mat-option>
           }
-
         </mat-select>
       </mat-form-field>
       }
@@ -48,8 +63,12 @@
   <div class="row">
     <div class="col-lg-12">
       <mat-form-field class="w-100">
-        <mat-label>{{labelText[2]}}</mat-label>
-        <input matInput formControlName="property3" [placeholder]="placeholderText[2]"/>
+        <mat-label>{{ labelText[2] }}</mat-label>
+        <input
+          matInput
+          formControlName="property3"
+          [placeholder]="placeholderText[2]"
+        />
       </mat-form-field>
     </div>
   </div>

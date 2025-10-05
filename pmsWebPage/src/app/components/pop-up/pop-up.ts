@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,28 +18,26 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
   selector: 'app-pop-up',
-  imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail, MatFormFieldModule, ObjectEditor],
+  imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail, MatFormFieldModule, ObjectEditor, MatSelectModule],
   templateUrl: './pop-up.html',
-  styleUrl: './pop-up.scss'
+  styleUrl: './pop-up.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopUp implements OnInit {
   reservation = input.required<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
-  form: FormGroup = new FormGroup({
-    property1: new FormControl("", [Validators.required]),
-    property2: new FormControl("", []),
-    property3: new FormControl("", [])
-  });
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
   selectedObject: DevicesCategory | Device | News | ReservationType | Gallery | null = null
   editForm!: FormGroup
+  form!: FormGroup;
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType"]
@@ -70,6 +68,9 @@ export class PopUp implements OnInit {
   private destroyRef = inject(DestroyRef)
 
   ngOnInit() {
+    this.reservationService.form.reset()
+    this.form = this.reservationService.form
+
     this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
     let subscription;
     if (this.actualDetails()?.objectType == 'deviceCategory') {
@@ -120,7 +121,7 @@ export class PopUp implements OnInit {
       const hunObjectNames: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Foglalás tipus", "Fénykép"]
 
       this.actualPage = "editPage"
-      this.actualDetails.set(new Details("", "saveChanges", this.actualDetails()!.objectType, this.actualDetails()?.deviceCategory))
+      this.actualDetails.set(new Details(`${hunObjectNames[objectTypes.indexOf(this.actualDetails()!.objectType)]} hozzáadása`, "saveChanges", this.actualDetails()!.objectType, this.actualDetails()?.deviceCategory))
       if (this.actualDetails()!.objectType == "device") {
         this.selectedObject = new Device()
       } else if (this.actualDetails()!.objectType == "deviceCategory") {
@@ -184,12 +185,11 @@ export class PopUp implements OnInit {
 
   edit(wantedObject: CardItem) {
     this.selectedObject = wantedObject.object
-    this.form.reset()
+    this.reservationService.form.reset()
     this.setForm()
 
-
     this.actualPage = "editPage"
-    this.actualDetails.set(new Details(wantedObject.name, "saveChanges", wantedObject.objectType, this.actualDetails()?.deviceCategory))
+    this.actualDetails.set(new Details(`${wantedObject.name} szerkesztése`, "saveChanges", wantedObject.objectType, this.actualDetails()?.deviceCategory))
   }
 
   delete(wantedObject: CardItem) {
@@ -211,22 +211,22 @@ export class PopUp implements OnInit {
   }
 
   setForm() {
-    this.form.controls["property1"].setValue(this.selectedObject!.getName)
+    this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
     if (this.selectedObject instanceof Device) {
-      this.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
-      // this.form.controls["property3"].setValue("")
+      this.reservationService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
+      this.reservationService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getName)
     } else if (this.selectedObject instanceof News) {
-      this.form.controls["property2"].setValue((this.selectedObject as News).getText)
-      // this.form.controls["property3"].setValue("")
+      this.reservationService.form.controls["property2"].setValue((this.selectedObject as News).getText)
+      this.reservationService.form.controls["property3"].setValue((this.selectedObject as News).getName)
     } else if (this.selectedObject instanceof ReservationType) {
-      this.form.controls["property2"].setValue((this.selectedObject as ReservationType).getPrice)
+      this.reservationService.form.controls["property2"].setValue((this.selectedObject as ReservationType).getPrice)
     }
 
-    if (this.selectedObject instanceof Device || this.selectedObject instanceof News) {
-      this.form.controls["property2"].addValidators(Validators.required)
-      this.form.controls["property3"].addValidators(Validators.required)
-    } else if (this.selectedObject instanceof ReservationType) {
-      this.form.controls["property2"].addValidators(Validators.required)
+    if (this.selectedObject instanceof Device) {
+      this.reservationService.form.controls["property3"].addValidators(Validators.required)
+    } else if (this.selectedObject instanceof ReservationType || this.selectedObject instanceof News) {
+      this.reservationService.form.controls["property2"].addValidators(Validators.required)
+      this.reservationService.form.controls["property2"].addValidators(Validators.required)
     }
   }
 }
