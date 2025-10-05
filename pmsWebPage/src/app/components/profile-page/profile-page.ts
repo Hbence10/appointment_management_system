@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
-import { User } from '../../models/user.model';
+import { Users } from '../../models/user.model';
 import { ReservationService } from '../../services/reservation-service';
 import { UserService } from '../../services/user-service';
 import { PopUp } from '../pop-up/pop-up';
@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
 
-  user!: User;
+  user!: Users;
   reservations = signal<Reservation[]>([])
   showPopUp = signal<boolean>(false)
   selectedReservation = signal<Reservation>(new Reservation())

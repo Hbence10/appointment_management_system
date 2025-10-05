@@ -19,6 +19,8 @@ import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { MatSelectModule } from '@angular/material/select';
+import { UserService } from '../../services/user-service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -65,7 +67,9 @@ export class PopUp implements OnInit {
   private newsService = inject(NewsService)
   private reservationService = inject(ReservationService)
   private otherService = inject(OtherService)
+  private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
+  private router = inject(Router)
 
   ngOnInit() {
     this.reservationService.form.reset()
@@ -113,6 +117,7 @@ export class PopUp implements OnInit {
   }
 
   setErrors(errorResponse: any) {
+    console.log(errorResponse)
   }
 
   buttonEvent() {
@@ -193,6 +198,7 @@ export class PopUp implements OnInit {
   }
 
   delete(wantedObject: CardItem) {
+    this.selectedObject = wantedObject.object
     this.actualDetails.set(new Details("", "deleteEntity", wantedObject.objectType, this.actualDetails()?.deviceCategory))
     this.actualPage = "deletePage"
   }
@@ -200,14 +206,37 @@ export class PopUp implements OnInit {
   //
   sendPutRequest() {
     console.log("saveUpdates")
+    if (this.selectedObject instanceof News){
+      this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
+      this.newsService.updateNews(this.selectedObject).subscribe({
+        next: response => console.log(response),
+        error: error => console.log(error),
+        complete: () => this.actualPage = "listPage"
+      })
+    }
   }
 
   sendPostRequest() {
     console.log("saveEntity")
+    if (this.selectedObject instanceof News){
+      this.selectedObject = new News(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
+      this.newsService.createNews(this.selectedObject).subscribe({
+        next: response => console.log(response),
+        error: error => console.log(error),
+        complete: () => this.actualPage = "listPage"
+      })
+    }
   }
 
   sendDeleteRequest() {
     console.log("deleteEntity")
+    if (this.selectedObject instanceof News) {
+      this.newsService.deleteNews(this.selectedObject.getId!).subscribe({
+        next: response => console.log(response),
+        error: error => console.log(error),
+        complete: () => this.actualPage = "listPage"
+      })
+    }
   }
 
   setForm() {

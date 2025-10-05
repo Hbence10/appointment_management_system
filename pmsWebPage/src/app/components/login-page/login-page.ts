@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Role } from '../../models/role.model';
-import { User } from '../../models/user.model';
+import { Users } from '../../models/user.model';
 import { UserService } from '../../services/user-service';
 
 @Component({
@@ -38,13 +38,13 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.controls["username"].value!.trim()!)
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
-        let user: User = Object.assign(new User(), response.body)
+        let user: Users = Object.assign(new Users(), response.body)
         user.setRole = Object.assign(new Role(), user.getRole)
         this.userService.user.set(user)
         this.token = response.headers.headers.get("authorization")[0]
+        console.log(this.token)
       },
       error: error => { this.isError.set(true) },
       complete: () => {

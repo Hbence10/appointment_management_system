@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
+import { Users } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +9,11 @@ import { User } from '../models/user.model';
 export class UserService {
   private http = inject(HttpClient)
   private baseURL = signal<string>("http://localhost:8080/users")
-  user = signal<null | User>(null)
+  user = signal<null | Users>(null)
   token: string = ""
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post<User>(`${this.baseURL()}/login`, { username: username, password: password }, { observe: "response" })
+    return this.http.post<Users>(`${this.baseURL()}/login`, { username: username, password: password }, { observe: "response" })
   }
 
   register(requestedBody: { username: string, email: string, password: string, pfpPath: string }) {

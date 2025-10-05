@@ -1,13 +1,17 @@
+import { Users } from "./user.model";
+
 export class News {
   constructor(
     private id: number | null = null,
     private title?: string,
     private text?: string,
     private bannerImgPath: string | null = null,
-    private placement?: number,
-    private createdAt: Date = new Date(),
+    private writer?: Users,
+    private placement: number = 0,
+    private createdAt: Date | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
+    private lastEditAt: Date | null = null,
     private placeholders: string[] = ["Írd ide a hír cÍmét", "Írd ide a hírnek a szövegét", "Válaszd ki a kivánt képet"],
     private labelText: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó kép"]
   ) { }
@@ -72,5 +76,9 @@ export class News {
 
   set setCreatedAt(newDate: Date){
     this.createdAt = newDate
+  }
+
+  set setWriter(newWriter: Users){
+    this.writer = newWriter
   }
 }

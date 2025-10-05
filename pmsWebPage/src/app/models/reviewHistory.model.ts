@@ -1,11 +1,11 @@
-import { User } from "./user.model";
+import { Users } from "./user.model";
 
 export class ReviewHistory {
   constructor(
     private id: number,
     private likeType: "like" | "dislike",
     private likeAt: Date,
-    private likerUser: User
+    private likerUser: Users
   ) { }
 
   // Getterek
@@ -21,7 +21,7 @@ export class ReviewHistory {
     return this.likeAt
   }
 
-  get getLikerUser(): User {
+  get getLikerUser(): Users {
     return this.likerUser
   }
 
@@ -38,7 +38,7 @@ export class ReviewHistory {
     this.likeAt = newDate
   }
 
-  set setLikerUser(newUser : User) {
+  set setLikerUser(newUser : Users) {
     this.likerUser = newUser
   }
 }

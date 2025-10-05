@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservedDates } from '../../../models/reservedDates.model';
 import { ReservedHours } from '../../../models/reservedHours.model';
-import { User } from '../../../models/user.model';
+import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 
@@ -38,7 +38,7 @@ export class AppointmentSelector implements OnInit {
   availableHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   reservableHourAmounts: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   reservedDatesOfActualPeriod = signal<ReservedDates[]>([])
-  user = signal<User | null>(null)
+  user = signal<Users | null>(null)
   formattedSelectedDate = computed(() =>
     `${this.selectedDate().getFullYear()}-${this.selectedDate().getMonth() + 1 < 10 ? '0' : ''}${this.selectedDate().getMonth() + 1}-${this.selectedDate().getDate() < 10 ? '0' : ''}${this.selectedDate().getDate()}`
   )

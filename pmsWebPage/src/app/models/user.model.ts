@@ -1,5 +1,5 @@
 import { Role } from "./role.model"
-export class User {
+export class Users {
 
   constructor(
     private id: number | null = null,

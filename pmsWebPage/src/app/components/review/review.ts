@@ -5,7 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Review } from '../../models/reviewDetails.model';
-import { User } from '../../models/user.model';
+import { Users } from '../../models/user.model';
 import { ReviewService } from '../../services/review-service';
 import { UserService } from '../../services/user-service';
 import { ReviewCard } from './review-card/review-card';
@@ -28,7 +28,7 @@ export class ReviewPage implements OnInit {
 
   reviewDetails = signal<Review[]>([])
   isAnonymus = signal<boolean>(false)
-  user = signal<User | null>(null);
+  user = signal<Users | null>(null);
 
   ngOnInit(): void {
     this.user = this.userService.user
@@ -37,7 +37,7 @@ export class ReviewPage implements OnInit {
       next: responseList => {
         responseList.forEach(response => {
           let review: Review = Object.assign(new Review(), response)
-          review.setAuthor = Object.assign(new User(), review.getAuthor)
+          review.setAuthor = Object.assign(new Users(), review.getAuthor)
           this.reviewDetails.update(old => [...old, review])
         })
       },

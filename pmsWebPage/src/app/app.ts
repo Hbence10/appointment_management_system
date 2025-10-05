@@ -4,7 +4,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user-service';
 import { CookieService } from 'ngx-cookie-service';
-import { User } from './models/user.model';
+import { Users } from './models/user.model';
 import { Role } from './models/role.model';
 
 @Component({
@@ -18,13 +18,13 @@ export class App implements OnInit {
   private cookieService = inject(CookieService)
 
   ngOnInit(): void {
-    let user: User = new User()
+    let user: Users = new Users()
 
     if (sessionStorage.getItem("pmsJwtToken")) {
-      user = Object.assign(new User(), JSON.parse(sessionStorage.getItem("pmsUserD")!))
+      user = Object.assign(new Users(), JSON.parse(sessionStorage.getItem("pmsUserD")!))
       this.userService.token = sessionStorage.getItem("pmsJwtToken")!
     } else if (this.cookieService.get("pmsJwtToken")) {
-      user = Object.assign(new User(), JSON.parse(this.cookieService.get("pmsUserD")!))
+      user = Object.assign(new Users(), JSON.parse(this.cookieService.get("pmsUserD")!))
       this.userService.token = this.cookieService.get("pmsJwtToken")!
     }
 

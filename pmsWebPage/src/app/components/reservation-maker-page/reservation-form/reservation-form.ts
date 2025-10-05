@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservationType } from '../../../models/reservationType.model';
-import { User } from '../../../models/user.model';
+import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 
@@ -38,7 +38,7 @@ export class ReservationForm implements OnInit {
 
   reservationTypes = signal<ReservationType[]>([])
   phoneCodes = signal<{ id: number, countryCode: number, countryName: string }[]>([])
-  user: null | User = null
+  user: null | Users = null
   selectedReservationType = signal<ReservationType | null>(null)
   baseReservation!: Signal<Reservation>;
   form!: FormGroup;

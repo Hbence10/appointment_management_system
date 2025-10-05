@@ -2,7 +2,7 @@ import { PaymentMethod } from "./paymentMethod.model";
 import { ReservationType } from "./reservationType.model";
 import { ReservedHours } from "./reservedHours.model";
 import { Status } from "./status.model";
-import { User } from "./user.model";
+import { Users } from "./user.model";
 
 export class Reservation {
 
@@ -16,8 +16,8 @@ export class Reservation {
     private comment: string | null = null,
     private isCanceled: boolean = false,
     private canceledAt: Date | null = null,
-    private canceledBy: User | null = null,
-    private user: User | null = null,
+    private canceledBy: Users | null = null,
+    private user: Users | null = null,
     private reservationTypeId?: ReservationType,
     private paymentMethod?: PaymentMethod,
     private status: Status = new Status(1, "Aktív"),
@@ -62,11 +62,11 @@ export class Reservation {
     return this.canceledAt;
   }
 
-  get getCanceledBy(): User | null {
+  get getCanceledBy(): Users | null {
     return this.canceledBy
   }
 
-  get getUser(): User | null {
+  get getUser(): Users | null {
     return this.user
   }
 
@@ -123,11 +123,11 @@ export class Reservation {
     this.canceledAt = newDate
   }
 
-  set setCanceledBy(newUser: User){
+  set setCanceledBy(newUser: Users){
     this.canceledBy = newUser
   }
 
-  set setUser(newUser: User){
+  set setUser(newUser: Users){
     this.user = newUser
   }
 

@@ -1,12 +1,12 @@
 import { ReviewHistory } from "./reviewHistory.model"
-import { User } from "./user.model"
+import { Users } from "./user.model"
 
 export class Review {
 
   constructor(
     private reviewText?: string,
     private rating?: number,
-    private author?: User,
+    private author?: Users,
     private id: number | null = null,
     private isAnonymus: boolean = false,
     private createdAt: Date = new Date(),
@@ -25,7 +25,7 @@ export class Review {
     return this.id!
   }
 
-  get getAuthor(): User {
+  get getAuthor(): Users {
     return this.author!
   }
 
@@ -90,7 +90,7 @@ export class Review {
     this.createdAt = newDate
   }
 
-  set setAuthor(newAuthor: User) {
+  set setAuthor(newAuthor: Users) {
     this.author = newAuthor
   }
 

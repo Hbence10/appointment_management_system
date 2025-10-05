@@ -33,6 +33,7 @@ public class NewsService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<News> updateNews(News updatedNews) {
+        System.out.println(updatedNews);
         if (updatedNews.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
