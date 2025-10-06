@@ -2,12 +2,14 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -61,5 +63,18 @@ public class Devices {
     public Devices(String name, int amount) {
         this.name = name;
         this.amount = amount;
+    }
+
+    public Devices(String name, int amount, DevicesCategory devicesCategory) {
+        this.name = name;
+        this.amount = amount;
+        this.categoryId = devicesCategory;
+    }
+
+    public Devices(Long id, String name, int amount, DevicesCategory devicesCategory) {
+        Id = id;
+        this.name = name;
+        this.amount = amount;
+        this.categoryId = devicesCategory;
     }
 }

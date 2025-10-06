@@ -3,6 +3,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.service.DeviceService;
+import com.Hbence.appointmentManagementAPI.service.other.DeviceWithDeviceCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -41,14 +42,13 @@ public class DeviceController {
 
     //Maga_az_eszkoz
     @PutMapping("/update")
-    public ResponseEntity<Object> updateDevice(@RequestBody Devices updatedDevice) {
+    public ResponseEntity<Object> updateDevice(@RequestBody DeviceWithDeviceCategory updatedDevice) {
         return deviceService.updateDevice(updatedDevice);
     }
 
     @PostMapping("addDevice")
-    public ResponseEntity<Object> addDevice(@RequestBody Devices newDevice) {
+    public ResponseEntity<Object> addDevice(@RequestBody DeviceWithDeviceCategory newDevice) {
         return deviceService.addDevice(newDevice);
-
     }
 
     @DeleteMapping("delete/{id}")

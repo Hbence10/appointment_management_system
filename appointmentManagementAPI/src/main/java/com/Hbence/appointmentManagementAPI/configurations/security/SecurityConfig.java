@@ -46,7 +46,7 @@ public class SecurityConfig {
                 }))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory", "/devices/update", "/devices/addDevice", "/devices/delete/**").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("rule/update", "gallery/update").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/rule/update", "/gallery/update").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/news/addNews", "/news/update", "/news/delete/**").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/getReservationType", "/reservation/paymentMethods", "/reservation/phoneCodes").permitAll() //reservationController
                         .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")

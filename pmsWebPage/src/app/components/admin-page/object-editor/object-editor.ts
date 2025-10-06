@@ -39,12 +39,7 @@ export class ObjectEditor implements OnInit {
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
   )
 
-  selectedDeviceCategory = signal(0);
-  changeDetect = computed(() => {
-    this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategory()]
-    console.log(this.deviceCategoryList()[this.selectedDeviceCategory()])
-    return 0;
-  })
+  selectedDeviceCategory:number = 0;
 
   ngOnInit(): void {
     this.details.set(this.objectType())
@@ -57,8 +52,8 @@ export class ObjectEditor implements OnInit {
           console.log(this.deviceCategoryList())
         },
         complete: () => {
-          this.selectedDeviceCategory.set(this.details()?.deviceCategory.getId!)
-          console.log(this.selectedDeviceCategory)
+          this.selectedDeviceCategory = this.deviceCategoryList().map(el => el.getId).indexOf(this.details()?.deviceCategory.getId!)
+
         }
       })
 
@@ -72,6 +67,6 @@ export class ObjectEditor implements OnInit {
   }
 
   selectCategory(){
-    console.log("asd")
+    this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategory]
   }
 }

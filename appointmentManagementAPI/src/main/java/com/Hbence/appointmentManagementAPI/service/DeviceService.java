@@ -4,6 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.repository.DeviceCategoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
+import com.Hbence.appointmentManagementAPI.service.other.DeviceWithDeviceCategory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class DeviceService {
     //Eszkoz_kategoria
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
-        for (DevicesCategory i : devicesCategoryList){
+        for (DevicesCategory i : devicesCategoryList) {
             i.setDevicesList(i.getDevicesList().stream().filter(device -> !device.isDeleted()).toList());
         }
         return ResponseEntity.ok(devicesCategoryList);
@@ -65,7 +66,7 @@ public class DeviceService {
 
     //Maga_az_eszkoz
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> updateDevice(Devices updatedDevice) {
+    public ResponseEntity<Object> updateDevice(DeviceWithDeviceCategory updatedDevice) {
         DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).get();
 
         if (searched == null) {
@@ -73,34 +74,35 @@ public class DeviceService {
         } else if (updatedDevice.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
-            updatedDevice.setName(updatedDevice.getName().trim());
-            return ResponseEntity.ok(deviceRepository.save(updatedDevice));
+            Devices updatedD = deviceRepository.findById(updatedDevice.getId()).get();
+            updatedD.setName(updatedDevice.getName().trim());
+            updatedD.setAmount(updatedDevice.getAmount());
+            updatedD.setCategoryId(updatedDevice.getCategoryId());
+            return ResponseEntity.ok(deviceRepository.save(updatedD));
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> addDevice(Devices newDevice) {
-        DevicesCategory searched = deviceCategoryRepository.findById(newDevice.getCategoryId().getId()).get();
-
-        if (searched == null) {
-            return ResponseEntity.status(409).body("invalidDeviceCategory");
-        } else if (newDevice.getId() != null) {
+    public ResponseEntity<Object> addDevice(DeviceWithDeviceCategory newDevice) {
+        System.out.println(newDevice);
+        if (newDevice.getId() != null) {
             return ResponseEntity.status(422).body("invalidInput");
         } else {
             newDevice.setName(newDevice.getName().trim());
-            return ResponseEntity.ok(deviceRepository.save(newDevice));
+            Devices newD = new Devices(newDevice.getName(), newDevice.getAmount(), newDevice.getCategoryId());
+            return ResponseEntity.ok(deviceRepository.save(newD));
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteDevice(Long id) {
         Devices searchedDevice = deviceRepository.findById(id).get();
-        if (searchedDevice == null || searchedDevice.isDeleted()){
+        if (searchedDevice == null || searchedDevice.isDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             searchedDevice.setDeleted(true);
             searchedDevice.setDeletedAt(new Date());
-            return ResponseEntity.ok().body("ok");
+            return ResponseEntity.ok().build();
         }
     }
 }

@@ -225,8 +225,11 @@ export class PopUp implements OnInit {
         next: response => console.log(response)
       })
     } else if (this.selectedObject instanceof Device) {
-      // this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, acta)
-      console.log(this.deviceService.selectedCategory)
+      this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.deviceService.selectedCategory)
+      this.deviceService.updateDevice(this.selectedObject).subscribe({
+        next: response => console.log(response)
+      })
+
     }
   }
 
@@ -251,7 +254,11 @@ export class PopUp implements OnInit {
         next: response => console.log(response)
       })
     } else if (this.selectedObject instanceof Device) {
-
+      this.selectedObject = new Device(null, this.form.controls["property1"].value!, Number(this.form.controls["property2"].value!), this.deviceService.selectedCategory)
+      console.log(this.selectedObject)
+      this.deviceService.addDevice(this.selectedObject).subscribe({
+        next: response => console.log(response)
+      })
     }
   }
 
@@ -272,7 +279,9 @@ export class PopUp implements OnInit {
         next: response => console.log(response)
       })
     } else if (this.selectedObject instanceof Device) {
-
+      this.deviceService.deleteDevice(this.selectedObject.getId!).subscribe({
+        next: response => console.log(response)
+      })
     }
   }
 

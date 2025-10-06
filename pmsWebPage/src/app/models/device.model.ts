@@ -5,7 +5,7 @@ export class Device {
     private id: number | null = null,
     private name?: string,
     private amount?: number,
-    private deviceCategory: DevicesCategory | null = null,
+    private categoryId: DevicesCategory | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
@@ -23,6 +23,10 @@ export class Device {
 
   get getAmount(): number {
     return this.amount!
+  }
+
+  get getCategoryId(): DevicesCategory{
+    return this.categoryId!
   }
 
   get getIsDeleted(): boolean {
@@ -48,5 +52,9 @@ export class Device {
 
   set setAmount(newAmount: number) {
     this.amount = newAmount
+  }
+
+  set setCategoryId(newCategory: DevicesCategory){
+    this.categoryId = newCategory
   }
 }
