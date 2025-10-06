@@ -41,7 +41,7 @@ public class DeviceController {
 
     //Maga_az_eszkoz
     @PutMapping("/update")
-    public ResponseEntity<Devices> updateDevice(@RequestBody Devices updatedDevice) {
+    public ResponseEntity<Object> updateDevice(@RequestBody Devices updatedDevice) {
         return deviceService.updateDevice(updatedDevice);
     }
 

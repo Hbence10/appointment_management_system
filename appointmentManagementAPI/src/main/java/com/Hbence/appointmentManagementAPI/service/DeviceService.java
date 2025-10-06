@@ -65,8 +65,12 @@ public class DeviceService {
 
     //Maga_az_eszkoz
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Devices> updateDevice(Devices updatedDevice) {
-        if (updatedDevice.getId() == null) {
+    public ResponseEntity<Object> updateDevice(Devices updatedDevice) {
+        DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).get();
+
+        if (searched == null) {
+            return ResponseEntity.status(409).body("invalidDeviceCategory");
+        } else if (updatedDevice.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
             updatedDevice.setName(updatedDevice.getName().trim());
@@ -76,8 +80,9 @@ public class DeviceService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addDevice(Devices newDevice) {
-        List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll();
-        if (!devicesCategoryList.contains(newDevice.getCategoryId())) {
+        DevicesCategory searched = deviceCategoryRepository.findById(newDevice.getCategoryId().getId()).get();
+
+        if (searched == null) {
             return ResponseEntity.status(409).body("invalidDeviceCategory");
         } else if (newDevice.getId() != null) {
             return ResponseEntity.status(422).body("invalidInput");

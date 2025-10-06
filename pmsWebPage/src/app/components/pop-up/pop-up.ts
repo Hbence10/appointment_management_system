@@ -219,11 +219,14 @@ export class PopUp implements OnInit {
       this.reservationService.updateReservationType(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
-    } else if (this.selectedObject instanceof DevicesCategory){
+    } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!)
       this.deviceService.updateDeviceCategory(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof Device) {
+      // this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, acta)
+      console.log(this.deviceService.selectedCategory)
     }
   }
 
@@ -238,15 +241,17 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
-      console.log(this.selectedObject )
+      console.log(this.selectedObject)
       this.reservationService.createReservationType(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
-    } else if (this.selectedObject instanceof DevicesCategory){
+    } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(null, this.form.controls["property1"].value)
       this.deviceService.addDeviceCategory(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof Device) {
+
     }
   }
 
@@ -266,6 +271,8 @@ export class PopUp implements OnInit {
       this.deviceService.deleteDeviceCategory(this.selectedObject.getId!).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof Device) {
+
     }
   }
 

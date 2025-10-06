@@ -50,7 +50,7 @@
       } @else if (details()?.objectType == "device"){
       <mat-form-field class="w-100">
         <mat-label>{{labelText[2]}}</mat-label>
-        <mat-select [placeholder]="placeholderText[2]" [(value)]="selectedDeviceCategory">
+        <mat-select formControlName="property3" [placeholder]="placeholderText[2]" [(value)]="selectedDeviceCategory">
           @for(categories of deviceCategoryList(); track $index){
             <mat-option [value]="categories.getId">{{categories.getName}}</mat-option>
           }

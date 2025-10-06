@@ -1,8 +1,11 @@
+import { DevicesCategory } from "./deviceCategory.model";
+
 export class Device {
   constructor(
+    private id: number | null = null,
     private name?: string,
     private amount?: number,
-    private id: number | null = null,
+    private deviceCategory: DevicesCategory | null = null,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],

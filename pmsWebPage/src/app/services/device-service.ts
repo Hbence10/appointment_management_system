@@ -10,6 +10,7 @@ import { Device } from '../models/device.model';
 export class DeviceService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080/devices")
+  selectedCategory!: DevicesCategory
 
   //device_category
   getAllDevicesByCategories(): Observable<DevicesCategory[]> {
