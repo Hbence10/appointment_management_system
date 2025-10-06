@@ -1,8 +1,8 @@
 export class ReservationType {
   constructor(
-    private price?: number,
     private id: number | null = null,
     private name?: string,
+    private price?: number,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null,
     private placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
@@ -43,7 +43,8 @@ export class ReservationType {
     this.name = newName
   }
 
-  set setPrice(newPrice: number){
+  set setPrice(newPrice: number) {
     this.price = newPrice
   }
+
 }

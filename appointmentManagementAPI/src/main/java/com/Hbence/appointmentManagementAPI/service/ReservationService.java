@@ -13,10 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Transactional
 @Service
@@ -93,19 +90,38 @@ public class ReservationService {
         return ResponseEntity.ok(reservationTypeRepository.findAll().stream().filter(reservationType -> !reservationType.getIsDeleted()).toList());
     }
 
-    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    //    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
-        return null;
+        System.out.println(newReservationType);
+        if (newReservationType.getId() != null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            newReservationType.setName(newReservationType.getName().trim());
+            return ResponseEntity.ok(reservationTypeRepository.save(newReservationType));
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteReservationType(Long id) {
-        return null;
+        ReservationType searchedType = reservationTypeRepository.findById(id).get();
+
+        if (searchedType == null || searchedType.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            searchedType.setIsDeleted(true);
+            searchedType.setDeletedAt(new Date());
+            return ResponseEntity.ok("ok");
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType) {
-        return null;
+        if (updatedReservationType.getId() == null || updatedReservationType.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            updatedReservationType.setName(updatedReservationType.getName().trim());
+            return ResponseEntity.ok(reservationTypeRepository.save(updatedReservationType));
+        }
     }
 
     //Fizetesi modszerek

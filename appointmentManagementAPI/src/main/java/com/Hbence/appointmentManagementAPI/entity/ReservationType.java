@@ -2,12 +2,15 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -39,7 +42,7 @@ public class ReservationType {
 
     @Column(name = "deleted_at")
     @Null
-    private LocalDateTime deletedAt;
+    private Date deletedAt;
 
     //Kapcsolatok
     @OneToMany(

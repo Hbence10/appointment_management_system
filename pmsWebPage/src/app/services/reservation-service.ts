@@ -14,7 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ReservationService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080")
+  baseURL = signal<string>("http://localhost:8080/reservation")
   baseReservation = signal<Reservation>(new Reservation())
   ifRegistrationWithReservation = signal<boolean>(false)
   progressBarSteps = [true, false, false, false]
@@ -45,32 +45,44 @@ export class ReservationService {
 
   //Keresek:
   getReservationByUserId(userId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/user/${userId}`)
+    return this.http.get<Reservation[]>(`${this.baseURL()}/user/${userId}`)
   }
 
   getReservedDatesOfActualMonth(startDate: string, endDate: string): Observable<ReservedDates[]> {
-    return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservation/reservedDates?startDate=${startDate}&endDate=${endDate}`)
+    return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservedDates?startDate=${startDate}&endDate=${endDate}`)
   }
 
   getReservationByDate(wantedDate: string): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/reservation/date/${wantedDate}`)
+    return this.http.get<Reservation[]>(`${this.baseURL()}/date/${wantedDate}`)
   }
 
   makeReservation() {
-    return this.http.post(`${this.baseURL()}/reservation/makeReservation`, this.baseReservation())
+    return this.http.post(`${this.baseURL()}/makeReservation`, this.baseReservation())
   }
 
   //
-  getReservationTypes(): Observable<ReservationType[]> {
-    return this.http.get<ReservationType[]>(`${this.baseURL()}/reservation/getReservationType`)
-  }
-
   getPaymentMethods(): Observable<PaymentMethod[]> {
-    return this.http.get<PaymentMethod[]>(`${this.baseURL()}/reservation/paymentMethods`)
+    return this.http.get<PaymentMethod[]>(`${this.baseURL()}/paymentMethods`)
   }
 
   getPhoneCodes(): Observable<{ id: number, countryCode: number, countryName: string }[]> {
-    return this.http.get<{ id: number, countryCode: number, countryName: string }[]>(`${this.baseURL()}/reservation/phoneCodes`)
+    return this.http.get<{ id: number, countryCode: number, countryName: string }[]>(`${this.baseURL()}/phoneCodes`)
   }
-  //
+
+  //Reservation Types:
+  getReservationTypes(): Observable<ReservationType[]> {
+    return this.http.get<ReservationType[]>(`${this.baseURL()}/getReservationType`)
+  }
+
+  updateReservationType(updatedReservationType: ReservationType){
+    return this.http.put(`${this.baseURL()}/updateReservationType`, {updatedReservationType})
+  }
+
+  deleteReservationType(id: number){
+    return this.http.delete(`${this.baseURL()}/deleteReservationType/${id}`)
+  }
+
+  createReservationType(newReservationType: ReservationType){
+    return this.http.post(`${this.baseURL()}/addReservationType`, {newReservationType})
+  }
 }

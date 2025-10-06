@@ -21,6 +21,7 @@ import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../services/user-service';
 import { Router } from '@angular/router';
+import { response } from 'express';
 
 
 @Component({
@@ -206,24 +207,35 @@ export class PopUp implements OnInit {
   //
   sendPutRequest() {
     console.log("saveUpdates")
-    if (this.selectedObject instanceof News){
+    if (this.selectedObject instanceof News) {
       this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.updateNews(this.selectedObject).subscribe({
         next: response => console.log(response),
         error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
       })
+    } else if (this.selectedObject instanceof ReservationType) {
+      this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
+      this.reservationService.updateReservationType(this.selectedObject).subscribe({
+        next: response => console.log(response)
+      })
     }
   }
 
   sendPostRequest() {
     console.log("saveEntity")
-    if (this.selectedObject instanceof News){
+    if (this.selectedObject instanceof News) {
       this.selectedObject = new News(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.createNews(this.selectedObject).subscribe({
         next: response => console.log(response),
         error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
+      })
+    } else if (this.selectedObject instanceof ReservationType) {
+      this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
+      console.log(this.selectedObject )
+      this.reservationService.createReservationType(this.selectedObject).subscribe({
+        next: response => console.log(response)
       })
     }
   }
@@ -235,6 +247,10 @@ export class PopUp implements OnInit {
         next: response => console.log(response),
         error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
+      })
+    } else if (this.selectedObject instanceof ReservationType) {
+      this.reservationService.deleteReservationType(this.selectedObject.getId!).subscribe({
+        next: response => console.log(response),
       })
     }
   }
