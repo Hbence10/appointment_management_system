@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ReservationType } from '../../models/reservationType.model';
 import { ReservationService } from '../../services/reservation-service';
+import { ReservationStuff } from '../../services/reservation-stuff';
 
 @Component({
   selector: 'app-price-list',
@@ -9,7 +10,7 @@ import { ReservationService } from '../../services/reservation-service';
   styleUrl: './price-list.scss'
 })
 export class PriceList implements OnInit {
-  private reservationService = inject(ReservationService)
+  private reservationStuffService = inject(ReservationStuff)
   private destroyRef = inject(DestroyRef)
 
   reservationTypes = signal<ReservationType[]>([])
@@ -17,7 +18,7 @@ export class PriceList implements OnInit {
   helperList: number[] = [1, 2, 3, 4, 5]
 
   ngOnInit(): void {
-    const subscription = this.reservationService.getReservationTypes().subscribe({
+    const subscription = this.reservationStuffService.getReservationTypes().subscribe({
       next: responseList => {
         responseList.forEach(response => {
           this.reservationTypes.update(old => [...old, Object.assign(new ReservationType(), response)])

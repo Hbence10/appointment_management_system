@@ -17,7 +17,6 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService reservationService;
-    private final ReservationRepository reservationRepository;
 
     //Foglalasok
     @GetMapping("/user/{id}")
@@ -46,46 +45,8 @@ public class ReservationController {
     }
 
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Map<String, Object> cancelBody) {
-        return reservationService.cancelReservation(id, cancelBody);
-    }
-
-    //Foglalasi tipusok
-    @GetMapping("/getReservationType")
-    public ResponseEntity<List<ReservationType>> getAllReservationTypes() {
-        return reservationService.getAllReservationType();
-    }
-
-    @PostMapping("/addReservationType")
-    public ResponseEntity<ReservationType> addNewReservationType(@RequestBody ReservationType newReservationType) {
-        return reservationService.addNewReservationType(newReservationType);
-    }
-
-    @DeleteMapping("/deleteReservationType/{id}")
-    public ResponseEntity<String> deleteReservationType(@PathVariable("id") Long id) {
-        return reservationService.deleteReservationType(id);
-    }
-
-    @PutMapping("/updateReservationType")
-    public ResponseEntity<ReservationType> updateReservationType(@RequestBody ReservationType updatedReservationType) {
-        return reservationService.updateReservationType(updatedReservationType);
-    }
-
-    //Fizetesi modszerek
-    @GetMapping("/paymentMethods")
-    public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
-        return reservationService.getAllPaymentMethod();
-    }
-
-    //Telefonszam:
-    @GetMapping("/phoneCodes")
-    public ResponseEntity<List<PhoneCountryCode>> getAllPhoneCode() {
-        return reservationService.getAllPhoneCode();
-    }
-
-    @GetMapping("/asd")
-    public Object asd() {
-        return reservationRepository.findAll();
+    public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Users canceledBy) {
+        return reservationService.cancelReservation(id, canceledBy);
     }
 }
 

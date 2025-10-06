@@ -10,6 +10,7 @@ import { ReservationType } from '../../../models/reservationType.model';
 import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
+import { ReservationStuff } from '../../../services/reservation-stuff';
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
   const phoneServiceCodes: number[] = [30, 20, 70, 50, 31]
@@ -32,6 +33,7 @@ function validatePhone(control: AbstractControl): { [key: string]: any } | null 
 
 export class ReservationForm implements OnInit {
   private reservationService = inject(ReservationService)
+  private reservationStuffService = inject(ReservationStuff)
   private destroyRef = inject(DestroyRef)
   private userService = inject(UserService)
   nextStep = output()
@@ -52,7 +54,7 @@ export class ReservationForm implements OnInit {
       this.selectedReservationType.set(this.baseReservation().getReservationTypeId)
     }
 
-    const typeSubscription = this.reservationService.getReservationTypes().subscribe({
+    const typeSubscription = this.reservationStuffService.getReservationTypes().subscribe({
       next: responseList => {
         responseList.forEach(response => {
           this.reservationTypes.update(old => [...old, Object.assign(new ReservationType(), response)])
@@ -60,7 +62,7 @@ export class ReservationForm implements OnInit {
       }
     })
 
-    const phoneSubscription = this.reservationService.getPhoneCodes().subscribe({
+    const phoneSubscription = this.reservationStuffService.getPhoneCodes().subscribe({
       next: response => this.phoneCodes.set(response)
     })
 

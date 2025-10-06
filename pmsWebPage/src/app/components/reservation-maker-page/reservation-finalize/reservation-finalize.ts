@@ -5,6 +5,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PaymentMethod } from '../../../models/paymentMethod.model';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservationService } from '../../../services/reservation-service';
+import { ReservationStuff } from '../../../services/reservation-stuff';
 
 @Component({
   selector: 'app-reservation-finalize',
@@ -15,6 +16,7 @@ import { ReservationService } from '../../../services/reservation-service';
 
 export class ReservationFinalize implements OnInit {
   private reservationService = inject(ReservationService)
+  private reservationStuffService = inject(ReservationStuff)
   private destroyRef = inject(DestroyRef)
 
   paymentMethods = signal<PaymentMethod[]>([])
@@ -28,7 +30,7 @@ export class ReservationFinalize implements OnInit {
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
     this.totalPrice = this.baseReservation().getReservationTypeId.getPrice! * (this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart)
 
-    const subscription = this.reservationService.getPaymentMethods().subscribe({
+    const subscription = this.reservationStuffService.getPaymentMethods().subscribe({
       next: responseList => {
         responseList.forEach(response => {
           this.paymentMethods.update(old => [...old, Object.assign(new PaymentMethod(), response)])

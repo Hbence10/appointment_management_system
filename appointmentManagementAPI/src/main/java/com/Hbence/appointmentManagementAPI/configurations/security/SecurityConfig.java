@@ -48,8 +48,9 @@ public class SecurityConfig {
                         .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory", "/devices/update", "/devices/addDevice", "/devices/delete/**").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/rule/update", "/gallery/update").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/news/addNews", "/news/update", "/news/delete/**").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/getReservationType", "/reservation/paymentMethods", "/reservation/phoneCodes").permitAll() //reservationController
-                        .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**").permitAll() //reservationController
+                        .requestMatchers("/reservationStuff/getReservationType", "/reservationStuff/paymentMethods", "/reservationStuff/phoneCodes").permitAll()
+                        .requestMatchers("/reservationStuff/addReservationType", "/reservationStuff/deleteReservationType/**", "/reservationStuff/updateReservationType").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "/reviews/addLike", "/reviews/changeLikeType/**", "users/deleteUser/**").hasRole("user")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()

@@ -115,18 +115,6 @@ export class Reservation {
     this.reservedAt = newDate
   }
 
-  set setIsCanceled(newValue: boolean){
-    this.isCanceled = newValue
-  }
-
-  set setCanceledAt(newDate: Date){
-    this.canceledAt = newDate
-  }
-
-  set setCanceledBy(newUser: Users){
-    this.canceledBy = newUser
-  }
-
   set setUser(newUser: Users){
     this.user = newUser
   }
