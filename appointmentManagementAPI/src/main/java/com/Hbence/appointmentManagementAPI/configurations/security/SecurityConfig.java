@@ -49,11 +49,11 @@ public class SecurityConfig {
                         .requestMatchers("rule/update", "gallery/update").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/news/addNews", "/news/update", "/news/delete/**").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/getReservationType", "/reservation/paymentMethods", "/reservation/phoneCodes").permitAll() //reservationController
-                        .requestMatchers("/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/reservation/addReservationType", "/reservation/deleteReservationType/**", "/reservation/updateReservationType").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "/reviews/addLike", "/reviews/changeLikeType/**", "users/deleteUser/**").hasRole("user")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()
-                        .requestMatchers("/reservation/addReservationType", "/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
+                        .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
                 )
 
                 //CSRF settings (CSRF - Cross Site Request Forgery):

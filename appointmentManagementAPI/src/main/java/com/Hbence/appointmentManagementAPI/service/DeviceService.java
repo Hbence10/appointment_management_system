@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -23,6 +24,9 @@ public class DeviceService {
     //Eszkoz_kategoria
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
+        for (DevicesCategory i : devicesCategoryList){
+            i.setDevicesList(i.getDevicesList().stream().filter(device -> device.isDeleted()).toList());
+        }
         return ResponseEntity.ok(devicesCategoryList);
     }
 
@@ -85,6 +89,13 @@ public class DeviceService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteDevice(Long id) {
-        return null;
+        Devices searchedDevice = deviceRepository.findById(id).get();
+        if (searchedDevice == null || searchedDevice.isDeleted()){
+            return ResponseEntity.notFound().build();
+        } else {
+            searchedDevice.setDeleted(true);
+            searchedDevice.setDeletedAt(new Date());
+            return ResponseEntity.ok().body("ok");
+        }
     }
 }

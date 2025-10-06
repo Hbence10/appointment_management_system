@@ -16,8 +16,8 @@ export class UserService {
     return this.http.post<Users>(`${this.baseURL()}/login`, { username: username, password: password }, { observe: "response" })
   }
 
-  register(requestedBody: { username: string, email: string, password: string, pfpPath: string }) {
-    return this.http.post(`${this.baseURL()}/register`, requestedBody)
+  register(newUser: Users) {
+    return this.http.post(`${this.baseURL()}/register`, newUser)
   }
 
   updateUser(newEmail: string, newUsername: string, userId: number) {

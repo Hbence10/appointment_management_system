@@ -46,7 +46,7 @@ public class Users {
 
     @Column(name = "password")
     @NotNull
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     @Column(name = "pfp_path")
@@ -71,7 +71,7 @@ public class Users {
 
     @Column(name = "is_notification_about_news")
     @NotNull
-    private Boolean isNotificationAboutNews;
+    private Boolean isNotificationAboutNews = false;
 
     //Kapcsolatok:
     @ManyToOne(cascade = {CascadeType.DETACH})

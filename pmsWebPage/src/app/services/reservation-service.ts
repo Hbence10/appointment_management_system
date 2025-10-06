@@ -75,7 +75,7 @@ export class ReservationService {
   }
 
   updateReservationType(updatedReservationType: ReservationType){
-    return this.http.put(`${this.baseURL()}/updateReservationType`, {updatedReservationType})
+    return this.http.put(`${this.baseURL()}/updateReservationType`, updatedReservationType)
   }
 
   deleteReservationType(id: number){
@@ -83,6 +83,6 @@ export class ReservationService {
   }
 
   createReservationType(newReservationType: ReservationType){
-    return this.http.post(`${this.baseURL()}/addReservationType`, {newReservationType})
+    return this.http.post(`${this.baseURL()}/addReservationType`, newReservationType)
   }
 }

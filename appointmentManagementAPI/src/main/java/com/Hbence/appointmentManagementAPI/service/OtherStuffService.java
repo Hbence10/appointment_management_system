@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional
@@ -41,6 +42,7 @@ public class OtherStuffService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Rules> updateRules(Rules updatedRules) {
+        updatedRules.setLastEditAt(LocalDateTime.now());
         return ResponseEntity.ok(ruleRepository.save(updatedRules));
     }
 }

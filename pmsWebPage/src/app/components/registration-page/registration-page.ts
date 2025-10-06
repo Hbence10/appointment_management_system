@@ -7,6 +7,7 @@ import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
 import { RuleReader } from '../reservation-maker-page/rule-reader/rule-reader';
+import { Users } from '../../models/user.model';
 
 //
 function validatePassword(control: AbstractControl): { [key: string]: any } | null {
@@ -78,7 +79,8 @@ export class RegistrationPage implements OnInit {
   }
 
   register() {
-    this.userService.register({ username: this.form.controls["username"].value?.trim()!, email: this.form.controls["email"].value?.trim()!, password: this.form.controls["password"].value?.trim()!, pfpPath: "", }).subscribe({
+    let newUser: Users = new Users(null,this.form.controls["username"].value?.trim()!, this.form.controls["password"].value?.trim()!, this.form.controls["email"].value?.trim()!)
+    this.userService.register(newUser).subscribe({
       next: response => console.log(response),
       error: error => {
         console.log(error.error)

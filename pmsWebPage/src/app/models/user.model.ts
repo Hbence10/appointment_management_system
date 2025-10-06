@@ -4,7 +4,9 @@ export class Users {
   constructor(
     private id: number | null = null,
     private username?: string,
+    private password?: string,
     private email?: string,
+    private isNotificationAboutNews: boolean = false,
     private pfpPath?: string,
     private role: Role = new Role(1, "ROLE_user"),
   ) { }

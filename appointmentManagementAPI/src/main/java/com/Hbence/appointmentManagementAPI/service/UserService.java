@@ -38,6 +38,8 @@ public class UserService {
     }
 
     public ResponseEntity<Object> register(Users newUser) {
+        System.out.println(newUser);
+
         if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
         } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {

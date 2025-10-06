@@ -24,26 +24,18 @@ public class ReviewService {
     private final ReviewHistoryRepository reviewLikeHistoryRepository;
     private final ObjectMapper objectMapper;
 
+    //Review
     public ResponseEntity<List<Review>> getAllReview() {
         return ResponseEntity.ok().body(reviewRepository.findAll().stream().filter(review -> !review.isDeleted()).toList());
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Review> addReview(Review newReview) {
-        return ResponseEntity.ok(reviewRepository.save(newReview));
-    }
-
-    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<ReviewLikeHistory> addReviewLikeHistory(Map<String, Object> requestBody) {
-        ReviewLikeHistory newReviewLikeHistory = reviewLikeHistoryRepository.save(
-                new ReviewLikeHistory(
-                        String.valueOf(requestBody.get("likeType")),
-                        objectMapper.convertValue(requestBody.get("review"), Review.class),
-                        objectMapper.convertValue(requestBody.get("user"), Users.class)
-                )
-        );
-
-        return ResponseEntity.ok(newReviewLikeHistory);
+        if (newReview.getId() != null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(reviewRepository.save(newReview));
+        }
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
@@ -53,6 +45,13 @@ public class ReviewService {
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Review> updateReview(Review updatedReview) {
+        return null;
+    }
+
+    //ReviewLike
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
+    public ResponseEntity<ReviewLikeHistory> addLike(ReviewLikeHistory reviewLike) {
+
         return null;
     }
 

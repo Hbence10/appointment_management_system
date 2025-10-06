@@ -47,4 +47,12 @@ export class ReservationType {
     this.price = newPrice
   }
 
+  set setIsDeleted(newValue: boolean){
+    this.isDeleted = newValue
+  }
+
+  set setDeletedAt(newDate: Date){
+    this.deletedAt = newDate
+  }
+
 }

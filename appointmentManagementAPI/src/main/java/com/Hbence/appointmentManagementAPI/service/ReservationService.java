@@ -90,9 +90,8 @@ public class ReservationService {
         return ResponseEntity.ok(reservationTypeRepository.findAll().stream().filter(reservationType -> !reservationType.getIsDeleted()).toList());
     }
 
-    //    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+        @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
-        System.out.println(newReservationType);
         if (newReservationType.getId() != null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -110,7 +109,7 @@ public class ReservationService {
         } else {
             searchedType.setIsDeleted(true);
             searchedType.setDeletedAt(new Date());
-            return ResponseEntity.ok("ok");
+            return ResponseEntity.ok().build();
         }
     }
 

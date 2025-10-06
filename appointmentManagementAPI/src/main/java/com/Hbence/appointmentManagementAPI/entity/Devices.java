@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -39,7 +40,7 @@ public class Devices {
 
     @Column(name = "deleted_at")
     @Null
-    private LocalDateTime deletedAt;
+    private Date deletedAt;
 
     //Kapcsolatok:
     @ManyToOne(cascade = {})

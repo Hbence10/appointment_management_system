@@ -40,8 +40,8 @@ public class ReviewController {
 
     //LikeHistory
     @PostMapping("/addLike")
-    public ResponseEntity<ReviewLikeHistory> addLikeHistory(@RequestBody Map<String, Object> requestBody) {
-        return reviewService.addReviewLikeHistory(requestBody);
+    public ResponseEntity<ReviewLikeHistory> addLike(@RequestBody ReviewLikeHistory reviewLike) {
+        return reviewService.addLike(reviewLike);
     }
 
     @PatchMapping("/changeLikeType/{id}")
