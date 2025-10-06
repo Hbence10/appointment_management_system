@@ -25,7 +25,7 @@ public class DeviceService {
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
         for (DevicesCategory i : devicesCategoryList){
-            i.setDevicesList(i.getDevicesList().stream().filter(device -> device.isDeleted()).toList());
+            i.setDevicesList(i.getDevicesList().stream().filter(device -> !device.isDeleted()).toList());
         }
         return ResponseEntity.ok(devicesCategoryList);
     }

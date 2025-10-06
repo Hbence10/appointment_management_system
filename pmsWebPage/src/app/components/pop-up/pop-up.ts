@@ -219,6 +219,11 @@ export class PopUp implements OnInit {
       this.reservationService.updateReservationType(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof DevicesCategory){
+      this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!)
+      this.deviceService.updateDeviceCategory(this.selectedObject).subscribe({
+        next: response => console.log(response)
+      })
     }
   }
 
@@ -237,6 +242,11 @@ export class PopUp implements OnInit {
       this.reservationService.createReservationType(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof DevicesCategory){
+      this.selectedObject = new DevicesCategory(null, this.form.controls["property1"].value)
+      this.deviceService.addDeviceCategory(this.selectedObject).subscribe({
+        next: response => console.log(response)
+      })
     }
   }
 
@@ -251,6 +261,10 @@ export class PopUp implements OnInit {
     } else if (this.selectedObject instanceof ReservationType) {
       this.reservationService.deleteReservationType(this.selectedObject.getId!).subscribe({
         next: response => console.log(response),
+      })
+    } else if (this.selectedObject instanceof DevicesCategory) {
+      this.deviceService.deleteDeviceCategory(this.selectedObject.getId!).subscribe({
+        next: response => console.log(response)
       })
     }
   }

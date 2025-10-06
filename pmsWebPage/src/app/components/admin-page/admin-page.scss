@@ -61,7 +61,8 @@ app-pop-up {
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: 9999;
+  // z-index: 9999;
+  z-index: 2;
 }
 
 #reservationButton {
@@ -69,4 +70,9 @@ app-pop-up {
   height: 54px;
   border-radius: 15px;
   width: 210px;
+}
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
 }

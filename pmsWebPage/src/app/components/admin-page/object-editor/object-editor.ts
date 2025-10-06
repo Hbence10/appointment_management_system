@@ -11,10 +11,11 @@ import { Details } from '../../../models/notEntityModels/details.model';
 import { ReservationType } from '../../../models/reservationType.model';
 import { DeviceService } from '../../../services/device-service';
 import { ReservationService } from '../../../services/reservation-service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-object-editor',
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, CommonModule],
   templateUrl: './object-editor.html',
   styleUrl: './object-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,7 +25,7 @@ export class ObjectEditor implements OnInit {
   private deviceService = inject(DeviceService)
   private destroyRef = inject(DestroyRef)
   private reservationService = inject(ReservationService)
-  readonly objectType = input.required<Details>()
+  objectType = input.required<Details>()
 
   selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | null>()
 
@@ -38,7 +39,7 @@ export class ObjectEditor implements OnInit {
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
   )
 
-  selectedDeviceCategory?: string = ""
+  selectedDeviceCategory?: number;
 
   ngOnInit(): void {
     this.details.set(this.objectType())
@@ -46,9 +47,13 @@ export class ObjectEditor implements OnInit {
 
     if (this.selectedObject() instanceof Device) {
       const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
-        next: response => this.deviceCategoryList.set(response.map(element => Object.assign(new DevicesCategory(), element))),
+        next: response => {
+          this.deviceCategoryList.set(response.map(element => Object.assign(new DevicesCategory(), element)))
+          console.log(this.deviceCategoryList())
+        },
         complete: () => {
-          this.selectedDeviceCategory = this.details()?.deviceCategory.getId!.toString()
+          this.selectedDeviceCategory = this.details()?.deviceCategory.getId!
+          console.log(this.selectedDeviceCategory)
         }
       })
 
