@@ -51,8 +51,8 @@ public class SecurityConfig {
                         .requestMatchers("/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**").permitAll() //reservationController
                         .requestMatchers("/reservationStuff/getReservationType", "/reservationStuff/paymentMethods", "/reservationStuff/phoneCodes").permitAll()
                         .requestMatchers("/reservationStuff/addReservationType", "/reservationStuff/deleteReservationType/**", "/reservationStuff/updateReservationType").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
-                        .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "/reviews/addLike", "/reviews/changeLikeType/**", "users/deleteUser/**").hasRole("user")
+                        .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/deleteLike/**", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
+                        .requestMatchers("/reviews/deleteReview/**", "reviews/update", "/users/updateUser", "users/deleteUser/**").hasRole("user")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()
                         .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
                 )

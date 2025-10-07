@@ -35,14 +35,14 @@
             <div id="likeButtons" class="d-flex justify-content-center align-items-center">
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button [class.selected]="selectedLikeType == 'like'" [disabled]="selectedLikeType == 'like'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('like')">
+                <button [class.selected]="isUserLikedIt() && likeTypeOfUser == 'like'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('like')">
                   <span class="material-symbols-outlined">thumb_up</span>
                 </button>
                 <span class="mx-1">{{reviewDetail().getLikeCount}}</span>
               </div>
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('dislike')">
+                <button [class.selected]="isUserLikedIt() && likeTypeOfUser == 'dislike'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('dislike')">
                   <span class="material-symbols-outlined">thumb_down</span>
                 </button>
                 <span class="mx-1">{{reviewDetail().getDislikeCount}}</span>

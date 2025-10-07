@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +50,7 @@ public class Devices {
     //Kapcsolatok:
     @ManyToOne(cascade = {})
     @JoinColumn(name = "category_id")
-    @JsonIgnore
+    @JsonIgnoreProperties({"devicesList"})
     private DevicesCategory categoryId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {})

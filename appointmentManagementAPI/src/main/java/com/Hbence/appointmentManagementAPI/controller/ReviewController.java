@@ -3,6 +3,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
 import com.Hbence.appointmentManagementAPI.service.ReviewService;
+import com.Hbence.appointmentManagementAPI.service.other.ReviewHistoryWithReview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +41,13 @@ public class ReviewController {
 
     //LikeHistory
     @PostMapping("/addLike")
-    public ResponseEntity<ReviewLikeHistory> addLike(@RequestBody ReviewLikeHistory reviewLike) {
+    public ResponseEntity<ReviewLikeHistory> addLike(@RequestBody ReviewHistoryWithReview reviewLike) {
         return reviewService.addLike(reviewLike);
     }
 
-    @PatchMapping("/changeLikeType/{id}")
-    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType) {
-        return reviewService.changeLikeTypeOfReview(id, newLikeType);
+    @PutMapping("/changeLikeType/{id}")
+    public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id) {
+        return reviewService.changeLikeTypeOfReview(id);
     }
 
     @DeleteMapping("/deleteLike/{id}")

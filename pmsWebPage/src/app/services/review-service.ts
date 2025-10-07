@@ -24,4 +24,12 @@ export class ReviewService {
   addLike(reviewLike: ReviewHistory){
     return this.http.post(`${this.baseURL()}/addLike`, reviewLike)
   }
+
+  updateLike(id: number){
+    return this.http.put(`${this.baseURL()}/changeLikeType/${id}`, {})
+  }
+
+  deleteLike(id: number){
+    return this.http.delete(`${this.baseURL()}/deleteLike/${id}`)
+  }
 }
