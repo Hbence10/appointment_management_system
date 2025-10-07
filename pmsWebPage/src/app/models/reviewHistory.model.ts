@@ -1,35 +1,33 @@
+import { Review } from "./reviewDetails.model";
 import { Users } from "./user.model";
 
 export class ReviewHistory {
   constructor(
-    private id: number,
-    private likeType: "like" | "dislike",
-    private likeAt: Date,
-    private likerUser: Users
+    private id: number | null = null,
+    private likeType?: "like" | "dislike",
+    private likerUser?: Users,
+    private likedReview?: Review,
+    private likeAt?: Date,
   ) { }
 
   // Getterek
   get getId(): number {
-    return this.id;
+    return this.id!;
   }
 
   get getLikeType(): "like" | "dislike" {
-    return this.likeType
+    return this.likeType!
   }
 
   get getLikeAt(): Date {
-    return this.likeAt
+    return this.likeAt!
   }
 
   get getLikerUser(): Users {
-    return this.likerUser
+    return this.likerUser!
   }
 
   // Setterek
-  set setId(newId: number) {
-    this.id = newId;
-  }
-
   set setLikeType(newLikeType: "like" | "dislike") {
     this.likeType = newLikeType
   }

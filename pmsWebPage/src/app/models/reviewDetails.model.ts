@@ -4,10 +4,10 @@ import { Users } from "./user.model"
 export class Review {
 
   constructor(
+    private id: number | null = null,
     private reviewText?: string,
     private rating?: number,
     private author?: Users,
-    private id: number | null = null,
     private isAnonymus: boolean = false,
     private createdAt: Date = new Date(),
     private isDeleted: boolean = false,
@@ -15,10 +15,7 @@ export class Review {
     private likeCount: number = 0,
     private dislikeCount: number = 0,
     private likeHistories: ReviewHistory[] = []
-  ) {
-    this.likeCount = this.likeHistories.filter(element => element.getLikeType == "like").length
-    this.dislikeCount = this.likeHistories.filter(element => element.getLikeType == "dislike").length
-  }
+  ) {}
 
   // Getterek:
   get getId(): number | null {
@@ -94,11 +91,7 @@ export class Review {
     this.author = newAuthor
   }
 
-  set setIsDeleted(newValue: boolean) {
-    this.isDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date) {
-    this.deletedAt = newDate
+  set setLikeHistory(newList: ReviewHistory[]){
+    this.likeHistories = newList
   }
 }

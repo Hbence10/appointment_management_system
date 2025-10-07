@@ -24,7 +24,7 @@ public class ReviewController {
     }
 
     @PostMapping("/addReview")
-    public ResponseEntity<Review> addReview(@RequestBody Review newReview) {
+    public ResponseEntity<Object> addReview(@RequestBody Review newReview) {
         return reviewService.addReview(newReview);
     }
 
@@ -33,9 +33,9 @@ public class ReviewController {
         return reviewService.deleteReview(id);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Review> updateReview(@RequestBody Review updatedReview) {
-        return reviewService.updateReview(updatedReview);
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Review> updateReview(@PathVariable("id") Long id, @RequestBody Map<String, String> requestBody) {
+        return reviewService.updateReview(id, requestBody.get("text"));
     }
 
     //LikeHistory
@@ -47,5 +47,10 @@ public class ReviewController {
     @PatchMapping("/changeLikeType/{id}")
     public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id, Map<String, String> newLikeType) {
         return reviewService.changeLikeTypeOfReview(id, newLikeType);
+    }
+
+    @DeleteMapping("/deleteLike/{id}")
+    public ResponseEntity<Object> deleteLike(@PathVariable("id") Long id){
+        return reviewService.deleteReviewLike(id);
     }
 }

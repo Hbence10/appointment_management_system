@@ -9,6 +9,7 @@ import { Users } from '../../models/user.model';
 import { ReviewService } from '../../services/review-service';
 import { UserService } from '../../services/user-service';
 import { ReviewCard } from './review-card/review-card';
+import { ReviewHistory } from '../../models/reviewHistory.model';
 
 @Component({
   selector: 'app-review',
@@ -38,6 +39,9 @@ export class ReviewPage implements OnInit {
         responseList.forEach(response => {
           let review: Review = Object.assign(new Review(), response)
           review.setAuthor = Object.assign(new Users(), review.getAuthor)
+          review.setLikeHistory = review.getLikeHistories.map(element => Object.assign(new ReviewHistory(), element))
+          review.setLikeCount = review.getLikeHistories.filter(element => element.getLikeType == "like").length
+          review.setDislikeCount = review.getLikeHistories.filter(element => element.getLikeType == "dislike").length
           this.reviewDetails.update(old => [...old, review])
         })
       },
@@ -53,11 +57,14 @@ export class ReviewPage implements OnInit {
     if (this.userService.user() == null) {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
     } else {
-      // const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, 2.5, this.user()!, this.isAnonymus())
-      // this.reviewService.addReview(newReview).subscribe({
-      //   next: response => console.log(response),
-      //   complete: () => this.reviewDetails().push(newReview)
-      // })
+      const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, this.reviewForm.controls["rating"].value!, this.userService.user()!, this.isAnonymus())
+      this.reviewService.addReview(newReview).subscribe({
+        next: response => console.log(response),
+        error: error => console.log(error),
+        complete: () => {
+          this.reviewDetails.update(old => [...old, newReview])
+        }
+      })
     }
   }
 

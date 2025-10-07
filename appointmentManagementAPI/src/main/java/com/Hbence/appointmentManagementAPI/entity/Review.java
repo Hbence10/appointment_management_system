@@ -41,7 +41,7 @@ public class Review {
 
     @Column(name = "is_deleted")
     @NotNull
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null

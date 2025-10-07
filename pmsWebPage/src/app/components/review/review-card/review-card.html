@@ -4,7 +4,7 @@
       <div class="container-fluid" id="secondContainer">
         <div class="row">
           <div class="col-lg-12">
-            <h5 class="m-0 mainFont">{{reviewDetail().getAuthor.getUsername}}</h5>
+            <h5 class="m-0 mainFont">{{reviewDetail().getIsAnonymus ? 'Névtelen' : reviewDetail().getAuthor.getUsername}}</h5>
             <hr class="my-1" style="border: px solid #004D40 !important; border-radius: 25px; background-color: #004D40;">
           </div>
         </div>
@@ -35,14 +35,14 @@
             <div id="likeButtons" class="d-flex justify-content-center align-items-center">
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button [class.selected]="selectedLikeType == 'like'" [disabled]="selectedLikeType == 'like'" class="iconButton d-flex justify-content-center align-items-center" (click)="addLike('like')">
+                <button [class.selected]="selectedLikeType == 'like'" [disabled]="selectedLikeType == 'like'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('like')">
                   <span class="material-symbols-outlined">thumb_up</span>
                 </button>
                 <span class="mx-1">{{reviewDetail().getLikeCount}}</span>
               </div>
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button class="iconButton d-flex justify-content-center align-items-center" (click)="addLike('dislike')">
+                <button class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('dislike')">
                   <span class="material-symbols-outlined">thumb_down</span>
                 </button>
                 <span class="mx-1">{{reviewDetail().getDislikeCount}}</span>

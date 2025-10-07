@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Review } from '../../../models/reviewDetails.model';
 import { ReviewService } from '../../../services/review-service';
 import { UserService } from '../../../services/user-service';
+import { ReviewHistory } from '../../../models/reviewHistory.model';
 
 @Component({
   selector: 'app-review-card',
@@ -17,38 +18,29 @@ export class ReviewCard implements OnInit {
   reviewDetail = input.required<Review>()
   startList = signal<number[]>([])
   selectedLikeType: "like" | "dislike" | "" = ""
+  isUserLikedIt = signal(false)
 
   ngOnInit(): void {
-    let counter = this.reviewDetail().getRating
 
-    while (this.startList().length != 5) {
-      if (counter % 1 == 0 && counter > 0) {
-        this.startList.update(old => [1, ...old])
-        counter -= 1
-      } else if (counter % 0.5 == 0 && counter > 0) {
-        this.startList.update(old => [0.5, ...old])
-        counter -= 0.5
-      } else if (counter == 0) {
-        this.startList.update(old => [...old, 0])
-      }
-    }
-    console.log(this.startList())
   }
 
-  addLike(likeType: "like" | "dislike") {
-    if (!this.userService.user()) {
-      alert("Jelentkezzél be!")
-    }
+  setLike(likeType: "like" | "dislike") {
 
-    let userLike = this.reviewDetail().getLikeHistories.find(history => history.getLikerUser.getId == this.userService.user()!.getId)
-
-    if (!userLike) {
-      console.log("Uj history")
-    } else {
-      console.log("history update")
-    }
-
-    console.log(userLike)
+    this.addLike(likeType)
   }
 
+  addLike(likeType: "like" | "dislike"){
+    const reviewLike: ReviewHistory = new ReviewHistory(null, likeType, this.userService.user()!, this.reviewDetail())
+    this.reviewService.addLike(reviewLike).subscribe({
+      next: response => console.log(response)
+    })
+  }
+
+  updateLike(likeType: "like" | "dislike"){
+
+  }
+
+  deleteLike(){
+
+  }
 }
