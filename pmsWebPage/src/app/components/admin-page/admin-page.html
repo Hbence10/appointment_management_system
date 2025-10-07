@@ -3,71 +3,104 @@
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <mat-card class="demo-inline-calendar-card">
         <mat-card-header>
-          <mat-card-subtitle style="color: white;">Válasszon dátumot:</mat-card-subtitle>
-          <mat-card-title style="color: white;">{{ selectedDateText() }}</mat-card-title>
+          <mat-card-subtitle style="color: white"
+            >Válasszon dátumot:</mat-card-subtitle
+          >
+          <mat-card-title style="color: white">{{
+            selectedDateText()
+          }}</mat-card-title>
         </mat-card-header>
-        <mat-calendar [(selected)]="selectedDate" (selectedChange)="showSelectedDaysReservation()"></mat-calendar>
+        <mat-calendar
+          [minDate]="currentDate"
+          [maxDate]="maxDate"
+          [(selected)]="selectedDate"
+        ></mat-calendar>
       </mat-card>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div class="cardDiv reservationCard">
-        <h1 class="text-center mainFont my-3">{{selectedDateText()}}</h1>
-        <div style="height: 380px; overflow-y: scroll;">
+        <h1 class="text-center mainFont my-3">{{ selectedDateText() }}</h1>
+        <div style="height: 380px; overflow-y: scroll">
           @for (reservation of reservationsOfSelectedDate(); track $index) {
-            <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'" (showDetailsOutput)="showReservationDetails($event)" />
+          <app-reservation-card
+            [reservationDetails]="reservation"
+            [parentComponent]="'adminPage'"
+            (showDetailsOutput)="showReservationDetails($event)"
+          />
           } @empty {
-            <h3 class="text-center">Erre a napra még nem foglaltak!</h3>
-            <div>
-              <mat-form-field>
-                <mat-label>A terem bezárása</mat-label>
-                <mat-select>
-                  <mat-option>Rendes bezárás miatt</mat-option>
-                  <mat-option>Ünnepnap miatt</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <button>Mentés</button>
-            </div>
-            <div class="d-flex justify-content-center align-items-center">
-              <button matButton="filled" routerLink="/makeReservation" id="reservationButton">Időpont foglalása</button>
-            </div>
+          <h3 class="text-center">Erre a napra még nem foglaltak!</h3>
+          <div>
+            <mat-form-field>
+              <mat-label>A terem bezárása</mat-label>
+              <mat-select>
+                <mat-option>Rendes bezárás miatt</mat-option>
+                <mat-option>Ünnepnap miatt</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button>Mentés</button>
+          </div>
+          <div class="d-flex justify-content-center align-items-center">
+            <button
+              matButton="filled"
+              routerLink="/makeReservation"
+              id="reservationButton"
+            >
+              Időpont foglalása
+            </button>
+          </div>
           }
         </div>
       </div>
     </div>
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div class="cardDiv reservationCard container-fluid">
-
         <div class="row">
           <div class="col-lg-12 d-flex flex-column justify-content-center">
             <h1 class="text-center my-3">Mai nap foglalásai</h1>
-            <div style="height: 280px; overflow-y: scroll;">
+            <div style="height: 280px; overflow-y: scroll">
               @for (reservation of todaysReservation(); track $index) {
-                <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'" (showDetailsOutput)="showReservationDetails($event)"/>
+              <app-reservation-card
+                [reservationDetails]="reservation"
+                [parentComponent]="'adminPage'"
+                (showDetailsOutput)="showReservationDetails($event)"
+              />
               }
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
   <div class="row my-4">
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Kategóriák listája', 'newEntity', 'deviceCategory')">
+      <div
+        class="cardDiv d-flex justify-content-center align-items-center"
+        (click)="
+          selectObjectList('Kategóriák listája', 'newEntity', 'deviceCategory')
+        "
+      >
         <p class="text-center">Eszközök kezelése</p>
       </div>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Hírek kezelése', 'newEntity', 'news')">
+      <div
+        class="cardDiv d-flex justify-content-center align-items-center"
+        (click)="selectObjectList('Hírek kezelése', 'newEntity', 'news')"
+      >
         <p class="text-center">Hírek kezelése</p>
       </div>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Próba Kategóriák', 'newEntity', 'reservationType')">
+      <div
+        class="cardDiv d-flex justify-content-center align-items-center"
+        (click)="
+          selectObjectList('Próba Kategóriák', 'newEntity', 'reservationType')
+        "
+      >
         <p class="text-center">Próba lehetőségek kezelése</p>
       </div>
     </div>
@@ -75,19 +108,32 @@
 
   <div class="row">
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Szabályzat szerkesztése', 'saveChanges', 'rule')">
+      <div
+        class="cardDiv d-flex justify-content-center align-items-center"
+        (click)="
+          selectObjectList('Szabályzat szerkesztése', 'saveChanges', 'rule')
+        "
+      >
         <p class="text-center">Szabályzat szerkesztése</p>
       </div>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('Galléria szerkesztése', 'galleryView', 'gallery')">
+      <div
+        class="cardDiv d-flex justify-content-center align-items-center"
+        (click)="
+          selectObjectList('Galléria szerkesztése', 'galleryView', 'gallery')
+        "
+      >
         <p class="text-center">Galléria szerkesztése</p>
       </div>
     </div>
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv d-flex justify-content-center align-items-center" (click)="selectObjectList('', '', 'other')">
+      <div
+        class="cardDiv d-flex justify-content-center align-items-center"
+        (click)="selectObjectList('', '', 'other')"
+      >
         <p class="text-center">Egyéb</p>
       </div>
     </div>
@@ -95,5 +141,9 @@
 </div>
 
 @if(isShowPupUp()){
-  <app-pop-up (closePopUp)="closePopUp()" [baseDetails]="popUpDetails" [reservation]="selectedReservation()!" />
+<app-pop-up
+  (closePopUp)="closePopUp()"
+  [baseDetails]="popUpDetails"
+  [reservation]="selectedReservation()!"
+/>
 }

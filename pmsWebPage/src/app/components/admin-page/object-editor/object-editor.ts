@@ -69,4 +69,9 @@ export class ObjectEditor implements OnInit {
   selectCategory(){
     this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategory]
   }
+
+  selectFile(event: any){
+    const file: File = event.target.files[0]
+    console.log(file)
+  }
 }
