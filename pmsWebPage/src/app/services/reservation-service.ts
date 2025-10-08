@@ -56,10 +56,18 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`${this.baseURL()}/date/${wantedDate}`)
   }
 
+  //Foglalás keszitése
   makeReservation() {
     return this.http.post(`${this.baseURL()}/makeReservation`, this.baseReservation())
   }
 
-  //
+  //Foglalás lemondása:
+  getReservationByEmailAndVCode(email: string, vCode: string): Observable<Reservation>{
+    return this.http.post<Reservation>(`${this.baseURL()}/getByEmailAndVCode`, {email: email, vCode: vCode})
+  }
+
+  cancelReservation(id: number){
+
+  }
 
 }

@@ -1,0 +1,52 @@
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  color: #004D40;
+}
+
+.mainFont {
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+
+.secondFont {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#mainContainer {
+  width: 510px;
+  height: 590px;
+  background-color: #B2DFDB;
+  color: #004D40;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+button {
+  background-color: #004D40 !important;
+  color: white !important;
+  height: 50px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  width: 100%;
+}
+
+button:disabled{
+  opacity: 0.6;
+}
+
+mat-form-field {
+  @include mat.form-field-overrides((
+    filled-input-text-color: #004D40,
+    filled-caret-color: #004D40,
+    filled-container-color: white
+    ));
+}

@@ -49,7 +49,7 @@ public class ReservationController {
     }
 
     //-------------
-    @PostMapping("")
+    @PostMapping("/getByEmailAndVCode")
     public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody Map<String, String> requestBody){
         return reservationService.getReservationByEmailAndVCode(requestBody.get("email"), requestBody.get("vCode"));
     }

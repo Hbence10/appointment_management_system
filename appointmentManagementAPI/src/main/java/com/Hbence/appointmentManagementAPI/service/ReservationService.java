@@ -105,20 +105,24 @@ public class ReservationService {
 
     //-----------------------
     public ResponseEntity<Object> getReservationByEmailAndVCode(String email, String vCode) {
-        List<String> allEmail = reservationRepository.getAllReservationEmail();
-        if (!allEmail.contains(email)) {
-            return ResponseEntity.notFound().build();
-        } else {
-            List<Reservations> reservationsList = reservationRepository.getReservationsByEmail(email);
-            Reservations wantedReservation = reservationsList.stream().filter(
-                    reservation -> passwordEncoder.matches(vCode, reservation.getCancelVCode())
-            ).toList().get(0);
-
-            if (wantedReservation == null) {
+        if(ValidatorCollection.emailChecker(email)){
+            List<String> allEmail = reservationRepository.getAllReservationEmail();
+            if (!allEmail.contains(email)) {
                 return ResponseEntity.notFound().build();
             } else {
-                return ResponseEntity.ok(wantedReservation);
+                List<Reservations> reservationsList = reservationRepository.getReservationsByEmail(email);
+                Reservations wantedReservation = reservationsList.stream().filter(
+                        reservation -> passwordEncoder.matches(vCode, reservation.getCancelVCode())
+                ).toList().get(0);
+
+                if (wantedReservation == null) {
+                    return ResponseEntity.notFound().build();
+                } else {
+                    return ResponseEntity.ok(wantedReservation);
+                }
             }
+        } else {
+            return ResponseEntity.status(409).body("InvalidEmail");
         }
     }
 }
