@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "devices_category")
+@Table(name = "device_category")
 @Getter
 @Setter
 @ToString

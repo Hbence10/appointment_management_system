@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Okt 01. 16:32
+-- Létrehozás ideje: 2025. Okt 08. 20:27
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -31,6 +31,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEmail` ()   BEGIN
 	SELECT user.email FROM user;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllReservationEmail` ()   BEGIN
+	SELECT reservations.email FROM reservations;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` DATE)   BEGIN
@@ -61,6 +65,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userIdIN` INT)   BEGIN
 	SELECT * FROM `reservations` WHERE reservations.user_id = userIdIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsByEmail` (IN `emailIN` VARCHAR(100))   BEGIN
+	SELECT * FROM reservations WHERE reservations.email = emailIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `startDateIN` DATE, IN `endDateIN` DATE)   BEGIN
@@ -98,10 +106,10 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `devices`
+-- Tábla szerkezet ehhez a táblához `device`
 --
 
-CREATE TABLE `devices` (
+CREATE TABLE `device` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -111,10 +119,10 @@ CREATE TABLE `devices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `devices`
+-- A tábla adatainak kiíratása `device`
 --
 
-INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`, `is_deleted`, `deleted_at`) VALUES
+INSERT INTO `device` (`id`, `name`, `category_id`, `amount`, `is_deleted`, `deleted_at`) VALUES
 (3, 'mikrofon1', 1, 2, 0, NULL),
 (4, 'mikrofon2', 1, 2, 0, NULL),
 (5, 'gitar1', 2, 2, 0, NULL),
@@ -139,13 +147,15 @@ INSERT INTO `devices` (`id`, `name`, `category_id`, `amount`, `is_deleted`, `del
 (24, 'dob2', 5, 1, 0, NULL),
 (25, 'dob3', 5, 1, 0, NULL),
 (26, 'dob4', 5, 1, 0, NULL),
-(27, 'dob5', 5, 1, 0, NULL);
+(27, 'dob5', 5, 1, 0, NULL),
+(31, 'postTest1', 1, 1, 1, '2025-10-06 17:08:10'),
+(32, 'updateTest', 2, 2, 1, '2025-10-06 17:07:31');
 
 --
--- Eseményindítók `devices`
+-- Eseményindítók `device`
 --
 DELIMITER $$
-CREATE TRIGGER `checkFullDay` BEFORE INSERT ON `devices` FOR EACH ROW BEGIN
+CREATE TRIGGER `checkFullDay` BEFORE INSERT ON `device` FOR EACH ROW BEGIN
 
 END
 $$
@@ -154,10 +164,10 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `devices_category`
+-- Tábla szerkezet ehhez a táblához `device_category`
 --
 
-CREATE TABLE `devices_category` (
+CREATE TABLE `device_category` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -165,23 +175,25 @@ CREATE TABLE `devices_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `devices_category`
+-- A tábla adatainak kiíratása `device_category`
 --
 
-INSERT INTO `devices_category` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
+INSERT INTO `device_category` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
 (1, 'mikrofonok', 0, NULL),
 (2, 'gitarok', 0, NULL),
 (3, 'erositok', 0, NULL),
 (4, 'zongorak', 0, NULL),
-(5, 'dobok', 0, NULL);
+(5, 'dobok', 0, NULL),
+(6, 'UpdateTest', 1, '2025-10-06 13:14:05'),
+(7, 'postTest', 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `devices_reservation_type`
+-- Tábla szerkezet ehhez a táblához `device_reservation_type`
 --
 
-CREATE TABLE `devices_reservation_type` (
+CREATE TABLE `device_reservation_type` (
   `id` int(11) NOT NULL,
   `reservation_tpye_id` int(11) NOT NULL,
   `device_id` int(11) NOT NULL,
@@ -274,15 +286,17 @@ INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `plac
 (2, 'Akciós próbadíjak szeptemberben', 'Ebben a hónapban kedvezményes áron bérelhetitek a próbatermet. A hétköznapi délutáni sávokra 20% kedvezményt biztosítunk. Ha rendszeresen jártok, még további engedményeket is adunk. Ne hagyjátok ki a lehetőséget!', 'assets/images/news/placeholder.png', 1, 2, '2025-08-23 11:19:02', 0, NULL, NULL),
 (3, 'Nyílt nap a próbateremben', 'Szeretettel várunk minden érdeklődőt a nyílt napunkon. Lehetőségetek lesz kipróbálni a termet és a hangszereket teljesen ingyen. A program során bemutatjuk a felszerelést és válaszolunk minden kérdésre. Gyere el, és hozd magaddal zenész barátaidat is!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-23 11:19:38', 0, NULL, NULL),
 (4, 'Új foglalási rendszer indult', 'Mostantól egyszerűbben és gyorsabban tudtok időpontot foglalni. Az online naptár segítségével azonnal látható, mikor szabad a terem. Így elkerülhetők a félreértések és ütközések. Próbáljátok ki, és foglaljatok pár kattintással!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-27 08:07:08', 0, NULL, NULL),
-(5, 'Koncert a próbaterem zenekaraival', 'A nálunk próbáló zenekarok közül többen fellépnek egy közös koncerten. Az esemény célja, hogy bemutassuk a helyi tehetségeket. A belépés ingyenes, mindenkit szeretettel várunk. Részletek hamarosan a weboldalunkon!', 'assets/images/news/placeholder.png', 1, 5, '2025-08-27 08:07:08', 0, NULL, NULL);
+(5, 'Koncert a próbaterem zenekaraival', 'A nálunk próbáló zenekarok közül többen fellépnek egy közös koncerten. Az esemény célja, hogy bemutassuk a helyi tehetségeket. A belépés ingyenes, mindenkit szeretettel várunk. Részletek hamarosan a weboldalunkon!', 'assets/images/news/placeholder.png', 1, 5, '2025-08-27 08:07:08', 0, NULL, NULL),
+(9, 'updateTest', 'adsadad', 'a', 48, 0, '2025-10-05 16:22:06', 1, '2025-10-06 14:08:20', NULL),
+(10, 'a', 'a', NULL, 48, 0, '2025-10-05 16:06:59', 1, '2025-10-05 18:28:52', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `payment_methods`
+-- Tábla szerkezet ehhez a táblához `payment_method`
 --
 
-CREATE TABLE `payment_methods` (
+CREATE TABLE `payment_method` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -290,10 +304,10 @@ CREATE TABLE `payment_methods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `payment_methods`
+-- A tábla adatainak kiíratása `payment_method`
 --
 
-INSERT INTO `payment_methods` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
+INSERT INTO `payment_method` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
 (1, 'Kártyás', 0, NULL),
 (2, 'Készpénz', 0, NULL),
 (3, 'Revolut', 0, NULL);
@@ -301,20 +315,20 @@ INSERT INTO `payment_methods` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `phone_country_codes`
+-- Tábla szerkezet ehhez a táblához `phone_country_code`
 --
 
-CREATE TABLE `phone_country_codes` (
+CREATE TABLE `phone_country_code` (
   `id` int(11) NOT NULL,
   `country_code` int(3) NOT NULL,
   `country_name` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `phone_country_codes`
+-- A tábla adatainak kiíratása `phone_country_code`
 --
 
-INSERT INTO `phone_country_codes` (`id`, `country_code`, `country_name`) VALUES
+INSERT INTO `phone_country_code` (`id`, `country_code`, `country_name`) VALUES
 (1, 1, 'American Samoa'),
 (2, 1, 'Anguilla'),
 (3, 1, 'Antigua and Barbuda'),
@@ -552,10 +566,10 @@ INSERT INTO `phone_country_codes` (`id`, `country_code`, `country_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `reservations`
+-- Tábla szerkezet ehhez a táblához `reservation`
 --
 
-CREATE TABLE `reservations` (
+CREATE TABLE `reservation` (
   `id` int(11) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
@@ -563,6 +577,7 @@ CREATE TABLE `reservations` (
   `phone_country_code_id` int(11) NOT NULL DEFAULT '102',
   `phone_number` varchar(9) NOT NULL,
   `comment` longtext,
+  `cancel_v_code` longtext,
   `reservation_type_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `payment_method_id` int(11) NOT NULL,
@@ -575,16 +590,16 @@ CREATE TABLE `reservations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `reservations`
+-- A tábla adatainak kiíratása `reservation`
 --
 
-INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
-(28, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 46, '2025-09-19 19:47:00', 0, NULL, NULL),
-(29, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', 'asd', 2, NULL, 2, 1, 48, '2025-09-20 05:29:04', 0, NULL, NULL),
-(30, 'asd', 'asd', 'asd@gmail.com', 102, 'asd', NULL, 2, NULL, 2, 1, 49, '2025-09-20 05:32:32', 0, NULL, NULL),
-(31, 'postTest', 'postTest', 'asd@gmail.com', 102, 'asd', 'asd', 2, 48, 2, 1, 50, '2025-09-19 19:47:00', 0, NULL, NULL),
-(32, 'continueAble@gmail.com', 'continueAble@gmail.com', 'continueAble@gmail.com', 102, '706285232', NULL, 1, 48, 2, 1, 51, '2025-09-30 05:03:06', 0, NULL, NULL),
-(33, 'postTest', 'postTest', 'asd@gmail.com', 102, '702322232', 'asd', 2, 48, 2, 1, 52, '2025-09-19 19:47:00', 0, NULL, NULL);
+INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
+(25, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 4, '2025-10-05 08:31:15', NULL, NULL, NULL),
+(26, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 5, '2025-10-05 08:31:15', NULL, NULL, NULL),
+(27, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 6, '2025-10-05 08:31:15', NULL, NULL, NULL),
+(28, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 7, '2025-10-05 08:31:15', NULL, NULL, NULL),
+(29, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 8, '2025-10-05 08:31:15', NULL, NULL, NULL),
+(30, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 9, '2025-10-05 08:31:15', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -609,15 +624,20 @@ INSERT INTO `reservation_type` (`id`, `name`, `price`, `is_deleted`, `deleted_at
 (2, 'Zenekari Próba', 4000, 0, NULL),
 (3, 'Önálló felvételek', 6000, 0, NULL),
 (4, 'kategória 4', 1500, 0, NULL),
-(5, 'kategória 5', 5500, 0, NULL);
+(5, 'kategória 5', 5500, 0, NULL),
+(6, 'UpdateTest', 6000, 1, '2025-10-05 19:20:21'),
+(7, 'UpdateTest2', 6000, 1, '2025-10-06 17:54:51'),
+(8, 'PostTest3', 6000, 1, '2025-10-06 12:25:43'),
+(9, 'asd213', 1234, 1, '2025-10-06 12:29:02'),
+(10, 'UpdateTest3', 6000, 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `reserved_dates`
+-- Tábla szerkezet ehhez a táblához `reserved_date`
 --
 
-CREATE TABLE `reserved_dates` (
+CREATE TABLE `reserved_date` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `is_holiday` tinyint(1) NOT NULL DEFAULT '0',
@@ -626,21 +646,23 @@ CREATE TABLE `reserved_dates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `reserved_dates`
+-- A tábla adatainak kiíratása `reserved_date`
 --
 
-INSERT INTO `reserved_dates` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
-(54, '2025-09-20', 0, 0, 0),
-(55, '2025-09-22', 0, 0, 0),
-(56, '2025-09-30', 0, 0, 0);
+INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
+(1, '2025-10-06', 0, 0, 0),
+(2, '2025-10-02', 0, 0, 0),
+(3, '2025-10-03', 0, 0, 0),
+(4, '2025-10-04', 0, 0, 0),
+(5, '2025-10-05', 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `reserved_hours`
+-- Tábla szerkezet ehhez a táblához `reserved_hour`
 --
 
-CREATE TABLE `reserved_hours` (
+CREATE TABLE `reserved_hour` (
   `id` int(11) NOT NULL,
   `start` int(2) NOT NULL,
   `end` int(2) NOT NULL,
@@ -650,17 +672,16 @@ CREATE TABLE `reserved_hours` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `reserved_hours`
+-- A tábla adatainak kiíratása `reserved_hour`
 --
 
-INSERT INTO `reserved_hours` (`id`, `start`, `end`, `date_id`, `is_deleted`, `deleted_at`) VALUES
-(46, 13, 15, 56, 0, NULL),
-(47, 15, 17, 56, 0, NULL),
-(48, 12, 14, 56, 0, NULL),
-(49, 10, 12, 56, 0, NULL),
-(50, 13, 15, 56, 0, NULL),
-(51, 16, 21, 56, 0, NULL),
-(52, 13, 15, 54, 0, NULL);
+INSERT INTO `reserved_hour` (`id`, `start`, `end`, `date_id`, `is_deleted`, `deleted_at`) VALUES
+(4, 10, 12, 5, 0, NULL),
+(5, 14, 16, 5, 0, NULL),
+(6, 18, 21, 5, 0, NULL),
+(7, 10, 12, 2, 0, NULL),
+(8, 14, 15, 2, 0, NULL),
+(9, 15, 16, 2, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -685,13 +706,12 @@ CREATE TABLE `review` (
 
 INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `is_anonymous`, `created_at`, `is_deleted`, `deleted_at`) VALUES
 (1, 1, 'Nagyon jól felszerelt próbaterem, minden rendben működött. A foglalás gyors és egyszerű volt, biztosan jövünk még!', 5, 0, '2025-09-08 09:59:25', 0, NULL),
-(2, 1, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(2, 47, 'A terem hangulata és akusztikája kiváló, pont amire egy zenekarnak szüksége van. A felszerelés minőségi, és minden tisztán, rendezetten várt minket. Nagy előny, hogy a foglalás rugalmasan intézhető, így könnyen be tudtuk illeszteni a próbát a sűrű hetünkbe.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
 (3, 26, 'Már több próbateremben jártunk a városban, de ez az egyik legjobb élményünk eddig. A hely tágas, kényelmes, a hangszerek és az erősítők hibátlan állapotban voltak, a dob is tökéletesen beállítva. Érezhető, hogy a tulajdonos szívvel-lélekkel foglalkozik a hellyel. Nagy plusz, hogy a környéken könnyű parkolni, így nem kellett cipekednünk messziről. Az ár-érték arány is teljesen korrekt, szóval biztosan rendszeres vendégek leszünk.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
 (4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 3.5, 0, '2025-09-08 10:21:46', 0, NULL),
-(5, 1, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
-(6, 1, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, '2025-09-08 10:21:46', 0, NULL),
-(7, 1, 'asd', 1, 0, '2025-09-17 15:57:56', 0, NULL),
-(8, 1, 'asd', 1, 0, '2025-09-17 15:58:12', 0, NULL);
+(5, 29, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(6, 50, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, '2025-09-08 10:21:46', 0, NULL),
+(7, 48, 'postTest12', 2.5, 0, '2025-10-07 02:47:52', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -712,8 +732,7 @@ CREATE TABLE `review_like_history` (
 --
 
 INSERT INTO `review_like_history` (`id`, `review_id`, `like_type`, `user_id`, `like_at`) VALUES
-(1, 1, 'like', 1, '2025-09-13 16:54:14'),
-(2, 3, 'like', 1, '2025-09-14 12:11:31');
+(1, 1, 'like', 48, '2025-10-07 04:54:47');
 
 -- --------------------------------------------------------
 
@@ -740,21 +759,21 @@ INSERT INTO `role` (`id`, `name`, `is_deleted`, `deleted_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `rules`
+-- Tábla szerkezet ehhez a táblához `rule`
 --
 
-CREATE TABLE `rules` (
+CREATE TABLE `rule` (
   `id` int(11) NOT NULL,
   `text` longtext NOT NULL,
   `last_edit_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `rules`
+-- A tábla adatainak kiíratása `rule`
 --
 
-INSERT INTO `rules` (`id`, `text`, `last_edit_at`) VALUES
-(1, '1. Általános rendelkezések\n•	A próbaterem kizárólag zenészek és zenekarok részére áll rendelkezésre, akik a helyiséget próbálás, gyakorlás, felkészülés céljából veszik igénybe.\n•	A próbaterem használata bérleti díj ellenében történik, amelynek mértékét és fizetési módját a szolgáltató határozza meg.\n•	A próbaterem kulcsát vagy belépési jogosultságát csak az előre egyeztetett és díjat megfizető bérlő kaphatja meg.\n•	A próbaterem használata csak a lefoglalt időpontban engedélyezett. Az időkeret túllépése külön díjfizetéssel járhat.\n\n2. Nyitvatartás és foglalás\n•	A próbaterem előzetes időpont-egyeztetés alapján foglalható.\n•	A foglalást lemondani legalább 24 órával a kezdés előtt lehet. Későbbi lemondás esetén a bérleti díj felszámítható.\n•	A pontos kezdési és befejezési idő betartása kötelező, mivel más zenekarok is foglalhatják a termet.\n•	A próbaterem munkaszüneti napokon és ünnepnapokon is nyitva lehet, de ez minden esetben külön egyeztetést igényel.\n\n3. Magatartási szabályok\n•	A próbaterem területén tilos a dohányzás, nyílt láng használata és bármilyen tűz- vagy robbanásveszélyes anyag behozatala.\n•	Alkohol és kábítószer fogyasztása szigorúan tilos. Ittas vagy bódult állapotban a próbaterem nem használható.\n•	A bérlők kötelesek a helyiséget rendeltetésszerűen használni, másokat nem zavarni, a zajkibocsátási előírásokat betartani.\n•	A helyiségben a berendezési tárgyakat, hangszereket, technikai eszközöket megóvni köteles minden bérlő.\n•	Bármilyen rongálás, meghibásodás vagy hiány észlelése esetén azt azonnal jelezni kell az üzemeltető felé.\n\n4. Felszerelések használata\n•	A próbateremben található hangtechnikai berendezések, dob, erősítők, mikrofonok és egyéb felszerelések használata kizárólag rendeltetésszerűen történhet.\n•	A bérlők kötelesek a saját hangszereiket és kiegészítő eszközeiket gondosan kezelni.\n•	Saját hangtechnikai eszköz beállítása, bekötése csak az üzemeltető engedélyével történhet.\n•	Az eszközök nem vihetők ki a próbateremből az üzemeltető külön engedélye nélkül.\n\n5. Tisztaság és rend\n•	A bérlők kötelesek a próbaterem rendjét és tisztaságát megőrizni.\n•	A próbaterem elhagyásakor a szemetet ki kell vinni, az üres üdítős palackokat, ételmaradékokat el kell távolítani.\n•	A próbatermet olyan állapotban kell átadni, amilyenben a bérlő átvette.\n\n6. Biztonság\n•	A próbateremben mindenki saját felelősségére tartózkodik.\n•	Az üzemeltető nem vállal felelősséget az esetleges balesetekért, személyi sérülésekért, vagyoni károkért, illetve a helyiségben hagyott személyes tárgyakért.\n•	A bérlő köteles gondoskodni arról, hogy a próbatermet az idő lejártakor szabályosan bezárja.\n•	Tilos a vészkijáratokat, elektromos berendezéseket vagy tűzvédelmi eszközöket akadályozni.\n\n7. Felelősség és kártérítés\n•	A bérlő teljes anyagi felelősséggel tartozik a próbaterem és a benne található felszerelések épségéért.\n•	Rongálás vagy nem rendeltetésszerű használat esetén a kárt a bérlő köteles megtéríteni.\n•	Ha több zenész vagy zenekar használja egyidejűleg a termet, a felelősség egyetemleges.\n\n8. Záró rendelkezések\n•	A szabályzat be nem tartása a bérleti jogviszony azonnali megszüntetését vonhatja maga után.\n•	Az üzemeltető jogosult a szabályzatot bármikor módosítani, amelyről a bérlőket értesíti.\n•	A próbaterem bérlése és használata egyben a szabályzat elfogadását jelenti.\n\n', NULL);
+INSERT INTO `rule` (`id`, `text`, `last_edit_at`) VALUES
+(1, '<h1>Próbaterem-használati Szabályzat</h1>\nEz a szabályzat a(z) [Próbaterem neve] (a továbbiakban: „Próbaterem”) rendeltetésszerű használatát, a bérlők jogait és kötelezettségeit, valamint a helyiség és felszerelések védelmét hivatott biztosítani. A szabályzat minden bérlőre és használóra vonatkozik. A próbaterem bérlésével a felhasználó automatikusan elfogadja a jelen szabályzat rendelkezéseit.\nÁltalános rendelkezések\nA próbaterem kizárólag zenészek és zenekarok részére áll rendelkezésre, akik a helyiséget próbálás, gyakorlás, felkészülés céljából veszik igénybe.\nA próbaterem használata bérleti díj ellenében történik, amelynek mértékét és fizetési módját a szolgáltató határozza meg.\nA próbaterem kulcsát vagy belépési jogosultságát csak az előre egyeztetett és díjat megfizető bérlő kaphatja meg.\nA próbaterem használata csak a lefoglalt időpontban engedélyezett. Az időkeret túllépése külön díjfizetéssel járhat.\n2. Nyitvatartás és foglalás\nA próbaterem előzetes időpont-egyeztetés alapján foglalható.\nA foglalást lemondani legalább 24 órával a kezdés előtt lehet. Későbbi lemondás esetén a bérleti díj felszámítható.\nA pontos kezdési és befejezési idő betartása kötelező, mivel más zenekarok is foglalhatják a termet.\nA próbaterem munkaszüneti napokon és ünnepnapokon is nyitva lehet, de ez minden esetben külön egyeztetést igényel.\nMagatartási szabályok\nA próbaterem területén tilos a dohányzás, nyílt láng használata és bármilyen tűz- vagy robbanásveszélyes anyag behozatala.\nAlkohol és kábítószer fogyasztása szigorúan tilos. Ittas vagy bódult állapotban a próbaterem nem használható.\nA bérlők kötelesek a helyiséget rendeltetésszerűen használni, másokat nem zavarni, a zajkibocsátási előírásokat betartani.\nA helyiségben a berendezési tárgyakat, hangszereket, technikai eszközöket megóvni köteles minden bérlő.\nBármilyen rongálás, meghibásodás vagy hiány észlelése esetén azt azonnal jelezni kell az üzemeltető felé.\nFelszerelések használata\nA próbateremben található hangtechnikai berendezések, dob, erősítők, mikrofonok és egyéb felszerelések használata kizárólag rendeltetésszerűen történhet.\nA bérlők kötelesek a saját hangszereiket és kiegészítő eszközeiket gondosan kezelni.\nSaját hangtechnikai eszköz beállítása, bekötése csak az üzemeltető engedélyével történhet.\nAz eszközök nem vihetők ki a próbateremből az üzemeltető külön engedélye nélkül.\nTisztaság és rend\nA bérlők kötelesek a próbaterem rendjét és tisztaságát megőrizni.\nA próbaterem elhagyásakor a szemetet ki kell vinni, az üres üdítős palackokat, ételmaradékokat el kell távolítani.\nA próbatermet olyan állapotban kell átadni, amilyenben a bérlő átvette.\nBiztonság\nA próbateremben mindenki saját felelősségére tartózkodik.\nAz üzemeltető nem vállal felelősséget az esetleges balesetekért, személyi sérülésekért, vagyoni károkért, illetve a helyiségben hagyott személyes tárgyakért.\nA bérlő köteles gondoskodni arról, hogy a próbatermet az idő lejártakor szabályosan bezárja.\nTilos a vészkijáratokat, elektromos berendezéseket vagy tűzvédelmi eszközöket akadályozni.\nFelelősség és kártérítés\nA bérlő teljes anyagi felelősséggel tartozik a próbaterem és a benne található felszerelések épségéért.\nRongálás vagy nem rendeltetésszerű használat esetén a kárt a bérlő köteles megtéríteni.\nHa több zenész vagy zenekar használja egyidejűleg a termet, a felelősség egyetemleges.\nZáró rendelkezések\nA szabályzat be nem tartása a bérleti jogviszony azonnali megszüntetését vonhatja maga után.\nAz üzemeltető jogosult a szabályzatot bármikor módosítani, amelyről a bérlőket értesíti.\nA próbaterem bérlése és használata egyben a szabályzat elfogadását jelenti.\n\n', NULL);
 
 -- --------------------------------------------------------
 
@@ -789,7 +808,8 @@ CREATE TABLE `status` (
 
 INSERT INTO `status` (`id`, `name`) VALUES
 (1, 'Aktív'),
-(2, 'Befejezett');
+(2, 'Befejezett'),
+(3, 'Lemondott');
 
 -- --------------------------------------------------------
 
@@ -828,30 +848,32 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
 (49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
-(51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL);
+(51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
+(52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
 --
 
 --
--- A tábla indexei `devices`
+-- A tábla indexei `device`
 --
-ALTER TABLE `devices`
+ALTER TABLE `device`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
   ADD KEY `category` (`category_id`);
 
 --
--- A tábla indexei `devices_category`
+-- A tábla indexei `device_category`
 --
-ALTER TABLE `devices_category`
+ALTER TABLE `device_category`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- A tábla indexei `devices_reservation_type`
+-- A tábla indexei `device_reservation_type`
 --
-ALTER TABLE `devices_reservation_type`
+ALTER TABLE `device_reservation_type`
   ADD PRIMARY KEY (`id`),
   ADD KEY `reservation` (`reservation_tpye_id`);
 
@@ -883,21 +905,21 @@ ALTER TABLE `news`
   ADD KEY `writer` (`writer_id`);
 
 --
--- A tábla indexei `payment_methods`
+-- A tábla indexei `payment_method`
 --
-ALTER TABLE `payment_methods`
+ALTER TABLE `payment_method`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `phone_country_codes`
+-- A tábla indexei `phone_country_code`
 --
-ALTER TABLE `phone_country_codes`
+ALTER TABLE `phone_country_code`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `reservations`
+-- A tábla indexei `reservation`
 --
-ALTER TABLE `reservations`
+ALTER TABLE `reservation`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `reserved_hour_id` (`reserved_hour_id`),
   ADD KEY `user` (`user_id`),
@@ -911,19 +933,20 @@ ALTER TABLE `reservations`
 -- A tábla indexei `reservation_type`
 --
 ALTER TABLE `reservation_type`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
--- A tábla indexei `reserved_dates`
+-- A tábla indexei `reserved_date`
 --
-ALTER TABLE `reserved_dates`
+ALTER TABLE `reserved_date`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `date` (`date`);
 
 --
--- A tábla indexei `reserved_hours`
+-- A tábla indexei `reserved_hour`
 --
-ALTER TABLE `reserved_hours`
+ALTER TABLE `reserved_hour`
   ADD PRIMARY KEY (`id`),
   ADD KEY `date` (`date_id`);
 
@@ -932,7 +955,7 @@ ALTER TABLE `reserved_hours`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `author` (`author_id`);
+  ADD UNIQUE KEY `author_id` (`author_id`);
 
 --
 -- A tábla indexei `review_like_history`
@@ -949,9 +972,9 @@ ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `rules`
+-- A tábla indexei `rule`
 --
-ALTER TABLE `rules`
+ALTER TABLE `rule`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -981,21 +1004,21 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT a táblához `devices`
+-- AUTO_INCREMENT a táblához `device`
 --
-ALTER TABLE `devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+ALTER TABLE `device`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT a táblához `devices_category`
+-- AUTO_INCREMENT a táblához `device_category`
 --
-ALTER TABLE `devices_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `device_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT a táblához `devices_reservation_type`
+-- AUTO_INCREMENT a táblához `device_reservation_type`
 --
-ALTER TABLE `devices_reservation_type`
+ALTER TABLE `device_reservation_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1020,55 +1043,55 @@ ALTER TABLE `history`
 -- AUTO_INCREMENT a táblához `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `payment_methods`
+-- AUTO_INCREMENT a táblához `payment_method`
 --
-ALTER TABLE `payment_methods`
+ALTER TABLE `payment_method`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `phone_country_codes`
+-- AUTO_INCREMENT a táblához `phone_country_code`
 --
-ALTER TABLE `phone_country_codes`
+ALTER TABLE `phone_country_code`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
--- AUTO_INCREMENT a táblához `reservations`
+-- AUTO_INCREMENT a táblához `reservation`
 --
-ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+ALTER TABLE `reservation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
 --
 ALTER TABLE `reservation_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT a táblához `reserved_date`
+--
+ALTER TABLE `reserved_date`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `reserved_dates`
+-- AUTO_INCREMENT a táblához `reserved_hour`
 --
-ALTER TABLE `reserved_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
-
---
--- AUTO_INCREMENT a táblához `reserved_hours`
---
-ALTER TABLE `reserved_hours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+ALTER TABLE `reserved_hour`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `review_like_history`
 --
 ALTER TABLE `review_like_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `role`
@@ -1077,9 +1100,9 @@ ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `rules`
+-- AUTO_INCREMENT a táblához `rule`
 --
-ALTER TABLE `rules`
+ALTER TABLE `rule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -1092,29 +1115,29 @@ ALTER TABLE `special_offer`
 -- AUTO_INCREMENT a táblához `status`
 --
 ALTER TABLE `status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Megkötések a kiírt táblákhoz
 --
 
 --
--- Megkötések a táblához `devices`
+-- Megkötések a táblához `device`
 --
-ALTER TABLE `devices`
-  ADD CONSTRAINT `category` FOREIGN KEY (`category_id`) REFERENCES `devices_category` (`id`);
+ALTER TABLE `device`
+  ADD CONSTRAINT `category` FOREIGN KEY (`category_id`) REFERENCES `device_category` (`id`);
 
 --
--- Megkötések a táblához `devices_reservation_type`
+-- Megkötések a táblához `device_reservation_type`
 --
-ALTER TABLE `devices_reservation_type`
-  ADD CONSTRAINT `device` FOREIGN KEY (`id`) REFERENCES `devices` (`id`),
+ALTER TABLE `device_reservation_type`
+  ADD CONSTRAINT `device` FOREIGN KEY (`id`) REFERENCES `device` (`id`),
   ADD CONSTRAINT `reservation` FOREIGN KEY (`reservation_tpye_id`) REFERENCES `reservation_type` (`id`);
 
 --
@@ -1131,22 +1154,22 @@ ALTER TABLE `news`
   ADD CONSTRAINT `writer` FOREIGN KEY (`writer_id`) REFERENCES `user` (`id`);
 
 --
--- Megkötések a táblához `reservations`
+-- Megkötések a táblához `reservation`
 --
-ALTER TABLE `reservations`
+ALTER TABLE `reservation`
   ADD CONSTRAINT `cancelled` FOREIGN KEY (`canceled_by`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`),
-  ADD CONSTRAINT `phone_country_code` FOREIGN KEY (`phone_country_code_id`) REFERENCES `phone_country_codes` (`id`),
-  ADD CONSTRAINT `reservation_h` FOREIGN KEY (`reserved_hour_id`) REFERENCES `reserved_hours` (`id`),
+  ADD CONSTRAINT `payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_method` (`id`),
+  ADD CONSTRAINT `phone_country_code` FOREIGN KEY (`phone_country_code_id`) REFERENCES `phone_country_code` (`id`),
+  ADD CONSTRAINT `reservation_h` FOREIGN KEY (`reserved_hour_id`) REFERENCES `reserved_hour` (`id`),
   ADD CONSTRAINT `reservation_type` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`),
   ADD CONSTRAINT `status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
   ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
--- Megkötések a táblához `reserved_hours`
+-- Megkötések a táblához `reserved_hour`
 --
-ALTER TABLE `reserved_hours`
-  ADD CONSTRAINT `date` FOREIGN KEY (`date_id`) REFERENCES `reserved_dates` (`id`);
+ALTER TABLE `reserved_hour`
+  ADD CONSTRAINT `date` FOREIGN KEY (`date_id`) REFERENCES `reserved_date` (`id`);
 
 --
 -- Megkötések a táblához `review`

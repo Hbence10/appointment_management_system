@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "reserved_dates")
+@Table(name = "reserved_date")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservedDatesOfPeriod", procedureName = "getReservedDatesOfPeriod", parameters = {
                 @StoredProcedureParameter(name = "startDateIN", type = LocalDate.class, mode = ParameterMode.IN),

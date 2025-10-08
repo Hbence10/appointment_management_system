@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reserved_hours")
+@Table(name = "reserved_hour")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservedHoursByDate", procedureName = "getReservedHoursByDate", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)

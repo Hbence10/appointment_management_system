@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "devices")
+@Table(name = "device")
 @Getter
 @Setter
 @ToString

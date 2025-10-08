@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@Table(name = "reservations")
+@Table(name = "reservation")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "getReservationByUserId", procedureName = "getReservationByUserId", parameters = {
                 @StoredProcedureParameter(name = "userIdIN", type = Integer.class, mode = ParameterMode.IN)

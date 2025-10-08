@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "phone_country_codes")
+@Table(name = "phone_country_code")
 @Getter
 @Setter
 @ToString
