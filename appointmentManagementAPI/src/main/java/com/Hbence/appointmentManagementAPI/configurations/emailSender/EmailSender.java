@@ -14,7 +14,7 @@ public class EmailSender {
     private final String fromEmail = "sulisdolgok8@gmail.com";
     private final UserRepository userRepository;
 
-    public void sendEmailAboutRegistration() {
+    public void sendEmailAboutRegistration(String toEmail) {
 
     }
 
@@ -28,14 +28,18 @@ public class EmailSender {
         mailSender.send(message);
     }
 
-    public void sendEmailAboutReservationCanceled() {
+    public void sendEmailAboutReservationCanceled(String toEmail) {
 
     }
 
-    public void sendEmailAboutNews() {
+    public void sendEmailAboutNews(String toEmail) {
 
     }
 
-    public void sendEmailAboutUserUpdate() {
+    public void sendEmailAboutUserUpdate(String toEmail) {
+    }
+
+    private void sendEmailAboutReservation(String toEmail) {
+
     }
 }

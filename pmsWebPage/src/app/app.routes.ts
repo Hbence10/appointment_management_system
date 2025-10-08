@@ -7,11 +7,7 @@ import { adminAuthGuard } from './routerGuards/adminAuthGuard';
 import { Unauthorized } from './components/unauthorized/unauthorized';
 import { userAuthGuard } from './routerGuards/userAuthGuard';
 import { NotFound } from './components/not-found/not-found';
-
-const checkRole: CanMatchFn = (route, segments) => {
-
-  return true
-}
+import { ReservatinCanceler } from './components/reservatin-canceler/reservatin-canceler';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },
@@ -20,6 +16,7 @@ export const routes: Routes = [
   { path: "register", component: RegistrationPage, title: "Pécs Music Society - Regisztráció" },
   { path: "passwordReset", component: PasswordResetPage, title: "Pécs Music Society - Jelszó emlékesztető" },
   { path: "unauthorized", component: Unauthorized, title: "Pécs Music Society - Nincs hozzá jogosultságod" },
+  { path: "reservationCancel", component: ReservatinCanceler, title: "Pécs Music Society - Foglalás lemondása"},
 
   //Lazy loadinggal betoltott componentek: Idopont foglalo/adminPage, Arlista, Felszereles, Velemenyek, Galleria
   {

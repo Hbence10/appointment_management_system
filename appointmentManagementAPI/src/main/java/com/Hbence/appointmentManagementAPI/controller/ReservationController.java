@@ -48,6 +48,16 @@ public class ReservationController {
     public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Users canceledBy) {
         return reservationService.cancelReservation(id, canceledBy);
     }
+
+    @PatchMapping("")
+    public ResponseEntity<Object> cancelReservationFromEmail(){
+        return null;
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Object> getSingleReservationFromEmail(){
+        return null;
+    }
 }
 
 /*

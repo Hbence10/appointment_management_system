@@ -9,10 +9,13 @@ import { ReservationService } from '../../services/reservation-service';
 import { UserService } from '../../services/user-service';
 import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [MatButtonModule, ReservationCard, RouterModule, PopUp],
+  imports: [MatButtonModule, ReservationCard, RouterModule, PopUp, MatInputModule, MatFormFieldModule, FormsModule],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss'
 })
@@ -29,9 +32,8 @@ export class ProfilePage implements OnInit {
   selectedReservation = signal<Reservation>(new Reservation())
   popUpDetails: Details = new Details("", "cancelReservation", "reservation")
 
-  isEditUsername = signal<boolean>(false)
-  isEditEmail = signal<boolean>(false)
   isShowDeletePopUp = signal<boolean>(false)
+  isEdit = signal<boolean>(false)
 
   ngOnInit(): void {
     this.user = this.userService.user()!
@@ -64,6 +66,9 @@ export class ProfilePage implements OnInit {
   }
 
   updateUser() {
-
+    this.isEdit.update(old => !old)
+    if(!this.isEdit()){
+      console.log("update kuldes")
+    }
   }
 }

@@ -47,6 +47,7 @@ public class ReviewController {
 
     @PutMapping("/changeLikeType/{id}")
     public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(@PathVariable("id") Long id) {
+        System.out.println(id);
         return reviewService.changeLikeTypeOfReview(id);
     }
 

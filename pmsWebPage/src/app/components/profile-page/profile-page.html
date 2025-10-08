@@ -8,20 +8,27 @@
 
             <div class="my-2">
               <h6 class="text-center"><span class="fw-bold">Felhsználónév:</span>
-                @if(!isEditUsername()){
-                <span (dblclick)="isEditUsername.set(true)"> {{user.getUsername}}</span>
-                } @else {
-                  <input type="text" [value]="user.getUsername">
+                @if(isEdit()){
+                  <mat-form-field>
+                    <mat-label></mat-label>
+                    <input type="text" [value]="user.getUsername">
+                  </mat-form-field>
+                }@else {
+                  <span> {{user.getUsername}}</span>
                 }
               </h6>
 
               <h6 class="text-center"><span class="fw-bold">Email cím:</span>
-                @if(!isEditEmail()){
-                  <span (dblclick)="isEditEmail.set(true)"> {{user.getEmail}}</span>
+                @if(isEdit()){
+                  <mat-form-field>
+                    <mat-label>A</mat-label>
+                    <input matInput [value]="user.getEmail">
+                  </mat-form-field>
                 } @else {
-                  <input type="text" [value]="user.getEmail">
+                  <span> {{user.getEmail}}</span>
                 }
               </h6>
+              <button (click)="updateUser()">{{isEdit() ? 'Mentés' : "Edit"}}</button>
             </div>
 
             <button matButton="filled" (click)="logOut()" class="mt-2 materialButton">Kijelentkezés</button>
