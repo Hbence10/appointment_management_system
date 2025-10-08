@@ -1,5 +1,8 @@
 package com.Hbence.appointmentManagementAPI.service.other;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class ValidatorCollection {
@@ -39,5 +42,25 @@ public class ValidatorCollection {
         }
 
         return specialChecker && upperCaseChecker && lowerCaseChecker && initChecker;
+    }
+
+    public static String generateVerificationCode() {
+        String code = "";
+        ArrayList<String> characters = new ArrayList<String>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
+
+        for (int i = 97; i <= 122; i++) {
+            characters.add(String.valueOf((char) i));
+        }
+
+        while (code.length() != 10) {
+            Random random = new Random();
+            code += characters.get(random.nextInt(characters.size()));
+        }
+
+        return code;
+    }
+
+    public static Boolean phoneValidator(String phone){
+        return true;
     }
 }

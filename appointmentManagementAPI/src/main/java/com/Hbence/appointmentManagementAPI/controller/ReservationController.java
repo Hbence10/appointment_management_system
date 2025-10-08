@@ -1,7 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
-import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -49,28 +48,9 @@ public class ReservationController {
         return reservationService.cancelReservation(id, canceledBy);
     }
 
-    @PatchMapping("")
-    public ResponseEntity<Object> cancelReservationFromEmail(){
-        return null;
-    }
-
-    @GetMapping("")
-    public ResponseEntity<Object> getSingleReservationFromEmail(){
-        return null;
+    //-------------
+    @PostMapping("")
+    public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody Map<String, String> requestBody){
+        return reservationService.getReservationByEmailAndVCode(requestBody.get("email"), requestBody.get("vCode"));
     }
 }
-
-/*
- *   PUT VS PATCH:
- *       For partial updates, need to use HTTP PATCH
- *       Comparison:
- *               - PUT: Replaces the entire resource
- *               - PATCH: Modifies only specified parts of resource (partial)
- *
- *       Benefits of PATCH:
- *               - Efficiency: Reducing bandwidth by sending only partial changes
- *               - Flexibility: Allows multiple partial updates in a single request
- *
- *   ------------
- *   ObjectMapper
- * */

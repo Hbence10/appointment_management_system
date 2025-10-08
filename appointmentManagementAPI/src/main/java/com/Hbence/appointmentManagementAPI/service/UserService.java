@@ -54,33 +54,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> getVerificationCode(String email) {
-        List<String> emailList = userRepository.getAllEmail();
-
-        if (!ValidatorCollection.emailChecker(email.trim())) {
-            return ResponseEntity.status(417).body("InvalidEmail");
-        } else if (!emailList.contains(email.trim())) {
-            return ResponseEntity.notFound().build();
-        } else {
-            this.vCode = generateVerificationCode();
-            emailSender.sendVerificationCodeEmail(email, vCode);
-            return ResponseEntity.ok("success");
-        }
-    }
-
-    public ResponseEntity<Object> checkVCode(String userVCode) {
-        if (userVCode.length() != 10) {
-            return ResponseEntity.status(417).body("InvalidVerificationCode");
-        } else {
-            if (userVCode.equals(this.vCode)) {
-                return ResponseEntity.ok(true);
-            } else {
-                return ResponseEntity.ok(false);
-            }
-        }
-    }
-
-    @PreAuthorize("hasRole('user')")
+    @PreAuthorize("hasRole('user', 'admin' 'superAdmin')")
     public ResponseEntity<String> deleteUser(Long id) {
         Users searchedUser = userRepository.findById(id).orElse(null);
         if (searchedUser == null) {
@@ -94,7 +68,7 @@ public class UserService {
         return ResponseEntity.ok("successfullyDelete");
     }
 
-    @PreAuthorize("hasRole('user')")
+    @PreAuthorize("hasRole('user', 'admin' 'superAdmin')")
     public ResponseEntity<Object> updateUser(Users updatedUser) {
         if (updatedUser.getId() == null) {
             return ResponseEntity.notFound().build();
@@ -125,21 +99,29 @@ public class UserService {
         }
     }
 
-    //egyeb:
-    public static String generateVerificationCode() {
-        String code = "";
-        ArrayList<String> characters = new ArrayList<String>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
+    public ResponseEntity<String> getVerificationCode(String email) {
+        List<String> emailList = userRepository.getAllEmail();
 
-        for (int i = 97; i <= 122; i++) {
-            characters.add(String.valueOf((char) i));
+        if (!ValidatorCollection.emailChecker(email.trim())) {
+            return ResponseEntity.status(417).body("InvalidEmail");
+        } else if (!emailList.contains(email.trim())) {
+            return ResponseEntity.notFound().build();
+        } else {
+            this.vCode = ValidatorCollection.generateVerificationCode();
+            emailSender.sendVerificationCodeEmail(email, vCode);
+            return ResponseEntity.ok("success");
         }
-
-        while (code.length() != 10) {
-            Random random = new Random();
-            code += characters.get(random.nextInt(characters.size()));
-        }
-
-        return code;
     }
 
+    public ResponseEntity<Object> checkVCode(String userVCode) {
+        if (userVCode.length() != 10) {
+            return ResponseEntity.status(417).body("InvalidVerificationCode");
+        } else {
+            if (userVCode.equals(this.vCode)) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.ok(false);
+            }
+        }
+    }
 }

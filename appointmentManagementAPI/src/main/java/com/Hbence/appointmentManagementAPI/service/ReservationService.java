@@ -1,19 +1,21 @@
 package com.Hbence.appointmentManagementAPI.service;
 
+import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReservedHoursRepository;
+import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Transactional
@@ -21,14 +23,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationService {
 
-//    private final PaymentMethodRepository paymentMethodRepository;
     private final ReservationRepository reservationRepository;
-//    private final ReservationTypeRepository reservationTypeRepository;
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
-//    private final PhoneCountryCodeRepository phoneCountryCodeRepository;
+    private final UserRepository userRepository;
+    private final EmailSender emailSender;
+    private final PasswordEncoder passwordEncoder;
 
-    //Foglalasok:
     public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
         return ResponseEntity.ok(reservationRepository.reservations(userId));
     }
@@ -67,8 +68,19 @@ public class ReservationService {
     public ResponseEntity<Object> makeReservation(Reservations newReservation) {
         if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
             return ResponseEntity.status(417).body("InvalidEmail");
-        } else if (!phoneValidator(newReservation.getPhone())) {
+        } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone())) {
             return ResponseEntity.status(417).body("InvalidPhoneNumber");
+        }
+
+        if (newReservation.getUser() != null) {
+
+        }
+
+        if (newReservation.getUser() == null) {
+            String vCode = ValidatorCollection.generateVerificationCode();
+            emailSender.sendEmailAboutReservationWithCode(newReservation.getEmail(), vCode);
+        } else {
+            emailSender.sendEmailAboutReservationWithoutCode(newReservation.getEmail());
         }
 
         reservedDateRepository.save(newReservation.getReservedHours().getDate());
@@ -79,26 +91,21 @@ public class ReservationService {
     public ResponseEntity<Reservations> cancelReservation(Long id, Users canceledBy) {
         Reservations searchedReservation = reservationRepository.findById(id).get();
 
-        if (searchedReservation.getId() == null){
+        if (searchedReservation.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
             searchedReservation.setCanceledBy(canceledBy);
             searchedReservation.setIsCanceled(true);
             searchedReservation.setCanceledAt(LocalDate.now());
             searchedReservation.setStatus(new Status(Long.valueOf("3"), "Lemondott"));
+            emailSender.sendEmailAboutReservationCanceled(searchedReservation.getEmail());
             return ResponseEntity.ok(reservationRepository.save(searchedReservation));
         }
     }
 
-    //Foglalasi tipusok
-
-
-    //----------------------------------------
-    //Egyéb
-    public Boolean phoneValidator(String phoneNumber) {
-        ArrayList<String> phoneServiceCodes = new ArrayList<String>(Arrays.asList("30", "20", "70", "50", "31"));
-        return phoneServiceCodes.contains(phoneNumber.substring(0, 2)) && phoneNumber.length() == 9;
-        //https://hu.wikipedia.org/wiki/Magyar_mobilszolg%C3%A1ltat%C3%B3k
+    //-----------------------
+    public ResponseEntity<Object> getReservationByEmailAndVCode(String email, String vCode) {
+        return null;
     }
 }
 

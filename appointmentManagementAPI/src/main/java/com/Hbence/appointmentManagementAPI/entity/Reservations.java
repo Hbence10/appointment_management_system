@@ -18,7 +18,11 @@ import java.util.Date;
 
         @NamedStoredProcedureQuery(name = "getReservationByDate", procedureName = "getReservationByDate", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
-        }, resultClasses = {Long.class})
+        }, resultClasses = {Long.class}),
+
+        @NamedStoredProcedureQuery(name = "getReservationsByEmail", procedureName = "getReservationsByEmail", parameters = {
+                @StoredProcedureParameter(name = "emailIN", type = LocalDate.class, mode = ParameterMode.IN)
+        }, resultClasses = {Reservations.class})
 })
 @Setter
 @Getter
@@ -63,6 +67,10 @@ public class Reservations {
 
     @Column(name = "canceled_at")
     private LocalDate canceledAt;
+
+    @Column(name = "cancel_v_code")
+    @Null
+    private String cancelVCode;
 
     //Kapcsolatok
     @OneToOne(cascade = {})

@@ -39,7 +39,11 @@ public class EmailSender {
     public void sendEmailAboutUserUpdate(String toEmail) {
     }
 
-    private void sendEmailAboutReservation(String toEmail) {
+    public void sendEmailAboutReservationWithoutCode(String toEmail) {
+
+    }
+
+    public void sendEmailAboutReservationWithCode(String toEmail, String vCode) {
 
     }
 }
