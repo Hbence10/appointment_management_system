@@ -66,6 +66,7 @@ public class ReservationService {
     }
 
     public ResponseEntity<Object> makeReservation(Reservations newReservation) {
+        String vCode = "";
         if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
             return ResponseEntity.status(417).body("InvalidEmail");
         } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone())) {
@@ -73,18 +74,17 @@ public class ReservationService {
         }
 
         if (newReservation.getUser() != null) {
-
-        }
-
-        if (newReservation.getUser() == null) {
-            String vCode = ValidatorCollection.generateVerificationCode();
-            emailSender.sendEmailAboutReservationWithCode(newReservation.getEmail(), vCode);
+            Users searchedUser = userRepository.findById(newReservation.getUser().getId()).get();
+            if (searchedUser.getId() == null) {
+                return ResponseEntity.notFound().build();
+            }
         } else {
-            emailSender.sendEmailAboutReservationWithoutCode(newReservation.getEmail());
+            vCode = ValidatorCollection.generateVerificationCode();
         }
 
+        newReservation.setCancelVCode(passwordEncoder.encode(vCode));
+        emailSender.sendEmailAboutReservation(newReservation.getEmail(), vCode);
         reservedDateRepository.save(newReservation.getReservedHours().getDate());
-
         return ResponseEntity.ok(reservationRepository.save(newReservation));
     }
 
@@ -105,7 +105,21 @@ public class ReservationService {
 
     //-----------------------
     public ResponseEntity<Object> getReservationByEmailAndVCode(String email, String vCode) {
-        return null;
+        List<String> allEmail = reservationRepository.getAllReservationEmail();
+        if (!allEmail.contains(email)) {
+            return ResponseEntity.notFound().build();
+        } else {
+            List<Reservations> reservationsList = reservationRepository.getReservationsByEmail(email);
+            Reservations wantedReservation = reservationsList.stream().filter(
+                    reservation -> passwordEncoder.matches(vCode, reservation.getCancelVCode())
+            ).toList().get(0);
+
+            if (wantedReservation == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(wantedReservation);
+            }
+        }
     }
 }
 

@@ -20,4 +20,7 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
 
     @Procedure(name = "getReservationsByEmail", procedureName = "getReservationsByEmail")
     List<Reservations> getReservationsByEmail(@Param("emailIN") String email);
+
+    @Procedure(name = "getAllReservationEmail", procedureName = "getAllReservationEmail")
+    List<String> getAllReservationEmail();
 }

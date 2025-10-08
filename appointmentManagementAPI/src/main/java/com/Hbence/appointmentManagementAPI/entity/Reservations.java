@@ -22,7 +22,9 @@ import java.util.Date;
 
         @NamedStoredProcedureQuery(name = "getReservationsByEmail", procedureName = "getReservationsByEmail", parameters = {
                 @StoredProcedureParameter(name = "emailIN", type = LocalDate.class, mode = ParameterMode.IN)
-        }, resultClasses = {Reservations.class})
+        }, resultClasses = {Reservations.class}),
+
+        @NamedStoredProcedureQuery(name = "getAllReservationEmail", procedureName = "getAllReservationEmail", resultClasses = {String.class})
 })
 @Setter
 @Getter
