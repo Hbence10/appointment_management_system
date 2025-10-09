@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +22,7 @@ import java.util.Date;
         }, resultClasses = {Long.class}),
 
         @NamedStoredProcedureQuery(name = "getReservationsByEmail", procedureName = "getReservationsByEmail", parameters = {
-                @StoredProcedureParameter(name = "emailIN", type = LocalDate.class, mode = ParameterMode.IN)
+                @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN)
         }, resultClasses = {Reservations.class}),
 
         @NamedStoredProcedureQuery(name = "getAllReservationEmail", procedureName = "getAllReservationEmail", resultClasses = {String.class})
@@ -70,6 +71,7 @@ public class Reservations {
     @Column(name = "canceled_at")
     private LocalDate canceledAt;
 
+    @JsonIgnore
     @Column(name = "cancel_v_code")
     @Null
     private String cancelVCode;

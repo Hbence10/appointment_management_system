@@ -48,7 +48,7 @@ public class ReservedHours {
     private LocalDateTime deletedAt;
 
     //Kapcsolatok
-    @ManyToOne(cascade = {})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "date_id")
     private ReservedDates date;
 

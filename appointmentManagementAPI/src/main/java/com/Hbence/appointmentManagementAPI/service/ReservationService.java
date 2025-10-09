@@ -8,6 +8,7 @@ import com.Hbence.appointmentManagementAPI.repository.ReservedHoursRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -80,10 +81,14 @@ public class ReservationService {
             }
         } else {
             vCode = ValidatorCollection.generateVerificationCode();
+            System.out.println(vCode);
+            newReservation.setCancelVCode(passwordEncoder.encode(vCode));
         }
-
-        newReservation.setCancelVCode(passwordEncoder.encode(vCode));
-        emailSender.sendEmailAboutReservation(newReservation.getEmail(), vCode);
+        try {
+            emailSender.sendEmailAboutReservation(newReservation.getEmail(), vCode, newReservation.getFirstName(), newReservation.getLastName());
+        } catch (MessagingException ex) {
+            return ResponseEntity.internalServerError().build();
+        }
         reservedDateRepository.save(newReservation.getReservedHours().getDate());
         return ResponseEntity.ok(reservationRepository.save(newReservation));
     }
