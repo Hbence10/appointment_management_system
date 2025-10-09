@@ -16,16 +16,17 @@ import { ReservationDetail } from '../reservation-detail/reservation-detail';
 })
 export class ReservatinCanceler implements OnInit{
   private reservationService = inject(ReservationService)
-  wantedReservation?: Reservation
+  wantedReservation: Reservation | null = null
 
   form!: FormGroup;
   emailErrorMsg = signal<string>("")
   vCodeErrorMsg = signal<string>("")
+  flexClassList = "d-flex justify-content-center align-items-center"
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      email: new FormControl("", [Validators.required, Validators.email]),
-      vCode: new FormControl("", [Validators.required, Validators.minLength(10), Validators.maxLength(10)])
+      email: new FormControl("bzhalmai@gmail.com", [Validators.required, Validators.email]),
+      vCode: new FormControl("c0ezvscsmr", [Validators.required, Validators.minLength(10), Validators.maxLength(10)])
     })
   }
 
@@ -35,12 +36,21 @@ export class ReservatinCanceler implements OnInit{
       error: error => console.log(error),
       complete: () => {
         this.wantedReservation = this.reservationService.setObject([this.wantedReservation])[0]
-        console.log(this.wantedReservation)
+        this.flexClassList = ""
       }
     })
   }
 
   cancelReservation(){
+    this.reservationService.cancelReservation(this.wantedReservation?.getId!, null).subscribe({
+      next: response => this.wantedReservation = response,
+      error: error => console.log(error),
+      complete: () => {}
 
+    })
+  }
+
+  backToForm(){
+    this.wantedReservation = null;
   }
 }

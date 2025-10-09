@@ -81,7 +81,6 @@ public class ReservationService {
             }
         } else {
             vCode = ValidatorCollection.generateVerificationCode();
-            System.out.println(vCode);
             newReservation.setCancelVCode(passwordEncoder.encode(vCode));
         }
         try {
@@ -99,7 +98,16 @@ public class ReservationService {
         if (searchedReservation.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
-            searchedReservation.setCanceledBy(canceledBy);
+            if (canceledBy.getId() == null) {
+                searchedReservation.setCancelerEmail(searchedReservation.getEmail());
+            } else {
+                Users searchedUser = userRepository.findById(canceledBy.getId()).get();
+                if (searchedUser.getId() == null) {
+                    return ResponseEntity.notFound().build();
+                } else {
+                    searchedReservation.setCanceledBy(canceledBy);
+                }
+            }
             searchedReservation.setIsCanceled(true);
             searchedReservation.setCanceledAt(LocalDate.now());
             searchedReservation.setStatus(new Status(Long.valueOf("3"), "Lemondott"));
@@ -108,9 +116,8 @@ public class ReservationService {
         }
     }
 
-    //-----------------------
     public ResponseEntity<Object> getReservationByEmailAndVCode(String email, String vCode) {
-        if(ValidatorCollection.emailChecker(email)){
+        if (ValidatorCollection.emailChecker(email)) {
             List<String> allEmail = reservationRepository.getAllReservationEmail();
             if (!allEmail.contains(email)) {
                 return ResponseEntity.notFound().build();

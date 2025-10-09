@@ -5,9 +5,12 @@
       <p class="d-flex justify-content-between"><span class="fw-bold">Foglaló neve:</span> {{reservation().getFirstName + " " + reservation().getLastName}}</p>
       <p class="d-flex justify-content-between"><span class="fw-bold">Telefon:</span> {{formattedPhoneNumber}}</p>
       <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás dátuma:</span> {{reservation().getReservedHours.getDate.getDate}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás időtartalma:</span> {{reservation().getReservedHours.getStart}}:00 - {{reservation().getReservedHours.getEnd}}:00`</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás időtartalma:</span> {{reservation().getReservedHours.getStart}}:00 - {{reservation().getReservedHours.getEnd}}:00</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalva ekkor:</span> {{reservation().getReservedAt | date}}</p>
       <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás tipúsa:</span> {{reservation().getReservationTypeId.getName}}</p>
       <p class="d-flex justify-content-between"><span class="fw-bold">Fizetési mód:</span> {{reservation().getPaymentMethod.getName}}</p>
+      <p class="d-flex justify-content-between"><span class="fw-bold">Státusz:</span> {{reservation().getStatus.getName}}</p>
+
       @if(reservation().getIsCanceled){
         <p class="d-flex justify-content-between"><span class="fw-bold">Lemondva ekkor: </span> {{reservation().getCanceledAt}}</p>
       }

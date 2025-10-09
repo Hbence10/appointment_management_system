@@ -20,7 +20,14 @@
   font-style: normal;
 }
 
-#mainContainer {
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainContainer {
   width: 510px;
   height: 590px;
   background-color: #B2DFDB;
@@ -30,7 +37,16 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
-button {
+.detailsContainer{
+  width: 700px;
+  height: 700px;
+  background-color: #B2DFDB;
+  color: #004D40;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 16px;
+}
+
+.matButton {
   background-color: #004D40 !important;
   color: white !important;
   height: 50px;
@@ -39,8 +55,23 @@ button {
   width: 100%;
 }
 
-button:disabled{
+.matButton:disabled{
   opacity: 0.6;
+}
+
+#backButton{
+  height: 40px;
+  width: 40px;
+  background-color: #B2DFDB;
+  border: 1px solid #004D40;
+  border-radius: 10px;
+}
+
+#backButton:hover{
+  background-color: #004D40;
+  span {
+    color: #B2DFDB;
+  }
 }
 
 mat-form-field {

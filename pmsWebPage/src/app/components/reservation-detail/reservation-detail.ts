@@ -1,9 +1,10 @@
 import { Component, input, OnInit } from '@angular/core';
 import { Reservation } from '../../models/reservation.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reservation-detail',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './reservation-detail.html',
   styleUrl: './reservation-detail.scss'
 })

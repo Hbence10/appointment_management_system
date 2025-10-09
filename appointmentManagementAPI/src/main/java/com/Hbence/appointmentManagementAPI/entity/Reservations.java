@@ -76,6 +76,11 @@ public class Reservations {
     @Null
     private String cancelVCode;
 
+    @Column(name = "canceler_email")
+    @Null
+    @Size(max = 100)
+    private String cancelerEmail;
+
     //Kapcsolatok
     @OneToOne(cascade = {})
     @JoinColumn(name = "canceled_by")

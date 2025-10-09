@@ -7,10 +7,11 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <div class="container-fluid" id="mainContainer">
+      <div class="container-fluid" [class.mainContainer]="wantedReservation == null" [class.detailsContainer]="wantedReservation != null">
         <div class="row h-100">
-          <div class="col-lg-12 d-flex flex-column justify-content-between align-items-center">
-            @if(wantedReservation == undefined){
+          <!-- [class.flexContainer]="wantedReservation == null" -->
+          <div class="col-lg-12 flexContainer" >
+            @if(wantedReservation == null){
               <h3 class="text-center">Foglalás keresése</h3>
 
               <form [formGroup]="form">
@@ -25,19 +26,22 @@
                 </mat-form-field>
               </form>
 
-              <div>
-                <button matButton="filled" [disabled]="form.invalid" (click)="getReservation()">Keresés</button>
-                <p>
+              <div class="w-100">
+                <button class="matButton w-100 mb-2" matButton="filled" [disabled]="form.invalid" (click)="getReservation()">Keresés</button>
+                <p class="text-center secondFont">
                   Van már fiókja?
                   <a routerLink="/login" class="fw-bold text-decoration-none secondFont">Jelentkezzen be!</a>
                 </p>
               </div>
             }@else {
-              <h3 class="text-center secondFont">Az ön foglalásának az adatai:</h3>
-              <div>
-                <app-reservation-detail [reservation]="wantedReservation!" />
+              <div class="d-flex justify-content-between mb-5 w-100 mt-4">
+                <div></div>
+                <h3 class="text-center secondFont fw-bold">Az ön foglalásának az adatai:</h3>
+                <button (click)="backToForm()" id="backButton" class="d-flex justify-content-center align-items-center"><span class="material-symbols-outlined">arrow_left_alt</span></button>
               </div>
-              <button matButton="filled" (click)="cancelReservation()">Foglalás lemondása</button>
+
+              <app-reservation-detail [reservation]="wantedReservation!" class="w-100"/>
+              <button class="mt-5 mb-4 matButton" matButton="filled" (click)="cancelReservation()" [disabled]="wantedReservation.getIsCanceled">Foglalás lemondása</button>
             }
           </div>
         </div>

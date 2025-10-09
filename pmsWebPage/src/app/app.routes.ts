@@ -8,6 +8,7 @@ import { Unauthorized } from './components/unauthorized/unauthorized';
 import { userAuthGuard } from './routerGuards/userAuthGuard';
 import { NotFound } from './components/not-found/not-found';
 import { ReservatinCanceler } from './components/reservatin-canceler/reservatin-canceler';
+import { reservationTrackAuthGuard } from './routerGuards/reservationTrackAuthGuard';
 
 export const routes: Routes = [
   { path: "homePage", component: HomePage, title: "Pécs Music Society - Főoldal" },

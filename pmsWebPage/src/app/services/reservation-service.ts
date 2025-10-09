@@ -8,6 +8,7 @@ import { ReservedDates } from '../models/reservedDates.model';
 import { ReservedHours } from '../models/reservedHours.model';
 import { Status } from '../models/status.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Users } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,8 +67,8 @@ export class ReservationService {
     return this.http.post<Reservation>(`${this.baseURL()}/getByEmailAndVCode`, {email: email, vCode: vCode})
   }
 
-  cancelReservation(id: number){
-
+  cancelReservation(id: number, user: null | Users): Observable<Reservation>{
+    return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, {canceledBy: user})
   }
 
 }
