@@ -42,12 +42,16 @@ public class EmailSender {
     public void sendEmailAboutUserUpdate(String toEmail) {
     }
 
+    public void sendEmailAboutUserDelete(String toEmail){
+
+    }
+
     public void sendEmailAboutReservation(String toEmail, String vCode, String firstName, String lastName) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
         helper.setTo(toEmail);
         helper.setSubject("Sikeres Foglalás");
-//
+
         String emailText = "<h1>Sikeres foglalást rögzitettünk!</h1>";
         if (!vCode.equals("")) {
             emailText +=

@@ -77,6 +77,8 @@ export class ProfilePage implements OnInit {
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => {
+        this.cookieService.deleteAll()
+        this.userService.user.set(null)
         this.router.navigate(["/homePage"])
       }
     })
@@ -88,7 +90,9 @@ export class ProfilePage implements OnInit {
       this.userService.updateUser(this.form.controls["email"].value!, this.form.controls["username"].value!, this.user.getId!).subscribe({
         next: response => console.log(response),
         error: error => console.log(error),
-        complete: () => {}
+        complete: () => {
+
+        }
       })
     }
   }

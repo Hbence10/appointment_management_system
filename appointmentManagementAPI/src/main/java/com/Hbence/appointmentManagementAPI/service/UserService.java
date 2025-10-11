@@ -34,6 +34,9 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
 
+        loggedUser.setLastLogin(new Date());
+        userRepository.save(loggedUser);
+
         return ResponseEntity.ok(loggedUser);
     }
 
@@ -63,7 +66,8 @@ public class UserService {
             searchedUser.setIsDeleted(true);
             searchedUser.setDeletedAt(new Date());
             userRepository.save(searchedUser);
-            return ResponseEntity.ok("successfullyDelete");
+            emailSender.sendEmailAboutUserDelete(searchedUser.getEmail());
+            return ResponseEntity.ok().build();
         }
     }
 

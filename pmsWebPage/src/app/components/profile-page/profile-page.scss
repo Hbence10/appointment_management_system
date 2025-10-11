@@ -65,9 +65,38 @@ app-pop-up {
   border-radius: 10px;
 }
 
-#deleteButton:hover {
+#deleteButton:hover,
+.deleteConfButton:hover {
   background-color: #004D40;
+
   span {
     color: #B2DFDB;
   }
+
+  color: #B2DFDB;
+}
+
+#deleteMainContainer {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 3;
+}
+
+#deleteContainer {
+  background-color: #B2DFDB;
+  height: 250px;
+  width: 750px;
+  border-radius: 15px;
+}
+
+.deleteConfButton {
+  background-color: #B2DFDB;
+  height: 40px;
+  width: 125px;
+  border: 1px solid #004D40;
+  border-radius: 10px;
 }
