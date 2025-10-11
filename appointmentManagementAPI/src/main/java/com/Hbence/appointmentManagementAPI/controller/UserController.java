@@ -27,6 +27,17 @@ public class UserController {
         return userService.register(newUser);
     }
 
+    @PatchMapping("/updateUser/{id}")
+    public ResponseEntity<Object> updateUser(@PathVariable("id") Long id, @RequestBody Map<String, String> requestBody) {
+        return userService.updateUser(id, requestBody.get("email"), requestBody.get("username"));
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
+        return userService.deleteUser(id);
+    }
+
+    //password-reset
     @GetMapping("/getVerificationCode")
     public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email) {
         return userService.getVerificationCode(email);
@@ -42,16 +53,6 @@ public class UserController {
         HashMap<String, String> returnObject = new HashMap<>();
         returnObject.put("result", userService.updatePassword(body.get("email"), body.get("newPassword"), body.get("vCode")).getBody());
         return ResponseEntity.ok(returnObject);
-    }
-
-    @PatchMapping("/updateUser")
-    public ResponseEntity<Object> updateUser(@RequestBody Users updatedUser) {
-        return userService.updateUser(updatedUser);
-    }
-
-    @DeleteMapping("deleteUser/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
-        return userService.deleteUser(id);
     }
 
     //Error lekezelesek:

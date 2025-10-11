@@ -6,12 +6,12 @@
           <div class="col-lg-5 d-flex flex-column justify-content-center align-items-center">
             <img [src]="user.getPfpPath" alt="" class="img-fluid mb-3">
 
-            <div class="my-2">
+            <form class="my-2" [formGroup]="form">
               <h6 class="text-center"><span class="fw-bold">Felhsználónév:</span>
                 @if(isEdit()){
                   <mat-form-field>
-                    <mat-label></mat-label>
-                    <input type="text" [value]="user.getUsername">
+                    <mat-label>Felhasználónév</mat-label>
+                    <input formControlName="username" type="text" matInput [value]="user.getUsername">
                   </mat-form-field>
                 }@else {
                   <span> {{user.getUsername}}</span>
@@ -20,16 +20,16 @@
 
               <h6 class="text-center"><span class="fw-bold">Email cím:</span>
                 @if(isEdit()){
-                  <mat-form-field>
-                    <mat-label>A</mat-label>
-                    <input matInput [value]="user.getEmail">
-                  </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Email cím</mat-label>
+                      <input formControlName="email" type="text" matInput [value]="user.getEmail">
+                    </mat-form-field>
                 } @else {
-                  <span> {{user.getEmail}}</span>
+                  <span>{{user.getEmail}}</span>
                 }
               </h6>
               <button (click)="updateUser()">{{isEdit() ? 'Mentés' : "Edit"}}</button>
-            </div>
+            </form>
 
             <button matButton="filled" (click)="logOut()" class="mt-2 materialButton">Kijelentkezés</button>
           </div>
@@ -58,7 +58,7 @@
 
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-end p-0">
-            <button id="deleteButton" class="d-flex justify-content-center align-items-center">
+            <button (click)="showDeletePopUp()" id="deleteButton" class="d-flex justify-content-center align-items-center">
               <span class="material-symbols-outlined">delete</span>
             </button>
           </div>
@@ -74,5 +74,20 @@
 }
 
 @if(isShowDeletePopUp()){
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
 
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <h1>Biztosan törölni szeretnéd a fiókodat?</h1>
+              <button (click)="deleteProfile()">Igen, törölni szeretném</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 }

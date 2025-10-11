@@ -11,11 +11,11 @@ import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [MatButtonModule, ReservationCard, RouterModule, PopUp, MatInputModule, MatFormFieldModule, FormsModule],
+  imports: [MatButtonModule, ReservationCard, RouterModule, PopUp, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss'
 })
@@ -35,8 +35,15 @@ export class ProfilePage implements OnInit {
   isShowDeletePopUp = signal<boolean>(false)
   isEdit = signal<boolean>(false)
 
+  form!: FormGroup;
+
   ngOnInit(): void {
     this.user = this.userService.user()!
+
+    this.form = new FormGroup({
+      username: new FormControl(this.user.getUsername, [Validators.required]),
+      email: new FormControl(this.user.getEmail, [Validators.required, Validators.email])
+    })
 
     const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
       next: responseList => this.reservations.set(this.reservationService.setObject(responseList)),
@@ -61,14 +68,28 @@ export class ProfilePage implements OnInit {
     this.showPopUp.set(true)
   }
 
-  deleteProfile() {
+  showDeletePopUp(){
+    this.isShowDeletePopUp.update(old => !old)
+  }
 
+  deleteProfile() {
+    this.userService.deleteUser(this.user.getId!).subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error),
+      complete: () => {
+        this.router.navigate(["/homePage"])
+      }
+    })
   }
 
   updateUser() {
     this.isEdit.update(old => !old)
-    if(!this.isEdit()){
-      console.log("update kuldes")
+    if (!this.isEdit()) {
+      this.userService.updateUser(this.form.controls["email"].value!, this.form.controls["username"].value!, this.user.getId!).subscribe({
+        next: response => console.log(response),
+        error: error => console.log(error),
+        complete: () => {}
+      })
     }
   }
 }

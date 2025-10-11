@@ -21,11 +21,11 @@ export class UserService {
   }
 
   updateUser(newEmail: string, newUsername: string, userId: number) {
-    return this.http.patch(`${this.baseURL()}/update/${userId}`, { newEmail: newEmail, newUsername: newUsername })
+    return this.http.patch(`${this.baseURL()}/updateUser/${userId}`, { email: newEmail, username: newUsername })
   }
 
   deleteUser(userId: number) {
-    return this.http.delete(`${this.baseURL()}/delete/${userId}`)
+    return this.http.delete(`${this.baseURL()}/deleteUser/${userId}`)
   }
 
   //password reset

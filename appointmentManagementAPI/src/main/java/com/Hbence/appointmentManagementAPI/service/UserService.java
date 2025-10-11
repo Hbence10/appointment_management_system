@@ -54,32 +54,37 @@ public class UserService {
         }
     }
 
-    @PreAuthorize("hasRole('user', 'admin' 'superAdmin')")
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<String> deleteUser(Long id) {
         Users searchedUser = userRepository.findById(id).orElse(null);
         if (searchedUser == null) {
             return ResponseEntity.notFound().build();
-        }
-
-        searchedUser.setIsDeleted(true);
-
-        searchedUser.setDeletedAt(new Date());
-        userRepository.save(searchedUser);
-        return ResponseEntity.ok("successfullyDelete");
-    }
-
-    @PreAuthorize("hasRole('user', 'admin' 'superAdmin')")
-    public ResponseEntity<Object> updateUser(Users updatedUser) {
-        if (updatedUser.getId() == null) {
-            return ResponseEntity.notFound().build();
-        } else if (!ValidatorCollection.emailChecker(updatedUser.getEmail())) {
-            return ResponseEntity.status(417).body("InvalidEmail");
         } else {
-            return ResponseEntity.ok(userRepository.save(updatedUser));
+            searchedUser.setIsDeleted(true);
+            searchedUser.setDeletedAt(new Date());
+            userRepository.save(searchedUser);
+            return ResponseEntity.ok("successfullyDelete");
         }
-
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
+    public ResponseEntity<Object> updateUser(Long id, String email, String username) {
+        Users searchedUser = userRepository.findById(id).get();
+        if (searchedUser.getId() == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            System.out.println(email);
+            if (!ValidatorCollection.emailChecker(email)) {
+                return ResponseEntity.status(409).body("InvalidEmail");
+            } else {
+                searchedUser.setUsername(username);
+                searchedUser.setEmail(email);
+                return ResponseEntity.ok(userRepository.save(searchedUser));
+            }
+        }
+    }
+
+    //Password-reset:
     public ResponseEntity<String> updatePassword(String email, String newPassword, String userVCode) {
         Users user = userRepository.getUserByEmail(email);
 
