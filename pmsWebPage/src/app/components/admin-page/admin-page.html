@@ -10,49 +10,59 @@
       </mat-card>
     </div>
 
+    <!-- Terem kezelese -->
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div class="cardDiv reservationCard">
-        <h1 class="text-center mainFont my-3">{{ selectedDateText() }}</h1>
+        <h1 class="text-center mainFont my-3">Terem kezelése</h1>
+
         <div>
-          <h3>Terem bezárása</h3>
-          <button (click)="showClose()">
-            <span class="material-symbols-outlined">
-            {{showCloseContainer() ? 'arrow_drop_up': 'arrow_drop_down'}}
-            </span>
-          </button>
-          @if(showCloseContainer()){
-            <div>
-              <!-- DateRange helye -->
-               <select name="" id="">
-                  <option value="">Ünnep miatt</option>
-                  <option value="">Nincs szabad időpont</option>
-                  <option value="">Egyéb, saját ok</option>
-               </select>
-              <button>Mentés</button>
-            </div>
-          }
+          <h2>Terem bezárása</h2>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5>Egy napra</h5>
+            <button>
+              <span class="material-symbols-outlined">arrow_drop_down</span>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5>Intervallum</h5>
+            <button>
+              <span class="material-symbols-outlined">arrow_drop_down</span>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5>Ismétlődő dátumok</h5>
+            <button>
+              <span class="material-symbols-outlined">arrow_drop_down</span>
+            </button>
+          </div>
         </div>
-        <div style="height: 380px; overflow-y: scroll">
-          @for (reservation of reservationsOfSelectedDate(); track $index) {
-          <app-reservation-card
-            [reservationDetails]="reservation"
-            [parentComponent]="'adminPage'"
-            (showDetailsOutput)="showReservationDetails($event)"
-          />
-          } @empty {
-          <h3 class="text-center">Erre a napra még nem foglaltak!</h3>
-          }
-          <button matButton="filled" routerLink="/makeReservation" id="reservationButton">Időpont foglalása</button>
+
+        <div>
+          <h2>Terem foglalása saját célra</h2>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5>Egyszeri foglalás</h5>
+            <button>
+              <span class="material-symbols-outlined">arrow_right</span>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5>Ismétlődő időpontok két dátum között</h5>
+            <button>
+              <span class="material-symbols-outlined">arrow_drop_down</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Foglalások kezelése -->
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div class="cardDiv reservationCard container-fluid">
         <div class="row">
           <div class="col-lg-12 d-flex flex-column justify-content-center">
             <h1 class="text-center my-3">Mai nap foglalásai</h1>
-            <div style="height: 280px; overflow-y: scroll">
-              @for (reservation of todaysReservation(); track $index) {
+            <div style="overflow-y: scroll">
+              @for (reservation of reservationsOfSelectedDate(); track $index) {
               <app-reservation-card
                 [reservationDetails]="reservation"
                 [parentComponent]="'adminPage'"

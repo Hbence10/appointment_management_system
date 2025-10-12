@@ -71,6 +71,9 @@ A spring boot projekt a következő **service**-eket tartalmazza:
 ### Endpointok:
 
 ## Frontend:
+A reader editor componentben a következő angular projekt lett felhasználva: **mui-tiptap**.
+[Projekt linkje](https://www.npmjs.com/package/mui-tiptap)
+
 A weblap a következő **componentekre** bontódik fel:
 - **navbar:**
 - **footer:**

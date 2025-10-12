@@ -12,6 +12,7 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +67,7 @@ public class ReservationService {
         return ResponseEntity.ok(reservationsList);
     }
 
+    //Egyszeru foglalas
     public ResponseEntity<Object> makeReservation(Reservations newReservation) {
         String vCode = "";
         if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
@@ -92,6 +94,7 @@ public class ReservationService {
         return ResponseEntity.ok(reservationRepository.save(newReservation));
     }
 
+    //Foglalas lemondasa
     public ResponseEntity<Reservations> cancelReservation(Long id, Users canceledBy) {
         Reservations searchedReservation = reservationRepository.findById(id).get();
 
@@ -137,5 +140,29 @@ public class ReservationService {
             return ResponseEntity.status(409).body("InvalidEmail");
         }
     }
+
+    //ADMIN PAGE
+    //Tovabbi foglalas az admin pagen:
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(){
+        return null;
+    }
+
+    //Terem bezárása
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> closeRoomForADay(){
+        return null;
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> closeRoomBetweenPeriod(){
+        return null;
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> closeByRepetitiveDates(){
+        return null;
+    }
+
 }
 

@@ -26,7 +26,6 @@ export class AdminPage implements OnInit {
   private destroyRef = inject(DestroyRef)
   private reservationService = inject(ReservationService)
 
-  todaysReservation = signal<Reservation[]>([])
   reservationsOfSelectedDate = signal<Reservation[]>([])
   selectedReservation = signal<null | Reservation>(null)
 
@@ -50,7 +49,6 @@ export class AdminPage implements OnInit {
   ngOnInit(): void {
     const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
       next: responseList => {
-        this.todaysReservation.set(this.reservationService.setObject(responseList))
         this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))
       },
       error: error => {

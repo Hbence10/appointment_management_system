@@ -38,19 +38,43 @@ public class ReservationController {
         return reservationService.getReservationByDate(wantedDate);
     }
 
+    //"Egyszeru foglalás"
     @PostMapping("/makeReservation")
     public ResponseEntity<Object> makeReservation(@RequestBody Reservations newReservation) {
         return reservationService.makeReservation(newReservation);
     }
 
+    //Foglalas lemondasa
     @PatchMapping("/cancel/{id}")
     public ResponseEntity<Reservations> cancelReservation(@PathVariable("id") Long id, @RequestBody Users canceledBy) {
         return reservationService.cancelReservation(id, canceledBy);
     }
 
-    //-------------
     @PostMapping("/getByEmailAndVCode")
     public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody Map<String, String> requestBody){
         return reservationService.getReservationByEmailAndVCode(requestBody.get("email"), requestBody.get("vCode"));
+    }
+
+    //ADMIN PAGE
+    //Tovabbi foglalasi tipus
+    @PostMapping("/makeReservationByRepetitiveDates")
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(){
+        return reservationService.makeReservationByRepetitiveDates();
+    }
+
+    //Terem bezárása:
+    @PostMapping("/closeRoomForADay")
+    public ResponseEntity<Object> closeRoomForADay(@RequestBody Map<String, String> body){
+       return reservationService.closeRoomForADay();
+    }
+
+    @PostMapping("/closeRoomBetweenPeriod")
+    public ResponseEntity<Object> closeRoomBetweenPeriod(){
+        return reservationService.closeRoomBetweenPeriod();
+    }
+
+    @PostMapping("/closeByRepetitiveDates")
+    public ResponseEntity<Object> closeByRepetitiveDates(){
+        return reservationService.closeByRepetitiveDates();
     }
 }
