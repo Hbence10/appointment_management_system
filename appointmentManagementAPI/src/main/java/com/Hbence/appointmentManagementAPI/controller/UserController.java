@@ -32,6 +32,11 @@ public class UserController {
         return userService.updateUser(id, requestBody.get("email"), requestBody.get("username"));
     }
 
+    @PatchMapping("/changePfp/{id}")
+    public ResponseEntity<Object> changePfp(@PathVariable("id") Long id){
+        return userService.changePfp(id);
+    }
+
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         return userService.deleteUser(id);

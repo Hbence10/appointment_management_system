@@ -12,10 +12,11 @@ import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule],
+  imports: [MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -31,6 +32,7 @@ export class AdminPage implements OnInit {
 
   isShowPupUp = signal<boolean>(false)
   popUpDetails!: Details
+  showCloseContainer = signal<boolean>(false)
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -50,6 +52,12 @@ export class AdminPage implements OnInit {
       next: responseList => {
         this.todaysReservation.set(this.reservationService.setObject(responseList))
         this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))
+      },
+      error: error => {
+        console.log(error)
+      },
+      complete: () => {
+
       }
     })
 
@@ -65,6 +73,10 @@ export class AdminPage implements OnInit {
 
   closePopUp() {
     this.isShowPupUp.set(false)
+  }
+
+  showClose(){
+    this.showCloseContainer.update(old => !old)
   }
 
   showSelectedDaysReservation() {

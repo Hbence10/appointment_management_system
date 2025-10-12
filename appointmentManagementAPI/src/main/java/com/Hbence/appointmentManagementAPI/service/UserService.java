@@ -88,6 +88,11 @@ public class UserService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
+    public ResponseEntity<Object> changePfp(Long id){
+        return null;
+    }
+
     //Password-reset:
     public ResponseEntity<String> updatePassword(String email, String newPassword, String userVCode) {
         Users user = userRepository.getUserByEmail(email);

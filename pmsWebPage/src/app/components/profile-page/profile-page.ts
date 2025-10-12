@@ -48,6 +48,10 @@ export class ProfilePage implements OnInit {
     const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
       next: responseList => this.reservations.set(this.reservationService.setObject(responseList)),
       error: error => {
+        console.log(error)
+      },
+      complete: () => {
+
       }
     })
     this.destroyRef.onDestroy(() => {
