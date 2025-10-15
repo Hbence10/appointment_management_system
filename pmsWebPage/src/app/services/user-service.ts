@@ -35,7 +35,9 @@ export class UserService {
   }
 
   makeAdmin(userId: number, adminDetails: AdminDetails){
-    return this.http.post(`${this.baseURL()}/makeAdmin`, {})
+    return this.http.post(`${this.baseURL()}/makeAdmin`, {
+
+    })
   }
 
   //password reset

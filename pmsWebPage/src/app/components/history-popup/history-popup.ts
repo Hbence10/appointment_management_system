@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, output } from '@angular/core';
 import { OtherService } from '../../services/other-service';
 
 @Component({
@@ -9,8 +9,8 @@ import { OtherService } from '../../services/other-service';
 })
 export class HistoryPopup implements OnInit{
   close = output()
-  otherStuffService = inject(OtherService)
-
+  private otherStuffService = inject(OtherService)
+  private destroyRef = inject(DestroyRef)
 
   ngOnInit(): void {
 

@@ -70,6 +70,12 @@ public class UserService {
         } else {
             searchedUser.setIsDeleted(true);
             searchedUser.setDeletedAt(new Date());
+
+            if(searchedUser.getAdminDetails() != null){
+                searchedUser.getAdminDetails().setDeletedAt(new Date());
+                searchedUser.getAdminDetails().setIsDeleted(true);
+            }
+
             userRepository.save(searchedUser);
             emailSender.sendEmailAboutUserDelete(searchedUser.getEmail());
             return ResponseEntity.ok().build();

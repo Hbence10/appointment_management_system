@@ -30,8 +30,8 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-    private ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holliday", "full", "other"));
-    private ArrayList<String> days = new ArrayList<>(Arrays.asList("hetfo", "kedd", "szerda", "csutortok", "pentek", "szombat", "vasarnap"));
+    private ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holiday", "full", "other"));
+    private ArrayList<String> days = new ArrayList<>(Arrays.asList("Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"));
 
     public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
         return ResponseEntity.ok(reservationRepository.reservations(userId));

@@ -7,7 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReservedHours } from '../../../models/reservedHours.model';
 
 @Component({
   selector: 'app-room-control-panel',
@@ -17,22 +18,51 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomControlPanel implements OnInit{
+export class RoomControlPanel implements OnInit {
   private reservationService = inject(ReservationService)
   private userService = inject(UserService)
-  form: FormGroup = new FormGroup({});
-
+  private user!: Users
   showList: boolean[] = [false, false, false, false, false, false]
 
-  private user!: Users
+  days: string[] = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"]
+  closeTypes: string[] = ["holiday", "full", "other"]
 
+  readonly range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
+  selectedDay: string | null = null
+  selectedCloseType: string | null = null
+  selectedDate: string | null = null
+  selectedReservedHour: ReservedHours = new ReservedHours()
 
   ngOnInit(): void {
     this.user = this.userService.user()!
   }
 
-  makeReservation(){
+  //foglalas
+  makeAdminReservation() {
   }
 
+  makeReservationByRepetitiveDates() {
 
+  }
+
+  makeReservationAlwaysBetweenTwoDates() {
+
+  }
+
+  //bezaras
+  closeRoomForADay() {
+
+  }
+
+  closeRoomBetweenPeriod() {
+
+  }
+
+  closeByRepetitiveDates(){
+
+  }
 }
