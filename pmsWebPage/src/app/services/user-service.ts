@@ -28,6 +28,15 @@ export class UserService {
     return this.http.delete(`${this.baseURL()}/deleteUser/${userId}`)
   }
 
+  //adminPage:
+  getAllAdmin(){
+    return this.http.get(``)
+  }
+
+  makeAdmin(){
+    return this.http.post(``, {})
+  }
+
   //password reset
   getVerificationCode(email: string) {
     return this.http.get(`${this.baseURL()}/getVerificationCode`, { params: new HttpParams().set("email", email) })

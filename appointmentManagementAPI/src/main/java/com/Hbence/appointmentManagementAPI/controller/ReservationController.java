@@ -59,21 +59,17 @@ public class ReservationController {
     //Tovabbi foglalasi tipus
     @PostMapping("/adminReservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
-        return reservationService.makeAdminReservation((Reservations) bodyObject.get("reservationDetails"), (Long) bodyObject.get("adminId"), (Long) bodyObject.get("userId"));
+        return reservationService.makeAdminReservation((ReservedHours) bodyObject.get("selectedHour"), (Long) bodyObject.get("adminId"), (Long) bodyObject.get("userId"));
     }
 
-    //ket datum kozott mindig foglalva lesz a kivalsztott napon a kivalasztott oraban
     @PostMapping("/makeReservationByRepetitiveDates")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(){
-        //startDate, endDate, repetitiveDay, repetitiveHours, adminUser
-        return reservationService.makeReservationByRepetitiveDates();
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(@RequestBody Map<String, Object> body){
+        return reservationService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("selectedDay").toString(), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
     }
 
-    //ket datum kozotti osszes napon foglalva lesz az adott oraban
     @PostMapping("/makeReservationAlwaysBetweenTwoDates")
-    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(){
-        //startDate, endDate, selectedHour
-        return reservationService.makeReservationAlwaysBetweenTwoDates();
+    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(@RequestBody Map<String, Object> body){
+        return reservationService.makeReservationAlwaysBetweenTwoDates(body.get("startDate").toString(), body.get("endDate").toString(), (ReservedHours) body.get("selectedHour"));
     }
 
     //Terem bezárása:

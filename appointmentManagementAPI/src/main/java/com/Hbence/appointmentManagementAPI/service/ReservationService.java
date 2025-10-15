@@ -8,7 +8,6 @@ import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -144,7 +142,7 @@ public class ReservationService {
     //ADMIN PAGE
     //Tovabbi foglalas az admin pagen:
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeAdminReservation(Reservations baseReservation, Long adminId, Long userId) {
+    public ResponseEntity<Object> makeAdminReservation(ReservedHours selectedHour, Long adminId, Long userId) {
         Users searchedUser = userRepository.findById(userId).get();
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
@@ -153,12 +151,14 @@ public class ReservationService {
         } else if (searchedUser.getIsDeleted() || searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
+            Reservations baseReservation = new Reservations();
             baseReservation.setFirstName(searchedAminDetails.getFirstName());
             baseReservation.setLastName(searchedAminDetails.getLastName());
             baseReservation.setEmail(searchedAminDetails.getEmail());
             baseReservation.setPhone(searchedAminDetails.getPhone());
             baseReservation.setUser(searchedUser);
             baseReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
+            baseReservation.setReservedHours(selectedHour);
 
             reservedDateRepository.save(baseReservation.getReservedHours().getDate());
 
@@ -167,12 +167,12 @@ public class ReservationService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates() {
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, String repetitiveDay, ReservedHours repetitiveHour, Long adminId) {
         return null;
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates() {
+    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(String startDateText, String endDateText, ReservedHours selectedHour) {
         return null;
     }
 

@@ -98,7 +98,8 @@ public class UserService {
         return null;
     }
 
-    @PreAuthorize("hasAnyRole('superAdmin')")
+    //admin page
+    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Users> makeAdmin(Long id, AdminDetails details) {
         Users searchedUser = userRepository.findById(id).get();
 
@@ -112,6 +113,11 @@ public class UserService {
             searchedUser.setAdminDetails(details);
             return ResponseEntity.ok(userRepository.save(searchedUser));
         }
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<List<Users>> getAllAdmin(){
+        return null;
     }
 
     //Password-reset:

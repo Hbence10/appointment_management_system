@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,9 +44,15 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    //Admin page
     @PostMapping("/makeAdmin")
     public ResponseEntity<Users> makeAdmin(@RequestBody Map<String, Object> body) {
         return userService.makeAdmin((Long) body.get("userId"), (AdminDetails) body.get("details"));
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<Users>> getAdminList(){
+        return userService.getAllAdmin();
     }
 
     //password-reset
