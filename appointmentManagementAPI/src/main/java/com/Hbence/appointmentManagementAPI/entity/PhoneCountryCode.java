@@ -31,6 +31,7 @@ public class PhoneCountryCode {
     @Size(max = 150)
     private String countryName;
 
+    //Kapcsolatok:
     @JsonIgnore
     @OneToMany(
             mappedBy = "phoneCountryCode",
@@ -42,5 +43,11 @@ public class PhoneCountryCode {
     public PhoneCountryCode(int countryCode, String country) {
         this.countryCode = countryCode;
         this.countryName = country;
+    }
+
+    public PhoneCountryCode(Long id, int countryCode, String countryName) {
+        this.id = id;
+        this.countryCode = countryCode;
+        this.countryName = countryName;
     }
 }

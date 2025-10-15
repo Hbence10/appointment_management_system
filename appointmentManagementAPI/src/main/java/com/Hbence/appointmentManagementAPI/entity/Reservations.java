@@ -94,10 +94,12 @@ public class Reservations {
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "reservation_type_id")
+    @Null
     private ReservationType reservationTypeId;
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "payment_method_id")
+    @Null
     private PaymentMethods paymentMethod;
 
     @ManyToOne(cascade = {})

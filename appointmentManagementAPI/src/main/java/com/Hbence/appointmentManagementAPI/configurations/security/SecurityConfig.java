@@ -54,9 +54,10 @@ public class SecurityConfig {
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/deleteLike/**", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/deleteReview/**", "/reviews/update", "/users/updateUser/**", "users/deleteUser/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()
-                        .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
+                        .requestMatchers("/users/changePfp/**", "/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
                         .requestMatchers("/users/makeAdmin", "/history").hasRole("superAdmin")
-//                        .requestMatchers("").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/reservation/adminReservation", "/reservation/makeReservationByRepetitiveDates", "/reservation/makeReservationAlwaysBetweenTwoDates").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/reservation/closeRoomForADay", "/reservation/closeRoomBetweenPeriod", "/reservation/closeByRepetitiveDates").hasAnyRole("admin", "superAdmin")
                 )
 
                 //CSRF settings (CSRF - Cross Site Request Forgery):

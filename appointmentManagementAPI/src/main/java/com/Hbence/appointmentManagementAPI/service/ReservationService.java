@@ -146,7 +146,22 @@ public class ReservationService {
         Users searchedUser = userRepository.findById(userId).get();
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
-        return null;
+        if(searchedUser.getId() == null || searchedAminDetails.getId() == null){
+            return ResponseEntity.notFound().build();
+        } else if (searchedUser.getIsDeleted() || searchedAminDetails.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else {
+            baseReservation.setFirstName(searchedAminDetails.getFirstName());
+            baseReservation.setLastName(searchedAminDetails.getLastName());
+            baseReservation.setEmail(searchedAminDetails.getEmail());
+            baseReservation.setPhone(searchedAminDetails.getPhone());
+            baseReservation.setUser(searchedUser);
+            baseReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
+
+            reservedDateRepository.save(baseReservation.getReservedHours().getDate());
+
+            return ResponseEntity.ok().body(reservationRepository.save(baseReservation));
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
