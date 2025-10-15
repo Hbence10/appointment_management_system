@@ -30,6 +30,10 @@ export class Users {
     return this.pfpPath!
   }
 
+  get getIsNotificationAboutNews():boolean{
+    return this.isNotificationAboutNews
+  }
+
   get getRole(): Role {
     return this.role!
   }

@@ -71,4 +71,30 @@ export class ReservationService {
     return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, {canceledBy: user})
   }
 
+  //admin page:
+  //foglalasok:
+  makeAdminReservation(){
+    return this.http.post(``, {})
+  }
+
+  makeReservationByRepetitiveDates(){
+    return this.http.post(``, {})
+  }
+
+  makeReservationAlwaysBetweenTwoDates(){
+    return this.http.post(``, {})
+  }
+
+  //terem bezaras
+  closeRoomForADay(){
+    return this.http.post(``, {})
+  }
+
+  closeRoomBetweenPeriod(){
+    return this.http.post(``, {})
+  }
+
+  closeByRepetitiveDates(){
+    return this.http.post(``, {})
+  }
 }

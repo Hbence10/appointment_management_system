@@ -58,7 +58,7 @@ public class ReservationController {
     //Tovabbi foglalasi tipus
     @PostMapping("/adminReservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
-        return reservationService.makeAdminReservation((Reservations) bodyObject.get("reservationDetails"), (Long) bodyObject.get("adminId"));
+        return reservationService.makeAdminReservation((Reservations) bodyObject.get("reservationDetails"), (Long) bodyObject.get("adminId"), (Long) bodyObject.get("userId"));
     }
 
     @PostMapping("/makeReservationByRepetitiveDates")

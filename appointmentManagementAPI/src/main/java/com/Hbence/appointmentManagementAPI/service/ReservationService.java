@@ -2,10 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
 import com.Hbence.appointmentManagementAPI.entity.*;
-import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedHoursRepository;
-import com.Hbence.appointmentManagementAPI.repository.UserRepository;
+import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
@@ -28,6 +25,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
+    private final AdminDetailsRepository adminDetailsRepository;
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -144,19 +142,11 @@ public class ReservationService {
     //ADMIN PAGE
     //Tovabbi foglalas az admin pagen:
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeAdminReservation(Reservations baseReservation, Long adminId) {
-        Users searchedAdmin = userRepository.findById(adminId).get();
+    public ResponseEntity<Object> makeAdminReservation(Reservations baseReservation, Long adminId, Long userId) {
+        Users searchedUser = userRepository.findById(userId).get();
+        AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
-        if (searchedAdmin.getId() == null || searchedAdmin.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (!searchedAdmin.getRole().getName().equals("admin") || !searchedAdmin.getRole().getName().equals("superAdmin")){
-            return ResponseEntity.status(403).build();
-        } else if (baseReservation.getId() != null){
-            return ResponseEntity.internalServerError().build();
-        } else {
-
-            return null;
-        }
+        return null;
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
