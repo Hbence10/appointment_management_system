@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Okt 08. 20:27
+-- Létrehozás ideje: 2025. Okt 15. 09:14
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -34,7 +34,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEmail` ()   BEGIN
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllReservationEmail` ()   BEGIN
-	SELECT reservations.email FROM reservations;
+	SELECT reservation.email FROM reservation;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` DATE)   BEGIN
@@ -54,21 +54,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` 
     r.is_canceled,
     r.canceled_at,
     r.canceled_by
-    FROM reservations r
-    INNER JOIN reserved_hours rh 
+    FROM reservation r
+    INNER JOIN reserved_hour rh 
     ON r.reserved_hour_id = rh.id
-    INNER JOIN reserved_dates rd 
+    INNER JOIN reserved_date rd 
     ON rh.date_id = rd.id
     WHERE rd.date = dateIN
     ;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByUserId` (IN `userIdIN` INT)   BEGIN
-	SELECT * FROM `reservations` WHERE reservations.user_id = userIdIN;
+	SELECT * FROM reservation WHERE reservation.user_id = userIdIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsByEmail` (IN `emailIN` VARCHAR(100))   BEGIN
-	SELECT * FROM reservations WHERE reservations.email = emailIN;
+	SELECT * FROM reservation WHERE reservation.email = emailIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `startDateIN` DATE, IN `endDateIN` DATE)   BEGIN
@@ -78,7 +78,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `star
         rd.is_holiday,
         rd.is_closed,
         rd.is_full
-    FROM reserved_dates rd
+    FROM reserved_date rd
     WHERE
     rd.date BETWEEN startDateIN AND endDateIN;
 END$$
@@ -86,10 +86,10 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedHoursByDate` (IN `dateIN` DATE)   BEGIN
 	SELECT 
 	*
-    FROM reserved_hours 
-    INNER JOIN reserved_dates ON 
-	reserved_hours.date_id = reserved_dates.id 
-    AND DAY(reserved_dates.date) = DAY(dateIN);
+    FROM reserved_hour
+    INNER JOIN reserved_date ON 
+	reserved_hour.date_id = reserved_date.id 
+    AND DAY(reserved_date.date) = DAY(dateIN);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByEmail` (IN `emailIN` VARCHAR(100))   BEGIN
@@ -586,20 +586,26 @@ CREATE TABLE `reservation` (
   `reserved_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_canceled` tinyint(1) DEFAULT NULL,
   `canceled_at` datetime DEFAULT NULL,
-  `canceled_by` int(11) DEFAULT NULL
+  `canceled_by` int(11) DEFAULT NULL,
+  `canceler_email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `reservation`
 --
 
-INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`) VALUES
-(25, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 4, '2025-10-05 08:31:15', NULL, NULL, NULL),
-(26, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 5, '2025-10-05 08:31:15', NULL, NULL, NULL),
-(27, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 6, '2025-10-05 08:31:15', NULL, NULL, NULL),
-(28, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 7, '2025-10-05 08:31:15', NULL, NULL, NULL),
-(29, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 8, '2025-10-05 08:31:15', NULL, NULL, NULL),
-(30, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 9, '2025-10-05 08:31:15', NULL, NULL, NULL);
+INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`, `canceler_email`) VALUES
+(25, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 4, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
+(26, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 5, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
+(27, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 6, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
+(28, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 7, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
+(29, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 8, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
+(30, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 9, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
+(31, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$5MYk5GB42arFRuKqn2+ZYA$s9rAZi83FcCsy19facW/haXlpHanWDO0lO9jfIIqsHQ', 2, NULL, 2, 1, 11, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
+(32, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$R7gRBK3gotpwPuSnQRYWJQ$euwD89jpNNlBV6GHGoytEG5BQ88f2RRDNcB5ZdXqB8s', 2, NULL, 2, 1, 12, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
+(33, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$NCcCnAjFuc+MUXL5/Fd2IQ$XR2+s2s/yp6ypL4ekNO2Ys1GF6t374/Y0MuvrmmD1fc', 2, NULL, 2, 1, 13, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
+(34, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$tyG+hXKkBaYbGgSy/btghw$DoZFG1T0nkzHEFtQM6pLdBUmX/RyHM/PFn9Hn69g3Rc', 2, NULL, 2, 1, 14, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
+(35, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$+qZEisiqhtH936EuIw1rnA$DyJVmVrtfWisiZUQdrmZGJC5VchojusfhBS89DGO31Q', 2, NULL, 2, 3, 15, '2025-09-19 19:47:00', 1, '2025-10-09 00:00:00', NULL, 'bzhalmai@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -654,7 +660,9 @@ INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`)
 (2, '2025-10-02', 0, 0, 0),
 (3, '2025-10-03', 0, 0, 0),
 (4, '2025-10-04', 0, 0, 0),
-(5, '2025-10-05', 0, 0, 0);
+(5, '2025-10-05', 0, 0, 0),
+(6, '2025-09-20', 0, 0, 0),
+(8, '2025-09-21', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -681,7 +689,12 @@ INSERT INTO `reserved_hour` (`id`, `start`, `end`, `date_id`, `is_deleted`, `del
 (6, 18, 21, 5, 0, NULL),
 (7, 10, 12, 2, 0, NULL),
 (8, 14, 15, 2, 0, NULL),
-(9, 15, 16, 2, 0, NULL);
+(9, 15, 16, 2, 0, NULL),
+(11, 13, 15, 6, 0, NULL),
+(12, 13, 15, 8, 0, NULL),
+(13, 13, 15, 8, 0, NULL),
+(14, 13, 15, 8, 0, NULL),
+(15, 13, 15, 8, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -778,22 +791,6 @@ INSERT INTO `rule` (`id`, `text`, `last_edit_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `special_offer`
---
-
-CREATE TABLE `special_offer` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `reservation_type_id` int(11) NOT NULL,
-  `offer_amount` int(2) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Tábla szerkezet ehhez a táblához `status`
 --
 
@@ -845,7 +842,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
 (46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 2, '2025-09-24 10:07:39', NULL, 0, NULL),
 (47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', NULL, 0, NULL),
-(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
+(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-10-12 11:37:51', 0, NULL),
 (49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
@@ -978,13 +975,6 @@ ALTER TABLE `rule`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `special_offer`
---
-ALTER TABLE `special_offer`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `special_offer` (`reservation_type_id`);
-
---
 -- A tábla indexei `status`
 --
 ALTER TABLE `status`
@@ -1061,7 +1051,7 @@ ALTER TABLE `phone_country_code`
 -- AUTO_INCREMENT a táblához `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -1073,13 +1063,13 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_date`
 --
 ALTER TABLE `reserved_date`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hour`
 --
 ALTER TABLE `reserved_hour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -1104,12 +1094,6 @@ ALTER TABLE `role`
 --
 ALTER TABLE `rule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT a táblához `special_offer`
---
-ALTER TABLE `special_offer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `status`
@@ -1183,12 +1167,6 @@ ALTER TABLE `review`
 ALTER TABLE `review_like_history`
   ADD CONSTRAINT `liker_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `review` FOREIGN KEY (`review_id`) REFERENCES `review` (`id`);
-
---
--- Megkötések a táblához `special_offer`
---
-ALTER TABLE `special_offer`
-  ADD CONSTRAINT `special_offer` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`);
 
 --
 -- Megkötések a táblához `user`

@@ -5,7 +5,6 @@ import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.repository.GalleryRepository;
 import com.Hbence.appointmentManagementAPI.repository.HistoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.RuleRepository;
-import com.Hbence.appointmentManagementAPI.repository.SpecialOfferRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ public class OtherStuffService {
     private final RuleRepository ruleRepository;
     private final GalleryRepository galleryRepository;
     private final HistoryRepository historyRepository;
-    private final SpecialOfferRepository specialOfferRepository;
 
     //Galleria:
     public ResponseEntity<List<Gallery>> getGalleryImages() {

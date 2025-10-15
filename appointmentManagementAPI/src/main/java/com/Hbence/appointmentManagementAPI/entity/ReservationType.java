@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,24 +46,14 @@ public class ReservationType {
     private Date deletedAt;
 
     //Kapcsolatok
-    @OneToMany(
-            mappedBy = "reservationTypeId",
-            fetch = FetchType.LAZY,
-            cascade = {}
-    )
+    @OneToMany(mappedBy = "reservationTypeId", fetch = FetchType.LAZY, cascade = {})
+//    @JsonIgnoreProperties({})
     @JsonIgnore
     private List<Reservations> reservation;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {}, mappedBy = "reservationTypes")
+//    @JsonIgnoreProperties({})
     @JsonIgnore
-    @OneToOne(mappedBy = "reservationType", cascade = {})
-    private SpecialOffer specialOffer;
-
-    @JsonIgnore
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {},
-            mappedBy = "reservationTypes"
-    )
     private List<Devices> devicesList;
 
     //Constructorok
