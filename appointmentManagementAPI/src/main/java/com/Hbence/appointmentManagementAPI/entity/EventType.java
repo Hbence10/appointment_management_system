@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +12,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "event_type")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class EventType {
 
     @Id
@@ -20,6 +28,7 @@ public class EventType {
     @Size(max = 100)
     private String name;
 
+    //Kapcsolatok:
     @OneToMany(
             mappedBy = "eventType",
             fetch = FetchType.LAZY,

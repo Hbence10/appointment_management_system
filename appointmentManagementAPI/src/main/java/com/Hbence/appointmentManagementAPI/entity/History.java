@@ -1,6 +1,10 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +12,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "history")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class History {
 
     @Id
@@ -48,6 +56,7 @@ public class History {
     @NotNull
     private Boolean isActive;
 
+    //Kapcsolatok
     @ManyToOne(cascade = {})
     @JoinColumn(name = "user_id")
     private Users editedBy;

@@ -93,6 +93,11 @@ public class UserService {
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('superAdmin')")
+    public ResponseEntity<Object> makeAdmin(Long id){
+        return null;
+    }
+
     //Password-reset:
     public ResponseEntity<String> updatePassword(String email, String newPassword, String userVCode) {
         Users user = userRepository.getUserByEmail(email);

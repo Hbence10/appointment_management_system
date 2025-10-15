@@ -45,4 +45,10 @@ public class OtherStuffService {
         updatedRules.setLastEditAt(LocalDateTime.now());
         return ResponseEntity.ok(ruleRepository.save(updatedRules));
     }
+
+    //History
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> getHistory(){
+        return null;
+    }
 }

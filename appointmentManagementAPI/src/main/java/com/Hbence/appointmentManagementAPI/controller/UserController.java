@@ -42,6 +42,11 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    @PostMapping("/makeAdmin")
+    public ResponseEntity<Object> makeAdmin(@RequestBody Users user){
+        return userService.makeAdmin(user.getId());
+    }
+
     //password-reset
     @GetMapping("/getVerificationCode")
     public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email) {

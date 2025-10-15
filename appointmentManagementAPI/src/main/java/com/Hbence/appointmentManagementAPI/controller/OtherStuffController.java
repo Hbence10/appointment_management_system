@@ -40,4 +40,10 @@ public class OtherStuffController {
 
         return otherStuffService.updateRules(updatedRule);
     }
+
+    //History
+    @GetMapping("/history")
+    public ResponseEntity<Object> getHistory(){
+        return null;
+    }
 }

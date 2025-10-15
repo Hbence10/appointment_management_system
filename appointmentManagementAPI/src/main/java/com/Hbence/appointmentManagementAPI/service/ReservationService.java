@@ -144,23 +144,44 @@ public class ReservationService {
     //ADMIN PAGE
     //Tovabbi foglalas az admin pagen:
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(){
+    public ResponseEntity<Object> makeAdminReservation(Reservations baseReservation, Long adminId) {
+        Users searchedAdmin = userRepository.findById(adminId).get();
+
+        if (searchedAdmin.getId() == null || searchedAdmin.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else if (!searchedAdmin.getRole().getName().equals("admin") || !searchedAdmin.getRole().getName().equals("superAdmin")){
+            return ResponseEntity.status(403).build();
+        } else if (baseReservation.getId() != null){
+            return ResponseEntity.internalServerError().build();
+        } else {
+
+            return null;
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> makeReservationByRepetitiveDates() {
+        return null;
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates() {
         return null;
     }
 
     //Terem bezárása
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> closeRoomForADay(){
+    public ResponseEntity<Object> closeRoomForADay() {
         return null;
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> closeRoomBetweenPeriod(){
+    public ResponseEntity<Object> closeRoomBetweenPeriod() {
         return null;
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> closeByRepetitiveDates(){
+    public ResponseEntity<Object> closeByRepetitiveDates() {
         return null;
     }
 

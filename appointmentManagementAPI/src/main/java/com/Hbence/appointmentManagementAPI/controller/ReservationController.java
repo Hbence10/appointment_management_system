@@ -38,7 +38,6 @@ public class ReservationController {
         return reservationService.getReservationByDate(wantedDate);
     }
 
-    //"Egyszeru foglalás"
     @PostMapping("/makeReservation")
     public ResponseEntity<Object> makeReservation(@RequestBody Reservations newReservation) {
         return reservationService.makeReservation(newReservation);
@@ -57,9 +56,20 @@ public class ReservationController {
 
     //ADMIN PAGE
     //Tovabbi foglalasi tipus
+    @PostMapping("/adminReservation")
+    public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
+        return reservationService.makeAdminReservation((Reservations) bodyObject.get("reservationDetails"), (Long) bodyObject.get("adminId"));
+    }
+
     @PostMapping("/makeReservationByRepetitiveDates")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(){
+        //startDate, endDate, repetitiveDay, repetitiveHours, adminUser
         return reservationService.makeReservationByRepetitiveDates();
+    }
+
+    @PostMapping("/makeReservationAlwaysBetweenTwoDates")
+    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(){
+        return reservationService.makeReservationAlwaysBetweenTwoDates();
     }
 
     //Terem bezárása:
