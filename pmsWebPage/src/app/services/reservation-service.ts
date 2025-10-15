@@ -63,38 +63,50 @@ export class ReservationService {
   }
 
   //Foglalás lemondása:
-  getReservationByEmailAndVCode(email: string, vCode: string): Observable<Reservation>{
-    return this.http.post<Reservation>(`${this.baseURL()}/getByEmailAndVCode`, {email: email, vCode: vCode})
+  getReservationByEmailAndVCode(email: string, vCode: string): Observable<Reservation> {
+    return this.http.post<Reservation>(`${this.baseURL()}/getByEmailAndVCode`, { email: email, vCode: vCode })
   }
 
-  cancelReservation(id: number, user: null | Users): Observable<Reservation>{
-    return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, {canceledBy: user})
+  cancelReservation(id: number, user: null | Users): Observable<Reservation> {
+    return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, { canceledBy: user })
   }
 
   //admin page:
   //foglalasok:
-  makeAdminReservation(){
-    return this.http.post(``, {})
+  makeAdminReservation(selectedHour: ReservedHours, adminId: number) {
+    return this.http.post(`${this.baseURL()}/adminReservation`, {
+
+    })
   }
 
-  makeReservationByRepetitiveDates(){
-    return this.http.post(``, {})
+  makeReservationByRepetitiveDates(startDate: String, endDate: String, selectedDay: String, selectedHour: ReservedHours) {
+    return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
+
+    })
   }
 
-  makeReservationAlwaysBetweenTwoDates(){
-    return this.http.post(``, {})
+  makeReservationAlwaysBetweenTwoDates(startDate: String, endDate: String, selectedHour: ReservedHours) {
+    return this.http.post(`${this.baseURL()}/makeReservationAlwaysBetweenTwoDates`, {
+
+    })
   }
 
   //terem bezaras
-  closeRoomForADay(){
-    return this.http.post(``, {})
+  closeRoomForADay(date: String, closeType: "holiday" | "full" | "other") {
+    return this.http.post(`${this.baseURL()}/closeRoomForADay`, {
+
+    })
   }
 
-  closeRoomBetweenPeriod(){
-    return this.http.post(``, {})
+  closeRoomBetweenPeriod(startDate: String, endDate: String, closeType: "holiday" | "full" | "other") {
+    return this.http.post(`${this.baseURL()}/closeRoomBetweenPeriod`, {
+
+    })
   }
 
-  closeByRepetitiveDates(){
-    return this.http.post(``, {})
+  closeByRepetitiveDates(startDate: String, endDate: String, closeType: "holiday" | "full" | "other", selectedDay: string) {
+    return this.http.post(`${this.baseURL()}/closeByRepetitiveDates`, {
+
+    })
   }
 }

@@ -29,6 +29,6 @@ export class OtherService {
 
   //History
   getHistory(): Observable<History[]>{
-    return this.http.get<History[]>(`${this.baseURL()}`)
+    return this.http.get<History[]>(`${this.baseURL()}/history`)
   }
 }

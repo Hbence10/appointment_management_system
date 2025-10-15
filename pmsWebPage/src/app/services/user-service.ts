@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Users } from '../models/user.model';
+import { AdminDetails } from '../models/adminDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,11 @@ export class UserService {
 
   //adminPage:
   getAllAdmin(){
-    return this.http.get(``)
+    return this.http.get(`${this.baseURL()}/admin`)
   }
 
-  makeAdmin(){
-    return this.http.post(``, {})
+  makeAdmin(userId: number, adminDetails: AdminDetails){
+    return this.http.post(`${this.baseURL()}/makeAdmin`, {})
   }
 
   //password reset
