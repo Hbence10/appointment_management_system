@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.Gallery;
+import com.Hbence.appointmentManagementAPI.entity.History;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.repository.GalleryRepository;
 import com.Hbence.appointmentManagementAPI.repository.HistoryRepository;
@@ -46,7 +47,7 @@ public class OtherStuffService {
 
     //History
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> getHistory(){
-        return null;
+    public ResponseEntity<List<History>> getHistory(){
+        return ResponseEntity.ok().body(historyRepository.findAll());
     }
 }

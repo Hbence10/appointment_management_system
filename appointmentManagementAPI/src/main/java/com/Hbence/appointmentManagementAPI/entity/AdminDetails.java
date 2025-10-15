@@ -39,7 +39,7 @@ public class AdminDetails {
     @Size(max = 100)
     private String email;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone")
     @NotNull
     @Size(max = 100)
     private String phone;
@@ -53,5 +53,7 @@ public class AdminDetails {
     private Date deletedAt;
 
     //Kapcsolatok
-
+    @OneToOne(cascade = {})
+    @JoinColumn(name = "user_id")
+    private Users adminUser;
 }

@@ -1,22 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, Signal, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
+import { HistoryPopup } from '../history-popup/history-popup';
 import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [HistoryPopup, MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -32,6 +33,7 @@ export class AdminPage implements OnInit {
   isShowPupUp = signal<boolean>(false)
   popUpDetails!: Details
   showCloseContainer = signal<boolean>(false)
+  showHistoryPopup = signal<boolean>(false)
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -73,7 +75,7 @@ export class AdminPage implements OnInit {
     this.isShowPupUp.set(false)
   }
 
-  showClose(){
+  showClose() {
     this.showCloseContainer.update(old => !old)
   }
 

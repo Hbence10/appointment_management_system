@@ -55,8 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("/reviews/deleteReview/**", "/reviews/update", "/users/updateUser/**", "users/deleteUser/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()
                         .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
-                        .requestMatchers("").hasRole("superAdmin")
-                        .requestMatchers("").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/users/makeAdmin", "/history").hasRole("superAdmin")
+//                        .requestMatchers("").hasAnyRole("admin", "superAdmin")
                 )
 
                 //CSRF settings (CSRF - Cross Site Request Forgery):

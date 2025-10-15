@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Gallery;
+import com.Hbence.appointmentManagementAPI.entity.History;
 import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class OtherStuffController {
 
     //History
     @GetMapping("/history")
-    public ResponseEntity<Object> getHistory(){
-        return null;
+    public ResponseEntity<List<History>> getHistory(){
+        return otherStuffService.getHistory();
     }
 }

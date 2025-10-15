@@ -3,10 +3,18 @@
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <mat-card class="demo-inline-calendar-card">
         <mat-card-header>
-          <mat-card-subtitle style="color: white">Válasszon dátumot:</mat-card-subtitle>
-          <mat-card-title style="color: white">{{selectedDateText()}}</mat-card-title>
+          <mat-card-subtitle style="color: white"
+            >Válasszon dátumot:</mat-card-subtitle
+          >
+          <mat-card-title style="color: white">{{
+            selectedDateText()
+          }}</mat-card-title>
         </mat-card-header>
-        <mat-calendar [minDate]="currentDate" [maxDate]="maxDate" [(selected)]="selectedDate"></mat-calendar>
+        <mat-calendar
+          [minDate]="currentDate"
+          [maxDate]="maxDate"
+          [(selected)]="selectedDate"
+        ></mat-calendar>
       </mat-card>
     </div>
 
@@ -149,4 +157,6 @@
   [baseDetails]="popUpDetails"
   [reservation]="selectedReservation()!"
 />
+} @if(showHistoryPopup()){
+<app-history-popup />
 }

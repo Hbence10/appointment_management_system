@@ -1,12 +1,16 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
+import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
+import com.Hbence.appointmentManagementAPI.entity.Role;
 import com.Hbence.appointmentManagementAPI.entity.Users;
+import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +23,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final AdminDetailsRepository adminDetailsRepository;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
@@ -89,13 +94,24 @@ public class UserService {
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<Object> changePfp(Long id){
+    public ResponseEntity<Object> changePfp(Long id) {
         return null;
     }
 
     @PreAuthorize("hasAnyRole('superAdmin')")
-    public ResponseEntity<Object> makeAdmin(Long id){
-        return null;
+    public ResponseEntity<Users> makeAdmin(Long id, AdminDetails details) {
+        Users searchedUser = userRepository.findById(id).get();
+
+        if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else if (details.getId() != null) {
+            return ResponseEntity.internalServerError().build();
+        } else {
+            searchedUser.setRole(new Role(Long.valueOf("2"), "ROLE_admin"));
+            adminDetailsRepository.save(details);
+            searchedUser.setAdminDetails(details);
+            return ResponseEntity.ok(userRepository.save(searchedUser));
+        }
     }
 
     //Password-reset:

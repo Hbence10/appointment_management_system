@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Gallery } from '../models/galleryImage.model';
 import { Rule } from '../models/rule.model';
+import { History } from '../models/history.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,10 @@ export class OtherService {
 
   saveRuleChanges(newRule: Rule) {
     return this.http.post(`${this.baseURL}/rule/update`, { updatedRule: newRule })
+  }
+
+  //History
+  getHistory(): Observable<History[]>{
+    return this.http.get<History[]>(`${this.baseURL()}`)
   }
 }

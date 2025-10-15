@@ -1,4 +1,7 @@
 package com.Hbence.appointmentManagementAPI.repository;
 
-public interface AdminDetailsRepository {
+import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AdminDetailsRepository extends JpaRepository<AdminDetails, Long> {
 }

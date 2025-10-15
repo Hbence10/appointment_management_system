@@ -1,3 +1,4 @@
+import { AdminDetails } from "./adminDetails.model"
 import { Role } from "./role.model"
 export class Users {
 
@@ -9,6 +10,7 @@ export class Users {
     private isNotificationAboutNews: boolean = false,
     private pfpPath?: string,
     private role: Role = new Role(1, "ROLE_user"),
+    private adminDetails: AdminDetails | null = null
   ) { }
 
   // Getterek
@@ -30,6 +32,10 @@ export class Users {
 
   get getRole(): Role {
     return this.role!
+  }
+
+  get getAdminDetails(): AdminDetails{
+    return this.adminDetails!
   }
 
   // Setterek

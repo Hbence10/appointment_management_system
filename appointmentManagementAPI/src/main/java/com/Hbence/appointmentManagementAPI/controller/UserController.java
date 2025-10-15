@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
+import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PatchMapping("/changePfp/{id}")
-    public ResponseEntity<Object> changePfp(@PathVariable("id") Long id){
+    public ResponseEntity<Object> changePfp(@PathVariable("id") Long id) {
         return userService.changePfp(id);
     }
 
@@ -43,8 +44,8 @@ public class UserController {
     }
 
     @PostMapping("/makeAdmin")
-    public ResponseEntity<Object> makeAdmin(@RequestBody Users user){
-        return userService.makeAdmin(user.getId());
+    public ResponseEntity<Users> makeAdmin(@RequestBody Map<String, Object> body) {
+        return userService.makeAdmin((Long) body.get("userId"), (AdminDetails) body.get("details"));
     }
 
     //password-reset
