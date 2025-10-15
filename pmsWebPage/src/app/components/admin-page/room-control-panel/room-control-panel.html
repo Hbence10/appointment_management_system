@@ -1,0 +1,128 @@
+<div class="container-fluid" id="mainContainer">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="text-center mainFont my-3">Terem kezelése</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Terem bezárása</h2>
+      <div class="container-fluid">
+        <!-- 1. -->
+        <div class="row">
+          <div class="col-lg-12 d-flex flex-column justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5>Egy napra</h5>
+              <button>
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </button>
+            </div>
+
+            @if(showList[0]){
+              <div></div>
+            }
+          </div>
+        </div>
+
+        <!-- 2. -->
+        <div class="row">
+          <div class="col-lg-12 d-flex flex-column justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5>Intervallum</h5>
+              <button>
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </button>
+            </div>
+
+            @if(showList[1]){
+              <div></div>
+            }
+          </div>
+        </div>
+
+        <!-- 3. -->
+        <div class="row">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5>Ismétlődő dátumok</h5>
+              <button>
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </button>
+            </div>
+
+            @if(showList[2]){
+              <div></div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Terem foglalása saját célra</h2>
+      <div class="container-fluid">
+        <!-- 1. -->
+        <div class="row">
+          <div class="col-lg-12 d-flex flex-column justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5>Egszeri foglalás</h5>
+              <button (click)="showList[3] = !showList[3]">
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </button>
+            </div>
+
+            @if(showList[3]){
+              <div>
+                <mat-form-field>
+                  <mat-label>Choose a date</mat-label>
+                  <input matInput [matDatepicker]="picker">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- 2. -->
+        <div class="row">
+          <div class="col-lg-12 d-flex flex-column justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5>Intervallum között folyamatosan</h5>
+              <button>
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </button>
+            </div>
+
+            @if(showList[4]){
+              <div></div>
+            }
+          </div>
+        </div>
+
+        <!-- 3. -->
+        <div class="row">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-between align-items-center">
+              <h5>Intervallum között ismétlődő dátumok</h5>
+              <button>
+                <span class="material-symbols-outlined">arrow_drop_down</span>
+              </button>
+            </div>
+
+            @if(showList[5]){
+              <div></div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  -->

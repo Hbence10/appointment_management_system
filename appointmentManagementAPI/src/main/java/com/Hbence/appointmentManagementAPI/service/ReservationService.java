@@ -8,6 +8,7 @@ import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -29,20 +32,19 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
+    private ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holliday", "full", "other"));
+    private ArrayList<String> days = new ArrayList<>(Arrays.asList("hetfo", "kedd", "szerda", "csutortok", "pentek", "szombat", "vasarnap"));
 
     public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
         return ResponseEntity.ok(reservationRepository.reservations(userId));
     }
 
     public ResponseEntity<Object> getReservationByMonth(String startDateText, String endDateText) {
-        LocalDate startDate = LocalDate.parse(startDateText);
-        LocalDate endDate = LocalDate.parse(endDateText);
-
-        if (startDate.compareTo(endDate) == 1) {
-            return ResponseEntity.status(417).body("A kezdo datum nem lehet kesobb mint a vegdatum");
+        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return ResponseEntity.status(417).build();
         }
 
-        List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(startDate, endDate);
+        List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
         List<ReservedDatesWithHour> returnList = new ArrayList<>();
         for (ReservedDates i : reservedDatesList) {
             returnList.add(new ReservedDatesWithHour(
@@ -146,9 +148,9 @@ public class ReservationService {
         Users searchedUser = userRepository.findById(userId).get();
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
-        if(searchedUser.getId() == null || searchedAminDetails.getId() == null){
+        if (searchedUser.getId() == null || searchedAminDetails.getId() == null) {
             return ResponseEntity.notFound().build();
-        } else if (searchedUser.getIsDeleted() || searchedAminDetails.getIsDeleted()){
+        } else if (searchedUser.getIsDeleted() || searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             baseReservation.setFirstName(searchedAminDetails.getFirstName());
@@ -176,18 +178,37 @@ public class ReservationService {
 
     //Terem bezárása
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> closeRoomForADay() {
-        return null;
+    public ResponseEntity<Object> closeRoomForADay(String selectedDateText, String closeType) {
+        if (!closeTypes.contains(closeType)) {
+            return ResponseEntity.status(409).build();
+        } else {
+            return null;
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> closeRoomBetweenPeriod() {
-        return null;
+    public ResponseEntity<Object> closeRoomBetweenPeriod(String startDateText, String endDateText, String closeType) {
+        if (!closeTypes.contains(closeType)) {
+            return ResponseEntity.status(409).build();
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return ResponseEntity.status(417).build();
+        } else {
+
+            return null;
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> closeByRepetitiveDates() {
-        return null;
+    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, String closeType, String selectedDay) {
+        if (!closeTypes.contains(closeType)) {
+            return ResponseEntity.status(409).build();
+        } else if (!days.contains(selectedDay)) {
+            return ResponseEntity.status(409).build();
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return ResponseEntity.status(417).build();
+        } else {
+            return null;
+        }
     }
 
 }

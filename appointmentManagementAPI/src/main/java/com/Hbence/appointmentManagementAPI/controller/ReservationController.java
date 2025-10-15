@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,30 +62,33 @@ public class ReservationController {
         return reservationService.makeAdminReservation((Reservations) bodyObject.get("reservationDetails"), (Long) bodyObject.get("adminId"), (Long) bodyObject.get("userId"));
     }
 
+    //ket datum kozott mindig foglalva lesz a kivalsztott napon a kivalasztott oraban
     @PostMapping("/makeReservationByRepetitiveDates")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(){
         //startDate, endDate, repetitiveDay, repetitiveHours, adminUser
         return reservationService.makeReservationByRepetitiveDates();
     }
 
+    //ket datum kozotti osszes napon foglalva lesz az adott oraban
     @PostMapping("/makeReservationAlwaysBetweenTwoDates")
     public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(){
+        //startDate, endDate, selectedHour
         return reservationService.makeReservationAlwaysBetweenTwoDates();
     }
 
     //Terem bezárása:
     @PostMapping("/closeRoomForADay")
     public ResponseEntity<Object> closeRoomForADay(@RequestBody Map<String, String> body){
-       return reservationService.closeRoomForADay();
+       return reservationService.closeRoomForADay(body.get("date"), body.get("closeType"));
     }
 
     @PostMapping("/closeRoomBetweenPeriod")
-    public ResponseEntity<Object> closeRoomBetweenPeriod(){
-        return reservationService.closeRoomBetweenPeriod();
+    public ResponseEntity<Object> closeRoomBetweenPeriod(@RequestBody Map<String, String> body){
+        return reservationService.closeRoomBetweenPeriod(body.get("startDate"), body.get("endDate"), body.get("closeType"));
     }
 
     @PostMapping("/closeByRepetitiveDates")
-    public ResponseEntity<Object> closeByRepetitiveDates(){
-        return reservationService.closeByRepetitiveDates();
+    public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, String> body){
+        return reservationService.closeByRepetitiveDates(body.get("startDate"), body.get("endDate"), body.get("closeType"), body.get("selectedDay"));
     }
 }

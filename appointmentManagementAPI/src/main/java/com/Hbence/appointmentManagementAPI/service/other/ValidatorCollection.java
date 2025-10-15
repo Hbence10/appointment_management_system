@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.service.other;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -62,5 +63,12 @@ public class ValidatorCollection {
 
     public static Boolean phoneValidator(String phone){
         return true;
+    }
+
+    public static Boolean rangeValidator(String startDateText, String endDateText){
+        LocalDate startDate = LocalDate.parse(startDateText);
+        LocalDate endDate = LocalDate.parse(endDateText);
+
+        return startDate.compareTo(endDate) == 1;
     }
 }

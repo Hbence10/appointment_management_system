@@ -14,10 +14,11 @@ import { ReservationService } from '../../services/reservation-service';
 import { HistoryPopup } from '../history-popup/history-popup';
 import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
+import { RoomControlPanel } from './room-control-panel/room-control-panel';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [HistoryPopup, MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [HistoryPopup, RoomControlPanel, MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
