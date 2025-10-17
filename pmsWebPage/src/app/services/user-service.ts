@@ -30,8 +30,8 @@ export class UserService {
   }
 
   //adminPage:
-  getAllAdmin(){
-    return this.http.get(`${this.baseURL()}/admin`)
+  getAllAdmin(): Observable<Users[]>{
+    return this.http.get<Users[]>(`${this.baseURL()}/admin`)
   }
 
   makeAdmin(userId: number, adminDetails: AdminDetails){

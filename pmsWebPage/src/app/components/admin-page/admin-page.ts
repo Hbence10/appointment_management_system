@@ -67,7 +67,7 @@ export class AdminPage implements OnInit {
     })
   }
 
-  selectObjectList(title: string, buttonText: "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "", objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other") {
+  selectObjectList(title: string, buttonText: "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "", objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "user") {
     this.popUpDetails = new Details(title, buttonText, objectType)
     this.isShowPupUp.set(true)
   }

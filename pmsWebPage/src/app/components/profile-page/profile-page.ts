@@ -41,7 +41,7 @@ export class ProfilePage implements OnInit {
     this.user = this.userService.user()!
 
     this.form = new FormGroup({
-      username: new FormControl(this.user.getUsername, [Validators.required]),
+      username: new FormControl(this.user.getName, [Validators.required]),
       email: new FormControl(this.user.getEmail, [Validators.required, Validators.email])
     })
 

@@ -23,6 +23,8 @@ import { UserService } from '../../services/user-service';
 import { Router } from '@angular/router';
 import { response } from 'express';
 import { ReservationStuff } from '../../services/reservation-stuff';
+import { Users } from '../../models/user.model';
+import { AdminDetails } from '../../models/adminDetails.model';
 
 
 @Component({
@@ -39,13 +41,13 @@ export class PopUp implements OnInit {
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
-  selectedObject: DevicesCategory | Device | News | ReservationType | Gallery | null = null
+  selectedObject: DevicesCategory | Device | News | ReservationType | Gallery | Users | null = null
   editForm!: FormGroup
   form!: FormGroup;
 
   buttonText = computed<string>(() => {
-    const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType"]
-    const objectText: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Próba kategória"]
+    const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]
+    const objectText: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Próba kategória", "Admin"]
 
     let text = ""
     if (this.actualDetails()?.buttonText == "cancelReservation") {
@@ -102,6 +104,14 @@ export class PopUp implements OnInit {
         next: responseList => this.setCardList(responseList.map(element => Object.assign(new ReservationType(), element)), "reservationType"),
         error: error => this.setErrors(error)
       })
+    } else if (this.actualDetails()?.objectType == 'user') {
+      subscription = this.userService.getAllAdmin().subscribe({
+        next: responseList => {
+          const list: Users[] = responseList.map(element => Object.assign(new Users(), element))
+          list.forEach(element => element.setAdminDetails = Object.assign(new AdminDetails(), element.getAdminDetails))
+          this.setCardList(list, "user")
+        }
+      })
     }
 
     this.destroyRef.onDestroy(() => {
@@ -113,7 +123,7 @@ export class PopUp implements OnInit {
     this.closePopUp.emit()
   }
 
-  setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery") {
+  setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery | Users)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
     responseList.forEach(element => {
       this.cardList.update(old => [...old, new CardItem(element.getName, objectType, element, element instanceof Gallery ? "viewImage" : "delete")])
     })
@@ -125,8 +135,8 @@ export class PopUp implements OnInit {
 
   buttonEvent() {
     if (this.actualDetails()?.buttonText == "newEntity") {
-      const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "gallery"]
-      const hunObjectNames: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Foglalás tipus", "Fénykép"]
+      const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "gallery", "user"]
+      const hunObjectNames: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Foglalás tipus", "Fénykép", "Admin"]
 
       this.actualPage = "editPage"
       this.actualDetails.set(new Details(`${hunObjectNames[objectTypes.indexOf(this.actualDetails()!.objectType)]} hozzáadása`, "saveChanges", this.actualDetails()!.objectType, this.actualDetails()?.deviceCategory))
@@ -140,6 +150,9 @@ export class PopUp implements OnInit {
         this.selectedObject = new News()
       } else if (this.actualDetails()!.objectType == "gallery") {
         this.selectedObject = new Gallery()
+      } else if (this.actualDetails()!.objectType == "user") {
+        this.selectedObject = new Users()
+        console.log("adminok")
       }
       this.setForm()
     } else if (this.actualDetails()?.buttonText == "saveChanges") {
@@ -151,7 +164,7 @@ export class PopUp implements OnInit {
       }
     } else if (this.actualDetails()?.buttonText == "deleteEntity") {
       this.sendDeleteRequest()
-    } else if (this.actualDetails()?.buttonText == "cancelReservation"){
+    } else if (this.actualDetails()?.buttonText == "cancelReservation") {
       //
     }
   }
@@ -290,7 +303,7 @@ export class PopUp implements OnInit {
   }
 
   setForm() {
-    this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
+      this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
     if (this.selectedObject instanceof Device) {
       this.reservationService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
       this.reservationService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getName)
@@ -306,6 +319,14 @@ export class PopUp implements OnInit {
     } else if (this.selectedObject instanceof ReservationType || this.selectedObject instanceof News) {
       this.reservationService.form.controls["property2"].addValidators(Validators.required)
       this.reservationService.form.controls["property2"].addValidators(Validators.required)
+    }
+
+    if (this.selectedObject instanceof Users){
+      console.log(this.selectedObject)
+      this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getAdminDetails.getFirstName)
+      this.reservationService.form.controls["property2"].setValue(this.selectedObject!.getAdminDetails.getLastName)
+      this.reservationService.form.controls["property3"].setValue(this.selectedObject!.getAdminDetails.getEmail)
+      this.reservationService.form.controls["property4"].setValue(this.selectedObject!.getAdminDetails.getPhone)
     }
   }
 }

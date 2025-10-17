@@ -3,12 +3,13 @@ import { DevicesCategory } from "../deviceCategory.model"
 import { Gallery } from "../galleryImage.model"
 import { News } from "../newsDetails.model"
 import { ReservationType } from "../reservationType.model"
+import { Users } from "../user.model"
 
 export class CardItem {
   constructor(
     private _name: string,
-    private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery",
-    private _object: DevicesCategory | Device | News | ReservationType | Gallery,
+    private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user",
+    private _object: DevicesCategory | Device | News | ReservationType | Gallery | Users,
     private _button1Event: "delete" | "viewImage"
   ) { }
 
@@ -17,11 +18,11 @@ export class CardItem {
     return this._name
   }
 
-  get objectType(): "deviceCategory" | "device" | "news" | "reservationType" | "gallery" {
+  get objectType(): "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user" {
     return this._objectType
   }
 
-  get object(): DevicesCategory | Device | News | ReservationType | Gallery {
+  get object(): DevicesCategory | Device | News | ReservationType | Gallery | Users{
     return this._object
   }
 
@@ -38,7 +39,7 @@ export class CardItem {
     this._objectType = newObjectType
   }
 
-  set object(newObject: DevicesCategory | Device | News | ReservationType | Gallery) {
+  set object(newObject: DevicesCategory | Device | News | ReservationType | Gallery | Users) {
     this._object = newObject
   }
 

@@ -12,9 +12,18 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@NamedStoredProcedureQueries({@NamedStoredProcedureQuery(name = "getUserByUsername", procedureName = "getUserByUsername", parameters = {@StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN)}, resultClasses = {Users.class}),
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getUserByUsername", procedureName = "getUserByUsername", parameters = {
+                @StoredProcedureParameter(name = "usernameIN", type = String.class, mode = ParameterMode.IN)},
+                resultClasses = {Users.class}),
 
-        @NamedStoredProcedureQuery(name = "getUserByEmail", procedureName = "getUserByEmail", parameters = {@StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN)}, resultClasses = {Users.class}), @NamedStoredProcedureQuery(name = "getAllEmail", procedureName = "getAllEmail", resultClasses = String.class)})
+        @NamedStoredProcedureQuery(name = "getUserByEmail", procedureName = "getUserByEmail", parameters = {
+                @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN)},
+                resultClasses = {Users.class}),
+
+        @NamedStoredProcedureQuery(name = "getAllEmail", procedureName = "getAllEmail", resultClasses = String.class),
+        @NamedStoredProcedureQuery(name = "getAllAdmin", procedureName = "getAllAdmin", resultClasses = Users.class)
+})
 
 @Table(name = "user")
 @Getter

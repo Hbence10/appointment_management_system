@@ -23,7 +23,8 @@ export class ReservationService {
   form: FormGroup = new FormGroup({
     property1: new FormControl("", [Validators.required]),
     property2: new FormControl("", []),
-    property3: new FormControl("", [])
+    property3: new FormControl("", []),
+    property4: new FormControl("", [Validators.required]),
   });
 
   setObject(responseList: any[]): Reservation[] {

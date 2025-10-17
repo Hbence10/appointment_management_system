@@ -12,6 +12,7 @@ import { ReservationType } from '../../../models/reservationType.model';
 import { DeviceService } from '../../../services/device-service';
 import { ReservationService } from '../../../services/reservation-service';
 import { CommonModule } from '@angular/common';
+import { Users } from '../../../models/user.model';
 
 @Component({
   selector: 'app-object-editor',
@@ -27,7 +28,7 @@ export class ObjectEditor implements OnInit {
   private reservationService = inject(ReservationService)
   objectType = input.required<Details>()
 
-  selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | null>()
+  selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | Users | null>()
 
   details = signal<Details | null>(null)
   placeholderText: string[] = []

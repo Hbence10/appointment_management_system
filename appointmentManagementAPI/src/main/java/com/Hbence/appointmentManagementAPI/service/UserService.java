@@ -10,13 +10,13 @@ import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Transactional
 @Service
@@ -123,7 +123,7 @@ public class UserService {
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<List<Users>> getAllAdmin(){
-        return null;
+        return ResponseEntity.ok().body(userRepository.getAllAdmin());
     }
 
     //Password-reset:

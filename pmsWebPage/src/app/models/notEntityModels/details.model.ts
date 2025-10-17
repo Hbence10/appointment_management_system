@@ -5,7 +5,7 @@ export class Details {
   constructor(
     private _title: string,
     private _buttonText: "newEntity" | "saveChanges" | "deleteEntity" | "galleryView" | "cancelReservation" | "",
-    private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation",
+    private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation" | "user",
     private _deviceCategory?: DevicesCategory
   ) { }
 
@@ -18,7 +18,7 @@ export class Details {
     return this._buttonText
   }
 
-  get objectType(): "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation" {
+  get objectType(): "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation" | "user" {
     return this._objectType
   }
 
@@ -35,7 +35,7 @@ export class Details {
     this._buttonText = newButtonText
   }
 
-  set objectType(newObjectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation") {
+  set objectType(newObjectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "rule" | "other" | "reservation" | "user") {
     this._objectType = newObjectType
   }
 }

@@ -1,5 +1,7 @@
 <form [formGroup]="form" class="container-fluid">
+  <!-- 1. -->
   <div class="row">
+    @if(details()!.objectType != "user"){
     <div
       [class.col-lg-12]="isFirstRowFull()"
       [class.col-lg-9]="!isFirstRowFull()"
@@ -27,19 +29,35 @@
         />
       </mat-form-field>
     </div>
+    } }
+    <!-- Adminok: -->
+    @else {
+    <div class="col-lg-6">
+      <mat-form-field class="w-100">
+        <mat-label>{{ labelText[0] }}</mat-label>
+        <input formControlName="property1" matInput type="text" [placeholder]="placeholderText[0]"/>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-6">
+      <mat-form-field class="w-100">
+        <mat-label>{{ labelText[1] }}</mat-label>
+        <input formControlName="property2" matInput type="text" [placeholder]="placeholderText[1]"/>
+      </mat-form-field>
+    </div>
     }
   </div>
 
+  <!-- 2.sor -->
   @if (details()!.objectType != 'deviceCategory' && details()?.objectType !=
   "gallery"){
   <div class="row">
     <div class="col-lg-12">
       @if (details()?.objectType == "news"){
 
-      <mat-form-field class="w-100" style="height: 400px;">
+      <mat-form-field class="w-100" style="height: 400px">
         <mat-label>{{ labelText[1] }}</mat-label>
         <textarea
-        style="height: 400px;"
+          style="height: 400px"
           matInput
           type="text"
           formControlName="property2"
@@ -49,21 +67,39 @@
 
       } @else if (details()?.objectType == "device"){
       <mat-form-field class="w-100">
-        <mat-label>{{labelText[2]}}</mat-label>
-        <mat-select formControlName="property3" [placeholder]="placeholderText[2]" [(value)]="selectedDeviceCategory" (valueChange)="selectCategory()">
+        <mat-label>{{ labelText[2] }}</mat-label>
+        <mat-select
+          formControlName="property3"
+          [placeholder]="placeholderText[2]"
+          [(value)]="selectedDeviceCategory"
+          (valueChange)="selectCategory()"
+        >
           @for(categories of deviceCategoryList(); track $index){
-            <mat-option [value]="$index">{{categories.getName}}</mat-option>
+          <mat-option [value]="$index">{{ categories.getName }}</mat-option>
           }
         </mat-select>
+      </mat-form-field>
+      } @else if (details()?.objectType == "user"){
+      <mat-form-field class="w-100">
+        <mat-label>{{ labelText[2] }}</mat-label>
+        <input formControlName="property3" matInput type="text" [placeholder]="placeholderText[2]"/>
       </mat-form-field>
       }
     </div>
   </div>
-  } @if(details()!.objectType == "news"){
+  }
+
+  <!-- 3.sor -->
+  @if(details()!.objectType == "news"){
   <div class="row">
     <div class="col-lg-12">
-      <input type="file" onchange="selectFile(event)">
+      <input type="file" onchange="selectFile(event)" />
     </div>
   </div>
+  } @else if (details()?.objectType == "user"){
+  <mat-form-field class="w-100">
+    <mat-label>{{ labelText[3] }}</mat-label>
+    <input formControlName="property4" matInput type="text" [placeholder]="placeholderText[3]"/>
+  </mat-form-field>
   }
 </form>

@@ -14,10 +14,10 @@
                 @if(isEdit()){
                   <mat-form-field>
                     <mat-label>Felhasználónév</mat-label>
-                    <input formControlName="username" type="text" matInput [value]="user.getUsername">
+                    <input formControlName="username" type="text" matInput [value]="user.getName">
                   </mat-form-field>
                 }@else {
-                  <span> {{user.getUsername}}</span>
+                  <span> {{user.getName}}</span>
                 }
               </h6>
 
