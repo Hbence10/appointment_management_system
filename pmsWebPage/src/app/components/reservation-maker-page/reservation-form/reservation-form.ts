@@ -11,6 +11,7 @@ import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationStuff } from '../../../services/reservation-stuff';
+// import { NgForOf } from "../../../../../node_modules/@angular/common/common_module.d";
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
   const phoneServiceCodes: number[] = [30, 20, 70, 50, 31]
@@ -28,10 +29,8 @@ function validatePhone(control: AbstractControl): { [key: string]: any } | null 
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule, MatSelectModule],
   templateUrl: './reservation-form.html',
   styleUrl: './reservation-form.scss',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-        { provide: MatFormFieldControl, useExisting: ReservationForm }
-    ]
 })
 
 export class ReservationForm implements OnInit {
