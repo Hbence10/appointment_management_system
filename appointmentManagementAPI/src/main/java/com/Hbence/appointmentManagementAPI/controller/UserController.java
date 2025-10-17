@@ -44,15 +44,25 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    //Admin page
+    //Adminok kezelese
     @PostMapping("/makeAdmin")
     public ResponseEntity<Users> makeAdmin(@RequestBody Map<String, Object> body) {
         return userService.makeAdmin((Long) body.get("userId"), (AdminDetails) body.get("details"));
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<List<Users>> getAdminList(){
+    public ResponseEntity<List<Users>> getAdminList() {
         return userService.getAllAdmin();
+    }
+
+    @PutMapping("/updateAdmin")
+    public ResponseEntity<Object> updateAdmin(@RequestBody AdminDetails updatedDetails) {
+        return userService.updateAdmin(updatedDetails);
+    }
+
+    @DeleteMapping("/deleteAdmin/{id}")
+    public ResponseEntity<Object> deleteAdmin(@PathVariable("id") Long id) {
+        return userService.deleteAdmin(id);
     }
 
     //password-reset

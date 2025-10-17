@@ -24,7 +24,6 @@ import java.util.List;
         @NamedStoredProcedureQuery(name = "getAllEmail", procedureName = "getAllEmail", resultClasses = String.class),
         @NamedStoredProcedureQuery(name = "getAllAdmin", procedureName = "getAllAdmin", resultClasses = Users.class)
 })
-
 @Table(name = "user")
 @Getter
 @Setter
@@ -108,11 +107,4 @@ public class Users {
     @Null
     @JsonIgnoreProperties({"adminUser", "isDeleted", "deletedAt"})
     private AdminDetails adminDetails;
-
-    //Constructorok
-    public Users(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
 }

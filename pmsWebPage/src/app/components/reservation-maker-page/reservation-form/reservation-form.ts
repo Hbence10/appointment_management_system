@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output,
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Reservation } from '../../../models/reservation.model';
@@ -29,6 +29,9 @@ function validatePhone(control: AbstractControl): { [key: string]: any } | null 
   templateUrl: './reservation-form.html',
   styleUrl: './reservation-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+        { provide: MatFormFieldControl, useExisting: ReservationForm }
+    ]
 })
 
 export class ReservationForm implements OnInit {
@@ -50,6 +53,15 @@ export class ReservationForm implements OnInit {
     this.user = this.userService.user()
     this.baseReservation = signal(this.reservationService.baseReservation())
 
+     this.form = new FormGroup({
+      firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
+      lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
+      email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
+      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, Validators.minLength(9), Validators.maxLength(9), validatePhone]),
+      comment: new FormControl(this.baseReservation().getComment, []),
+      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.getName, [Validators.required])
+    })
+
     if (this.baseReservation().getReservationTypeId) {
       this.selectedReservationType.set(this.baseReservation().getReservationTypeId)
     }
@@ -69,15 +81,6 @@ export class ReservationForm implements OnInit {
     this.destroyRef.onDestroy(() => {
       typeSubscription.unsubscribe()
       phoneSubscription.unsubscribe()
-    })
-
-    this.form = new FormGroup({
-      firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
-      lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
-      email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
-      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, Validators.minLength(9), Validators.maxLength(9), validatePhone]),
-      comment: new FormControl(this.baseReservation().getComment, []),
-      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.getName, [Validators.required])
     })
   }
 

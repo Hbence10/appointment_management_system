@@ -323,10 +323,14 @@ export class PopUp implements OnInit {
 
     if (this.selectedObject instanceof Users){
       console.log(this.selectedObject)
-      this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getAdminDetails.getFirstName)
-      this.reservationService.form.controls["property2"].setValue(this.selectedObject!.getAdminDetails.getLastName)
-      this.reservationService.form.controls["property3"].setValue(this.selectedObject!.getAdminDetails.getEmail)
-      this.reservationService.form.controls["property4"].setValue(this.selectedObject!.getAdminDetails.getPhone)
+      this.reservationService.form.controls["property1"].setValue(this.selectedObject?.getAdminDetails?.getFirstName)
+      this.reservationService.form.controls["property2"].setValue(this.selectedObject?.getAdminDetails?.getLastName)
+      this.reservationService.form.controls["property3"].setValue(this.selectedObject?.getAdminDetails?.getEmail)
+      this.reservationService.form.controls["property4"].setValue(this.selectedObject?.getAdminDetails?.getPhone)
+
+      this.reservationService.form.controls["property2"].addValidators(Validators.required)
+      this.reservationService.form.controls["property3"].addValidators([Validators.email, Validators.required])
+      this.reservationService.form.controls["property4"].addValidators( Validators.required)
     }
   }
 }

@@ -71,7 +71,7 @@ public class UserService {
             searchedUser.setIsDeleted(true);
             searchedUser.setDeletedAt(new Date());
 
-            if(searchedUser.getAdminDetails() != null){
+            if (searchedUser.getAdminDetails() != null) {
                 searchedUser.getAdminDetails().setDeletedAt(new Date());
                 searchedUser.getAdminDetails().setIsDeleted(true);
             }
@@ -104,13 +104,15 @@ public class UserService {
         return null;
     }
 
-    //admin page
+    //Adminok kezelese
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Users> makeAdmin(Long id, AdminDetails details) {
         Users searchedUser = userRepository.findById(id).get();
 
         if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
             return ResponseEntity.notFound().build();
+        } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
+            return ResponseEntity.status(407).build();
         } else if (details.getId() != null) {
             return ResponseEntity.internalServerError().build();
         } else {
@@ -122,8 +124,35 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<List<Users>> getAllAdmin(){
+    public ResponseEntity<List<Users>> getAllAdmin() {
         return ResponseEntity.ok().body(userRepository.getAllAdmin());
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> updateAdmin(AdminDetails updatedAdminDetails) {
+        AdminDetails testDetails = adminDetailsRepository.findById(updatedAdminDetails.getId()).get();
+
+        if (testDetails.getId() == null || testDetails.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else if (!ValidatorCollection.emailChecker(updatedAdminDetails.getEmail())) {
+            return ResponseEntity.status(407).build();
+        } else {
+            return ResponseEntity.ok().body(adminDetailsRepository.save(updatedAdminDetails));
+        }
+
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> deleteAdmin(Long id) {
+        AdminDetails searchedAdminDetails = adminDetailsRepository.findById(id).get();
+        if (searchedAdminDetails.getId() == null || searchedAdminDetails.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            searchedAdminDetails.setIsDeleted(true);
+            searchedAdminDetails.setDeletedAt(new Date());
+            adminDetailsRepository.save(searchedAdminDetails);
+            return ResponseEntity.ok().build();
+        }
     }
 
     //Password-reset:

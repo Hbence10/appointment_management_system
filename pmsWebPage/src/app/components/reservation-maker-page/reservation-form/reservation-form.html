@@ -11,15 +11,16 @@
 
           <div class="row">
             <div class="col-lg-12 px-4">
-              <form action="#" [formGroup]="form" class="container-fluid">
+              <form [formGroup]="form" class="container-fluid">
                 <div class="row my-2">
-                  <div class="col-lg-12 p-0 d-flex flex-row justify-content-between">
-                    <mat-form-field style="width: 285px">
+                  <div class="col-lg-6">
+                    <mat-form-field class="w-100" appearance="fill">
                       <mat-label>Vezetéknév</mat-label>
                       <input formControlName="firstName" type="text" matInput placeholder="Irja be a vezetéknevét. Pl. Varga"/>
                     </mat-form-field>
-
-                    <mat-form-field style="width: 285px">
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field class="w-100">
                       <mat-label>Családnév</mat-label>
                       <input formControlName="lastName" type="text" matInput placeholder="Irja be a keresztnevét. Pl. Tamás"/>
                     </mat-form-field>
