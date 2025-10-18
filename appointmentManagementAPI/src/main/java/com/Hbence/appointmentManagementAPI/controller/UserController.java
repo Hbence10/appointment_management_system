@@ -65,6 +65,11 @@ public class UserController {
         return userService.deleteAdmin(id);
     }
 
+    @GetMapping("")
+    public ResponseEntity<Object> getShortUsersList(){
+        return userService.getShortUsersList();
+    }
+
     //password-reset
     @GetMapping("/getVerificationCode")
     public ResponseEntity<String> getVerificationCode(@RequestParam("email") String email) {

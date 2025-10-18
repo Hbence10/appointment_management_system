@@ -11,6 +11,8 @@ import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationStuff } from '../../../services/reservation-stuff';
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 // import { NgForOf } from "../../../../../node_modules/@angular/common/common_module.d";
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
@@ -26,7 +28,7 @@ function validatePhone(control: AbstractControl): { [key: string]: any } | null 
 
 @Component({
   selector: 'app-reservation-form',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule, MatSelectModule],
+  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule, MatSelectModule],
   templateUrl: './reservation-form.html',
   styleUrl: './reservation-form.scss',
   standalone: true,
@@ -52,15 +54,6 @@ export class ReservationForm implements OnInit {
     this.user = this.userService.user()
     this.baseReservation = signal(this.reservationService.baseReservation())
 
-     this.form = new FormGroup({
-      firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
-      lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
-      email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
-      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, Validators.minLength(9), Validators.maxLength(9), validatePhone]),
-      comment: new FormControl(this.baseReservation().getComment, []),
-      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.getName, [Validators.required])
-    })
-
     if (this.baseReservation().getReservationTypeId) {
       this.selectedReservationType.set(this.baseReservation().getReservationTypeId)
     }
@@ -76,10 +69,20 @@ export class ReservationForm implements OnInit {
     const phoneSubscription = this.reservationStuffService.getPhoneCodes().subscribe({
       next: response => this.phoneCodes.set(response)
     })
+    console.log(this.phoneCodes())
 
     this.destroyRef.onDestroy(() => {
       typeSubscription.unsubscribe()
       phoneSubscription.unsubscribe()
+    })
+
+    this.form = new FormGroup({
+      firstName: new FormControl(this.baseReservation().getFirstName, [Validators.required]),
+      lastName: new FormControl(this.baseReservation().getLastName, [Validators.required]),
+      email: new FormControl(this.baseReservation().getEmail, [Validators.required, Validators.email]),
+      phone: new FormControl(this.baseReservation().getPhone, [Validators.required, Validators.minLength(9), Validators.maxLength(9), validatePhone]),
+      comment: new FormControl(this.baseReservation().getComment, []),
+      reservationType: new FormControl(!this.baseReservation().getReservationTypeId ? "" : this.baseReservation().getReservationTypeId.getName, [Validators.required])
     })
   }
 

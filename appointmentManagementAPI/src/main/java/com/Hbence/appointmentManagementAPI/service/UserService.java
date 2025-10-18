@@ -15,8 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -153,6 +152,21 @@ public class UserService {
             adminDetailsRepository.save(searchedAdminDetails);
             return ResponseEntity.ok().build();
         }
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> getShortUsersList(){
+        List<Users> userList = userRepository.findAll();
+        List<Map<String, Object>> responseList = new ArrayList<>();
+
+        for (int i = 0; i < userList.size(); i++){
+            Map<String, Object> eachResponse = new HashMap<>();
+            eachResponse.put("id", userList.get(i).getId());
+            eachResponse.put("username", userList.get(i).getUsername());
+            responseList.add(eachResponse);
+        }
+
+        return ResponseEntity.ok().body(responseList);
     }
 
     //Password-reset:

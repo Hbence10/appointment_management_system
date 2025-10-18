@@ -40,6 +40,18 @@ export class UserService {
     })
   }
 
+  updateAdmin(updatedDetails: AdminDetails){
+    return this.http.put(`${this.baseURL()}/updateAdmin`, updatedDetails)
+  }
+
+  deleteAdmin(adminId: number){
+    return this.http.delete(`${this.baseURL()}/deleteAdmin/${adminId}`)
+  }
+
+  getShortUsersList(): Observable<{id: number, username: string}[]>{
+    return this.http.get<{id: number, username: string}[]>(`${this.baseURL()}`)
+  }
+
   //password reset
   getVerificationCode(email: string) {
     return this.http.get(`${this.baseURL()}/getVerificationCode`, { params: new HttpParams().set("email", email) })

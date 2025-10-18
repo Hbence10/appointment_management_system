@@ -25,6 +25,7 @@ export class ReservationService {
     property2: new FormControl("", []),
     property3: new FormControl("", []),
     property4: new FormControl("", [Validators.required]),
+    property5: new FormControl("", [Validators.required]),
   });
 
   setObject(responseList: any[]): Reservation[] {

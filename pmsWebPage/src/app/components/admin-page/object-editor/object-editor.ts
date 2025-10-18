@@ -13,17 +13,19 @@ import { DeviceService } from '../../../services/device-service';
 import { ReservationService } from '../../../services/reservation-service';
 import { CommonModule } from '@angular/common';
 import { Users } from '../../../models/user.model';
+import { UserService } from '../../../services/user-service';
 
 @Component({
   selector: 'app-object-editor',
   imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, CommonModule],
   templateUrl: './object-editor.html',
   styleUrl: './object-editor.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class ObjectEditor implements OnInit {
   private deviceService = inject(DeviceService)
+  private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
   private reservationService = inject(ReservationService)
   objectType = input.required<Details>()
@@ -35,16 +37,19 @@ export class ObjectEditor implements OnInit {
   labelText: string[] = []
   form!: FormGroup
   deviceCategoryList = signal<DevicesCategory[]>([])
+  shorterUserList = signal<{id: number, username: string}[]>([])
 
   isFirstRowFull = computed<boolean>(() =>
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
   )
 
-  selectedDeviceCategory:number = 0;
+  selectedUserId: number = 1
+  selectedDeviceCategoryId:number = 0;
 
   ngOnInit(): void {
     this.details.set(this.objectType())
     this.form = this.reservationService.form
+    console.log(this.details())
 
     if (this.selectedObject() instanceof Device) {
       const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
@@ -53,13 +58,17 @@ export class ObjectEditor implements OnInit {
           console.log(this.deviceCategoryList())
         },
         complete: () => {
-          this.selectedDeviceCategory = this.deviceCategoryList().map(el => el.getId).indexOf(this.details()?.deviceCategory.getId!)
+          this.selectedDeviceCategoryId = this.deviceCategoryList().map(el => el.getId).indexOf(this.details()?.deviceCategory.getId!)
 
         }
       })
 
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe()
+      })
+    } else if (this.selectedObject() instanceof Users){
+      this.userService.getShortUsersList().subscribe({
+        next: responseList => this.shorterUserList.set(responseList)
       })
     }
 
@@ -68,7 +77,7 @@ export class ObjectEditor implements OnInit {
   }
 
   selectCategory(){
-    this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategory]
+    this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategoryId]
   }
 
   selectFile(event: any){
