@@ -29,7 +29,7 @@
         <div class="row">
           <div class="col-lg-12 d-flex flex-column justify-content-center">
             <h1 class="text-center my-3">Mai nap foglalásai</h1>
-            <div style="overflow-y: scroll">
+            <div style="max-height: 375px;overflow-y: auto">
               @for (reservation of reservationsOfSelectedDate(); track $index) {
               <app-reservation-card
                 [reservationDetails]="reservation"

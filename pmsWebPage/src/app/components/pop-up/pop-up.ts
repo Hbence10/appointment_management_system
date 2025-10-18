@@ -109,6 +109,7 @@ export class PopUp implements OnInit {
         next: responseList => {
           const list: Users[] = responseList.map(element => Object.assign(new Users(), element))
           list.forEach(element => element.setAdminDetails = Object.assign(new AdminDetails(), element.getAdminDetails))
+          console.log(list)
           this.setCardList(list, "user")
         }
       })
