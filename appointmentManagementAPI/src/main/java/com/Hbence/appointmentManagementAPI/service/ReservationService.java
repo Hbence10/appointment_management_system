@@ -8,6 +8,7 @@ import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -182,8 +183,17 @@ public class ReservationService {
         if (!closeTypes.contains(closeType)) {
             return ResponseEntity.status(409).build();
         } else {
-
-            return null;
+            System.out.println(LocalDate.parse(selectedDateText));
+            ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
+            if(selectedDate == null){
+                selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+            } else {
+                selectedDate.setIsHoliday(closeType.equals("holiday"));
+                selectedDate.setIsFull(closeType.equals("full"));
+                selectedDate.setIsClosed(closeType.equals("other"));
+            }
+            reservedDateRepository.save(selectedDate);
+            return ResponseEntity.ok().build();
         }
     }
 
