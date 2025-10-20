@@ -60,6 +60,10 @@ public class SecurityConfig {
                         .requestMatchers("/users","/users/deleteAdmin/**", "/users/updateAdmin", "/users/makeAdmin", "/history", "/users/admin").hasRole("superAdmin")
                         .requestMatchers("/reservation/adminReservation", "/reservation/makeReservationByRepetitiveDates", "/reservation/makeReservationAlwaysBetweenTwoDates").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reservation/closeRoomForADay", "/reservation/closeRoomBetweenPeriod", "/reservation/closeByRepetitiveDates").hasAnyRole("admin", "superAdmin")
+
+                        //swagger:
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs*/**").permitAll()
                 )
 
                 //CSRF settings (CSRF - Cross Site Request Forgery):

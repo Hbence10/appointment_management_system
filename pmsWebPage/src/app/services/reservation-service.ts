@@ -72,43 +72,4 @@ export class ReservationService {
   cancelReservation(id: number, user: null | Users): Observable<Reservation> {
     return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, { canceledBy: user })
   }
-
-  //admin page:
-  //foglalasok:
-  makeAdminReservation(selectedHour: ReservedHours, adminId: number) {
-    return this.http.post(`${this.baseURL()}/adminReservation`, {
-
-    })
-  }
-
-  makeReservationByRepetitiveDates(startDate: String, endDate: String, selectedDay: String, selectedHour: ReservedHours) {
-    return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
-
-    })
-  }
-
-  makeReservationAlwaysBetweenTwoDates(startDate: String, endDate: String, selectedHour: ReservedHours) {
-    return this.http.post(`${this.baseURL()}/makeReservationAlwaysBetweenTwoDates`, {
-
-    })
-  }
-
-  //terem bezaras
-  closeRoomForADay(date: String, closeType: "holiday" | "full" | "other") {
-    return this.http.post(`${this.baseURL()}/closeRoomForADay`, {
-
-    })
-  }
-
-  closeRoomBetweenPeriod(startDate: String, endDate: String, closeType: "holiday" | "full" | "other") {
-    return this.http.post(`${this.baseURL()}/closeRoomBetweenPeriod`, {
-
-    })
-  }
-
-  closeByRepetitiveDates(startDate: String, endDate: String, closeType: "holiday" | "full" | "other", selectedDay: string) {
-    return this.http.post(`${this.baseURL()}/closeByRepetitiveDates`, {
-
-    })
-  }
 }

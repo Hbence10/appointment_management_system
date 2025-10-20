@@ -21,10 +21,13 @@
 !["Adatbázis terv"](./database_plan.png)
 
 ### Tárolt eljárások:
-- **closeBetweenTwoDate():**
+- **getAllAdmin():**
 - **getAllEmail():**
+- **getAllReservationEmail():**
 - **getReservationByDate():**
 - **getReservationByUserId():**
+- **getReservationsByEmail():**
+- **getReservedDateByDate():**
 - **getReservedDatesOfPeriod():**
 - **getReservedHoursByDate():**
 - **getUserByEmail():**

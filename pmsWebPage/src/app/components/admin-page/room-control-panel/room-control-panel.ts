@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ReservedHours } from '../../../models/reservedHours.model';
 import { MatAnchor } from "@angular/material/button";
+import { AdminService } from '../../../services/admin-service';
 
 @Component({
   selector: 'app-room-control-panel',
@@ -20,7 +21,7 @@ import { MatAnchor } from "@angular/material/button";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomControlPanel implements OnInit {
-  private reservationService = inject(ReservationService)
+  private adminService = inject(AdminService)
   private userService = inject(UserService)
   private user!: Users
   showList: boolean[] = [false, false, false, false, false, false]
@@ -37,15 +38,30 @@ export class RoomControlPanel implements OnInit {
 
   selectedDay: string | null = null
   selectedCloseType: "holiday" | "full" | "other" = "holiday"
-  selectedDate: string | null = null
+  readonly selectedDate = new FormControl(new Date());
   selectedReservedHour: ReservedHours = new ReservedHours()
 
   ngOnInit(): void {
     this.user = this.userService.user()!
   }
 
-  manageEx(){
+  manageExpansionPanel(index: number){
 
+  }
+
+  //ENDPOINTOK:
+  //bezaras
+  closeRoomForADay() {
+    this.adminService.closeRoomForADay(this.selectedDate.value!, this.selectedCloseType).subscribe({
+      next: response => console.log(response)
+    })
+  }
+
+  closeRoomBetweenPeriod() {
+    this.adminService.closeRoomBetweenPeriod(this.range.controls["start"].value!, this.range.controls["end"].value!, this.selectedCloseType)
+  }
+
+  closeByRepetitiveDates(){
   }
 
   //foglalas
@@ -53,23 +69,8 @@ export class RoomControlPanel implements OnInit {
   }
 
   makeReservationByRepetitiveDates() {
-
   }
 
   makeReservationAlwaysBetweenTwoDates() {
-
-  }
-
-  //bezaras
-  closeRoomForADay() {
-
-  }
-
-  closeRoomBetweenPeriod() {
-
-  }
-
-  closeByRepetitiveDates(){
-
   }
 }

@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,10 @@ import java.util.List;
         @NamedStoredProcedureQuery(name = "getReservedDatesOfPeriod", procedureName = "getReservedDatesOfPeriod", parameters = {
                 @StoredProcedureParameter(name = "startDateIN", type = LocalDate.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN)
+        }, resultClasses = {ReservedDates.class}),
+
+        @NamedStoredProcedureQuery(name = "getReservedDateByDate", procedureName = "getReservedDateByDate", parameters = {
+                @StoredProcedureParameter(name = "dateIN", type = Date.class, mode = ParameterMode.IN)
         }, resultClasses = {ReservedDates.class})
 })
 @Getter

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Okt 15. 09:14
+-- Létrehozás ideje: 2025. Okt 20. 12:36
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,8 +25,8 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `closeBetweenTwoDate` ()   BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllAdmin` ()   BEGIN
+	SELECT * FROM user WHERE user.role_id = 2 AND user.deleted_at = NULL AND user.is_deleted = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEmail` ()   BEGIN
@@ -71,6 +71,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsByEmail` (IN `emailI
 	SELECT * FROM reservation WHERE reservation.email = emailIN;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateByDate` (IN `dateIN` DATE)   BEGIN
+	SELECT * FROM reserved_date WHERE reserved_date.date = dateIN;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `startDateIN` DATE, IN `endDateIN` DATE)   BEGIN
 	SELECT
     	rd.id,
@@ -102,6 +106,30 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByUsername` (IN `usernameIN`
 END$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `admin_details`
+--
+
+CREATE TABLE `admin_details` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `admin_details`
+--
+
+INSERT INTO `admin_details` (`id`, `first_name`, `last_name`, `email`, `phone`, `user_id`, `is_deleted`, `deleted_at`) VALUES
+(1, 'Halmai', 'Bence', 'bzhalmai@gmail.com', '+36706285232', 48, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -211,6 +239,15 @@ CREATE TABLE `event_type` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `event_type`
+--
+
+INSERT INTO `event_type` (`id`, `name`) VALUES
+(1, 'Létrehozás'),
+(2, 'Frissités'),
+(3, 'Törlés');
 
 -- --------------------------------------------------------
 
@@ -578,9 +615,9 @@ CREATE TABLE `reservation` (
   `phone_number` varchar(9) NOT NULL,
   `comment` longtext,
   `cancel_v_code` longtext,
-  `reservation_type_id` int(11) NOT NULL,
+  `reservation_type_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `payment_method_id` int(11) NOT NULL,
+  `payment_method_id` int(11) DEFAULT NULL,
   `status_id` int(11) NOT NULL DEFAULT '1',
   `reserved_hour_id` int(11) NOT NULL,
   `reserved_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -662,7 +699,7 @@ INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`)
 (4, '2025-10-04', 0, 0, 0),
 (5, '2025-10-05', 0, 0, 0),
 (6, '2025-09-20', 0, 0, 0),
-(8, '2025-09-21', 0, 0, 0);
+(8, '2025-10-18', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -690,7 +727,7 @@ INSERT INTO `reserved_hour` (`id`, `start`, `end`, `date_id`, `is_deleted`, `del
 (7, 10, 12, 2, 0, NULL),
 (8, 14, 15, 2, 0, NULL),
 (9, 15, 16, 2, 0, NULL),
-(11, 13, 15, 6, 0, NULL),
+(11, 13, 15, 8, 0, NULL),
 (12, 13, 15, 8, 0, NULL),
 (13, 13, 15, 8, 0, NULL),
 (14, 13, 15, 8, 0, NULL),
@@ -833,17 +870,17 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notification_about_news`, `role_id`, `created_at`, `last_login`, `is_deleted`, `deleted_at`) VALUES
-(1, 'test', 'test@gmail.com', 'asd', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
-(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'assets/placeholder.png', 0, 2, '2025-08-23 04:50:02', NULL, 0, NULL),
-(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'assets/placeholder.png', 0, 3, '2025-08-23 04:50:02', NULL, 0, NULL),
+(1, 'test', 'test@gmail.com', 'asd', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', NULL, 0, NULL),
+(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'assets/placeholder.png', 0, 1, '2025-08-23 04:50:02', NULL, 0, NULL),
+(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'assets/placeholder.png', 0, 1, '2025-08-23 04:50:02', NULL, 0, NULL),
 (26, 'test4', 'test4@gmail.com', '{noop}asd', 'assets/placeholder.png', 0, 1, '2025-09-07 12:15:02', NULL, 1, NULL),
 (29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-17 15:47:25', NULL, 0, NULL),
 (42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', 'assets/placeholder.png', 0, 1, '2025-09-20 16:18:03', NULL, 0, NULL),
 (44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
-(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 2, '2025-09-24 10:07:39', NULL, 0, NULL),
-(47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', NULL, 0, NULL),
-(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-10-12 11:37:51', 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
+(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 1, '2025-09-24 10:07:39', NULL, 0, NULL),
+(47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-10-15 12:24:33', 0, NULL),
+(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-10-15 12:24:51', 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', '2025-10-18 21:02:24', 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL);
@@ -851,6 +888,13 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 --
 -- Indexek a kiírt táblákhoz
 --
+
+--
+-- A tábla indexei `admin_details`
+--
+ALTER TABLE `admin_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `admin_user` (`user_id`);
 
 --
 -- A tábla indexei `device`
@@ -994,6 +1038,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT a táblához `admin_details`
+--
+ALTER TABLE `admin_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT a táblához `device`
 --
 ALTER TABLE `device`
@@ -1015,7 +1065,7 @@ ALTER TABLE `device_reservation_type`
 -- AUTO_INCREMENT a táblához `event_type`
 --
 ALTER TABLE `event_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `gallery`
@@ -1110,6 +1160,12 @@ ALTER TABLE `user`
 --
 -- Megkötések a kiírt táblákhoz
 --
+
+--
+-- Megkötések a táblához `admin_details`
+--
+ALTER TABLE `admin_details`
+  ADD CONSTRAINT `admin_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Megkötések a táblához `device`

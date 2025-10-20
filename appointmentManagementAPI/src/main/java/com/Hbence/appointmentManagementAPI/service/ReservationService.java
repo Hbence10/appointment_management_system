@@ -182,6 +182,7 @@ public class ReservationService {
         if (!closeTypes.contains(closeType)) {
             return ResponseEntity.status(409).build();
         } else {
+
             return null;
         }
     }
