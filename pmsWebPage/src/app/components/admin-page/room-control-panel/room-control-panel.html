@@ -121,8 +121,8 @@
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
                       <mat-select placeholder="Melyik napokon legyen?">
-                        @for (day of days; track $index) {
-                          <mat-option [value]="day">{{day}}</mat-option>
+                        @for (day of hunDayNames; track $index) {
+                          <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
                       </mat-select>
                     </mat-form-field>
@@ -284,8 +284,8 @@
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
                       <mat-select placeholder="Melyik napokon legyen?" multiple="">
-                        @for (day of days; track $index) {
-                          <mat-option [value]="day">{{day}}</mat-option>
+                        @for (day of hunDayNames; track $index) {
+                          <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
                       </mat-select>
                     </mat-form-field>

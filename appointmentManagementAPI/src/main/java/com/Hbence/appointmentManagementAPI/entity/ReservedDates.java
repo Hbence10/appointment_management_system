@@ -20,6 +20,12 @@ import java.util.List;
 
         @NamedStoredProcedureQuery(name = "getReservedDateByDate", procedureName = "getReservedDateByDate", parameters = {
                 @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
+        }, resultClasses = {ReservedDates.class}),
+
+        @NamedStoredProcedureQuery(name = "getReservedDateBetweenTwoDateByDate", procedureName = "getReservedDateBetweenTwoDateByDate", parameters = {
+                @StoredProcedureParameter(name = "startDateIN", type = LocalDate.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN)
         }, resultClasses = {ReservedDates.class})
 })
 @Getter

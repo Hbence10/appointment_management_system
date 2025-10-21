@@ -31,8 +31,8 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-    private ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holiday", "full", "other"));
-    private ArrayList<String> days = new ArrayList<>(Arrays.asList("Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"));
+    private final ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holiday", "full", "other"));
+    private final ArrayList<String> days = new ArrayList<>(Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
 
     public ResponseEntity<List<Reservations>> getReservationByUserId(Long userId) {
         return ResponseEntity.ok(reservationRepository.reservations(userId));
@@ -205,28 +205,21 @@ public class ReservationService {
         } else {
             List<ReservedDates> reservedDatesBetweenDates = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
             List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            dateList.add(LocalDate.parse(endDateText));
             List<ReservedDates> closedDates = new ArrayList<>();
 
             for (int i = 0; i < dateList.size(); i++) {
-                final int index = i;
                 ReservedDates searchedDate;
 
                 try {
-                    searchedDate = reservedDatesBetweenDates.stream().filter(date -> date.getDate().toString().equals(dateList.get(index).toString())).toList().get(0);
-                } catch (Exception e) {
-                    searchedDate = new ReservedDates();
-                }
-
-                if (searchedDate.getId() == null || searchedDate == null) {
-                    ReservedDates closedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
-                    closedDates.add(closedDate);
-                } else {
+                    searchedDate = reservedDateRepository.getReservedDateBetweenTwoDateByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText), dateList.get(i));
                     searchedDate.setIsHoliday(closeType.equals("holiday"));
                     searchedDate.setIsFull(closeType.equals("full"));
                     searchedDate.setIsClosed(closeType.equals("other"));
-                    closedDates.add(searchedDate);
+                } catch (Exception e) {
+                    searchedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
                 }
+
+                closedDates.add(searchedDate);
             }
 
             reservedDateRepository.saveAll(closedDates);
@@ -243,7 +236,29 @@ public class ReservationService {
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
         } else {
+            List<ReservedDates> reservedDatesBetweenDates = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            List<ReservedDates> closedDates = new ArrayList<>();
 
+            for (int i = 0; i < dateList.size(); i++) {
+                ReservedDates searchedDate = new ReservedDates();
+
+                try {
+                    searchedDate = reservedDateRepository.getReservedDateBetweenTwoDateByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText), dateList.get(i));
+                    if (searchedDate.getDate().getDayOfWeek().toString().equals(selectedDay)) {
+                        searchedDate.setIsHoliday(closeType.equals("holiday"));
+                        searchedDate.setIsFull(closeType.equals("full"));
+                        searchedDate.setIsClosed(closeType.equals("other"));
+                        closedDates.add(searchedDate);
+                    }
+                } catch (Exception e) {
+                    if (dateList.get(i).getDayOfWeek().toString().equals(selectedDay)) {
+                        searchedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+                        closedDates.add(searchedDate);
+                    }
+                }
+            }
+            reservedDateRepository.saveAll(closedDates);
             return ResponseEntity.ok().build();
         }
     }

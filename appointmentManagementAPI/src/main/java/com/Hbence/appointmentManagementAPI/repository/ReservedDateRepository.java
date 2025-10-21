@@ -16,6 +16,9 @@ public interface ReservedDateRepository extends JpaRepository<ReservedDates, Lon
 
     @Procedure(name = "getReservedDateByDate", procedureName = "getReservedDateByDate")
     ReservedDates getReservedDateByDate(@Param("dateIN") LocalDate date);
+
+    @Procedure(name = "getReservedDateBetweenTwoDateByDate", procedureName = "getReservedDateBetweenTwoDateByDate")
+    ReservedDates getReservedDateBetweenTwoDateByDate(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate, @Param("dateIN") LocalDate dateIN);
 }
 
 

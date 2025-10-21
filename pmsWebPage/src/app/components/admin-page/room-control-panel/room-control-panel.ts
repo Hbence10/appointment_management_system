@@ -26,7 +26,8 @@ export class RoomControlPanel implements OnInit {
   private user!: Users
   showList: boolean[] = [false, false, false, false, false, false]
 
-  days: string[] = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"]
+  dayNames: string[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+  hunDayNames: string[] = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"]
   closeTypes: string[] = ["holiday", "full", "other"]
   startHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   hours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]

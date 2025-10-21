@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Okt 20. 12:36
+-- Létrehozás ideje: 2025. Okt 21. 09:50
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -71,17 +71,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsByEmail` (IN `emailI
 	SELECT * FROM reservation WHERE reservation.email = emailIN;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateByDate` (IN `dateIN` DATE)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateBetweenTwoDateByDate` (IN `startDateIN` DATE, IN `endDateIN` DATE, IN `dateIN` DATE)   BEGIN
+	SELECT * FROM reserved_date WHERE 
+    reserved_date.date = dateIN AND 
+    reserved_date.date BETWEEN startDateIN AND endDateIN; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateByDate` (IN `dateIN` DATETIME)   BEGIN
 	SELECT * FROM reserved_date WHERE reserved_date.date = dateIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDatesOfPeriod` (IN `startDateIN` DATE, IN `endDateIN` DATE)   BEGIN
 	SELECT
-    	rd.id,
-        rd.date,
-        rd.is_holiday,
-        rd.is_closed,
-        rd.is_full
+    	*
     FROM reserved_date rd
     WHERE
     rd.date BETWEEN startDateIN AND endDateIN;
@@ -693,13 +695,25 @@ CREATE TABLE `reserved_date` (
 --
 
 INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
-(1, '2025-10-06', 0, 0, 0),
-(2, '2025-10-02', 0, 0, 0),
-(3, '2025-10-03', 0, 0, 0),
-(4, '2025-10-04', 0, 0, 0),
-(5, '2025-10-05', 0, 0, 0),
-(6, '2025-09-20', 0, 0, 0),
-(8, '2025-10-18', 0, 0, 0);
+(1, '2025-10-06', 1, 0, 0),
+(2, '2025-10-02', 1, 0, 0),
+(3, '2025-10-03', 1, 0, 0),
+(4, '2025-10-04', 1, 0, 0),
+(5, '2025-10-05', 1, 0, 0),
+(6, '2025-09-20', 1, 0, 0),
+(8, '2025-10-15', 1, 0, 0),
+(9, '2025-10-11', 0, 0, 1),
+(24, '2025-10-07', 1, 0, 0),
+(25, '2025-09-15', 1, 0, 0),
+(26, '2025-09-16', 1, 0, 0),
+(27, '2025-09-17', 1, 0, 0),
+(28, '2025-09-18', 1, 0, 0),
+(29, '2025-09-19', 1, 0, 0),
+(30, '2025-09-21', 1, 0, 0),
+(31, '2025-09-22', 1, 0, 0),
+(32, '2025-09-23', 1, 0, 0),
+(33, '2025-09-24', 1, 0, 0),
+(34, '2025-10-08', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -880,7 +894,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 1, '2025-09-24 10:07:39', NULL, 0, NULL),
 (47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-10-15 12:24:33', 0, NULL),
 (48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-10-15 12:24:51', 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', '2025-10-18 21:02:24', 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', '2025-10-21 11:06:46', 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL);
@@ -1113,7 +1127,7 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_date`
 --
 ALTER TABLE `reserved_date`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hour`
