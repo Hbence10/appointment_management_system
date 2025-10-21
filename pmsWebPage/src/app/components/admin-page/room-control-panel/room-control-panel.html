@@ -39,7 +39,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="closeRoomForADay()" mat-flat-button>Mentés</button>
+                <button (click)="closeRoom('single')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -79,7 +79,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="closeRoomBetweenPeriod()" mat-flat-button>Mentés</button>
+                <button (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -128,7 +128,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="closeByRepetitiveDates()" mat-flat-button>Mentés</button>
+                <button (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>

@@ -32,37 +32,68 @@ export class RoomControlPanel implements OnInit {
   startHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   hours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-  readonly range = new FormGroup({
+  range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
-  selectedDay: string | null = null
-  selectedCloseType: "holiday" | "full" | "other" = "holiday"
-  readonly selectedDate = new FormControl(new Date());
+  selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | null = null
+  selectedCloseType: "holiday" | "full" | "other" | null = null
+  selectedDate = new FormControl(new Date());
   selectedReservedHour: ReservedHours = new ReservedHours()
 
   ngOnInit(): void {
     this.user = this.userService.user()!
   }
 
-  manageExpansionPanel(index: number){
+  manageExpansionPanel(index: number) {
+    //expansion panel kezelese
+    this.showList[index] = !this.showList[index]
 
+    //Adatok nullazasa
+    this.range = new FormGroup({
+      start: new FormControl<Date | null>(null),
+      end: new FormControl<Date | null>(null),
+    });
+    this.selectedDay = null
+    this.selectedCloseType = null
+    this.selectedDate = new FormControl(new Date());
+    this.selectedReservedHour = new ReservedHours();
+  }
+
+  closeRoom(closeType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive"){
+    //ide kell majd hogy van-e akkor foglalas
+    const startDateText: string = this.range.controls["start"].value!.toISOString().split("T")[0]
+    const endDateText: string = this.range.controls["end"].value!.toISOString().split("T")[0]
+
+    if(closeType == 'single'){
+      this.closeRoomForADay()
+    } else if (closeType == 'betweenTwoDate'){
+      this.closeRoomBetweenPeriod(startDateText, endDateText)
+    } else if (closeType == 'betweenTwoDateRepetitive'){
+      this.closeByRepetitiveDates(startDateText, endDateText)
+    }
   }
 
   //ENDPOINTOK:
   //bezaras
   closeRoomForADay() {
-    this.adminService.closeRoomForADay(this.selectedDate.value!, this.selectedCloseType).subscribe({
+    const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
+    this.adminService.closeRoomForADay(dateText, this.selectedCloseType!).subscribe({
       next: response => console.log(response)
     })
   }
 
-  closeRoomBetweenPeriod() {
-    this.adminService.closeRoomBetweenPeriod(this.range.controls["start"].value!, this.range.controls["end"].value!, this.selectedCloseType)
+  closeRoomBetweenPeriod(startDateText: string, endDateText: string) {
+    this.adminService.closeRoomBetweenPeriod(startDateText, endDateText, this.selectedCloseType!).subscribe({
+      next: response => console.log(response)
+    })
   }
 
-  closeByRepetitiveDates(){
+  closeByRepetitiveDates(startDateText: string, endDateText: string) {
+    this.adminService.closeByRepetitiveDates(startDateText, endDateText, this.selectedCloseType!, this.selectedDay!).subscribe({
+      next: response => console.log(response)
+    })
   }
 
   //foglalas
@@ -70,8 +101,12 @@ export class RoomControlPanel implements OnInit {
   }
 
   makeReservationByRepetitiveDates() {
+    const startDateText: string = this.range.controls["start"].value!.toISOString().split("T")[0]
+    const endDateText: string = this.range.controls["end"].value!.toISOString().split("T")[0]
   }
 
   makeReservationAlwaysBetweenTwoDates() {
+    const startDateText: string = this.range.controls["start"].value!.toISOString().split("T")[0]
+    const endDateText: string = this.range.controls["end"].value!.toISOString().split("T")[0]
   }
 }

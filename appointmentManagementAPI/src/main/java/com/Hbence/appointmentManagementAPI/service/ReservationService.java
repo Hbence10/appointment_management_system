@@ -143,13 +143,12 @@ public class ReservationService {
     //ADMIN PAGE
     //Tovabbi foglalas az admin pagen:
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeAdminReservation(ReservedHours selectedHour, Long adminId, Long userId) {
-        Users searchedUser = userRepository.findById(userId).get();
+    public ResponseEntity<Object> makeAdminReservation(ReservedHours selectedHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
-        if (searchedUser.getId() == null || searchedAminDetails.getId() == null) {
+        if (searchedAminDetails.getId() == null) {
             return ResponseEntity.notFound().build();
-        } else if (searchedUser.getIsDeleted() || searchedAminDetails.getIsDeleted()) {
+        } else if (searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             Reservations baseReservation = new Reservations();
@@ -157,7 +156,7 @@ public class ReservationService {
             baseReservation.setLastName(searchedAminDetails.getLastName());
             baseReservation.setEmail(searchedAminDetails.getEmail());
             baseReservation.setPhone(searchedAminDetails.getPhone());
-            baseReservation.setUser(searchedUser);
+//            baseReservation.setUser(searchedUser);
             baseReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
             baseReservation.setReservedHours(selectedHour);
 
@@ -169,11 +168,22 @@ public class ReservationService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, String repetitiveDay, ReservedHours repetitiveHour, Long adminId) {
+
+
         return null;
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(String startDateText, String endDateText, ReservedHours selectedHour) {
+        if (selectedHour.getId() != null) {
+            return ResponseEntity.internalServerError().build();
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return ResponseEntity.status(407).build();
+        } else {
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            
+        }
+
         return null;
     }
 

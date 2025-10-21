@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { ReservedHours } from '../models/reservedHours.model';
+import { ReservedDates } from '../models/reservedDates.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,12 @@ export class AdminService {
   //foglalasok:
   makeAdminReservation(selectedHour: ReservedHours, adminId: number) {
     return this.http.post(`${this.baseURL()}/adminReservation`, {
-
+      selectedHour: selectedHour,
+      adminId: adminId
     })
   }
 
-  makeReservationByRepetitiveDates(startDate: String, endDate: String, selectedDay: String, selectedHour: ReservedHours) {
+  makeReservationByRepetitiveDates(startDate: String, endDate: String, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours) {
     return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
 
     })
@@ -29,21 +31,30 @@ export class AdminService {
   }
 
   //terem bezaras
-  closeRoomForADay(date: Date, closeType: "holiday" | "full" | "other") {
+  closeRoomForADay(dateText: string, closeType: "holiday" | "full" | "other") {
     return this.http.post(`${this.baseURL()}/closeRoomForADay`, {
-
+      date: dateText,
+      closeType: closeType
     })
   }
 
-  closeRoomBetweenPeriod(startDate: Date, endDate: Date, closeType: "holiday" | "full" | "other") {
+  closeRoomBetweenPeriod(startDate: string, endDate: string, closeType: "holiday" | "full" | "other") {
     return this.http.post(`${this.baseURL()}/closeRoomBetweenPeriod`, {
-
+      startDate: startDate,
+      endDate: endDate,
+      closeType: closeType
     })
   }
 
-  closeByRepetitiveDates(startDate: String, endDate: String, closeType: "holiday" | "full" | "other", selectedDay: string) {
+  closeByRepetitiveDates(startDate: string, endDate: string, closeType: "holiday" | "full" | "other", selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY") {
     return this.http.post(`${this.baseURL()}/closeByRepetitiveDates`, {
-
+      startDate: startDate,
+      endDate: endDate,
+      closeType: closeType,
+      selectedDay: selectedDay
     })
   }
+
+  //egyeb:
+
 }

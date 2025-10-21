@@ -156,7 +156,7 @@ public class UserService {
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> getShortUsersList(){
-        List<Users> userList = userRepository.findAll();
+        List<Users> userList = userRepository.findAll().stream().filter(user -> user.getRole().getId() == 1 && !user.getIsDeleted()).toList();
         List<Map<String, Object>> responseList = new ArrayList<>();
 
         for (int i = 0; i < userList.size(); i++){
