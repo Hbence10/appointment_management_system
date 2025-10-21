@@ -183,9 +183,8 @@ public class ReservationService {
         if (!closeTypes.contains(closeType)) {
             return ResponseEntity.status(409).build();
         } else {
-            System.out.println(LocalDate.parse(selectedDateText));
             ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
-            if(selectedDate == null){
+            if (selectedDate == null) {
                 selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
             } else {
                 selectedDate.setIsHoliday(closeType.equals("holiday"));
@@ -204,8 +203,34 @@ public class ReservationService {
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
         } else {
+            List<ReservedDates> reservedDatesBetweenDates = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            dateList.add(LocalDate.parse(endDateText));
+            List<ReservedDates> closedDates = new ArrayList<>();
 
-            return null;
+            for (int i = 0; i < dateList.size(); i++) {
+                final int index = i;
+                ReservedDates searchedDate;
+
+                try {
+                    searchedDate = reservedDatesBetweenDates.stream().filter(date -> date.getDate().toString().equals(dateList.get(index).toString())).toList().get(0);
+                } catch (Exception e) {
+                    searchedDate = new ReservedDates();
+                }
+
+                if (searchedDate.getId() == null || searchedDate == null) {
+                    ReservedDates closedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+                    closedDates.add(closedDate);
+                } else {
+                    searchedDate.setIsHoliday(closeType.equals("holiday"));
+                    searchedDate.setIsFull(closeType.equals("full"));
+                    searchedDate.setIsClosed(closeType.equals("other"));
+                    closedDates.add(searchedDate);
+                }
+            }
+
+            reservedDateRepository.saveAll(closedDates);
+            return ResponseEntity.ok().build();
         }
     }
 
@@ -218,9 +243,9 @@ public class ReservationService {
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
         } else {
-            return null;
+
+            return ResponseEntity.ok().build();
         }
     }
-
 }
 
