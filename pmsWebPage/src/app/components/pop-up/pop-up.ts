@@ -285,7 +285,10 @@ export class PopUp implements OnInit {
         next: response => console.log(response)
       })
     } else if (this.selectedObject instanceof Users) {
-      const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
+      const newAdminDetails: AdminDetails = new AdminDetails(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
+      this.userService.makeAdmin(newAdminDetails).subscribe({
+        next: response => console.log(response)
+      })
       console.log('addAdmin')
     }
   }
@@ -343,9 +346,11 @@ export class PopUp implements OnInit {
       this.reservationService.form.controls["property3"].setValue(this.selectedObject?.getAdminDetails?.getEmail)
       this.reservationService.form.controls["property4"].setValue(this.selectedObject?.getAdminDetails?.getPhone)
 
+
       this.reservationService.form.controls["property2"].addValidators(Validators.required)
       this.reservationService.form.controls["property3"].addValidators([Validators.email, Validators.required])
       this.reservationService.form.controls["property4"].addValidators(Validators.required)
+      this.reservationService.form.controls["property5"].addValidators(Validators.required)
     }
   }
 }

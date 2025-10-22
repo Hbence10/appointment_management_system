@@ -57,7 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/changePfp/**", "/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
 
                         //admin page
-                        .requestMatchers("/users","/users/deleteAdmin/**", "/users/updateAdmin", "/users/makeAdmin", "/history", "/users/admin").hasRole("superAdmin")
+                        .requestMatchers("/users","/users/deleteAdmin/**", "/users/updateAdmin", "/users/makeAdmin/**", "/history", "/users/admin").hasRole("superAdmin")
                         .requestMatchers("/reservation/adminReservation", "/reservation/makeReservationByRepetitiveDates", "/reservation/makeReservationAlwaysBetweenTwoDates").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reservation/closeRoomForADay", "/reservation/closeRoomBetweenPeriod", "/reservation/closeByRepetitiveDates").hasAnyRole("admin", "superAdmin")
 

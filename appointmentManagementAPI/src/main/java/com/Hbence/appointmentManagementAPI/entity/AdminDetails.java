@@ -1,5 +1,6 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,5 +56,6 @@ public class AdminDetails {
     //Kapcsolatok
     @OneToOne(cascade = {})
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users adminUser;
 }

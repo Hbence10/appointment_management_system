@@ -25,9 +25,9 @@ import { UserService } from '../../../services/user-service';
 
 export class ObjectEditor implements OnInit {
   private deviceService = inject(DeviceService)
-  private userService = inject(UserService)
+  userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
-  private reservationService = inject(ReservationService)
+  reservationService = inject(ReservationService)
   objectType = input.required<Details>()
 
   selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | Users | null>()

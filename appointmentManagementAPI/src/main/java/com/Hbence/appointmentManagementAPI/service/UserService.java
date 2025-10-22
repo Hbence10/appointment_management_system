@@ -105,8 +105,8 @@ public class UserService {
 
     //Adminok kezelese
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Users> makeAdmin(Long id, AdminDetails details) {
-        Users searchedUser = userRepository.findById(id).get();
+    public ResponseEntity<Users> makeAdmin(Long userId, AdminDetails details) {
+        Users searchedUser = userRepository.findById(userId).get();
 
         if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
             return ResponseEntity.notFound().build();
@@ -116,8 +116,8 @@ public class UserService {
             return ResponseEntity.internalServerError().build();
         } else {
             searchedUser.setRole(new Role(Long.valueOf("2"), "ROLE_admin"));
+            details.setAdminUser(searchedUser);
             adminDetailsRepository.save(details);
-            searchedUser.setAdminDetails(details);
             return ResponseEntity.ok(userRepository.save(searchedUser));
         }
     }
@@ -138,7 +138,6 @@ public class UserService {
         } else {
             return ResponseEntity.ok().body(adminDetailsRepository.save(updatedAdminDetails));
         }
-
     }
 
     @PreAuthorize("hasRole('superAdmin')")

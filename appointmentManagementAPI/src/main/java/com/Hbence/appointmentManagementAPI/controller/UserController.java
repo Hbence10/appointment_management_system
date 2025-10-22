@@ -45,9 +45,9 @@ public class UserController {
     }
 
     //Adminok kezelese
-    @PostMapping("/makeAdmin")
-    public ResponseEntity<Users> makeAdmin(@RequestBody Map<String, Object> body) {
-        return userService.makeAdmin((Long) body.get("userId"), (AdminDetails) body.get("details"));
+    @PostMapping("/makeAdmin/{id}")
+    public ResponseEntity<Users> makeAdmin(@PathVariable("id") Long id, @RequestBody AdminDetails newAdminDetails) {
+        return userService.makeAdmin(id, newAdminDetails);
     }
 
     @GetMapping("/admin")
