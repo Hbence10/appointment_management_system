@@ -47,8 +47,12 @@ export class RoomControlPanel implements OnInit {
   }
 
   manageExpansionPanel(index: number) {
-    //expansion panel kezelese
-    this.showList[index] = !this.showList[index]
+    if(!this.showList[index]){
+      this.showList = [false, false, false, false, false, false]
+      this.showList[index] = true
+    } else {
+      this.showList[index] = false
+    }
 
     //Adatok nullazasa
     this.range = new FormGroup({
@@ -80,19 +84,22 @@ export class RoomControlPanel implements OnInit {
   closeRoomForADay() {
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
     this.adminService.closeRoomForADay(dateText, this.selectedCloseType!).subscribe({
-      next: response => console.log(response)
+      next: response => console.log(response),
+      error: error => console.log(error)
     })
   }
 
   closeRoomBetweenPeriod(startDateText: string, endDateText: string) {
     this.adminService.closeRoomBetweenPeriod(startDateText, endDateText, this.selectedCloseType!).subscribe({
-      next: response => console.log(response)
+      next: response => console.log(response),
+      error: error => console.log(error)
     })
   }
 
   closeByRepetitiveDates(startDateText: string, endDateText: string) {
     this.adminService.closeByRepetitiveDates(startDateText, endDateText, this.selectedCloseType!, this.selectedDay!).subscribe({
-      next: response => console.log(response)
+      next: response => console.log(response),
+      error: error => console.log(error)
     })
   }
 

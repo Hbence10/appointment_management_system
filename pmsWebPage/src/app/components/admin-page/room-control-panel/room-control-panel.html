@@ -31,7 +31,7 @@
                     </mat-form-field>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?">
+                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseType">
                         <mat-option value="holiday">Ünnep miatt</mat-option>
                         <mat-option value="full">Telt ház miatt</mat-option>
                         <mat-option value="other">Egyébb ok miatt</mat-option>
@@ -39,7 +39,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="closeRoom('single')" mat-flat-button>Mentés</button>
+                <button [disabled]="selectedCloseType == null" class="saveButton" (click)="closeRoom('single')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -71,7 +71,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?">
+                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseType">
                         <mat-option value="holiday">Ünnep miatt</mat-option>
                         <mat-option value="full">Telt ház miatt</mat-option>
                         <mat-option value="other">Egyébb ok miatt</mat-option>
@@ -79,7 +79,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null" class="saveButton" (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -128,7 +128,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null && selectedDay == null" class="saveButton" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -182,7 +182,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="makeAdminReservation()" mat-flat-button>Mentés</button>
+                <button class="saveButton" (click)="makeAdminReservation()" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -232,7 +232,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="makeReservationByRepetitiveDates()" mat-flat-button>Mentés</button>
+                <button class="saveButton" (click)="makeReservationByRepetitiveDates()" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -291,7 +291,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button (click)="makeReservationAlwaysBetweenTwoDates()" mat-flat-button>Mentés</button>
+                <button class="saveButton" (click)="makeReservationAlwaysBetweenTwoDates()" mat-flat-button>Mentés</button>
               </div>
             }
           </div>

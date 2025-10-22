@@ -1,10 +1,10 @@
 export class AdminDetails {
   constructor(
+    private id?: number | null,
     private firstName?: string,
     private lastName?: string,
     private email?: string,
     private phone?: string,
-    private id?: number,
     private isDeleted: boolean = false,
     private deletedAt: Date | null = null
   ) { }

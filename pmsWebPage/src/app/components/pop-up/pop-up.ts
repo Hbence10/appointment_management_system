@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { Router } from '@angular/router';
+import { AdminDetails } from '../../models/adminDetails.model';
 import { Device } from '../../models/device.model';
 import { DevicesCategory } from '../../models/deviceCategory.model';
 import { Gallery } from '../../models/galleryImage.model';
@@ -10,21 +13,17 @@ import { CardItem } from '../../models/notEntityModels/card.model';
 import { Details } from '../../models/notEntityModels/details.model';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationType } from '../../models/reservationType.model';
+import { Users } from '../../models/user.model';
 import { DeviceService } from '../../services/device-service';
 import { NewsService } from '../../services/news-service';
 import { OtherService } from '../../services/other-service';
 import { ReservationService } from '../../services/reservation-service';
+import { ReservationStuff } from '../../services/reservation-stuff';
+import { UserService } from '../../services/user-service';
 import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
-import { MatSelectModule } from '@angular/material/select';
-import { UserService } from '../../services/user-service';
-import { Router } from '@angular/router';
-import { response } from 'express';
-import { ReservationStuff } from '../../services/reservation-stuff';
-import { Users } from '../../models/user.model';
-import { AdminDetails } from '../../models/adminDetails.model';
 
 
 @Component({
@@ -235,19 +234,27 @@ export class PopUp implements OnInit {
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
       this.reservationStuffService.updateReservationType(this.selectedObject).subscribe({
-        next: response => console.log(response)
+        next: response => console.log(response),
+        complete: () => this.actualPage = "listPage"
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!)
       this.deviceService.updateDeviceCategory(this.selectedObject).subscribe({
-        next: response => console.log(response)
+        next: response => console.log(response),
+        complete: () => this.actualPage = "listPage"
       })
     } else if (this.selectedObject instanceof Device) {
       this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.deviceService.selectedCategory)
       this.deviceService.updateDevice(this.selectedObject).subscribe({
-        next: response => console.log(response)
+        next: response => console.log(response),
+        complete: () => this.actualPage = "listPage"
       })
-
+    } else if (this.selectedObject instanceof Users) {
+      const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
+      this.userService.updateAdmin(newAdminDetails).subscribe({
+        next: response => console.log(response),
+        complete: () => this.actualPage = "listPage"
+      })
     }
   }
 
@@ -277,6 +284,9 @@ export class PopUp implements OnInit {
       this.deviceService.addDevice(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof Users) {
+      const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
+      console.log('addAdmin')
     }
   }
 
@@ -300,11 +310,15 @@ export class PopUp implements OnInit {
       this.deviceService.deleteDevice(this.selectedObject.getId!).subscribe({
         next: response => console.log(response)
       })
+    } else if (this.selectedObject instanceof Users) {
+      this.userService.deleteAdmin(this.selectedObject.getAdminDetails.getId!).subscribe({
+        next: response => console.log(response)
+      })
     }
   }
 
   setForm() {
-      this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
+    this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
     if (this.selectedObject instanceof Device) {
       this.reservationService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
       this.reservationService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getName)
@@ -322,7 +336,7 @@ export class PopUp implements OnInit {
       this.reservationService.form.controls["property2"].addValidators(Validators.required)
     }
 
-    if (this.selectedObject instanceof Users){
+    if (this.selectedObject instanceof Users) {
       console.log(this.selectedObject)
       this.reservationService.form.controls["property1"].setValue(this.selectedObject?.getAdminDetails?.getFirstName)
       this.reservationService.form.controls["property2"].setValue(this.selectedObject?.getAdminDetails?.getLastName)
@@ -331,7 +345,7 @@ export class PopUp implements OnInit {
 
       this.reservationService.form.controls["property2"].addValidators(Validators.required)
       this.reservationService.form.controls["property3"].addValidators([Validators.email, Validators.required])
-      this.reservationService.form.controls["property4"].addValidators( Validators.required)
+      this.reservationService.form.controls["property4"].addValidators(Validators.required)
     }
   }
 }
