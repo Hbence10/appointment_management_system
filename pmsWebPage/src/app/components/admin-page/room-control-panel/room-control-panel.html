@@ -25,7 +25,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <mat-label>Válaszd ki a dátumot</mat-label>
-                       <input matInput [matDatepicker]="picker">
+                      <input matInput [matDatepicker]="picker" [min]="startDate" [formControl]="selectedDate">
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -61,7 +61,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker">
+                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
                         <input matStartDate placeholder="Start date">
                         <input matEndDate placeholder="End date">
                       </mat-date-range-input>
@@ -101,7 +101,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker">
+                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
                         <input matStartDate placeholder="Start date">
                         <input matEndDate placeholder="End date">
                       </mat-date-range-input>
@@ -157,7 +157,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <mat-label>Válaszd ki a dátumot</mat-label>
-                       <input matInput [matDatepicker]="picker">
+                       <input matInput [matDatepicker]="picker" [min]="startDate">
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -204,7 +204,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker">
+                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
                         <input matStartDate placeholder="Start date">
                         <input matEndDate placeholder="End date">
                       </mat-date-range-input>
@@ -254,7 +254,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker">
+                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
                         <input matStartDate placeholder="Start date">
                         <input matEndDate placeholder="End date">
                       </mat-date-range-input>

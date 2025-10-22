@@ -31,6 +31,7 @@ export class RoomControlPanel implements OnInit {
   closeTypes: string[] = ["holiday", "full", "other"]
   startHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   hours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  startDate = new Date()
 
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
@@ -61,27 +62,28 @@ export class RoomControlPanel implements OnInit {
     });
     this.selectedDay = null
     this.selectedCloseType = null
-    this.selectedDate = new FormControl(new Date());
+    // this.selectedDate = new FormControl(new Date());
     this.selectedReservedHour = new ReservedHours();
   }
 
   closeRoom(closeType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive"){
     //ide kell majd hogy van-e akkor foglalas
-    const startDateText: string = this.range.controls["start"].value!.toISOString().split("T")[0]
-    const endDateText: string = this.range.controls["end"].value!.toISOString().split("T")[0]
+    const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
+    const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
 
     if(closeType == 'single'){
       this.closeRoomForADay()
     } else if (closeType == 'betweenTwoDate'){
-      this.closeRoomBetweenPeriod(startDateText, endDateText)
+      this.closeRoomBetweenPeriod(startDateText!, endDateText!)
     } else if (closeType == 'betweenTwoDateRepetitive'){
-      this.closeByRepetitiveDates(startDateText, endDateText)
+      this.closeByRepetitiveDates(startDateText!, endDateText!)
     }
   }
 
   //ENDPOINTOK:
   //bezaras
   closeRoomForADay() {
+    console.log(this.selectedDate.value)
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
     this.adminService.closeRoomForADay(dateText, this.selectedCloseType!).subscribe({
       next: response => console.log(response),

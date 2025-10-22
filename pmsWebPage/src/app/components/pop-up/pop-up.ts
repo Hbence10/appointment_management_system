@@ -108,7 +108,6 @@ export class PopUp implements OnInit {
         next: responseList => {
           const list: Users[] = responseList.map(element => Object.assign(new Users(), element))
           list.forEach(element => element.setAdminDetails = Object.assign(new AdminDetails(), element.getAdminDetails))
-          console.log(list)
           this.setCardList(list, "user")
         }
       })
@@ -152,11 +151,9 @@ export class PopUp implements OnInit {
         this.selectedObject = new Gallery()
       } else if (this.actualDetails()!.objectType == "user") {
         this.selectedObject = new Users()
-        console.log("adminok")
       }
       this.setForm()
     } else if (this.actualDetails()?.buttonText == "saveChanges") {
-
       if (this.selectedObject?.getId == null) {
         this.sendPostRequest()
       } else if (this.selectedObject.getId != null) {
@@ -165,7 +162,7 @@ export class PopUp implements OnInit {
     } else if (this.actualDetails()?.buttonText == "deleteEntity") {
       this.sendDeleteRequest()
     } else if (this.actualDetails()?.buttonText == "cancelReservation") {
-      //
+      this.cancelReservation()
     }
   }
 
@@ -193,7 +190,6 @@ export class PopUp implements OnInit {
       } else {
         this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
       }
-
       this.actualPage = "listPage"
     } else if (this.actualPage == "editPage") {
       if (this.actualDetails()?.objectType == "device") {
@@ -201,7 +197,6 @@ export class PopUp implements OnInit {
       } else {
         this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
       }
-
       this.actualPage = "listPage"
     }
   }
@@ -210,7 +205,6 @@ export class PopUp implements OnInit {
     this.selectedObject = wantedObject.object
     this.reservationService.form.reset()
     this.setForm()
-
     this.actualPage = "editPage"
     this.actualDetails.set(new Details(`${wantedObject.name} szerkesztése`, "saveChanges", wantedObject.objectType, this.actualDetails()?.deviceCategory))
   }
@@ -223,7 +217,6 @@ export class PopUp implements OnInit {
 
   //
   sendPutRequest() {
-    console.log("saveUpdates")
     if (this.selectedObject instanceof News) {
       this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.updateNews(this.selectedObject).subscribe({
@@ -235,31 +228,34 @@ export class PopUp implements OnInit {
       this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
       this.reservationStuffService.updateReservationType(this.selectedObject).subscribe({
         next: response => console.log(response),
+        error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!)
       this.deviceService.updateDeviceCategory(this.selectedObject).subscribe({
         next: response => console.log(response),
+        error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
       })
     } else if (this.selectedObject instanceof Device) {
       this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.deviceService.selectedCategory)
       this.deviceService.updateDevice(this.selectedObject).subscribe({
         next: response => console.log(response),
+        error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
       })
     } else if (this.selectedObject instanceof Users) {
       const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
       this.userService.updateAdmin(newAdminDetails).subscribe({
         next: response => console.log(response),
+        error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
       })
     }
   }
 
   sendPostRequest() {
-    console.log("saveEntity")
     if (this.selectedObject instanceof News) {
       this.selectedObject = new News(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.createNews(this.selectedObject).subscribe({
@@ -269,7 +265,6 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
-      console.log(this.selectedObject)
       this.reservationStuffService.createReservationType(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
@@ -280,7 +275,6 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof Device) {
       this.selectedObject = new Device(null, this.form.controls["property1"].value!, Number(this.form.controls["property2"].value!), this.deviceService.selectedCategory)
-      console.log(this.selectedObject)
       this.deviceService.addDevice(this.selectedObject).subscribe({
         next: response => console.log(response)
       })
@@ -289,12 +283,10 @@ export class PopUp implements OnInit {
       this.userService.makeAdmin(newAdminDetails).subscribe({
         next: response => console.log(response)
       })
-      console.log('addAdmin')
     }
   }
 
   sendDeleteRequest() {
-    console.log("deleteEntity")
     if (this.selectedObject instanceof News) {
       this.newsService.deleteNews(this.selectedObject.getId!).subscribe({
         next: response => console.log(response),
@@ -331,7 +323,6 @@ export class PopUp implements OnInit {
     } else if (this.selectedObject instanceof ReservationType) {
       this.reservationService.form.controls["property2"].setValue((this.selectedObject as ReservationType).getPrice)
     }
-
     if (this.selectedObject instanceof Device) {
       this.reservationService.form.controls["property3"].addValidators(Validators.required)
     } else if (this.selectedObject instanceof ReservationType || this.selectedObject instanceof News) {
@@ -340,18 +331,22 @@ export class PopUp implements OnInit {
     }
 
     if (this.selectedObject instanceof Users) {
-      console.log(this.selectedObject)
       this.reservationService.form.controls["property1"].setValue(this.selectedObject?.getAdminDetails?.getFirstName)
       this.reservationService.form.controls["property2"].setValue(this.selectedObject?.getAdminDetails?.getLastName)
       this.reservationService.form.controls["property3"].setValue(this.selectedObject?.getAdminDetails?.getEmail)
       this.reservationService.form.controls["property4"].setValue(this.selectedObject?.getAdminDetails?.getPhone)
-
 
       this.reservationService.form.controls["property2"].addValidators(Validators.required)
       this.reservationService.form.controls["property3"].addValidators([Validators.email, Validators.required])
       this.reservationService.form.controls["property4"].addValidators(Validators.required)
       this.reservationService.form.controls["property5"].addValidators(Validators.required)
     }
+  }
+
+  cancelReservation(){
+    this.reservationService.cancelReservation(this.reservation().getId, this.userService.user()).subscribe({
+      next: response=> console.log(response)
+    })
   }
 }
 

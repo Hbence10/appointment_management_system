@@ -194,13 +194,16 @@ public class ReservationService {
             return ResponseEntity.status(409).build();
         } else {
             ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
-            if (selectedDate == null) {
+            if (selectedDate.getId() == null) {
                 selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+                System.out.println("nincs ilyen datum");
             } else {
                 selectedDate.setIsHoliday(closeType.equals("holiday"));
                 selectedDate.setIsFull(closeType.equals("full"));
                 selectedDate.setIsClosed(closeType.equals("other"));
+                System.out.println("van ilyen datum");
             }
+            System.out.println(selectedDate.getDate());
             reservedDateRepository.save(selectedDate);
             return ResponseEntity.ok().build();
         }

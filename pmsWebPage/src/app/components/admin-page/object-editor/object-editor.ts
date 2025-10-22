@@ -49,13 +49,11 @@ export class ObjectEditor implements OnInit {
   ngOnInit(): void {
     this.details.set(this.objectType())
     this.form = this.reservationService.form
-    console.log(this.details())
 
     if (this.selectedObject() instanceof Device) {
       const subscription = this.deviceService.getAllDevicesByCategories().subscribe({
         next: response => {
           this.deviceCategoryList.set(response.map(element => Object.assign(new DevicesCategory(), element)))
-          console.log(this.deviceCategoryList())
         },
         complete: () => {
           this.selectedDeviceCategoryId = this.deviceCategoryList().map(el => el.getId).indexOf(this.details()?.deviceCategory.getId!)
@@ -82,6 +80,5 @@ export class ObjectEditor implements OnInit {
 
   selectFile(event: any){
     const file: File = event.target.files[0]
-    console.log(file)
   }
 }

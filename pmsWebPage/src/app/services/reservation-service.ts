@@ -69,7 +69,7 @@ export class ReservationService {
     return this.http.post<Reservation>(`${this.baseURL()}/getByEmailAndVCode`, { email: email, vCode: vCode })
   }
 
-  cancelReservation(id: number, user: null | Users): Observable<Reservation> {
-    return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, { canceledBy: user })
+  cancelReservation(id: number, canceledBy: null | Users): Observable<Reservation> {
+    return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, canceledBy)
   }
 }
