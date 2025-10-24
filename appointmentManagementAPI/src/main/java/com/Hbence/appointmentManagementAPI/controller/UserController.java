@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,14 +36,15 @@ public class UserController {
         return userService.updateUser(id, requestBody.get("email"), requestBody.get("username"));
     }
 
-    @PatchMapping("/changePfp/{id}")
-    public ResponseEntity<Object> changePfp(@PathVariable("id") Long id) {
-        return userService.changePfp(id);
-    }
-
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         return userService.deleteUser(id);
+    }
+
+    //PFP
+    @PatchMapping("/changePfp/{id}")
+    public ResponseEntity<Users> changePfp(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
+        return userService.changePfp(id, file);
     }
 
     //Adminok kezelese

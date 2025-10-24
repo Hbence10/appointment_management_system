@@ -164,7 +164,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hánykor szeretnénk kezdeni?">
+                      <mat-select placeholder="Hánykor szeretnénk kezdeni?" [(value)]="selectedStartHour">
                         @for(hour of startHours; track $index){
                         <mat-option [value]="hour">{{hour}}:00</mat-option>
                         }
@@ -173,7 +173,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hány órát szeretnénk próbálni?">
+                      <mat-select placeholder="Hány órát szeretnénk próbálni?" [(value)]="selectedHourAmount">
                         <mat-option [value]="12">Egész napra</mat-option>
                         @for(hour of hours; track $index){
                         <mat-option [value]="hour">{{hour}}</mat-option>
@@ -182,7 +182,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="saveButton" (click)="makeAdminReservation()" mat-flat-button>Mentés</button>
+                <button class="saveButton" (click)="makeReservation('single')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -214,7 +214,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hánykor szeretnénk kezdeni?">
+                      <mat-select placeholder="Hánykor szeretnénk kezdeni?" [(value)]="selectedStartHour">
                         @for(hour of startHours; track $index){
                         <mat-option [value]="hour">{{hour}}:00</mat-option>
                         }
@@ -223,7 +223,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hány órát szeretnénk próbálni?">
+                      <mat-select placeholder="Hány órát szeretnénk próbálni?" [(value)]="selectedHourAmount">
                         <mat-option [value]="12">Egész napra</mat-option>
                         @for(hour of hours; track $index){
                         <mat-option [value]="hour">{{hour}}</mat-option>
@@ -232,7 +232,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="saveButton" (click)="makeReservationByRepetitiveDates()" mat-flat-button>Mentés</button>
+                <button class="saveButton" (click)="makeReservation('betweenTwoDate')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -264,7 +264,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hánykor szeretnénk kezdeni?">
+                      <mat-select placeholder="Hánykor szeretnénk kezdeni?" [(value)]="selectedStartHour">
                         @for(hour of startHours; track $index){
                         <mat-option [value]="hour">{{hour}}:00</mat-option>
                         }
@@ -273,7 +273,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hány órát szeretnénk próbálni?">
+                      <mat-select placeholder="Hány órát szeretnénk próbálni?" [value]="selectedHourAmount">
                         <mat-option [value]="12">Egész napra</mat-option>
                         @for(hour of hours; track $index){
                         <mat-option [value]="hour">{{hour}}</mat-option>
@@ -283,7 +283,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Melyik napokon legyen?" multiple="">
+                      <mat-select placeholder="Melyik napokon legyen?" multiple="" [value]="selectedDay">
                         @for (day of hunDayNames; track $index) {
                           <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
@@ -291,7 +291,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="saveButton" (click)="makeReservationAlwaysBetweenTwoDates()" mat-flat-button>Mentés</button>
+                <button class="saveButton" (click)="makeReservation('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>

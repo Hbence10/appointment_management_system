@@ -8,7 +8,6 @@ import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +37,7 @@ public class ReservationService {
         return ResponseEntity.ok(reservationRepository.reservations(userId));
     }
 
-    public ResponseEntity<Object> getReservationByMonth(String startDateText, String endDateText) {
+    public ResponseEntity<Object> getReservationBetweenIntervallum(String startDateText, String endDateText) {
         if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
         }
@@ -167,24 +166,31 @@ public class ReservationService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, String repetitiveDay, ReservedHours repetitiveHour, Long adminId) {
+    public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, ReservedHours selectedHour, Long adminId) {
+        AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
+        if(searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)){
+            return ResponseEntity.notFound().build();
+        } else {
 
-
-        return null;
+            return null;
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(String startDateText, String endDateText, ReservedHours selectedHour) {
-        if (selectedHour.getId() != null) {
-            return ResponseEntity.internalServerError().build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.status(407).build();
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, String repetitiveDay, ReservedHours repetitiveHour, Long adminId) {
+        AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
+        if(searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)){
+            return ResponseEntity.notFound().build();
+        } else if (!days.contains(repetitiveDay)){
+            return ResponseEntity.notFound().build();
         } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            
-        }
 
-        return null;
+            return null;
+        }
     }
 
     //Terem bezárása

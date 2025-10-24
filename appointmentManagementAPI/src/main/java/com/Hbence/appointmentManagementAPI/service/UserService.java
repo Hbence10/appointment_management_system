@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.*;
 
 @Transactional
@@ -99,8 +101,28 @@ public class UserService {
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<Object> changePfp(Long id) {
-        return null;
+    public ResponseEntity<Users> changePfp(Long userId, MultipartFile pfpFile) {
+        Users searchedUser = userRepository.findById(userId).get();
+        if(searchedUser.getId() == null || searchedUser.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else {
+            if (!pfpFile.getContentType().equals("image/jpeg")) {
+                System.out.println("Invalid file type. Only JPEG files are allowed.");
+                return ResponseEntity.notFound().build();
+            }
+
+            if (pfpFile.getSize() > 1_000_000) { // 1 MB limit
+                System.out.println("File is too large. The size limit is 1 MB.");
+                return ResponseEntity.notFound().build();
+            }
+
+            try {
+                pfpFile.transferTo(new File(""));
+            } catch (Exception e){
+                return ResponseEntity.internalServerError().build();
+            }
+            return ResponseEntity.ok().body(searchedUser);
+        }
     }
 
     //Adminok kezelese

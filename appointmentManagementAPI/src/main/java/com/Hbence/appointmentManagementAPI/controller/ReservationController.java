@@ -26,8 +26,8 @@ public class ReservationController {
     }
 
     @GetMapping("/reservedDates")
-    public ResponseEntity<Object> getReservationByMonth(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
-        return reservationService.getReservationByMonth(startDate, endDate);
+    public ResponseEntity<Object> getReservationBetweenIntervallum(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        return reservationService.getReservationBetweenIntervallum(startDate, endDate);
     }
 
     @GetMapping("/reservedHours")
@@ -63,14 +63,14 @@ public class ReservationController {
         return reservationService.makeAdminReservation((ReservedHours) bodyObject.get("selectedHour"), (Long) bodyObject.get("adminId"));
     }
 
+    @PostMapping("/makeReservationAlwaysBetweenTwoDates")
+    public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody Map<String, Object> body){
+        return reservationService.makeReservationBetweenPeriod(body.get("startDate").toString(), body.get("endDate").toString(), (ReservedHours) body.get("selectedHour"), (Long) body.get("adminId"));
+    }
+
     @PostMapping("/makeReservationByRepetitiveDates")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(@RequestBody Map<String, Object> body){
         return reservationService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("selectedDay").toString(), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
-    }
-
-    @PostMapping("/makeReservationAlwaysBetweenTwoDates")
-    public ResponseEntity<Object> makeReservationAlwaysBetweenTwoDates(@RequestBody Map<String, Object> body){
-        return reservationService.makeReservationAlwaysBetweenTwoDates(body.get("startDate").toString(), body.get("endDate").toString(), (ReservedHours) body.get("selectedHour"));
     }
 
     //Terem bezárása:

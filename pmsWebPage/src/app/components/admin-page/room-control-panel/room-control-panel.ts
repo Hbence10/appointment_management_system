@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { Users } from '../../../models/user.model';
@@ -11,6 +11,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ReservedHours } from '../../../models/reservedHours.model';
 import { MatAnchor } from "@angular/material/button";
 import { AdminService } from '../../../services/admin-service';
+import { ReservedDates } from '../../../models/reservedDates.model';
+import { Reservation } from '../../../models/reservation.model';
 
 @Component({
   selector: 'app-room-control-panel',
@@ -23,6 +25,7 @@ import { AdminService } from '../../../services/admin-service';
 export class RoomControlPanel implements OnInit {
   private adminService = inject(AdminService)
   private userService = inject(UserService)
+  private reservationService = inject(ReservationService)
   private user!: Users
   showList: boolean[] = [false, false, false, false, false, false]
 
@@ -41,50 +44,71 @@ export class RoomControlPanel implements OnInit {
   selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | null = null
   selectedCloseType: "holiday" | "full" | "other" | null = null
   selectedDate = new FormControl(new Date());
-  selectedReservedHour: ReservedHours = new ReservedHours()
+  selectedHourAmount: number | null = null
+  selectedStartHour: number | null = null
+  reservationList: Reservation[] = []
+
+  startDateText = computed<string>(() => {
+    const asd = signal(this.range.controls['start'].value!)
+    console.log(asd)
+    return asd().toString();
+  })
+  endDateText: string = ''
 
   ngOnInit(): void {
     this.user = this.userService.user()!
   }
 
   manageExpansionPanel(index: number) {
-    if(!this.showList[index]){
+    if (!this.showList[index]) {
       this.showList = [false, false, false, false, false, false]
       this.showList[index] = true
     } else {
       this.showList[index] = false
     }
 
-    //Adatok nullazasa
     this.range = new FormGroup({
       start: new FormControl<Date | null>(null),
       end: new FormControl<Date | null>(null),
     });
+
     this.selectedDay = null
     this.selectedCloseType = null
-    // this.selectedDate = new FormControl(new Date());
-    this.selectedReservedHour = new ReservedHours();
+    this.selectedDate = new FormControl(new Date());
+    this.selectedHourAmount = null
+    this.selectedStartHour = null
   }
 
-  closeRoom(closeType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive"){
-    //ide kell majd hogy van-e akkor foglalas
-    const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
-    const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
+  checkReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive"){
+    if (methodType == 'single'){
+      this.reservationService.getReservationByDate('').subscribe({
 
-    if(closeType == 'single'){
-      this.closeRoomForADay()
-    } else if (closeType == 'betweenTwoDate'){
-      this.closeRoomBetweenPeriod(startDateText!, endDateText!)
-    } else if (closeType == 'betweenTwoDateRepetitive'){
-      this.closeByRepetitiveDates(startDateText!, endDateText!)
+      })
+    } else {
+      this.reservationService.getReservationBetweenIntervallum('', '').subscribe({
+
+      })
     }
   }
 
-  //ENDPOINTOK:
   //bezaras
-  closeRoomForADay() {
-    console.log(this.selectedDate.value)
+  closeRoom(closeType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
+
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
+
+    this.checkReservation(closeType)
+
+    // if (closeType == 'single') {
+    //   this.closeRoomForADay(dateText)
+    // } else if (closeType == 'betweenTwoDate') {
+    //   this.closeRoomBetweenPeriod(startDateText!, endDateText!)
+    // } else if (closeType == 'betweenTwoDateRepetitive') {
+    //   this.closeByRepetitiveDates(startDateText!, endDateText!)
+    // }
+  }
+
+  //ENDPOINTOK
+  closeRoomForADay(dateText: string) {
     this.adminService.closeRoomForADay(dateText, this.selectedCloseType!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error)
@@ -106,16 +130,33 @@ export class RoomControlPanel implements OnInit {
   }
 
   //foglalas
-  makeAdminReservation() {
+  makeReservation(reservationType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
+    let reservedHour: ReservedHours = new ReservedHours();
+    if (reservationType == 'single') {
+      reservedHour = new ReservedHours(null, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!, new ReservedDates(this.selectedDate.value!, null))
+    } else {
+      reservedHour = new ReservedHours(null, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!)
+    }
+
+    this.checkReservation(reservationType)
+
+    // if (reservationType == 'single') {
+    //   this.makeAdminReservation(reservedHour)
+    // } else if (reservationType == 'betweenTwoDate') {
+    //   this.makeReservationBetweenPeriod(this.startDateText!, this.endDateText!, reservedHour)
+    // } else if (reservationType == 'betweenTwoDateRepetitive') {
+    //   this.makeReservationByRepetitiveDates(this.startDateText!, this.endDateText!, reservedHour)
+    // }
   }
 
-  makeReservationByRepetitiveDates() {
-    const startDateText: string = this.range.controls["start"].value!.toISOString().split("T")[0]
-    const endDateText: string = this.range.controls["end"].value!.toISOString().split("T")[0]
+
+  //ENDPOINTOK:
+  makeAdminReservation(reservedHour: ReservedHours) {
   }
 
-  makeReservationAlwaysBetweenTwoDates() {
-    const startDateText: string = this.range.controls["start"].value!.toISOString().split("T")[0]
-    const endDateText: string = this.range.controls["end"].value!.toISOString().split("T")[0]
+  makeReservationBetweenPeriod(startDateText: string, endDateText: string, reservedHour: ReservedHours) {
+  }
+
+  makeReservationByRepetitiveDates(startDateText: string, endDateText: string, reservedHour: ReservedHours) {
   }
 }

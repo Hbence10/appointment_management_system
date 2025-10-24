@@ -18,15 +18,18 @@ export class AdminService {
     })
   }
 
-  makeReservationByRepetitiveDates(startDate: String, endDate: String, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours) {
-    return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
-
+  makeReservationAlwaysBetweenTwoDates(startDate: string, endDate: string, selectedHour: ReservedHours, adminId: number) {
+    return this.http.post(`${this.baseURL()}/makeReservationAlwaysBetweenTwoDates`, {
+      startDate: startDate,
+      endDate: endDate,
+      selectedHour: selectedHour,
+      adminId: adminId
     })
   }
 
-  makeReservationAlwaysBetweenTwoDates(startDate: String, endDate: String, selectedHour: ReservedHours) {
-    return this.http.post(`${this.baseURL()}/makeReservationAlwaysBetweenTwoDates`, {
-
+  makeReservationByRepetitiveDates(startDate: string, endDate: string, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours) {
+    return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
+      
     })
   }
 

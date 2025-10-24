@@ -67,7 +67,7 @@ export class AppointmentSelector implements OnInit {
       this.setCheckerList()
     } catch (error) { }
 
-    const subscription = this.reservationService.getReservedDatesOfActualMonth(this.formattedSelectedDate(), this.maxDate.toISOString().split("T")[0]).subscribe({
+    const subscription = this.reservationService.getReservationBetweenIntervallum(this.formattedSelectedDate(), this.maxDate.toISOString().split("T")[0]).subscribe({
       next: responseList => {
         responseList.forEach(response => {
           let reservedDate = Object.assign(new ReservedDates(), response)
