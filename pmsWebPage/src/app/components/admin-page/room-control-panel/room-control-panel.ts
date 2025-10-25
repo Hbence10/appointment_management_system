@@ -1,18 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ReservationService } from '../../../services/reservation-service';
-import { UserService } from '../../../services/user-service';
-import { Users } from '../../../models/user.model';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatAnchor } from "@angular/material/button";
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ReservedHours } from '../../../models/reservedHours.model';
-import { MatAnchor } from "@angular/material/button";
-import { AdminService } from '../../../services/admin-service';
-import { ReservedDates } from '../../../models/reservedDates.model';
 import { Reservation } from '../../../models/reservation.model';
+import { ReservedDates } from '../../../models/reservedDates.model';
+import { ReservedHours } from '../../../models/reservedHours.model';
+import { Users } from '../../../models/user.model';
+import { AdminService } from '../../../services/admin-service';
+import { ReservationService } from '../../../services/reservation-service';
+import { UserService } from '../../../services/user-service';
 
 @Component({
   selector: 'app-room-control-panel',
@@ -156,6 +156,7 @@ export class RoomControlPanel implements OnInit {
       this.makeReservationByRepetitiveDates(startDateText!, endDateText!, reservedHour)
     }
   }
+
 
 
   //ENDPOINTOK:

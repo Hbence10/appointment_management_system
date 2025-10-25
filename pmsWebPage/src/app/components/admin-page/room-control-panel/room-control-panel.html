@@ -61,9 +61,9 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
-                        <input matStartDate placeholder="Start date">
-                        <input matEndDate placeholder="End date">
+                      <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="startDate">
+                        <input matStartDate placeholder="Start date" formControlName="start">
+                        <input matEndDate placeholder="End date" formControlName="end">
                       </mat-date-range-input>
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-date-range-picker #picker></mat-date-range-picker>
@@ -101,9 +101,9 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
-                        <input matStartDate placeholder="Start date">
-                        <input matEndDate placeholder="End date">
+                      <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="startDate">
+                        <input matStartDate placeholder="Start date" formControlName="start">
+                        <input matEndDate placeholder="End date" formControlName="end">
                       </mat-date-range-input>
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-date-range-picker #picker></mat-date-range-picker>
@@ -111,7 +111,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?">
+                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseType">
                         <mat-option value="holiday">Ünnep miatt</mat-option>
                         <mat-option value="full">Telt ház miatt</mat-option>
                         <mat-option value="other">Egyébb ok miatt</mat-option>
@@ -120,7 +120,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Melyik napokon legyen?">
+                      <mat-select placeholder="Melyik napokon legyen?" [(value)]="selectedDay">
                         @for (day of hunDayNames; track $index) {
                           <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
@@ -204,9 +204,9 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
-                        <input matStartDate placeholder="Start date">
-                        <input matEndDate placeholder="End date">
+                      <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="startDate">
+                        <input matStartDate placeholder="Start date" formControlName="start">
+                        <input matEndDate placeholder="End date" formControlName="end">
                       </mat-date-range-input>
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-date-range-picker #picker></mat-date-range-picker>
@@ -254,9 +254,9 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-date-range-input [rangePicker]="picker" [min]="startDate">
-                        <input matStartDate placeholder="Start date">
-                        <input matEndDate placeholder="End date">
+                      <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="startDate">
+                        <input matStartDate placeholder="Start date" formControlName="start">
+                        <input matEndDate placeholder="End date" formControlName="end">
                       </mat-date-range-input>
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-date-range-picker #picker></mat-date-range-picker>

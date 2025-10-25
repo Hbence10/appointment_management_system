@@ -38,7 +38,6 @@ export class AdminService {
 
   //terem bezaras
   closeRoomForADay(dateText: string, closeType: "holiday" | "full" | "other") {
-    console.log(dateText)
     return this.http.post(`${this.baseURL()}/closeRoomForADay`, {
       date: dateText,
       closeType: closeType
