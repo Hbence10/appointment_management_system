@@ -70,4 +70,8 @@ public class ReservedDates {
         this.isClosed = isClosed;
         this.isFull = isFull;
     }
+
+    public ReservedDates(LocalDate date) {
+        this.date = date;
+    }
 }

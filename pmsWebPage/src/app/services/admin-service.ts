@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { ReservedHours } from '../models/reservedHours.model';
-import { ReservedDates } from '../models/reservedDates.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class AdminService {
     })
   }
 
-  makeReservationAlwaysBetweenTwoDates(startDate: string, endDate: string, selectedHour: ReservedHours, adminId: number) {
+  makeReservationBetweenPeriod(startDate: string, endDate: string, selectedHour: ReservedHours, adminId: number) {
     return this.http.post(`${this.baseURL()}/makeReservationAlwaysBetweenTwoDates`, {
       startDate: startDate,
       endDate: endDate,
@@ -27,9 +26,13 @@ export class AdminService {
     })
   }
 
-  makeReservationByRepetitiveDates(startDate: string, endDate: string, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours) {
+  makeReservationByRepetitiveDates(startDate: string, endDate: string, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours, adminId: number) {
     return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
-      
+      startDate: startDate,
+      endDate: endDate,
+      selectedDay: selectedDay,
+      repetitiveHour: selectedHour,
+      adminId: adminId
     })
   }
 
@@ -58,7 +61,4 @@ export class AdminService {
       selectedDay: selectedDay
     })
   }
-
-  //egyeb:
-
 }

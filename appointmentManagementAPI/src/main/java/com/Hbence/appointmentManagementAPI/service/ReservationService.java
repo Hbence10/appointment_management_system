@@ -151,45 +151,65 @@ public class ReservationService {
             return ResponseEntity.notFound().build();
         } else {
             Reservations baseReservation = new Reservations();
-            baseReservation.setFirstName(searchedAminDetails.getFirstName());
-            baseReservation.setLastName(searchedAminDetails.getLastName());
-            baseReservation.setEmail(searchedAminDetails.getEmail());
-            baseReservation.setPhone(searchedAminDetails.getPhone());
-//            baseReservation.setUser(searchedUser);
-            baseReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
+            baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
             baseReservation.setReservedHours(selectedHour);
 
             reservedDateRepository.save(baseReservation.getReservedHours().getDate());
+            reservationRepository.save(baseReservation);
 
-            return ResponseEntity.ok().body(reservationRepository.save(baseReservation));
+            return ResponseEntity.ok().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, ReservedHours selectedHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
-        if(searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()){
+
+        if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)){
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.notFound().build();
         } else {
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            for (int i = 0; i < dateList.size(); i++) {
+                selectedHour.setDate(new ReservedDates(dateList.get(i)));
+                Reservations baseReservation = new Reservations();
+                baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
+                baseReservation.setReservedHours(selectedHour);
 
-            return null;
+                reservedDateRepository.save(baseReservation.getReservedHours().getDate());
+                reservationRepository.save(baseReservation);
+            }
+
+            return ResponseEntity.ok().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, String repetitiveDay, ReservedHours repetitiveHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
-        if(searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()){
+        if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)){
+        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.notFound().build();
-        } else if (!days.contains(repetitiveDay)){
+        } else if (!days.contains(repetitiveDay)) {
             return ResponseEntity.notFound().build();
         } else {
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            ArrayList<Reservations> createdReservations = new ArrayList<>();
 
-            return null;
+            for (int i = 0; i < dateList.size(); i++) {
+                if (dateList.get(i).getDayOfWeek().toString().equals(repetitiveDay)) {
+                    Reservations baseReservation = new Reservations();
+                    repetitiveHour.setDate(new ReservedDates(dateList.get(i)));
+                    baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
+                    reservedDateRepository.save(baseReservation.getReservedHours().getDate());
+                    createdReservations.add(baseReservation);
+                }
+            }
+
+            reservationRepository.saveAll(createdReservations);
+            return ResponseEntity.ok().build();
         }
     }
 
@@ -280,6 +300,17 @@ public class ReservationService {
             reservedDateRepository.saveAll(closedDates);
             return ResponseEntity.ok().build();
         }
+    }
+
+    //Egyeb:
+    public Reservations setAdminDetails(Reservations newReservation, AdminDetails adminDetails) {
+        newReservation.setFirstName(adminDetails.getFirstName());
+        newReservation.setLastName(adminDetails.getLastName());
+        newReservation.setEmail(adminDetails.getEmail());
+        newReservation.setPhone(adminDetails.getPhone());
+        newReservation.setUser(adminDetails.getAdminUser());
+        newReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
+        return newReservation;
     }
 }
 
