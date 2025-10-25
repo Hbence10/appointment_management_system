@@ -1,32 +1,18 @@
 <div class="container-fluid">
   <div class="row mt-4">
+    <!-- Naptar: -->
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <!-- <mat-card class="demo-inline-calendar-card">
-        <mat-card-header>
-          <mat-card-subtitle style="color: white"
-            >Válasszon dátumot:</mat-card-subtitle
-          >
-          <mat-card-title style="color: white">{{
-            selectedDateText()
-          }}</mat-card-title>
-        </mat-card-header>
-        <mat-calendar
-          [minDate]="currentDate"
-          [maxDate]="maxDate"
-          [(selected)]="selectedDate"
-        ></mat-calendar>
-      </mat-card> -->
       <mat-card>
         <mat-calendar [(selected)]="selectedDate"></mat-calendar>
       </mat-card>
     </div>
 
-    <!-- Terem kezelese -->
+    <!-- Terem kezelese: -->
     <div class="col-lg-4">
       <app-room-control-panel class="cardDiv reservationCard" />
     </div>
 
-    <!-- Foglalások kezelése -->
+    <!-- Foglalások kezelése: -->
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div class="cardDiv reservationCard container-fluid">
         <div class="row">
@@ -107,22 +93,25 @@
       <div
         class="cardDiv d-flex justify-content-center align-items-center"
         (click)="selectObjectList('Admin hozzáadása', 'newEntity', 'user')"
+        [class.disableDiv]="user.getRole.getName != 'ROLE_superAdmin'"
       >
         <p class="text-center">Adminok kezelése</p>
       </div>
     </div>
   </div>
 
-  <div class="row position-fixed w-100">
-    <div class="col-lg-12 d-flex justify-content-end align-items-center">
-      <button
-        id="historyButton"
-        class="d-flex justify-content-center align-items-center mx-4 mb-5"
-      >
-        <span class="material-symbols-outlined">history</span>
-      </button>
+  @if(user.getRole.getName == 'ROLE_superAdmin'){
+    <div class="row position-fixed w-100">
+      <div class="col-lg-12 d-flex justify-content-end align-items-center">
+        <button
+          id="historyButton"
+          class="d-flex justify-content-center align-items-center mx-4 mb-5"
+        >
+          <span class="material-symbols-outlined">history</span>
+        </button>
+      </div>
     </div>
-  </div>
+  }
 </div>
 
 @if(isShowPupUp()){

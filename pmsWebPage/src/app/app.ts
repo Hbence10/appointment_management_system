@@ -1,15 +1,16 @@
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user-service';
 import { CookieService } from 'ngx-cookie-service';
 import { Users } from './models/user.model';
 import { Role } from './models/role.model';
+import { SmallNavbar } from './components/small-navbar/small-navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer, Navbar],
+  imports: [RouterOutlet, Footer, Navbar, SmallNavbar],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

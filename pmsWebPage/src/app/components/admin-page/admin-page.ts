@@ -15,6 +15,8 @@ import { HistoryPopup } from '../history-popup/history-popup';
 import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
 import { RoomControlPanel } from './room-control-panel/room-control-panel';
+import { UserService } from '../../services/user-service';
+import { Users } from '../../models/user.model';
 
 @Component({
   selector: 'app-admin-page',
@@ -27,9 +29,11 @@ import { RoomControlPanel } from './room-control-panel/room-control-panel';
 export class AdminPage implements OnInit {
   private destroyRef = inject(DestroyRef)
   private reservationService = inject(ReservationService)
+  private userService = inject(UserService)
 
   reservationsOfSelectedDate = signal<Reservation[]>([])
   selectedReservation = signal<null | Reservation>(null)
+  user!: Users
 
   isShowPupUp = signal<boolean>(false)
   popUpDetails!: Details
@@ -50,6 +54,7 @@ export class AdminPage implements OnInit {
   )
 
   ngOnInit(): void {
+    this.user = this.userService.user()!
     const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
       next: responseList => {
         this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))

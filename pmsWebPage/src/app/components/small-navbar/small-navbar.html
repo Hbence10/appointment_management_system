@@ -1,0 +1,61 @@
+<!-- Nem kinyitott navbar: -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 d-flex justify-content-between align-items-center">
+      <button (click)="showNavBar.set(true)">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div class="d-flex justify-content-center align-items-center flex-column">
+      @if(userService.user() == null){
+        <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
+      }@else {
+        <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="" id="pfpImage">
+      }
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Kinyitott navbar: -->
+@if(showNavBar()){
+  <div class="container-fluid" id="openedContainer">
+    <div class="row">
+      <div class="col-lg-4">
+        <button (click)="showNavBar.set(false)" class="d-flex justify-content-center align-items-center">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+      <div class="col-lg-4">
+
+      </div>
+      <div class="col-lg-4">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+        @if(userService.user() == null){
+          <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
+        }@else {
+          <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="" id="pfpImage">
+        }
+      </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <ul>
+          <li>Főoldal</li>
+          @if(userService.user()?.getRole?.getName  == "ROLE_user" || userService.user() == null){
+            <li>Időpont foglalás</li>
+          } @else if (userService.user()?.getRole?.getName == "ROLE_admin" || userService.user()?.getRole?.getName == "ROLE_superAdmin") {
+            <li>Admin Page</li>
+          }
+          <li>Árlista</li>
+          <li>Felszerelés</li>
+          <li>Vélemények</li>
+          <li>Galléria</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+}

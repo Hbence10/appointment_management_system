@@ -13,10 +13,11 @@ import { Users } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
+import { ReservationPopUp } from '../../reservation-pop-up/reservation-pop-up';
 
 @Component({
   selector: 'app-room-control-panel',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatAnchor],
+  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatAnchor, ReservationPopUp],
   templateUrl: './room-control-panel.html',
   styleUrl: './room-control-panel.scss',
   providers: [provideNativeDateAdapter()],
@@ -78,8 +79,11 @@ export class RoomControlPanel implements OnInit {
 
   checkReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
     if (methodType == 'single') {
-      this.reservationService.getReservationByDate('').subscribe({
-        next: response => console.log(response)
+      const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
+      this.reservationService.getReservationByDate(dateText).subscribe({
+        next: response => {
+          console.log(response)
+        }
       })
     } else {
       const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
