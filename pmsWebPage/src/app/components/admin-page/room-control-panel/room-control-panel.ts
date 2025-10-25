@@ -161,7 +161,10 @@ export class RoomControlPanel implements OnInit {
     }
   }
 
+  getReservedHoursOfDate(){
+    const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
 
+  }
 
   //ENDPOINTOK:
   makeAdminReservation(reservedHour: ReservedHours) {

@@ -88,4 +88,11 @@ public class ReservationController {
     public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, String> body){
         return reservationService.closeByRepetitiveDates(body.get("startDate"), body.get("endDate"), body.get("closeType"), body.get("selectedDay"));
     }
+
+    //ujitas
+    @GetMapping("/reservedDate")
+    public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){
+        return reservationService.getReservedDateByDate(selectedDateText);
+    }
+
 }

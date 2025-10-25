@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -55,7 +56,7 @@ public class ReservedDates {
     private Boolean isFull = false;
 
     //Kapcsolatok
-    @JsonIgnore
+    @JsonIgnoreProperties({"date", "reservationHour"})
     @OneToMany(
             mappedBy = "date",
             fetch = FetchType.LAZY,

@@ -50,7 +50,7 @@ public class ReservationService {
             ));
         }
 
-        return ResponseEntity.ok(returnList);
+        return ResponseEntity.ok(reservedDatesList);
     }
 
     public ResponseEntity<List<ReservedHours>> getReservedHoursByDay(String wantedDayDate) {
@@ -304,6 +304,17 @@ public class ReservationService {
         newReservation.setUser(adminDetails.getAdminUser());
         newReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
         return newReservation;
+    }
+
+
+    public ResponseEntity<ReservedDates> getReservedDateByDate(String selectedDateText){
+        ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
+
+        if(reservedDate == null){
+            return ResponseEntity.ok().body(new ReservedDates());
+        } else {
+            return ResponseEntity.ok().body(reservedDate);
+        }
     }
 }
 
