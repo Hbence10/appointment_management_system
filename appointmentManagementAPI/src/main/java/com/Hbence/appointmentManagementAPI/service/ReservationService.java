@@ -3,7 +3,6 @@ package com.Hbence.appointmentManagementAPI.service;
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
-import com.Hbence.appointmentManagementAPI.service.other.ReservedDatesWithHour;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
@@ -43,12 +42,6 @@ public class ReservationService {
         }
 
         List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
-        List<ReservedDatesWithHour> returnList = new ArrayList<>();
-        for (ReservedDates i : reservedDatesList) {
-            returnList.add(new ReservedDatesWithHour(
-                    i.getId(), i.getDate(), i.getIsHoliday(), i.getIsClosed(), i.getIsFull(), i.getReservedHours()
-            ));
-        }
 
         return ResponseEntity.ok(reservedDatesList);
     }

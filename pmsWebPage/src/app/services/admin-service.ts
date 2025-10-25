@@ -60,4 +60,8 @@ export class AdminService {
       selectedDay: selectedDay
     })
   }
+
+  getReservedDateByDate(selectedDateText: string){
+    return this.http.get(`${this.baseURL()}/reservedDate?selectedDate=${selectedDateText}`)
+  }
 }

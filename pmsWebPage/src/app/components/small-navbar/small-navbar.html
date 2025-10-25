@@ -21,26 +21,32 @@
 <!-- Kinyitott navbar: -->
 @if(showNavBar()){
   <div class="container-fluid" id="openedContainer">
+    <!-- 1. -->
     <div class="row">
       <div class="col-lg-4">
-        <button (click)="showNavBar.set(false)" class="d-flex justify-content-center align-items-center">
+        <button (click)="showNavBar.set(false)">
           <span class="material-symbols-outlined">menu</span>
         </button>
       </div>
-      <div class="col-lg-4">
 
-      </div>
       <div class="col-lg-4">
-        <div class="d-flex justify-content-center align-items-center flex-column">
+        <a routerLink="homePage">
+        <img src="assets/images/logo.png" alt="logo_img" class="img-fluid" id="logoImg">
+      </a>
+      </div>
+
+      <div class="col-lg-4">
+        <!-- <div class="d-flex justify-content-center align-items-center flex-column"> -->
         @if(userService.user() == null){
           <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
         }@else {
           <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="" id="pfpImage">
         }
-      </div>
+        <!-- </div> -->
       </div>
     </div>
 
+    <!-- 2. -->
     <div class="row">
       <div class="col-lg-12">
         <ul>
