@@ -1,10 +1,10 @@
 <div class="container-fluid" id="mainContainer">
   <div class="row my-3">
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center my-md-5 my-sm-5 my-5">
       <img src="assets/images/homePage/image1.jpg" alt="image1_alt_text" class="img-fluid material-box">
     </div>
 
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center mb-md-5 mb-sm-5 mb-5">
       <div class="infoContainer material-box d-flex flex-column justify-content-between align-items-center" id="promoBox">
         <div>
           <h1 class="text-center mainFont my-4">Pécs Music Society</h1>
@@ -23,14 +23,14 @@
   </div>
 
   <div class="row my-3">
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center order-lg-0 order-md-1 order-sm-1 order-1">
       <div class="infoContainer material-box">
         <h1 class="text-center my-5 mainFont">Aktuális híreink</h1>
-        <div  id="newsContainer">
+        <div id="newsContainer">
 
           @for (newsDetails of news(); track $index) {
             <mat-accordion>
-              <mat-expansion-panel [expanded]="$index == 0" class="my-lg-4">
+              <mat-expansion-panel [expanded]="$index == 0" class="my-4">
                 <mat-expansion-panel-header>
                   <mat-panel-title>{{newsDetails.getName}}</mat-panel-title>
                 </mat-expansion-panel-header>
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 d-flex justify-content-center align-items-center order-lg-1 order-md-0 order-sm-0 order-0 mb-md-5 mb-sm-5 mb-5">
       <img src="assets/images/homePage/image2.jpg" alt="image2_alt_text" class="img-fluid material-box">
     </div>
   </div>
