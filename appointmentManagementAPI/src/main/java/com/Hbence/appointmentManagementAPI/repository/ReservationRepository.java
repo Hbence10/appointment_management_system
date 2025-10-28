@@ -4,12 +4,10 @@ import com.Hbence.appointmentManagementAPI.entity.Reservations;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
 public interface ReservationRepository extends JpaRepository<Reservations, Long> {
 
     @Procedure(name = "getReservationByUserId", procedureName = "getReservationByUserId")
@@ -23,4 +21,7 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
 
     @Procedure(name = "getAllReservationEmail", procedureName = "getAllReservationEmail")
     List<String> getAllReservationEmail();
+
+    @Procedure(name = "getReservationsForAdminReservation", procedureName = "getReservationsForAdminReservation")
+    List<Reservations> getReservationsForAdminReservation(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate, @Param("startHourIN") int startHour,@Param("endHourIN") int endHour);
 }

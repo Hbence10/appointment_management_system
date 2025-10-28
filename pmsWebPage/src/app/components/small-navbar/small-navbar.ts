@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../services/user-service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-small-navbar',
@@ -10,5 +10,6 @@ import { RouterModule } from '@angular/router';
 })
 export class SmallNavbar{
   userService = inject(UserService)
+  router = inject(Router)
   showNavBar = signal<boolean>(false)
 }

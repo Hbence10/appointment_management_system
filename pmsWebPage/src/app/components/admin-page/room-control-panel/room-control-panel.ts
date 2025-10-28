@@ -48,6 +48,7 @@ export class RoomControlPanel implements OnInit {
   selectedHourAmount: number | null = null
   selectedStartHour: number | null = null
   reservationList: Reservation[] = []
+  selectedEventType!: 'close' | 'reservation';
 
   ngOnInit(): void {
     this.user = this.userService.user()!
@@ -77,24 +78,12 @@ export class RoomControlPanel implements OnInit {
     this.selectedStartHour = null
   }
 
-  checkReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
-    if (methodType == 'single') {
-      const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
-      this.reservationService.getReservationByDate(dateText).subscribe({
-        next: response => {
-          console.log(response)
-        }
-      })
-    } else {
-      const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
-      const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
+  checkReservationForClose(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
 
-      this.reservationService.getReservationBetweenIntervallum(startDateText!, endDateText!).subscribe({
-        next: response => {
-          console.log(response)
-        }
-      })
-    }
+  }
+
+  checkReservationForReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
+
   }
 
   //bezaras
@@ -102,8 +91,9 @@ export class RoomControlPanel implements OnInit {
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
     const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
+    this.selectedEventType = 'close'
 
-    this.checkReservation(closeType)
+    this.checkReservationForClose(closeType)
 
     if (closeType == 'single') {
       this.closeRoomForADay(dateText)
@@ -148,7 +138,8 @@ export class RoomControlPanel implements OnInit {
       reservedHour = new ReservedHours(null, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!)
     }
 
-    this.checkReservation(reservationType)
+    this.selectedEventType = 'reservation'
+    this.checkReservationForReservation(reservationType)
     const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
 
@@ -161,7 +152,7 @@ export class RoomControlPanel implements OnInit {
     }
   }
 
-  getReservedHoursOfDate(){
+  getReservedHoursOfDate() {
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
 
   }

@@ -89,10 +89,13 @@ public class ReservationController {
         return reservationService.closeByRepetitiveDates(body.get("startDate"), body.get("endDate"), body.get("closeType"), body.get("selectedDay"));
     }
 
-    //ujitas
     @GetMapping("/reservedDate")
     public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){
         return reservationService.getReservedDateByDate(selectedDateText);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<Reservations>> getReservationsForAdmin(@RequestParam("startDate") String startDateText, @RequestParam("endDate") String endDateText, @RequestParam("startHour") int startHour, @RequestParam("endHour") int endHour){
+        return reservationService.getReservationForAdmin(startDateText, endDateText, startHour, endHour);
+    }
 }

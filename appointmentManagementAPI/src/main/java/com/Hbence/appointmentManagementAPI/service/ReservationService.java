@@ -288,6 +288,26 @@ public class ReservationService {
         }
     }
 
+    public ResponseEntity<ReservedDates> getReservedDateByDate(String selectedDateText){
+        ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
+
+        if(reservedDate == null){
+            return ResponseEntity.ok().body(new ReservedDates());
+        } else {
+            return ResponseEntity.ok().body(reservedDate);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<List<Reservations>> getReservationForAdmin(String startDateText, String endDateText, int startHour, int endHour){
+        if(ValidatorCollection.rangeValidator(startDateText, endDateText)){
+            return ResponseEntity.notFound().build();
+        } else {
+            return null;
+        }
+
+    }
+
     //Egyeb:
     public Reservations setAdminDetails(Reservations newReservation, AdminDetails adminDetails) {
         newReservation.setFirstName(adminDetails.getFirstName());
@@ -297,17 +317,6 @@ public class ReservationService {
         newReservation.setUser(adminDetails.getAdminUser());
         newReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
         return newReservation;
-    }
-
-
-    public ResponseEntity<ReservedDates> getReservedDateByDate(String selectedDateText){
-        ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
-
-        if(reservedDate == null){
-            return ResponseEntity.ok().body(new ReservedDates());
-        } else {
-            return ResponseEntity.ok().body(reservedDate);
-        }
     }
 }
 

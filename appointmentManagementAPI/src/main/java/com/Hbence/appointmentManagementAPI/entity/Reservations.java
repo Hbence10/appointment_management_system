@@ -25,7 +25,14 @@ import java.util.Date;
                 @StoredProcedureParameter(name = "emailIN", type = String.class, mode = ParameterMode.IN)
         }, resultClasses = {Reservations.class}),
 
-        @NamedStoredProcedureQuery(name = "getAllReservationEmail", procedureName = "getAllReservationEmail", resultClasses = {String.class})
+        @NamedStoredProcedureQuery(name = "getAllReservationEmail", procedureName = "getAllReservationEmail", resultClasses = {String.class}),
+
+        @NamedStoredProcedureQuery(name = "getReservationsForAdminReservation", procedureName = "getReservationsForAdminReservation", parameters = {
+                @StoredProcedureParameter(name = "startDateIN", type = LocalDate.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "startHourIN", type = Integer.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "endHourIN", type = Integer.class, mode = ParameterMode.IN)
+        })
 })
 @Setter
 @Getter
