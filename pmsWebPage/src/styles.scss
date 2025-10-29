@@ -29,11 +29,41 @@ body {
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
 }
-/* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+//SAJAT GLOBALIS MATERIAL STILUS:
+mat-checkbox {
+  @include mat.checkbox-overrides(( //
+      label-text-weight: 500,
+      label-text-color: #004D40,
+      selected-checkmark-color: white, //A pipa ikonnak a szine
+
+      //A selected checkbox hatterszine:
+      selected-focus-icon-color: #004D40,
+      selected-icon-color: #004D40,
+      selected-pressed-icon-color: #004D40,
+      selected-hover-icon-color: #004D40,
+    ));
+}
+
+mat-form-field {
+  @include mat.form-field-overrides((
+      filled-container-color: white, //inputok hattere
+      filled-focus-active-indicator-color: #004D40, //also vonal
+      filled-active-indicator-color: #004D40,
+      filled-focus-label-text-color: #004D40,
+      filled-hover-active-indicator-color: #004D40,
+      filled-hover-label-text-color: #004D40,
+      filled-input-text-color: #004D40,
+      filled-input-text-placeholder-color: #004D40,
+      filled-label-text-color: #004D40,
+    ));
+}
+
+
+//EGYEB SAJAT GLOBALIS STILUS:

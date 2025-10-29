@@ -71,3 +71,16 @@ button:disabled {
   background-color: #004D40;
   color: white;
 }
+
+mat-checkbox {
+  @include mat.checkbox-overrides((
+    label-text-weight: 500,
+    label-text-color: #004D40,
+    selected-checkmark-color: white, //A pipa ikonnak a szine
+    //A selected checkbox hatterszine:
+    selected-focus-icon-color: #004D40,
+    selected-icon-color: #004D40,
+    selected-pressed-icon-color: #004D40,
+    selected-hover-icon-color: #004D40
+  ));
+}

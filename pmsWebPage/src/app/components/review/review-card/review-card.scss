@@ -19,7 +19,6 @@
   font-style: normal;
 }
 
-
 #mainContainer {
   background-color: #B2DFDB;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
@@ -57,13 +56,4 @@
 
 .selected{
   cursor: pointer;
-}
-
-
-.material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 1,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 40;
 }

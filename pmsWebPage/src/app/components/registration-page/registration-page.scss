@@ -1,4 +1,3 @@
-@use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
@@ -21,27 +20,17 @@
   font-weight: 500;
   font-style: normal;
 }
-//
 
-#mainContainer{
+#mainContainer {
   width: 510px;
   height: 725px;
   background-color: #B2DFDB;
   border-radius: 16px;
   color: #004D40;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
-
-mat-form-field {
-  @include mat.form-field-overrides((
-    filled-input-text-color: #004D40,
-    filled-caret-color: #004D40,
-    filled-container-color: white
-    ));
-}
-
-app-rule-reader{
+app-rule-reader {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -52,9 +41,9 @@ app-rule-reader{
   color: white;
   height: 50px;
   border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-#registerButton:disabled{
+#registerButton:disabled {
   opacity: 0.6;
 }
