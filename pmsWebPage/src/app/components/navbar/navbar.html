@@ -8,26 +8,26 @@
 
     <div class="col-lg-8 d-flex justify-content-center align-items-center">
       <div class="nav-item mx-2 d-flex justify-content-center align-items-center" [class.active]="router.url == '/homePage'">
-        <a routerLink="/homePage">Főoldal</a>
+        <a routerLink="/homePage" class="secondFont">Főoldal</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url.includes('/makeReservation') || router.url == '/adminPage'">
         @if(userService.user()?.getRole?.getName  == "ROLE_user" || userService.user() == null){
-          <a routerLink="/makeReservation">Időpont foglalás</a>
+          <a routerLink="/makeReservation" class="secondFont">Időpont foglalás</a>
         } @else if (userService.user()?.getRole?.getName == "ROLE_admin" || userService.user()?.getRole?.getName == "ROLE_superAdmin") {
-          <a routerLink="/adminPage">Admin Page</a>
+          <a routerLink="/adminPage" class="secondFont">Admin Page</a>
         }
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/priceList'">
-        <a routerLink="/priceList">Árlista</a>
+        <a routerLink="/priceList" class="secondFont">Árlista</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/equipments'">
-        <a routerLink="/equipments">Felszerelés</a>
+        <a routerLink="/equipments" class="secondFont">Felszerelés</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/reviews'">
-        <a routerLink="/reviews">Vélemények</a>
+        <a routerLink="/reviews" class="secondFont">Vélemények</a>
       </div>
       <div class="nav-item mx-2" [class.active]="router.url == '/gallery'">
-        <a routerLink="/gallery">Galléria</a>
+        <a routerLink="/gallery" class="secondFont">Galléria</a>
       </div>
     </div>
 

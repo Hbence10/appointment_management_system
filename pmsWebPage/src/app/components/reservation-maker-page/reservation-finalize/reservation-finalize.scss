@@ -1,38 +1,4 @@
 @use '@angular/material' as mat;
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-
-* {
-  color: #004D40;
-}
-
-.mainFont {
-  font-family: "Oswald", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 800 !important;
-  font-style: normal !important;
-  font-size: 40px;
-  color: #004D40;
-}
-
-.secondFont {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  font-size: 20px;
-}
-
-.numberFont {
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-  font-size: 25px;
-}
-
-//-----
 
 #mainContainer{
   width: 640px;
@@ -70,17 +36,4 @@ button:disabled {
   border-radius: 16px;
   background-color: #004D40;
   color: white;
-}
-
-mat-checkbox {
-  @include mat.checkbox-overrides((
-    label-text-weight: 500,
-    label-text-color: #004D40,
-    selected-checkmark-color: white, //A pipa ikonnak a szine
-    //A selected checkbox hatterszine:
-    selected-focus-icon-color: #004D40,
-    selected-icon-color: #004D40,
-    selected-pressed-icon-color: #004D40,
-    selected-hover-icon-color: #004D40
-  ));
 }
