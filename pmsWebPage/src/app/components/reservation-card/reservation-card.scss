@@ -1,5 +1,13 @@
 @use '@angular/material' as mat;
 
+.mainFont {
+  font-weight: 800;
+}
+
+.secondFont {
+  font-weight: 400;
+}
+
 button{
   background-color: #004D40 !important;
   border-radius: 15px;

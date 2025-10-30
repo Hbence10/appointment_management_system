@@ -1,13 +1,24 @@
+.mainFont{
+  font-weight: 500 !important;
+}
+
+.secondFont{
+  font-weight: 400;
+}
+
+.numberFont{
+  font-weight: 600;
+  font-size: 25px;
+}
+
 .cardDiv {
+  font-size: 28px;
   border-radius: 16px;
   background-color: #B2DFDB;
   height: 125px;
   width: 575px;
-  color: #004D40;
-  font-size: 28px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   cursor: pointer;
-  font-weight: 600 !important;
 }
 
 .reservationCard {

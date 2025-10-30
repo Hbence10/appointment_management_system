@@ -1,10 +1,12 @@
 @use '@angular/material' as mat;
 .mainFont {
   font-size: 40px;
+  font-weight: 800;
 }
 
 .secondFont {
   font-size: 20px;
+  font-weight: 500;
 }
 
 mat-stepper {

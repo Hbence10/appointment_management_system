@@ -1,5 +1,14 @@
 @use '@angular/material' as mat;
 
+.mainFont {
+  font-weight: 800;
+  font-size: 45px;
+}
+
+.secondFont {
+  font-weight: 400;
+}
+
 img {
   width: 840px;
   height: 560px;
@@ -30,10 +39,6 @@ img {
   padding: 0px 50px;
 }
 
-h1 {
-  font-size: 45px;
-}
-
 p {
   font-size: 25px;
   line-height: 30px;
@@ -46,6 +51,9 @@ p {
   background-color: #004D40;
   border-radius: 15px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  span {
+      color: white !important;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -71,9 +79,7 @@ mat-expansion-panel {
       header-text-font: Oswald,
       header-text-size: 25px,
       header-text-line-height: 35px,
-      header-text-color: #004D40
-
-  ));
+      header-text-color: #004D40));
 }
 
 .mat-expansion-panel-body {

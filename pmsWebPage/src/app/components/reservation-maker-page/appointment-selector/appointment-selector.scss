@@ -1,10 +1,17 @@
 @use '@angular/material' as mat;
 .mainFont {
   font-size: 18px;
+  font-weight: 800;
 }
 
-.numberFont, .secondFont {
+.numberFont {
   font-size: 25px;
+  font-weight: 600;
+}
+
+.secondFont {
+  font-size: 25px;
+  font-weight: 500;
 }
 
 //-----
