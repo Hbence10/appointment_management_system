@@ -46,6 +46,7 @@ mat-checkbox {
 
 mat-form-field {
   @include mat.form-field-overrides(( //
+      //SZINEK:
       filled-container-color: white, //inputok hattere
       filled-focus-active-indicator-color: #004D40, //also vonal
       filled-active-indicator-color: #004D40,
@@ -55,6 +56,8 @@ mat-form-field {
       filled-input-text-color: #004D40,
       filled-input-text-placeholder-color: #004D40,
       filled-label-text-color: #004D40,
+
+      //FONTOK:
     ));
 }
 
@@ -85,7 +88,17 @@ mat-form-field {
 }
 
 //GOMBOK:
-.filledButton {}
+.filledButton {
+  background-color: #004D40 !important;
+  color: white !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+}
+
+.filledButton:disabled {
+  opacity: 0.6 !important;
+  pointer-events: none;
+}
 
 .iconButton {}
 

@@ -5,6 +5,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Role } from '../../models/role.model';
@@ -13,7 +14,7 @@ import { UserService } from '../../services/user-service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatCheckbox, MatIconModule, ReactiveFormsModule],
+  imports: [RouterModule, MatTooltipModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatCheckbox, MatIconModule, ReactiveFormsModule],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -32,8 +33,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl("securityTest2", [Validators.required]),
-      password: new FormControl("test5.Asd", [Validators.required])
+      username: new FormControl("", [Validators.required]),
+      password: new FormControl("", [Validators.required])
     })
   }
 
