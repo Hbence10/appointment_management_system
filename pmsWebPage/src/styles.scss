@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+//ALAP BEALLITASOK
 html {
   @include mat.theme((color: (primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
@@ -44,7 +45,8 @@ mat-checkbox {
 }
 
 mat-form-field {
-  @include mat.form-field-overrides((filled-container-color: white, //inputok hattere
+  @include mat.form-field-overrides(( //
+      filled-container-color: white, //inputok hattere
       filled-focus-active-indicator-color: #004D40, //also vonal
       filled-active-indicator-color: #004D40,
       filled-focus-label-text-color: #004D40,
@@ -75,6 +77,10 @@ mat-form-field {
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  color: #004D40;
+}
+
+.material-symbols-outlined {
   color: #004D40;
 }
 
