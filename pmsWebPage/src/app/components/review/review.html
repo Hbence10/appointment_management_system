@@ -14,7 +14,7 @@
           <input formControlName="rating" type="range" min="0.5" max="5" step="0.5" value="2.5" class="star-rating" style="--val: 2.5" oninput="this.style='--val:'+this.value"/>
           <div>
             <mat-checkbox class="example-margin mx-2" (change)="setVisibility()">Név nélkül</mat-checkbox>
-            <button id="senderButton" matButton="filled" (click)="addReview()" [disabled]="reviewForm.invalid" class="mx-2">Küldés</button>
+            <button matButton="filled" (click)="addReview()" [disabled]="reviewForm.invalid" class="mx-2 filledButton secondFont">Küldés</button>
           </div>
         </div>
 

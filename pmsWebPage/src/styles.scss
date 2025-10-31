@@ -40,7 +40,7 @@ mat-checkbox {
       selected-focus-icon-color: #004D40,
       selected-icon-color: #004D40,
       selected-pressed-icon-color: #004D40,
-      selected-hover-icon-color: #004D40,
+      selected-hover-icon-color: #004D40
     ));
 }
 
@@ -93,6 +93,7 @@ mat-form-field {
   color: white !important;
   border-radius: 10px !important;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+  height: 50px !important;
 }
 
 .filledButton:disabled {

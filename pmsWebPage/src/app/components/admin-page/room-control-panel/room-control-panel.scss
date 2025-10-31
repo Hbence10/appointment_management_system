@@ -36,13 +36,7 @@ h2{
   }
 }
 
-.saveButton{
-  border-radius: 10px;
-  background-color: #004D40 !important;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+.filledButton{
+  font-weight: 400;
 }
 
-.saveButton:disabled{
-  opacity: 60%;
-  color: white;
-}

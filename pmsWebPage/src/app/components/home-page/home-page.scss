@@ -44,16 +44,10 @@ p {
   line-height: 30px;
 }
 
-#reservationButton {
-  width: 250px;
-  height: 75px;
-  font-size: 25px;
-  background-color: #004D40;
-  border-radius: 15px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  span {
-      color: white !important;
-  }
+.filledButton {
+  width: 250px !important;
+  height: 75px !important;
+  font-size: 25px !important;
 }
 
 ::-webkit-scrollbar {

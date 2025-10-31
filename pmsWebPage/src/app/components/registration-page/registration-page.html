@@ -59,7 +59,7 @@
 
         <div class="row mb-2">
           <div class="col-lg-12 d-flex justify-content-center align-items-center flex-column">
-            <button id="registerButton" class="my-2 secondFont" [disabled]="form.invalid || !ruleAccepted()" matButton="filled" (click)="register()">Regisztráció</button>
+            <button matButton="filled" class="my-2 w-100 secondFont filledButton" [disabled]="form.invalid || !ruleAccepted()" (click)="register()">Regisztráció</button>
             <p>
               Van már fiókja?
               <a routerLink="/login" class="fw-bold text-decoration-none secondFont">Jelentkezzen be!</a>

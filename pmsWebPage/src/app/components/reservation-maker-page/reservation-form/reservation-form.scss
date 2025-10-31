@@ -19,7 +19,6 @@
 .cardDiv {
   height: 75px;
   background-color: white;
-  color: #004D40;
 
   span {
     font-size: 20px;
@@ -38,22 +37,11 @@
   }
 }
 
-button {
-  height: 56px;
-  width: 350px;
-  border-radius: 16px;
-  background-color: #004D40 !important;
-  color: white;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-
-button:disabled {
-  opacity: 60%;
-  height: 56px;
-  width: 350px;
-  border-radius: 16px;
-  background-color: #004D40;
-  color: white;
+.filledButton {
+  height: 56px !important;
+  width: 350px !important;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .noneSelected {

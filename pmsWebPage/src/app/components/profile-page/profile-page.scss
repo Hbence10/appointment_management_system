@@ -3,7 +3,7 @@
 }
 
 .secondFont {
-  font-weight: 400;
+  font-weight: 500;
 }
 
 #mainContainer {
@@ -21,14 +21,6 @@ img {
   border-radius: 28px;
 }
 
-.materialButton {
-  background-color: #004D40 !important;
-  height: 54px;
-  border-radius: 14px;
-  width: 300px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-
 app-pop-up {
   position: fixed;
   top: 0px;
@@ -41,23 +33,13 @@ app-pop-up {
   width: 40px;
   background-color: #B2DFDB;
   border: 1px solid #004D40;
-
-  span {
-    color: #004D40;
-  }
-
   border-radius: 10px;
 }
 
 #deleteButton:hover,
 .deleteConfButton:hover {
   background-color: #004D40;
-
-  span {
-    color: #B2DFDB;
-  }
-
-  color: #B2DFDB;
+  color: white;
 }
 
 #deleteMainContainer {

@@ -39,7 +39,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="selectedCloseType == null" class="saveButton" (click)="closeRoom('single')" mat-flat-button>Mentés</button>
+                <button [disabled]="selectedCloseType == null" class="filledButton secondFont" (click)="closeRoom('single')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -79,7 +79,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null" class="saveButton" (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -128,7 +128,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null && selectedDay == null" class="saveButton" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null && selectedDay == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -182,7 +182,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="saveButton" (click)="makeReservation('single')" mat-flat-button>Mentés</button>
+                <button class="filledButton secondFont" (click)="makeReservation('single')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -232,7 +232,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="saveButton" (click)="makeReservation('betweenTwoDate')" mat-flat-button>Mentés</button>
+                <button class="filledButton secondFont" (click)="makeReservation('betweenTwoDate')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -291,7 +291,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="saveButton" (click)="makeReservation('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
+                <button class="filledButton secondFont" (click)="makeReservation('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>

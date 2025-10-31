@@ -20,7 +20,7 @@ import { Users } from '../../models/user.model';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [HistoryPopup, RoomControlPanel, MatCardModule, MatDatepickerModule, CommonModule, PopUp, MatButtonModule, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [HistoryPopup, RoomControlPanel, MatCardModule, MatDatepickerModule, CommonModule, PopUp, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
