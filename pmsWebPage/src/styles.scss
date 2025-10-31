@@ -40,8 +40,7 @@ mat-checkbox {
       selected-focus-icon-color: #004D40,
       selected-icon-color: #004D40,
       selected-pressed-icon-color: #004D40,
-      selected-hover-icon-color: #004D40
-    ));
+      selected-hover-icon-color: #004D40));
 }
 
 mat-form-field {
@@ -59,6 +58,18 @@ mat-form-field {
 
       //FONTOK:
     ));
+}
+
+mat-select {
+  @include mat.select-overrides(( //
+      //SZINEK:
+      panel-background-color: white,
+      placeholder-text-color: #004D40
+    ));
+}
+
+mat-option {
+  // background-color: white !important;
 }
 
 //FONTOK:

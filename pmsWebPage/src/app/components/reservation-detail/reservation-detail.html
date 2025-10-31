@@ -1,27 +1,64 @@
 <div class="container-fluid">
-
   <div class="row">
     <div class="col-lg-12">
-      <p class="d-flex justify-content-between"><span class="fw-bold">Foglaló neve:</span> {{reservation().getFirstName + " " + reservation().getLastName}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Telefon:</span> {{formattedPhoneNumber}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás dátuma:</span> {{reservation().getReservedHours.getDate.getDate}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás időtartalma:</span> {{reservation().getReservedHours.getStart}}:00 - {{reservation().getReservedHours.getEnd}}:00</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalva ekkor:</span> {{reservation().getReservedAt | date}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Foglalás tipúsa:</span> {{reservation().getReservationTypeId.getName}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Fizetési mód:</span> {{reservation().getPaymentMethod.getName}}</p>
-      <p class="d-flex justify-content-between"><span class="fw-bold">Státusz:</span> {{reservation().getStatus.getName}}</p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Foglaló neve:</span>
+        <span class="secondFont">{{
+          reservation().getFirstName + " " + reservation().getLastName
+        }}</span>
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Telefon:</span>
+        <span class="secondFont">{{ formattedPhoneNumber }}</span>
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Foglalás dátuma:</span>
+        <span class="secondFont">{{
+          reservation().getReservedHours.getDate.getDate
+        }}</span>
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Foglalás időtartalma:</span>
+        <span class="secondFont"
+          >{{ reservation().getReservedHours.getStart }}:00 -
+          {{ reservation().getReservedHours.getEnd }}:00</span
+        >
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Foglalva ekkor:</span>
+        <span class="secondFont">{{ reservation().getReservedAt | date }}</span>
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Foglalás tipúsa:</span>
+        <span class="secondFont">{{
+          reservation().getReservationTypeId.getName
+        }}</span>
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Fizetési mód:</span>
+        <span class="secondFont">{{
+          reservation().getPaymentMethod.getName
+        }}</span>
+      </p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Státusz:</span>
+        <span class="secondFont">{{ reservation().getStatus.getName }}</span>
+      </p>
 
       @if(reservation().getIsCanceled){
-        <p class="d-flex justify-content-between"><span class="fw-bold">Lemondva ekkor: </span> {{reservation().getCanceledAt}}</p>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Lemondva ekkor: </span>
+        <span class="secondFont">{{ reservation().getCanceledAt }}</span>
+      </p>
       }
 
-      <p class="d-flex justify-content-between"><span class="fw-bold">Megjegyzés:</span>
+      <p class="d-flex justify-content-between">
+        <span class="fw-bold mainFont">Megjegyzés:</span>
         @if(reservation().getComment == null){
-          Nincs
-        }
+        <span class="secondFont">Nincs</span> }
       </p>
       @if(reservation().getComment != null){
-        <p>{{reservation().getComment}}</p>
+      <p class="secondFont">{{ reservation().getComment }}</p>
       }
     </div>
   </div>

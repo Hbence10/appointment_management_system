@@ -5,23 +5,14 @@
 }
 
 .secondFont {
-  font-weight: 400;
+  font-weight: 500;
 }
 
-button{
-  background-color: #004D40 !important;
-  border-radius: 15px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-
-    @include mat.badge-overrides((
+.filledButton{
+  @include mat.badge-overrides((
     background-color: white,
     text-color: #004D40
   ));
-
-  .material-symbols-outlined{
-    color: white;
-    font-size: 24px;
-  }
 }
 
 .adminPageView{
@@ -30,12 +21,6 @@ button{
   }
 
   button {
-    width: 2005px !important;
+    width: 200px !important;
   }
 }
-
-button:disabled{
-  opacity: 0.6;
-}
-
-
