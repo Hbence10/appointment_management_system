@@ -52,9 +52,9 @@ public class SecurityConfig {
                         .requestMatchers("/reservationStuff/getReservationType", "/reservationStuff/paymentMethods", "/reservationStuff/phoneCodes").permitAll()
                         .requestMatchers("/reservationStuff/addReservationType", "/reservationStuff/deleteReservationType/**", "/reservationStuff/updateReservationType").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/deleteLike/**", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
-                        .requestMatchers("/reviews/deleteReview/**", "/reviews/update", "/users/updateUser/**", "users/deleteUser/**").hasAnyRole("user", "admin", "superAdmin")
+                        .requestMatchers("/reviews/deleteReview/**", "/reviews/update", "/users/updateUser/**", "users/deleteUser/**", "users/changePfp/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()
-                        .requestMatchers("/users/changePfp/**", "/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
+                        .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
 
                         //admin page
                         .requestMatchers("/users","/users/deleteAdmin/**", "/users/updateAdmin", "/users/makeAdmin/**", "/history", "/users/admin").hasRole("superAdmin")

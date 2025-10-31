@@ -35,7 +35,7 @@
       @if(userService.user() == null){
         <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
       }@else {
-        <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="" id="pfpImage">
+        <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="profil_kep" id="pfpImage">
       }
     </div>
   </div>

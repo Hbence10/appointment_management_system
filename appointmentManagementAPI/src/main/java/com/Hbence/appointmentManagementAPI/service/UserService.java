@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 @Transactional
@@ -103,25 +104,23 @@ public class UserService {
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Users> changePfp(Long userId, MultipartFile pfpFile) {
         Users searchedUser = userRepository.findById(userId).get();
-        if(searchedUser.getId() == null || searchedUser.getIsDeleted()){
+
+        if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
-            if (!pfpFile.getContentType().equals("image/jpeg")) {
-                System.out.println("Invalid file type. Only JPEG files are allowed.");
-                return ResponseEntity.notFound().build();
-            }
-
-            if (pfpFile.getSize() > 1_000_000) { // 1 MB limit
-                System.out.println("File is too large. The size limit is 1 MB.");
-                return ResponseEntity.notFound().build();
-            }
+            String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\pfp" + File.separator + pfpFile.getOriginalFilename();
 
             try {
-                pfpFile.transferTo(new File(""));
-            } catch (Exception e){
+                FileOutputStream fout = new FileOutputStream(filePath);
+                fout.write(pfpFile.getBytes());
+                fout.close();
+
+                searchedUser.setPfpPath("assets\\images\\pfp" + File.separator + pfpFile.getOriginalFilename());
+            } catch (Exception e) {
                 return ResponseEntity.internalServerError().build();
             }
-            return ResponseEntity.ok().body(searchedUser);
+
+            return ResponseEntity.ok().body(userRepository.save(searchedUser));
         }
     }
 
@@ -176,11 +175,11 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> getShortUsersList(){
+    public ResponseEntity<Object> getShortUsersList() {
         List<Users> userList = userRepository.findAll().stream().filter(user -> user.getRole().getId() == 1 && !user.getIsDeleted()).toList();
         List<Map<String, Object>> responseList = new ArrayList<>();
 
-        for (int i = 0; i < userList.size(); i++){
+        for (int i = 0; i < userList.size(); i++) {
             Map<String, Object> eachResponse = new HashMap<>();
             eachResponse.put("id", userList.get(i).getId());
             eachResponse.put("username", userList.get(i).getUsername());

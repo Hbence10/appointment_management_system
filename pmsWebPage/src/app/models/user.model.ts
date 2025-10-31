@@ -8,7 +8,7 @@ export class Users {
     private password?: string,
     private email?: string,
     private isNotificationAboutNews: boolean = false,
-    private pfpPath?: string,
+    private pfpPath: string = "assets/placeholder.png",
     private role: Role = new Role(1, "ROLE_user"),
     private adminDetails: AdminDetails | null = null,
     private placeholders: string[] = ["Add meg az első nevét az adminnak", "Add meg a második nevét az adminnak", "Add meg az email címét az adminnak", "Add meg a telefonszámát az adminnak"],
