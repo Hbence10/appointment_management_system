@@ -43,7 +43,7 @@ public class UserController {
 
     //PFP
     @PatchMapping("/changePfp/{id}")
-    public ResponseEntity<Users> changePfp(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Users> changePfp(@PathVariable("id") Long id, @RequestParam("pfpImg") MultipartFile file) {
         return userService.changePfp(id, file);
     }
 
