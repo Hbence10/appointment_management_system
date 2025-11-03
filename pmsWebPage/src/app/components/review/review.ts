@@ -56,12 +56,19 @@ export class ReviewPage implements OnInit {
   addReview() {
     if (this.userService.user() == null) {
       alert("A vélemény íráshoz, kérem jelentkezzen be!")
+    } else if (this.reviewDetails().find(element => element.getAuthor.getId == this.user()?.getId)) {
+      alert("Maga már írt véleményt!")
     } else {
       const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, this.reviewForm.controls["rating"].value!, this.userService.user()!, this.isAnonymus())
       this.reviewService.addReview(newReview).subscribe({
+        next: response => {
+          let review: Review = Object.assign(new Review(), response)
+          review.setAuthor = Object.assign(new Users(), review.getAuthor)
+          this.reviewDetails.update(old => [...old, review])
+        },
         error: error => console.log(error),
         complete: () => {
-          this.reviewDetails.update(old => [...old, newReview])
+          alert("Sikeres véleményírás!")
         }
       })
     }
