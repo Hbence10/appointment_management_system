@@ -64,8 +64,7 @@ mat-select {
   @include mat.select-overrides(( //
       //SZINEK:
       panel-background-color: white,
-      placeholder-text-color: #004D40
-    ));
+      placeholder-text-color: #004D40));
 }
 
 mat-option {
@@ -112,9 +111,25 @@ mat-option {
   pointer-events: none;
 }
 
-.iconButton {}
+.iconButton {
+  width: 35px;
+  height: 35px;
+  border: 1px solid #004D40;
+  background-color: transparent;
+  border-radius: 7px;
+}
+
+.iconButton:hover {
+  background-color: #004D40;
+
+  span{
+    color: #B2DFDB !important;
+  }
+}
 
 //ARNYEKOK:
 .strongShadow {}
 
 .weakShadow {}
+
+//SCROLL BAR:

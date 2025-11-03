@@ -24,13 +24,9 @@
 }
 
 .iconButton {
-  width: 35px !important;
-  height: 35px !important;
   border: none;
-  background-color: transparent;
 }
 
-.iconButton:hover,
 .selected {
   background-color: #004D40;
   border: none;
@@ -41,6 +37,6 @@
   }
 }
 
-.selected{
+.selected {
   cursor: pointer;
 }

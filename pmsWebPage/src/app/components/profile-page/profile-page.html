@@ -5,7 +5,7 @@
         <div class="row" style="height: 100%;">
           <div class="col-lg-5 d-flex flex-column justify-content-center align-items-center">
             <div>
-              <button>Edit</button>
+              <input type="file" (change)="updatePfp($event)"/>
               <img [src]="user.getPfpPath" alt="profil_kep" class="img-fluid mb-3">
             </div>
 
@@ -61,7 +61,7 @@
 
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-end p-0">
-            <button (click)="showDeletePopUp()" id="deleteButton" class="d-flex justify-content-center align-items-center">
+            <button (click)="showDeletePopUp()" class="iconButton d-flex justify-content-center align-items-center">
               <span class="material-symbols-outlined">delete</span>
             </button>
           </div>

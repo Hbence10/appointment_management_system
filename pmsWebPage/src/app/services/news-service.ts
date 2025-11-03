@@ -9,9 +9,14 @@ import { News } from '../models/newsDetails.model';
 export class NewsService {
   private http = inject(HttpClient)
   baseURL = signal<string>("http://localhost:8080/news")
+  newsList = signal<News[]>([])
 
   getAllNews(): Observable<News[]> {
     return this.http.get<News[]>(`${this.baseURL()}/getAll`,)
+  }
+
+  uploadBannerImg(newsId: number){
+    return this.http.patch(`${this.baseURL}/addCoverImg/${newsId}`, {})
   }
 
   updateNews(updatedNews: News) {

@@ -20,20 +20,9 @@ h2{
   font-weight: 500 !important;
 }
 
-.arrowButton {
+.iconButton {
   width: 50px;
   height: 30px;
-  border: 1px solid #004D40;
-  background-color: transparent;
-  border-radius: 7px;
-}
-
-.arrowButton:hover{
-  background-color: #004D40;
-
-  span{
-    color: #B2DFDB !important;
-  }
 }
 
 .filledButton{

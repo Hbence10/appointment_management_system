@@ -31,6 +31,10 @@ export class UserService {
     return this.http.delete(`${this.baseURL()}/deleteUser/${userId}`)
   }
 
+  uploadPfp(userId: number, pfpImage: FormData){
+    return this.http.patch(`${this.baseURL()}/changePfp/${userId}`, {pfpImg : pfpImage})
+  }
+
   //adminPage:
   getAllAdmin(): Observable<Users[]>{
     return this.http.get<Users[]>(`${this.baseURL()}/admin`)

@@ -72,7 +72,7 @@ export class ProfilePage implements OnInit {
     this.showPopUp.set(true)
   }
 
-  showDeletePopUp(){
+  showDeletePopUp() {
     this.isShowDeletePopUp.update(old => !old)
   }
 
@@ -96,6 +96,22 @@ export class ProfilePage implements OnInit {
         error: error => console.log(error),
         complete: () => {
 
+        }
+      })
+    }
+  }
+
+  updatePfp(event: any) {
+    const file: File = event.target.files[0];
+    if (file){
+      const formData: FormData = new FormData()
+      formData.append("pfpImg", JSON.stringify(file));
+
+      console.log(file)
+
+      this.userService.uploadPfp(this.user.getId!, formData).subscribe({
+        next: response => {
+          console.log(response)
         }
       })
     }

@@ -222,7 +222,13 @@ export class PopUp implements OnInit {
       this.newsService.updateNews(this.selectedObject).subscribe({
         next: response => console.log(response),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => {
+          //Ez csak akkor fog lefutni ha az admin valtoztatta a cover kepet:
+          this.newsService.uploadBannerImg(1).subscribe({
+
+          })
+          this.actualPage = "listPage"
+        }
       })
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
@@ -261,7 +267,14 @@ export class PopUp implements OnInit {
       this.newsService.createNews(this.selectedObject).subscribe({
         next: response => console.log(response),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => {
+          //Ez csak akkor fog lefutni, ha az admin valasztott neki kepet + sikeresen letre lett hozva az alap hir:
+          this.newsService.uploadBannerImg(1).subscribe({
+
+          })
+
+          this.actualPage = "listPage"
+        }
       })
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
