@@ -107,14 +107,4 @@ public class ReviewService {
             return ResponseEntity.ok().build();
         }
     }
-
-    //----------------------------------------
-    //Egyeb
-
-    /*
-     * Validaciok:
-     *           nem talalt user
-     *           update --> nem talat review
-     *           history --> nem talalt review & user
-     * */
 }

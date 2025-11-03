@@ -77,7 +77,7 @@ public class NewsService {
             wantedNews.setDeletedAt(new Date());
             newsRepository.save(wantedNews);
 
-            return ResponseEntity.ok("");
+            return ResponseEntity.ok().build();
         }
     }
 }

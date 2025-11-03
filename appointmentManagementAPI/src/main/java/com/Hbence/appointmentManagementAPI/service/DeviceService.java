@@ -51,7 +51,7 @@ public class DeviceService {
         } else {
             searchedDeviceCategory.setIsDeleted(true);
             searchedDeviceCategory.setDeletedAt(LocalDateTime.now());
-            return ResponseEntity.ok(true);
+            return ResponseEntity.ok().build();
         }
     }
 

@@ -43,6 +43,7 @@ export class PopUp implements OnInit {
   selectedObject: DevicesCategory | Device | News | ReservationType | Gallery | Users | null = null
   editForm!: FormGroup
   form!: FormGroup;
+  newsBannerImg: any = null
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]

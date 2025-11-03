@@ -107,11 +107,13 @@
 
   <!-- 3.sor -->
   @if(details()!.objectType == "news"){
-  <div class="row">
+  <!-- Fajl feltoltes: -->
+    <div class="row">
     <div class="col-lg-12">
-      <input type="file" />
+      <input type="file" (change)="selectFile($event)"/>
     </div>
   </div>
+  <!--  -->
   } @else if (details()?.objectType == "user"){
   <mat-form-field class="w-100">
     <mat-label>{{ labelText[3] }}</mat-label>

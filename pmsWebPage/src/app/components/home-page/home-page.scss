@@ -51,20 +51,6 @@ p {
   font-weight: 400 !important;
 }
 
-::-webkit-scrollbar {
-  width: 5px !important;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 10px !important;
-  background-color: #004d404d;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #004D40 !important;
-  border-radius: 10px !important;
-}
-
 mat-expansion-panel {
   @include mat.expansion-overrides((container-text-color: #004D40,
       // Container

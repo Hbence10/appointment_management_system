@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -45,6 +45,7 @@ export class ObjectEditor implements OnInit {
 
   selectedUserId: number = 1
   selectedDeviceCategoryId:number = 0;
+  selectBannerImg = output<any>()
 
   ngOnInit(): void {
     this.details.set(this.objectType())
@@ -79,6 +80,6 @@ export class ObjectEditor implements OnInit {
   }
 
   selectFile(event: any){
-    const file: File = event.target.files[0]
+
   }
 }

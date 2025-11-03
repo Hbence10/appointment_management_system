@@ -137,4 +137,32 @@ mat-option {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
 }
 
-//SCROLL BAR: https://scrollbar.app
+//SCROLL BAR  (https://scrollbar.app)
+* {
+  --sb-track-color: #F4FBFF !important;
+  --sb-thumb-color: #004d40 !important;
+  --sb-size: 10px !important;
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size) !important
+
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color) !important;
+  border-radius: 1px !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color) !important;
+  border-radius: 1px !important;
+  border: 10px solid #004d40 !important;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color)!important;
+  }
+}
