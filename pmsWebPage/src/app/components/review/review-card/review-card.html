@@ -19,7 +19,7 @@
           <div class="col-lg-12 d-flex justify-content-between align-items-center">
 
             <div id="starts">
-              @for (starAmount of startList(); track $index) {
+              @for (starAmount of starList(); track $index) {
                 <span class="material-symbols-outlined">
                   @if (starAmount == 1) {
                     star_rate
@@ -35,14 +35,14 @@
             <div id="likeButtons" class="d-flex justify-content-center align-items-center">
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button [class.selected]="isUserLikedIt() && likeTypeOfUser == 'like'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('like')">
+                <button [class.selected]="usersReviewLike()?.getLikeType == 'like'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('like')">
                   <span class="material-symbols-outlined">thumb_up</span>
                 </button>
                 <span class="mx-1 numberFont">{{reviewDetail().getLikeCount}}</span>
               </div>
 
               <div class="d-flex justify-content-center align-items-center mx-2">
-                <button [class.selected]="isUserLikedIt() && likeTypeOfUser == 'dislike'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('dislike')">
+                <button [class.selected]="usersReviewLike()?.getLikeType  == 'dislike'" class="iconButton d-flex justify-content-center align-items-center" (click)="setLike('dislike')">
                   <span class="material-symbols-outlined">thumb_down</span>
                 </button>
                 <span class="mx-1 numberFont">{{reviewDetail().getDislikeCount}}</span>

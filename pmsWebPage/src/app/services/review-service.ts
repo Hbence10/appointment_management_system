@@ -21,12 +21,12 @@ export class ReviewService {
   }
 
   //reviewLike:
-  addLike(reviewLike: ReviewHistory){
-    return this.http.post(`${this.baseURL()}/addLike`, reviewLike)
+  addLike(reviewLike: ReviewHistory): Observable<ReviewHistory>{
+    return this.http.post<ReviewHistory>(`${this.baseURL()}/addLike`, reviewLike)
   }
 
-  updateLike(id: number){
-    return this.http.put(`${this.baseURL()}/changeLikeType/${id}`, {})
+  updateLike(id: number): Observable<ReviewHistory>{
+    return this.http.put<ReviewHistory>(`${this.baseURL()}/changeLikeType/${id}`, {})
   }
 
   deleteLike(id: number){

@@ -16,29 +16,25 @@ export class ReviewCard implements OnInit {
   private userService = inject(UserService)
 
   reviewDetail = input.required<Review>()
-  startList = signal<number[]>([])
-  selectedLikeType: "like" | "dislike" | "" = ""
-  isUserLikedIt = signal(false)
-  likeTypeOfUser: "like" | "dislike" | "" = ""
-  usersReviewLike?: ReviewHistory;
+  starList = signal<number[]>([])
+  usersReviewLike = signal<ReviewHistory | null>(null);
 
   ngOnInit(): void {
     this.reviewDetail().getLikeHistories.forEach(reviewLike => {
       reviewLike.setLikerUser = Object.assign(new Users(), reviewLike.getLikerUser)
+
       if (reviewLike.getLikerUser.getId == this.userService.user()?.getId) {
-        this.isUserLikedIt.set(true)
-        this.likeTypeOfUser = reviewLike.getLikeType
-        this.usersReviewLike = reviewLike
+        this.usersReviewLike.set(reviewLike)
       }
     })
   }
 
   setLike(likeType: "like" | "dislike") {
-    if (!this.isUserLikedIt()) {
+    if (this.usersReviewLike() == null) {
       this.addLike(likeType)
-    } else if (this.likeTypeOfUser == likeType && this.isUserLikedIt()) {
+    } else if (this.usersReviewLike()?.getLikeType == likeType && this.usersReviewLike() != null) {
       this.deleteLike()
-    } else if (this.likeTypeOfUser != likeType && this.isUserLikedIt()){
+    } else if (this.usersReviewLike()?.getLikeType != likeType && this.usersReviewLike != null) {
       this.updateLike()
     }
   }
@@ -46,23 +42,48 @@ export class ReviewCard implements OnInit {
   addLike(likeType: "like" | "dislike") {
     const reviewLike: ReviewHistory = new ReviewHistory(null, likeType, this.userService.user()!, this.reviewDetail())
     this.reviewService.addLike(reviewLike).subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error),
-      complete: () => {
+      next: response => {
+        this.reviewDetail().getLikeHistories.push(Object.assign(new ReviewHistory(), response))
+        this.usersReviewLike.set(Object.assign(new ReviewHistory(), response))
 
-      }
+        if (likeType == 'like') {
+          this.reviewDetail().setLikeCount = this.reviewDetail().getLikeCount + 1
+        } else {
+          this.reviewDetail().setDislikeCount = this.reviewDetail().getDislikeCount + 1
+        }
+      },
+      error: error => console.log(error)
     })
   }
 
   updateLike() {
-    this.reviewService.updateLike(this.usersReviewLike?.getId!).subscribe({
-      next: response => console.log(response)
+    this.reviewService.updateLike(this.usersReviewLike()?.getId!).subscribe({
+      next: response => {
+        this.usersReviewLike.set(Object.assign(new ReviewHistory(), response))
+        if (this.usersReviewLike()?.getLikeType == 'like') {
+          this.reviewDetail().setLikeCount = this.reviewDetail().getLikeCount + 1
+          this.reviewDetail().setDislikeCount = this.reviewDetail().getDislikeCount - 1
+        } else {
+          this.reviewDetail().setLikeCount = this.reviewDetail().getLikeCount - 1
+          this.reviewDetail().setDislikeCount = this.reviewDetail().getDislikeCount + 1
+        }
+      }
     })
   }
 
   deleteLike() {
-    this.reviewService.deleteLike(this.usersReviewLike?.getId!).subscribe({
-      next: response => console.log(response)
+    this.reviewService.deleteLike(this.usersReviewLike()?.getId!).subscribe({
+      next: response => {
+        this.reviewDetail().setLikeHistory = this.reviewDetail().getLikeHistories.splice(
+          this.reviewDetail().getLikeHistories.indexOf(this.usersReviewLike()!)
+        )
+        if (this.usersReviewLike()?.getLikeType == 'like') {
+          this.reviewDetail().setLikeCount = this.reviewDetail().getLikeCount - 1
+        } else {
+          this.reviewDetail().setDislikeCount = this.reviewDetail().getDislikeCount - 1
+        }
+        this.usersReviewLike.set(null)
+      }
     })
   }
 }

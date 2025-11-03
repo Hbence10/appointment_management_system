@@ -75,7 +75,6 @@ public class ReviewService {
             return ResponseEntity.notFound().build();
         } else {
             ReviewLikeHistory reviewLikeHistory = new ReviewLikeHistory(reviewLike.getLikeType(), reviewLike.getLikedReview(), reviewLike.getLikerUser());
-            System.out.println(reviewLikeHistory);
             return ResponseEntity.ok(reviewLikeHistoryRepository.save(reviewLikeHistory));
         }
     }
@@ -83,7 +82,8 @@ public class ReviewService {
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(Long id) {
         ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
-        System.out.println(searchedReviewLike);
+        System.out.println("update!");
+
         if (searchedReviewLike.getId() == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -93,7 +93,7 @@ public class ReviewService {
             } else {
                 searchedReviewLike.setLikeType("like");
             }
-            return ResponseEntity.ok(searchedReviewLike);
+            return ResponseEntity.ok(reviewLikeHistoryRepository.save(searchedReviewLike));
         }
     }
 

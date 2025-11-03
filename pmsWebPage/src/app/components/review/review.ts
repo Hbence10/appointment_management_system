@@ -59,7 +59,6 @@ export class ReviewPage implements OnInit {
     } else {
       const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, this.reviewForm.controls["rating"].value!, this.userService.user()!, this.isAnonymus())
       this.reviewService.addReview(newReview).subscribe({
-        next: response => console.log(response),
         error: error => console.log(error),
         complete: () => {
           this.reviewDetails.update(old => [...old, newReview])

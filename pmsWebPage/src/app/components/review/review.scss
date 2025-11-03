@@ -7,13 +7,18 @@
 }
 
 #reviewContainer {
-  max-height: 660px;
+  height: 660px;
   overflow-y: auto;
 }
 
 mat-form-field {
-  width: 775px;
-  height: 300px;
+  max-width: 775px;
+  max-height: 300px;
+}
+
+//Reszponzivitas
+@media screen and (min-width: 480px) {
+
 }
 
 //Csillagok:
