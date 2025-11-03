@@ -4,12 +4,11 @@ import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansi
 import { RouterModule } from '@angular/router';
 import { News } from '../../models/newsDetails.model';
 import { NewsService } from '../../services/news-service';
-import { MatBadge } from "@angular/material/badge";
 
 
 @Component({
   selector: 'app-home-page',
-  imports: [MatButtonModule, RouterModule, MatExpansionModule, MatBadge],
+  imports: [MatButtonModule, RouterModule, MatExpansionModule],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

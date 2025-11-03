@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+
 .mainFont {
   font-size: 40px;
   font-weight: 800;
@@ -9,14 +10,26 @@
   font-weight: 500;
 }
 
+.material-symbols-outlined {
+  color: white !important;
+}
+
 mat-stepper {
-  @include mat.stepper-overrides((
-    line-color: #004D40,
-    header-icon-background-color: #004D40,
-    header-icon-foreground-color: #cfecea,
-    header-label-text-color: #004D40,
-    header-selected-state-icon-background-color: #004D40,
-    container-text-font: Rubik,
-    header-label-text-font: Montserrat
-  ));
+  @include mat.stepper-overrides(( //
+      header-height: 75px,
+      //COLOR
+      line-color: #004D40,
+      header-done-state-icon-background-color: #004D40,
+      header-done-state-icon-foreground-color: white,
+      header-selected-state-icon-background-color: #004D40,
+      header-selected-state-icon-foreground-color: white,
+      header-label-text-color: #004D40,
+
+      //FONT
+      header-label-text-font: "Montserrat",
+      header-label-text-weight: 500,
+      header-label-text-size: 15px,
+      header-selected-state-label-text-weight: 700,
+      header-selected-state-label-text-size: 18px //
+    ));
 }
