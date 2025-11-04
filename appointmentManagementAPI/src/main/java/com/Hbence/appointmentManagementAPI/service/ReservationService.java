@@ -185,7 +185,7 @@ public class ReservationService {
             return ResponseEntity.notFound().build();
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.notFound().build();
-        }  else {
+        } else {
             List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
             ArrayList<Reservations> createdReservations = new ArrayList<>();
 
@@ -302,6 +302,40 @@ public class ReservationService {
             return null;
         }
 
+    }
+
+    //Foglalasok visszaszerzese intervallumkor:
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> getReservationsForAdminIntervallum(String startDateText, String endDateText, int startHour, int endHour) {
+        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return null;
+        } else if (startHour > endHour) {
+            return null;
+        } else {
+            List<Long> idList = reservationRepository.getReservationsForAdminReservation(LocalDate.parse(startDateText), LocalDate.parse(endDateText), startHour, endHour);
+            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        }
+    }
+
+    //Foglalasok visszaszerzese repetitive-kor
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> checkReservationForRepetitive(String startDateText, String endDateText, ArrayList<String> selectedDays, Integer startHour, Integer endHour) {
+        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return null;
+        } else if (startHour > endHour) {
+            return null;
+        } else {
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            List<Long> idList = new ArrayList<Long>();
+
+            for (int i = 0; i < dateList.size(); i++) {
+                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+                    idList.addAll(reservationRepository.checkReservationForAdminReservation(dateList.get(i), startHour, endHour));
+                }
+            }
+
+            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        }
     }
 
     //Egyeb:

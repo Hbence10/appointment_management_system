@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Nov 04. 18:54
+-- Létrehozás ideje: 2025. Nov 04. 21:31
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -25,6 +25,21 @@ DELIMITER $$
 --
 -- Eljárások
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkReservationForAdminReservation` (IN `dateIN` DATE, IN `startHourIN` INT, IN `endHourIN` INT)   BEGIN
+	SELECT r.id FROM reservation r 
+    INNER JOIN reserved_hour rh 
+    ON r.reserved_hour_id = rh.id 
+    INNER JOIN reserved_date rd 
+    ON rh.date_id = rd.id 
+    WHERE
+    rd.date = dateIN AND 
+    (
+    	(startHourIN BETWEEN rh.start AND rh.end) 
+        OR 
+        (endHourIN BETWEEN rh.start AND rh.end)
+    );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllAdmin` ()   BEGIN
 	SELECT * FROM user WHERE user.role_id = 2 AND user.is_deleted = 0;
 END$$
@@ -72,7 +87,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsByEmail` (IN `emailI
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsForAdminReservation` (IN `startDateIN` DATE, IN `endDateIN` DATE, IN `startHourIN` INT(2), IN `endHourIN` INT(2))   BEGIN
-	SELECT * FROM reservation r 
+	SELECT r.id FROM reservation r 
     INNER JOIN reserved_hour rh ON 
     rh.id = r.reserved_hour_id 
     INNER JOIN reserved_date rd ON 

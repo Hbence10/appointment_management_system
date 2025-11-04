@@ -90,6 +90,18 @@ public class ReservationController {
         return reservationService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("closeType").toString(), (ArrayList<String>) body.get("selectedDay"));
     }
 
+    @GetMapping("/adminIntervallumCheck") //Intervallum foglalas leellenorzes
+    public ResponseEntity<Object> getReservationsForAdminIntervallum(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour) {
+        return reservationService.getReservationsForAdminIntervallum(startDateText, endDateText, startHour, endHour);
+    }
+
+    @GetMapping("/adminRepetitiveCheck")
+    public ResponseEntity<Object> checkReservationForRepetitive(@RequestParam("dateText") String dateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
+//        return reservationService.checkReservationForRepetitive(dateText, startHour, endHour);
+        return null;
+    }
+
+    //
     @GetMapping("/reservedDate")
     public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){
         return reservationService.getReservedDateByDate(selectedDateText);

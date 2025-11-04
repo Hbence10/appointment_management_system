@@ -23,5 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
     List<String> getAllReservationEmail();
 
     @Procedure(name = "getReservationsForAdminReservation", procedureName = "getReservationsForAdminReservation")
-    List<Reservations> getReservationsForAdminReservation(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate, @Param("startHourIN") int startHour,@Param("endHourIN") int endHour);
+    List<Long> getReservationsForAdminReservation(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate, @Param("startHourIN") int startHour,@Param("endHourIN") int endHour);
+
+    @Procedure(name = "checkReservationForAdminReservation", procedureName = "checkReservationForAdminReservation")
+    List<Long> checkReservationForAdminReservation(@Param("dateIN") LocalDate date, @Param("startHourIN") Integer startHour, @Param("endHourIN") Integer endHour);
 }

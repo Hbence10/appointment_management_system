@@ -32,7 +32,13 @@ import java.util.Date;
                 @StoredProcedureParameter(name = "endDateIN", type = LocalDate.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "startHourIN", type = Integer.class, mode = ParameterMode.IN),
                 @StoredProcedureParameter(name = "endHourIN", type = Integer.class, mode = ParameterMode.IN)
-        })
+        }, resultClasses = {Long.class}),
+
+        @NamedStoredProcedureQuery(name = "checkReservationForAdminReservation", procedureName = "checkReservationForAdminReservation", parameters = {
+                @StoredProcedureParameter(name = "dateIN", type = LocalDate.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "startHourIN", type = Integer.class, mode = ParameterMode.IN),
+                @StoredProcedureParameter(name = "endHourIN", type = Integer.class, mode = ParameterMode.IN)
+        }, resultClasses = {Long.class})
 })
 @Setter
 @Getter
