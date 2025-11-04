@@ -12,6 +12,7 @@ import { ReservationCard } from '../reservation-card/reservation-card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AdminDetails } from '../../models/adminDetails.model';
 
 @Component({
   selector: 'app-profile-page',
@@ -92,11 +93,13 @@ export class ProfilePage implements OnInit {
     this.isEdit.update(old => !old)
     if (!this.isEdit()) {
       this.userService.updateUser(this.form.controls["email"].value!, this.form.controls["username"].value!, this.user.getId!).subscribe({
-        next: response => console.log(response),
+        next: response => {
+          let user = Object.assign(new Users(), response)
+          let adminDetails = Object.assign(new AdminDetails(), response.getAdminDetails)
+          user.setAdminDetails = adminDetails
+          this.userService.user.set(Object.assign(new Users(), user))
+        },
         error: error => console.log(error),
-        complete: () => {
-
-        }
       })
     }
   }

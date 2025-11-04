@@ -25,7 +25,6 @@ export const routes: Routes = [
     loadComponent: () => import("./components/reservation-maker-page/reservation-maker-page").then(mod => mod.ReservationMakerPage),
     title: "Pécs Music Society - Időpont foglalás",
   },
-
   {
     path: "priceList",
     loadComponent: () => import("./components/price-list/price-list").then(mod => mod.PriceList),

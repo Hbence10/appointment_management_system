@@ -23,8 +23,8 @@ export class UserService {
     return this.http.post(`${this.baseURL()}/register`, newUser)
   }
 
-  updateUser(newEmail: string, newUsername: string, userId: number) {
-    return this.http.patch(`${this.baseURL()}/updateUser/${userId}`, { email: newEmail, username: newUsername })
+  updateUser(newEmail: string, newUsername: string, userId: number): Observable<Users> {
+    return this.http.patch<Users>(`${this.baseURL()}/updateUser/${userId}`, { email: newEmail, username: newUsername })
   }
 
   deleteUser(userId: number) {

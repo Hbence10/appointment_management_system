@@ -28,34 +28,6 @@
   height: 700px;
   background-color: #B2DFDB;
   color: #004D40;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px r gba(0, 0, 0, 0.23);
   border-radius: 16px;
-}
-
-.matButton {
-  background-color: #004D40 !important;
-  color: white !important;
-  height: 50px;
-  border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  width: 100%;
-}
-
-.matButton:disabled{
-  opacity: 0.6;
-}
-
-#backButton{
-  height: 40px;
-  width: 40px;
-  background-color: #B2DFDB;
-  border: 1px solid #004D40;
-  border-radius: 10px;
-}
-
-#backButton:hover{
-  background-color: #004D40;
-  span {
-    color: #B2DFDB;
-  }
 }

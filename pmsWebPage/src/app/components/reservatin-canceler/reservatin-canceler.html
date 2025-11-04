@@ -9,10 +9,9 @@
     <div class="col-lg-12">
       <div class="container-fluid" [class.mainContainer]="wantedReservation == null" [class.detailsContainer]="wantedReservation != null">
         <div class="row h-100">
-          <!-- [class.flexContainer]="wantedReservation == null" -->
           <div class="col-lg-12 flexContainer" >
             @if(wantedReservation == null){
-              <h3 class="text-center">Foglalás keresése</h3>
+              <h3 class="text-center mainFont">Foglalás keresése</h3>
 
               <form [formGroup]="form">
                 <mat-form-field class="w-100">
@@ -27,7 +26,7 @@
               </form>
 
               <div class="w-100">
-                <button class="matButton w-100 mb-2" matButton="filled" [disabled]="form.invalid" (click)="getReservation()">Keresés</button>
+                <button class="filledButton w-100 mb-2" matButton="filled" [disabled]="form.invalid" (click)="getReservation()">Keresés</button>
                 <p class="text-center mt-1 mb-0 secondFont">
                   Van már fiókja?
                   <a routerLink="/login" class="fw-bold text-decoration-none secondFont">Jelentkezzen be!</a>
@@ -35,7 +34,7 @@
 
                 <p class="text-center m-0 secondFont">
                   Nincs fiókja?
-                  <a class="fw-bold text-decoration-none" routerLink="/register">Regisztráljon</a>
+                  <a class="fw-bold text-decoration-none secondFont" routerLink="/register">Regisztráljon</a>
                 </p>
 
               </div>
@@ -43,11 +42,13 @@
               <div class="d-flex justify-content-between mb-5 w-100 mt-4">
                 <div></div>
                 <h3 class="text-center secondFont fw-bold">Az ön foglalásának az adatai:</h3>
-                <button (click)="backToForm()" id="backButton" class="d-flex justify-content-center align-items-center"><span class="material-symbols-outlined">arrow_left_alt</span></button>
+                <button (click)="backToForm()" class="d-flex justify-content-center align-items-center iconButton">
+                  <span class="material-symbols-outlined">arrow_left_alt</span>
+                </button>
               </div>
 
               <app-reservation-detail [reservation]="wantedReservation!" class="w-100"/>
-              <button class="mt-5 mb-4 matButton" matButton="filled" (click)="cancelReservation()" [disabled]="wantedReservation.getIsCanceled">Foglalás lemondása</button>
+              <button class="mt-5 mb-4 w-100 filledButton secondFont" matButton="filled" (click)="cancelReservation()" [disabled]="wantedReservation.getIsCanceled">Foglalás lemondása</button>
             }
           </div>
         </div>
