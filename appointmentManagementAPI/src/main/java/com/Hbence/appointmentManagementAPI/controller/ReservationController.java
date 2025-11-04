@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class ReservationController {
 
     @PostMapping("/makeReservationByRepetitiveDates")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(@RequestBody Map<String, Object> body){
-        return reservationService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("selectedDay").toString(), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
+        return reservationService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), (ArrayList<String>) body.get("selectedDay"), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
     }
 
     //Terem bezárása:
@@ -85,8 +86,8 @@ public class ReservationController {
     }
 
     @PostMapping("/closeByRepetitiveDates")
-    public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, String> body){
-        return reservationService.closeByRepetitiveDates(body.get("startDate"), body.get("endDate"), body.get("closeType"), body.get("selectedDay"));
+    public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, Object> body){
+        return reservationService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("closeType").toString(), (ArrayList<String>) body.get("selectedDay"));
     }
 
     @GetMapping("/reservedDate")

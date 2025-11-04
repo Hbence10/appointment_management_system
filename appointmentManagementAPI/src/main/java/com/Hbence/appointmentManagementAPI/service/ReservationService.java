@@ -179,20 +179,18 @@ public class ReservationService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, String repetitiveDay, ReservedHours repetitiveHour, Long adminId) {
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, ArrayList<String> selectedDays, ReservedHours repetitiveHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
         if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.notFound().build();
-        } else if (!days.contains(repetitiveDay)) {
-            return ResponseEntity.notFound().build();
-        } else {
+        }  else {
             List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
             ArrayList<Reservations> createdReservations = new ArrayList<>();
 
             for (int i = 0; i < dateList.size(); i++) {
-                if (dateList.get(i).getDayOfWeek().toString().equals(repetitiveDay)) {
+                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
                     Reservations baseReservation = new Reservations();
                     repetitiveHour.setDate(new ReservedDates(dateList.get(i)));
                     baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
@@ -241,7 +239,7 @@ public class ReservationService {
             for (int i = 0; i < dateList.size(); i++) {
                 ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
 
-                if(searchedDate == null || searchedDate.getId() == null){
+                if (searchedDate == null || searchedDate.getId() == null) {
                     searchedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
                 } else {
                     searchedDate.setIsHoliday(closeType.equals("holiday"));
@@ -256,10 +254,8 @@ public class ReservationService {
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, String closeType, String selectedDay) {
+    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, String closeType, ArrayList<String> selectedDays) {
         if (!closeTypes.contains(closeType)) {
-            return ResponseEntity.status(409).build();
-        } else if (!days.contains(selectedDay)) {
             return ResponseEntity.status(409).build();
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
@@ -268,11 +264,11 @@ public class ReservationService {
             List<ReservedDates> closedDates = new ArrayList<>();
 
             for (int i = 0; i < dateList.size(); i++) {
-                if(dateList.get(i).getDayOfWeek().toString().equals(selectedDay)){
+                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
                     System.out.println(dateList.get(i));
                     ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
 
-                    if(searchedDate == null || searchedDate.getId() == null){
+                    if (searchedDate == null || searchedDate.getId() == null) {
                         searchedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
                     } else {
                         searchedDate.setIsHoliday(closeType.equals("holiday"));
@@ -288,10 +284,10 @@ public class ReservationService {
         }
     }
 
-    public ResponseEntity<ReservedDates> getReservedDateByDate(String selectedDateText){
+    public ResponseEntity<ReservedDates> getReservedDateByDate(String selectedDateText) {
         ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
 
-        if(reservedDate == null){
+        if (reservedDate == null) {
             return ResponseEntity.ok().body(new ReservedDates());
         } else {
             return ResponseEntity.ok().body(reservedDate);
@@ -299,8 +295,8 @@ public class ReservationService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<List<Reservations>> getReservationForAdmin(String startDateText, String endDateText, int startHour, int endHour){
-        if(ValidatorCollection.rangeValidator(startDateText, endDateText)){
+    public ResponseEntity<List<Reservations>> getReservationForAdmin(String startDateText, String endDateText, int startHour, int endHour) {
+        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.notFound().build();
         } else {
             return null;

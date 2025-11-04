@@ -49,6 +49,7 @@ export class RoomControlPanel implements OnInit {
   selectedStartHour: number | null = null
   reservationList: Reservation[] = []
   selectedEventType!: 'close' | 'reservation';
+  testControl = new FormControl('')
 
   ngOnInit(): void {
     this.user = this.userService.user()!

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Okt 28. 19:50
+-- Létrehozás ideje: 2025. Nov 04. 18:54
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -72,11 +72,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsByEmail` (IN `emailI
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsForAdminReservation` (IN `startDateIN` DATE, IN `endDateIN` DATE, IN `startHourIN` INT(2), IN `endHourIN` INT(2))   BEGIN
-	SELECT * FROM reservation r
+	SELECT * FROM reservation r 
     INNER JOIN reserved_hour rh ON 
-    r.reserved_hour_id = rh.id
+    rh.id = r.reserved_hour_id 
     INNER JOIN reserved_date rd ON 
-    rd.date = rh.date_id;
+    rd.id = rh.date_id 
+    
+    WHERE 
+	(
+    	(startHourIN BETWEEN rh.start AND rh.end) 
+        OR 
+        (endHourIN BETWEEN rh.start AND rh.end)
+    ) AND   
+    
+    (rd.date BETWEEN startDateIN AND endDateIN);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateBetweenTwoDateByDate` (IN `startDateIN` DATE, IN `endDateIN` DATE, IN `dateIN` DATE)   BEGIN
@@ -644,18 +653,9 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`, `canceler_email`) VALUES
-(25, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 4, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
-(26, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 5, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
-(27, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 6, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
-(28, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 7, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
-(29, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 8, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
-(30, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 1, 48, 1, 1, 9, '2025-10-05 08:31:15', NULL, NULL, NULL, NULL),
-(31, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$5MYk5GB42arFRuKqn2+ZYA$s9rAZi83FcCsy19facW/haXlpHanWDO0lO9jfIIqsHQ', 1, NULL, 2, 3, 11, '2025-09-19 19:47:00', 1, '2025-10-22 00:00:00', 49, NULL),
-(32, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$R7gRBK3gotpwPuSnQRYWJQ$euwD89jpNNlBV6GHGoytEG5BQ88f2RRDNcB5ZdXqB8s', 2, NULL, 2, 1, 12, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
-(33, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$NCcCnAjFuc+MUXL5/Fd2IQ$XR2+s2s/yp6ypL4ekNO2Ys1GF6t374/Y0MuvrmmD1fc', 2, NULL, 2, 1, 13, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
-(34, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$tyG+hXKkBaYbGgSy/btghw$DoZFG1T0nkzHEFtQM6pLdBUmX/RyHM/PFn9Hn69g3Rc', 2, NULL, 2, 1, 14, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
-(35, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$+qZEisiqhtH936EuIw1rnA$DyJVmVrtfWisiZUQdrmZGJC5VchojusfhBS89DGO31Q', 2, NULL, 2, 3, 15, '2025-09-19 19:47:00', 1, '2025-10-09 00:00:00', NULL, 'bzhalmai@gmail.com'),
-(36, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$0C69SvcrGefwEex6t8HGuA$ziWK/vnzUfH1GII6Gu6B/YpsUqFQ1lWi7yodbh50170', 1, NULL, 2, 1, 16, '2025-10-22 11:05:33', 0, NULL, NULL, NULL);
+(37, 'a', 'a', 'a', 102, 'a', NULL, NULL, 9, 52, 1, 1, 17, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL),
+(38, 'a', 'a', 'a', 102, 'a', 'a', NULL, 1, 52, 1, 1, 18, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL),
+(39, 'a', 'a', 'a', 102, 'a', NULL, NULL, 6, 3, 1, 1, 19, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -706,27 +706,11 @@ CREATE TABLE `reserved_date` (
 --
 
 INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
-(1, '2025-10-06', 1, 0, 0),
-(2, '2025-10-02', 1, 0, 0),
-(3, '2025-10-03', 1, 0, 0),
-(4, '2025-10-04', 1, 0, 0),
-(5, '2025-10-05', 1, 0, 0),
-(6, '2025-09-20', 1, 0, 0),
-(8, '2025-10-22', 0, 0, 1),
-(9, '2025-10-11', 0, 0, 1),
-(24, '2025-10-07', 1, 0, 0),
-(25, '2025-09-15', 1, 0, 0),
-(26, '2025-09-16', 1, 0, 0),
-(27, '2025-09-17', 1, 0, 0),
-(28, '2025-09-18', 1, 0, 0),
-(29, '2025-09-19', 1, 0, 0),
-(30, '2025-09-21', 1, 0, 0),
-(31, '2025-09-22', 1, 0, 0),
-(32, '2025-09-23', 1, 0, 0),
-(33, '2025-09-24', 1, 0, 0),
-(36, '2025-11-15', 0, 0, 0),
-(50, '2026-01-07', 0, 1, 0),
-(51, '2026-01-14', 0, 1, 0);
+(58, '2025-10-07', 0, 0, 0),
+(59, '2025-10-08', 0, 0, 0),
+(60, '2025-10-09', 0, 0, 0),
+(61, '2025-10-10', 0, 0, 0),
+(62, '2025-10-11', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -748,18 +732,9 @@ CREATE TABLE `reserved_hour` (
 --
 
 INSERT INTO `reserved_hour` (`id`, `start`, `end`, `date_id`, `is_deleted`, `deleted_at`) VALUES
-(4, 10, 12, 5, 0, NULL),
-(5, 14, 16, 5, 0, NULL),
-(6, 18, 21, 5, 0, NULL),
-(7, 10, 12, 2, 0, NULL),
-(8, 14, 15, 2, 0, NULL),
-(9, 15, 16, 2, 0, NULL),
-(11, 13, 15, 8, 0, NULL),
-(12, 13, 15, 8, 0, NULL),
-(13, 13, 15, 8, 0, NULL),
-(14, 13, 15, 8, 0, NULL),
-(15, 13, 15, 8, 0, NULL),
-(16, 14, 17, 36, 0, NULL);
+(17, 14, 16, 58, 0, NULL),
+(18, 17, 18, 60, 0, NULL),
+(19, 16, 19, 62, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -789,7 +764,8 @@ INSERT INTO `review` (`id`, `author_id`, `review_text`, `rating`, `is_anonymous`
 (4, 2, 'Imádtuk! A terem hangulata inspiráló, minden tiszta és profi. Már az első percben úgy éreztem, mintha stúdióban lennénk. A csapatom is teljesen odavolt, biztosan visszajáró vendégek leszünk!', 3.5, 0, '2025-09-08 10:21:46', 0, NULL),
 (5, 29, 'A helyszín nagyon jó, az akusztika is rendben van. Egyetlen apróság, hogy a légkondi lehetne erősebb, mert nyáron gyorsan felmelegszik a terem. Ezen kívül minden tökéletes volt, szívesen ajánlom más zenekaroknak is.', 2, 0, '2025-09-08 10:21:46', 0, NULL),
 (6, 50, 'Nagyon király a hely, minden cucc pöpecül működik. Nincs macera a foglalással, simán ment minden. Full jó vibe, ide tuti még visszajövünk jammelni!', 2, 0, '2025-09-08 10:21:46', 0, NULL),
-(7, 48, 'postTest12', 2.5, 0, '2025-10-07 02:47:52', 0, NULL);
+(7, 48, 'postTest12', 2.5, 0, '2025-10-07 02:47:52', 0, NULL),
+(10, 49, 'testReview', 2.5, 0, '2025-11-03 19:05:34', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -810,7 +786,13 @@ CREATE TABLE `review_like_history` (
 --
 
 INSERT INTO `review_like_history` (`id`, `review_id`, `like_type`, `user_id`, `like_at`) VALUES
-(1, 1, 'like', 48, '2025-10-07 04:54:47');
+(2, 7, 'like', 48, '2025-11-03 17:11:18'),
+(3, 6, 'like', 48, '2025-11-03 17:13:38'),
+(4, 5, 'like', 48, '2025-11-03 17:15:08'),
+(5, 2, 'dislike', 48, '2025-11-03 17:17:00'),
+(6, 3, 'like', 48, '2025-11-03 18:48:45'),
+(7, 4, 'like', 48, '2025-11-03 19:32:04'),
+(10, 10, 'like', 49, '2025-11-03 20:05:41');
 
 -- --------------------------------------------------------
 
@@ -884,7 +866,7 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` longtext NOT NULL,
-  `pfp_path` varchar(100) NOT NULL DEFAULT 'assets/placeholder.png',
+  `pfp_path` longtext NOT NULL,
   `is_notification_about_news` tinyint(1) NOT NULL DEFAULT '0',
   `role_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -906,9 +888,9 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', 'assets/placeholder.png', 0, 1, '2025-09-20 16:18:03', NULL, 0, NULL),
 (44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
 (46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 1, '2025-09-24 10:07:39', NULL, 0, NULL),
-(47, 'securityTest', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-10-15 12:24:33', 0, NULL),
-(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-10-27 16:07:41', 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', '2025-10-25 20:18:03', 0, NULL),
+(47, 'securityTest7621', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-11-03 21:17:39', 0, NULL),
+(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-11-04 14:57:12', 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\93137338.png', 0, 3, '2025-08-23 04:45:44', '2025-11-04 18:55:58', 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL);
@@ -1129,7 +1111,7 @@ ALTER TABLE `phone_country_code`
 -- AUTO_INCREMENT a táblához `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -1141,25 +1123,25 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_date`
 --
 ALTER TABLE `reserved_date`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hour`
 --
 ALTER TABLE `reserved_hour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `review_like_history`
 --
 ALTER TABLE `review_like_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `role`
