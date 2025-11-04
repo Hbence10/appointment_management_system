@@ -5,6 +5,7 @@
     </div>
   </div>
 
+  @if(user!.getRole.getName == 'ROLE_superAdmin'){
   <div class="row mb-4">
     <div class="col-lg-12">
       <h2 class="mainFont">Terem bezárása</h2>
@@ -120,7 +121,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Melyik napokon legyen?" [(value)]="selectedDay">
+                      <mat-select placeholder="Melyik napokon legyen?" [(value)]="selectedDay" multiple="">
                         @for (day of hunDayNames; track $index) {
                           <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
@@ -136,6 +137,7 @@
       </div>
     </div>
   </div>
+  }
 
   <div class="row">
     <div class="col-lg-12">

@@ -207,7 +207,7 @@ public class ReservationService {
     }
 
     //Terem bezárása
-    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomForADay(String selectedDateText, String closeType) {
         if (!closeTypes.contains(closeType)) {
             return ResponseEntity.status(409).build();
@@ -228,7 +228,7 @@ public class ReservationService {
         }
     }
 
-    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomBetweenPeriod(String startDateText, String endDateText, String closeType) {
         if (!closeTypes.contains(closeType)) {
             return ResponseEntity.status(409).build();
@@ -255,7 +255,7 @@ public class ReservationService {
         }
     }
 
-    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, String closeType, String selectedDay) {
         if (!closeTypes.contains(closeType)) {
             return ResponseEntity.status(409).build();

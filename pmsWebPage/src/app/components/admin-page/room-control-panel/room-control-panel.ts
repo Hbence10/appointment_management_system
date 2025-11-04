@@ -27,7 +27,7 @@ export class RoomControlPanel implements OnInit {
   private adminService = inject(AdminService)
   private userService = inject(UserService)
   private reservationService = inject(ReservationService)
-  private user!: Users
+  user!: Users
   showList: boolean[] = [false, false, false, false, false, false]
 
   dayNames: string[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
