@@ -48,25 +48,7 @@ public class UserController {
     }
 
     //Adminok kezelese
-    @PostMapping("/makeAdmin/{id}")
-    public ResponseEntity<Users> makeAdmin(@PathVariable("id") Long id, @RequestBody AdminDetails newAdminDetails) {
-        return userService.makeAdmin(id, newAdminDetails);
-    }
 
-    @GetMapping("/admin")
-    public ResponseEntity<List<Users>> getAdminList() {
-        return userService.getAllAdmin();
-    }
-
-    @PutMapping("/updateAdmin")
-    public ResponseEntity<Object> updateAdmin(@RequestBody AdminDetails updatedDetails) {
-        return userService.updateAdmin(updatedDetails);
-    }
-
-    @DeleteMapping("/deleteAdmin/{id}")
-    public ResponseEntity<Object> deleteAdmin(@PathVariable("id") Long id) {
-        return userService.deleteAdmin(id);
-    }
 
     @GetMapping("")
     public ResponseEntity<Object> getShortUsersList(){

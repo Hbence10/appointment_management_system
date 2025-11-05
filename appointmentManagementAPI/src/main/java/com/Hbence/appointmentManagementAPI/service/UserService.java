@@ -125,54 +125,7 @@ public class UserService {
     }
 
     //Adminok kezelese
-    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Users> makeAdmin(Long userId, AdminDetails details) {
-        Users searchedUser = userRepository.findById(userId).get();
 
-        if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
-            return ResponseEntity.status(407).build();
-        } else if (details.getId() != null) {
-            return ResponseEntity.internalServerError().build();
-        } else {
-            searchedUser.setRole(new Role(Long.valueOf("2"), "ROLE_admin"));
-            details.setAdminUser(searchedUser);
-            adminDetailsRepository.save(details);
-            return ResponseEntity.ok(userRepository.save(searchedUser));
-        }
-    }
-
-    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<List<Users>> getAllAdmin() {
-        return ResponseEntity.ok().body(userRepository.getAllAdmin());
-    }
-
-    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> updateAdmin(AdminDetails updatedAdminDetails) {
-        AdminDetails testDetails = adminDetailsRepository.findById(updatedAdminDetails.getId()).get();
-
-        if (testDetails.getId() == null || testDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (!ValidatorCollection.emailChecker(updatedAdminDetails.getEmail())) {
-            return ResponseEntity.status(407).build();
-        } else {
-            return ResponseEntity.ok().body(adminDetailsRepository.save(updatedAdminDetails));
-        }
-    }
-
-    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> deleteAdmin(Long id) {
-        AdminDetails searchedAdminDetails = adminDetailsRepository.findById(id).get();
-        if (searchedAdminDetails.getId() == null || searchedAdminDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedAdminDetails.setIsDeleted(true);
-            searchedAdminDetails.setDeletedAt(new Date());
-            adminDetailsRepository.save(searchedAdminDetails);
-            return ResponseEntity.ok().build();
-        }
-    }
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> getShortUsersList() {

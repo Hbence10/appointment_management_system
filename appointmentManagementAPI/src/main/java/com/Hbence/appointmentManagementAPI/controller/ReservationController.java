@@ -58,48 +58,7 @@ public class ReservationController {
     }
 
     //ADMIN PAGE
-    //Tovabbi foglalasi tipus
-    @PostMapping("/adminReservation")
-    public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
-        return reservationService.makeAdminReservation((ReservedHours) bodyObject.get("selectedHour"), (Long) bodyObject.get("adminId"));
-    }
 
-    @PostMapping("/makeReservationAlwaysBetweenTwoDates")
-    public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody Map<String, Object> body){
-        return reservationService.makeReservationBetweenPeriod(body.get("startDate").toString(), body.get("endDate").toString(), (ReservedHours) body.get("selectedHour"), (Long) body.get("adminId"));
-    }
-
-    @PostMapping("/makeReservationByRepetitiveDates")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(@RequestBody Map<String, Object> body){
-        return reservationService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), (ArrayList<String>) body.get("selectedDay"), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
-    }
-
-    //Terem bezárása:
-    @PostMapping("/closeRoomForADay")
-    public ResponseEntity<Object> closeRoomForADay(@RequestBody Map<String, String> body){
-       return reservationService.closeRoomForADay(body.get("date"), body.get("closeType"));
-    }
-
-    @PostMapping("/closeRoomBetweenPeriod")
-    public ResponseEntity<Object> closeRoomBetweenPeriod(@RequestBody Map<String, String> body){
-        return reservationService.closeRoomBetweenPeriod(body.get("startDate"), body.get("endDate"), body.get("closeType"));
-    }
-
-    @PostMapping("/closeByRepetitiveDates")
-    public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, Object> body){
-        return reservationService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("closeType").toString(), (ArrayList<String>) body.get("selectedDay"));
-    }
-
-    @GetMapping("/adminIntervallumCheck") //Intervallum foglalas leellenorzes
-    public ResponseEntity<Object> getReservationsForAdminIntervallum(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour) {
-        return reservationService.getReservationsForAdminIntervallum(startDateText, endDateText, startHour, endHour);
-    }
-
-    @GetMapping("/adminRepetitiveCheck")
-    public ResponseEntity<Object> checkReservationForRepetitive(@RequestParam("dateText") String dateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
-//        return reservationService.checkReservationForRepetitive(dateText, startHour, endHour);
-        return null;
-    }
 
     //
     @GetMapping("/reservedDate")
