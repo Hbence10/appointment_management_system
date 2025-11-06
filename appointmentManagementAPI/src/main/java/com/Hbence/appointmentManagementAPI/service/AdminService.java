@@ -33,7 +33,7 @@ public class AdminService {
 
     //ADMIN FOGLALAS
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeAdminReservation(ReservedHours selectedHour, Long adminId) {
+    public ResponseEntity<Object> makeAdminReservation(Long adminId, Integer startHour, Integer endHour, String dateText) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
         if (searchedAminDetails.getId() == null) {
@@ -43,7 +43,16 @@ public class AdminService {
         } else {
             Reservations baseReservation = new Reservations();
             baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
-            baseReservation.setReservedHours(selectedHour);
+            ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(LocalDate.parse(dateText));
+            ReservedHours reservedHours = new ReservedHours(startHour, endHour);
+
+            if (reservedDates == null || reservedDates.getId() == null) {
+                reservedHours.setDate(new ReservedDates(LocalDate.parse(dateText)));
+            } else {
+                reservedHours.setDate(reservedDates);
+            }
+
+            baseReservation.setReservedHours(reservedHours);
 
             reservedDateRepository.save(baseReservation.getReservedHours().getDate());
             reservationRepository.save(baseReservation);
@@ -53,7 +62,7 @@ public class AdminService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, ReservedHours selectedHour, Long adminId) {
+    public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, Integer startHour, Integer endHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
         if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
@@ -63,10 +72,19 @@ public class AdminService {
         } else {
             List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
             for (int i = 0; i < dateList.size(); i++) {
-                selectedHour.setDate(new ReservedDates(dateList.get(i)));
                 Reservations baseReservation = new Reservations();
                 baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
-                baseReservation.setReservedHours(selectedHour);
+
+                ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                ReservedHours reservedHours = new ReservedHours(startHour, endHour);
+
+                if (reservedDates == null || reservedDates.getId() == null) {
+                    reservedHours.setDate(new ReservedDates(dateList.get(i)));
+                } else {
+                    reservedHours.setDate(reservedDates);
+                }
+
+                baseReservation.setReservedHours(reservedHours);
 
                 reservedDateRepository.save(baseReservation.getReservedHours().getDate());
                 reservationRepository.save(baseReservation);
@@ -226,8 +244,8 @@ public class AdminService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> checkReservationForSimple(String dateText, Integer startHour, Integer endHour){
-         if (startHour > endHour) {
+    public ResponseEntity<Object> checkReservationForSimple(String dateText, Integer startHour, Integer endHour) {
+        if (startHour > endHour) {
             return null;
         } else {
             List<Long> idList = reservationRepository.checkReservationForAdminReservation(LocalDate.parse(dateText), startHour, endHour);
@@ -236,7 +254,8 @@ public class AdminService {
     }
 
     //FOGLALASOK VISSZASZERZESE REPETITIVE ZARASHOZ
-    public ResponseEntity<Object> repetitiveCloseCheck(String startDateText, String endDateText, ArrayList<String> selectedDays){
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> repetitiveCloseCheck(String startDateText, String endDateText, ArrayList<String> selectedDays) {
         if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
         } else {

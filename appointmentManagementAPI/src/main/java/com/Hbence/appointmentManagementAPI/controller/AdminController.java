@@ -22,12 +22,12 @@ public class AdminController {
     //ADMIN FOGLALAS
     @PostMapping("/reservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
-        return adminService.makeAdminReservation((ReservedHours) bodyObject.get("selectedHour"), (Long) bodyObject.get("adminId"));
+        return adminService.makeAdminReservation( Long.valueOf(bodyObject.get("adminId").toString()), (Integer) bodyObject.get("startHour"), (Integer) bodyObject.get("endHour"), bodyObject.get("dateText").toString());
     }
 
     @PostMapping("/reservationBetweenPeriod")
     public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody Map<String, Object> body){
-        return adminService.makeReservationBetweenPeriod(body.get("startDate").toString(), body.get("endDate").toString(), (ReservedHours) body.get("selectedHour"), (Long) body.get("adminId"));
+        return adminService.makeReservationBetweenPeriod(body.get("startDate").toString(), body.get("endDate").toString(), (Integer) body.get("startHour"), (Integer) body.get("endHour") ,Long.valueOf(body.get("adminId").toString()));
     }
 
     @PostMapping("/reservationRepetitive")
@@ -69,8 +69,8 @@ public class AdminController {
 
     //FOGLALASOK VISSZASZERZESE REPETITIVE ZARASHOZ
     @GetMapping("/repetitiveCloseCheck")
-    public ResponseEntity<Object> repetitiveCloseCheck(){
-        return null;
+    public ResponseEntity<Object> repetitiveCloseCheck(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("selectedDays") ArrayList<String> selectedDays){
+        return adminService.repetitiveCloseCheck(startDateText, endDateText, selectedDays);
     }
 
     //ADMINOK KEZELESE

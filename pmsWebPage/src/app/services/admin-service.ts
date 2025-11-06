@@ -71,21 +71,21 @@ export class AdminService {
   }
 
   //Foglalasok visszaszerzese az admin foglalashoz
-  getReservationsForAdminIntervallum(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  getReservationsForAdminIntervallum(startDateText: string, endDateText: string, startHour: number, endHour: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/intervallumCheck?startDateText=${startDateText}&endDateText=${endDateText}&startHour=${startHour}&endHour=${endHour}`)
   }
 
-  checkReservationForRepetitive(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  checkReservationForRepetitive(startDateText: string, endDateText: string, selectedDays: string[], startHour: number, endHour: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/repetitiveCheck`)
   }
 
-  checkReservationForSimple(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  checkReservationForSimple(dateText: string, startHour: number, endHour: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/reservationCheck`)
   }
 
   //Foglalasok visszaszerzese repetitive zarashoz
-  repetitiveCloseCheck(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  repetitiveCloseCheck(startDateText: string, endDateText: string, selectedDays: string[]): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/repetitiveCloseCheck`)
   }
 
   //Adminok kezelese:
