@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAnchor } from "@angular/material/button";
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -77,24 +77,55 @@ export class RoomControlPanel implements OnInit {
     this.selectedDate = new FormControl(new Date());
     this.selectedHourAmount = null
     this.selectedStartHour = null
+    this.reservationList = []
   }
 
-  checkReservationForClose(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
-
+  checkReservationForClose(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive", dateText: string, startDateText: string, endDateText: string) {
+    if (methodType == "single") {
+      this.reservationService.getReservationByDate("").subscribe({
+        next: response => this.reservationList = this.reservationService.setObject(response),
+        error: error => console.log(error)
+      })
+    } else if (methodType == "betweenTwoDate") {
+      this.reservationService.getReservationBetweenIntervallum("", "").subscribe({
+        next: response => this.reservationList = this.reservationService.setObject(response),
+        error: error => console.log(error)
+      })
+    } else if (methodType == "betweenTwoDateRepetitive") {
+      this.adminService.repetitiveCloseCheck().subscribe({
+        next: response => this.reservationList = this.reservationService.setObject(response),
+        error: error => console.log(error)
+      })
+    }
   }
 
-  checkReservationForReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
-
+  checkReservationForReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive", startDateText: string, endDateText: string) {
+    if (methodType == "single") {
+      this.adminService.checkReservationForSimple().subscribe({
+        next: response => this.reservationList = this.reservationService.setObject(response),
+        error: error => console.log(error)
+      })
+    } else if (methodType == "betweenTwoDate") {
+      this.adminService.getReservationsForAdminIntervallum().subscribe({
+        next: response => this.reservationList = this.reservationService.setObject(response),
+        error: error => console.log(error)
+      })
+    } else if (methodType == "betweenTwoDateRepetitive") {
+      this.adminService.checkReservationForRepetitive().subscribe({
+        next: response => this.reservationList = this.reservationService.setObject(response),
+        error: error => console.log(error)
+      })
+    }
   }
 
-  //bezaras
+  //ZARAS
   closeRoom(closeType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
     const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
     this.selectedEventType = 'close'
 
-    this.checkReservationForClose(closeType)
+    this.checkReservationForClose(closeType, dateText, startDateText!, endDateText!)
 
     if (closeType == 'single') {
       this.closeRoomForADay(dateText)
@@ -130,7 +161,7 @@ export class RoomControlPanel implements OnInit {
     })
   }
 
-  //foglalas
+  //FOGLALASOK
   makeReservation(reservationType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
     let reservedHour: ReservedHours = new ReservedHours();
     if (reservationType == 'single') {
@@ -140,9 +171,9 @@ export class RoomControlPanel implements OnInit {
     }
 
     this.selectedEventType = 'reservation'
-    this.checkReservationForReservation(reservationType)
     const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
+    this.checkReservationForReservation(reservationType, startDateText!, endDateText!)
 
     if (reservationType == 'single') {
       this.makeAdminReservation(reservedHour)

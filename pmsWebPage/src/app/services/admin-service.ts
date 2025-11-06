@@ -1,24 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { ReservedHours } from '../models/reservedHours.model';
+import { Observable } from 'rxjs';
+import { Users } from '../models/user.model';
+import { AdminDetails } from '../models/adminDetails.model';
+import { Reservation } from '../models/reservation.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/reservation")
+  baseURL = signal<string>("http://localhost:8080/admin")
+  selectedUserIdForAdmin: number | null = 0;
 
   //foglalasok:
   makeAdminReservation(selectedHour: ReservedHours, adminId: number) {
-    return this.http.post(`${this.baseURL()}/adminReservation`, {
+    return this.http.post(`${this.baseURL()}/reservation`, {
       selectedHour: selectedHour,
       adminId: adminId
     })
   }
 
   makeReservationBetweenPeriod(startDate: string, endDate: string, selectedHour: ReservedHours, adminId: number) {
-    return this.http.post(`${this.baseURL()}/makeReservationAlwaysBetweenTwoDates`, {
+    return this.http.post(`${this.baseURL()}/reservationBetweenPeriod`, {
       startDate: startDate,
       endDate: endDate,
       selectedHour: selectedHour,
@@ -27,7 +32,7 @@ export class AdminService {
   }
 
   makeReservationByRepetitiveDates(startDate: string, endDate: string, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours, adminId: number) {
-    return this.http.post(`${this.baseURL()}/makeReservationByRepetitiveDates`, {
+    return this.http.post(`${this.baseURL()}/reservationRepetitive`, {
       startDate: startDate,
       endDate: endDate,
       selectedDay: selectedDay,
@@ -61,7 +66,42 @@ export class AdminService {
     })
   }
 
-  getReservedDateByDate(selectedDateText: string){
+  getReservedDateByDate(selectedDateText: string) {
     return this.http.get(`${this.baseURL()}/reservedDate?selectedDate=${selectedDateText}`)
+  }
+
+  //Foglalasok visszaszerzese az admin foglalashoz
+  getReservationsForAdminIntervallum(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  }
+
+  checkReservationForRepetitive(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  }
+
+  checkReservationForSimple(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  }
+
+  //Foglalasok visszaszerzese repetitive zarashoz
+  repetitiveCloseCheck(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseURL()}/`)
+  }
+
+  //Adminok kezelese:
+  makeAdmin(adminDetails: AdminDetails) {
+    return this.http.post(`${this.baseURL()}/makeAdmin/${this.selectedUserIdForAdmin}`, adminDetails)
+  }
+
+  getAllAdmin(): Observable<Users[]> {
+    return this.http.get<Users[]>(`${this.baseURL()}`)
+  }
+
+  updateAdmin(updatedDetails: AdminDetails) {
+    return this.http.put(`${this.baseURL()}/updateAdmin`, updatedDetails)
+  }
+
+  deleteAdmin(adminId: number) {
+    return this.http.delete(`${this.baseURL()}/deleteAdmin/${adminId}`)
   }
 }

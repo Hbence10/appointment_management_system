@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/devices/addCategory", "/devices/deleteCategory/**", "/devices/updateCategory", "/devices/update", "/devices/addDevice", "/devices/delete/**").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/rule/update", "/gallery/update").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/news/addNews", "/news/update", "/news/delete/**", "/news/addCoverImg/**").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("/reservation/reservedDate","/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/makeReservation", "/reservation/cancel/**", "/reservation/getByEmailAndVCode").permitAll()
+                        .requestMatchers("/reservation/reservedDate","/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/cancel/**", "/reservation/getByEmailAndVCode").permitAll()
                         .requestMatchers("/reservationStuff/getReservationType", "/reservationStuff/paymentMethods", "/reservationStuff/phoneCodes").permitAll()
                         .requestMatchers("/reservationStuff/addReservationType", "/reservationStuff/deleteReservationType/**", "/reservationStuff/updateReservationType").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/deleteLike/**", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
@@ -57,10 +57,11 @@ public class SecurityConfig {
                         .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
 
                         //admin page
-                        .requestMatchers("/users","/users/deleteAdmin/**", "/users/updateAdmin", "/users/makeAdmin/**", "/history", "/users/admin").hasRole("superAdmin")
-                        .requestMatchers("/reservation/adminReservation", "/reservation/makeReservationByRepetitiveDates", "/reservation/makeReservationAlwaysBetweenTwoDates").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("/reservation/closeRoomForADay", "/reservation/closeRoomBetweenPeriod", "/reservation/closeByRepetitiveDates").hasRole("superAdmin")
-                        .requestMatchers("/reservation/adminIntervallumCheck", "/reservation/adminRepetitiveCheck").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/admin/reservation", "/admin/reservationBetweenPeriod", "/admin/reservationRepetitive").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/admin/closeRoomForADay", "/admin/closeRoomBetweenPeriod", "/admin/closeByRepetitiveDates").hasRole("superAdmin")
+                        .requestMatchers("/admin/intervallumCheck", "/admin/repetitiveCheck", "/admin/reservationCheck").hasAnyRole("admin", "superAdmin")
+                        .requestMatchers("/makeAdmin/**", "/admin", "/admin/updateAdmin", "/admin/deleteAdmin/**").hasRole("superAdmin")
+                        .requestMatchers("/reservation/makeReservation").permitAll()
 
                         //swagger:
                         .requestMatchers("/swagger-ui/**").permitAll()

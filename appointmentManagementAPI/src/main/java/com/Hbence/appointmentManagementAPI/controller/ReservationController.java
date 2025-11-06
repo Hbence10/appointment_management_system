@@ -58,8 +58,6 @@ public class ReservationController {
     }
 
     //ADMIN PAGE
-
-
     //
     @GetMapping("/reservedDate")
     public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){

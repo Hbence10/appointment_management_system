@@ -24,6 +24,7 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
+import { AdminService } from '../../services/admin-service';
 
 
 @Component({
@@ -75,6 +76,7 @@ export class PopUp implements OnInit {
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
   private reservationStuffService = inject(ReservationStuff)
+  private adminService = inject(AdminService)
 
   ngOnInit() {
     this.reservationService.form.reset()
@@ -105,7 +107,7 @@ export class PopUp implements OnInit {
         error: error => this.setErrors(error)
       })
     } else if (this.actualDetails()?.objectType == 'user') {
-      subscription = this.userService.getAllAdmin().subscribe({
+      subscription = this.adminService.getAllAdmin().subscribe({
         next: responseList => {
           const list: Users[] = responseList.map(element => Object.assign(new Users(), element))
           list.forEach(element => element.setAdminDetails = Object.assign(new AdminDetails(), element.getAdminDetails))
@@ -254,7 +256,7 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof Users) {
       const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
-      this.userService.updateAdmin(newAdminDetails).subscribe({
+      this.adminService.updateAdmin(newAdminDetails).subscribe({
         next: response => console.log(response),
         error: error => console.log(error),
         complete: () => this.actualPage = "listPage"
@@ -294,7 +296,7 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof Users) {
       const newAdminDetails: AdminDetails = new AdminDetails(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
-      this.userService.makeAdmin(newAdminDetails).subscribe({
+      this.adminService.makeAdmin(newAdminDetails).subscribe({
         next: response => console.log(response)
       })
     }
@@ -320,7 +322,7 @@ export class PopUp implements OnInit {
         next: response => console.log(response)
       })
     } else if (this.selectedObject instanceof Users) {
-      this.userService.deleteAdmin(this.selectedObject.getAdminDetails.getId!).subscribe({
+      this.adminService.deleteAdmin(this.selectedObject.getAdminDetails.getId!).subscribe({
         next: response => console.log(response)
       })
     }

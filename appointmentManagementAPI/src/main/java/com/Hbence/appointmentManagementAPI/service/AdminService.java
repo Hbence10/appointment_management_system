@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +31,7 @@ public class AdminService {
     private final ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holiday", "full", "other"));
     private final ArrayList<String> days = new ArrayList<>(Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
 
+    //ADMIN FOGLALAS
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeAdminReservation(ReservedHours selectedHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
@@ -100,7 +102,17 @@ public class AdminService {
         }
     }
 
-    //Terem bezárása
+    public Reservations setAdminDetails(Reservations newReservation, AdminDetails adminDetails) {
+        newReservation.setFirstName(adminDetails.getFirstName());
+        newReservation.setLastName(adminDetails.getLastName());
+        newReservation.setEmail(adminDetails.getEmail());
+        newReservation.setPhone(adminDetails.getPhone());
+        newReservation.setUser(adminDetails.getAdminUser());
+        newReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
+        return newReservation;
+    }
+
+    //TEREM BEZARASA
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomForADay(String selectedDateText, String closeType) {
         if (!closeTypes.contains(closeType)) {
@@ -180,20 +192,7 @@ public class AdminService {
         }
     }
 
-    public Reservations setAdminDetails(Reservations newReservation, AdminDetails adminDetails) {
-        newReservation.setFirstName(adminDetails.getFirstName());
-        newReservation.setLastName(adminDetails.getLastName());
-        newReservation.setEmail(adminDetails.getEmail());
-        newReservation.setPhone(adminDetails.getPhone());
-        newReservation.setUser(adminDetails.getAdminUser());
-        newReservation.setPhoneCountryCode(new PhoneCountryCode(Long.valueOf("102"), 36, "Hungary"));
-        return newReservation;
-    }
-
-    //FOGLALASOK VISSZASZERZESE ADMIN FOGLALASNAL
-    //Foglalas visszaszerzese egyszeri foglalasnal
-
-    //Foglalasok visszaszerzese intervallumkor:
+    //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> getReservationsForAdminIntervallum(String startDateText, String endDateText, int startHour, int endHour) {
         if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
@@ -206,7 +205,6 @@ public class AdminService {
         }
     }
 
-    //Foglalasok visszaszerzese repetitive-kor
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> checkReservationForRepetitive(String startDateText, String endDateText, ArrayList<String> selectedDays, Integer startHour, Integer endHour) {
         if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
@@ -223,6 +221,33 @@ public class AdminService {
                 }
             }
 
+            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> checkReservationForSimple(String dateText, Integer startHour, Integer endHour){
+         if (startHour > endHour) {
+            return null;
+        } else {
+            List<Long> idList = reservationRepository.checkReservationForAdminReservation(LocalDate.parse(dateText), startHour, endHour);
+            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        }
+    }
+
+    //FOGLALASOK VISSZASZERZESE REPETITIVE ZARASHOZ
+    public ResponseEntity<Object> repetitiveCloseCheck(String startDateText, String endDateText, ArrayList<String> selectedDays){
+        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+            return ResponseEntity.status(417).build();
+        } else {
+            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+            List<Long> idList = new ArrayList<>();
+
+            for (int i = 0; i < dateList.size(); i++) {
+                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+                    idList.addAll(reservationRepository.getReservationByDate(dateList.get(i)));
+                }
+            }
             return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
         }
     }

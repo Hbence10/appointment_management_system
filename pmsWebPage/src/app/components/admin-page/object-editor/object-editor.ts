@@ -14,6 +14,7 @@ import { ReservationService } from '../../../services/reservation-service';
 import { CommonModule } from '@angular/common';
 import { Users } from '../../../models/user.model';
 import { UserService } from '../../../services/user-service';
+import { AdminService } from '../../../services/admin-service';
 
 @Component({
   selector: 'app-object-editor',
@@ -26,6 +27,7 @@ import { UserService } from '../../../services/user-service';
 export class ObjectEditor implements OnInit {
   private deviceService = inject(DeviceService)
   userService = inject(UserService)
+  adminService = inject(AdminService)
   private destroyRef = inject(DestroyRef)
   reservationService = inject(ReservationService)
   objectType = input.required<Details>()

@@ -6,6 +6,7 @@ import { PaymentMethod } from '../../../models/paymentMethod.model';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { ReservationStuff } from '../../../services/reservation-stuff';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-finalize',
@@ -18,6 +19,7 @@ export class ReservationFinalize implements OnInit {
   private reservationService = inject(ReservationService)
   private reservationStuffService = inject(ReservationStuff)
   private destroyRef = inject(DestroyRef)
+  private router = inject(Router)
 
   paymentMethods = signal<PaymentMethod[]>([])
   isAddedToGoogleCalendar = signal<boolean>(false)
@@ -58,9 +60,10 @@ export class ReservationFinalize implements OnInit {
 
     this.reservationService.makeReservation().subscribe({
       next: response => console.log(response),
-      complete: () => this.isReservationFinished.set(true)
+      complete: () => {
+        this.isReservationFinished.set(true)
+        this.router.navigate([""])
+      }
     })
-
-    // this.router.navigate([""])
   }
 }

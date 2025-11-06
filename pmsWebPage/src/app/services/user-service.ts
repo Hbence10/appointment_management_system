@@ -12,7 +12,6 @@ export class UserService {
   private baseURL = signal<string>("http://localhost:8080/users")
   user = signal<null | Users>(null)
   token: string = ""
-  selectedUserIdForAdmin: number | null = 0;
 
   //endpointok:
   login(username: string, password: string): Observable<any> {
@@ -36,21 +35,7 @@ export class UserService {
   }
 
   //adminPage:
-  getAllAdmin(): Observable<Users[]>{
-    return this.http.get<Users[]>(`${this.baseURL()}/admin`)
-  }
 
-  makeAdmin(adminDetails: AdminDetails){
-    return this.http.post(`${this.baseURL()}/makeAdmin/${this.selectedUserIdForAdmin}`, adminDetails)
-  }
-
-  updateAdmin(updatedDetails: AdminDetails){
-    return this.http.put(`${this.baseURL()}/updateAdmin`, updatedDetails)
-  }
-
-  deleteAdmin(adminId: number){
-    return this.http.delete(`${this.baseURL()}/deleteAdmin/${adminId}`)
-  }
 
   getShortUsersList(): Observable<{id: number, username: string}[]>{
     return this.http.get<{id: number, username: string}[]>(`${this.baseURL()}`)

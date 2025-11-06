@@ -19,24 +19,23 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    //TEREM KEZELESE
-    //Foglalas
-    @PostMapping("/adminReservation")
+    //ADMIN FOGLALAS
+    @PostMapping("/reservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
         return adminService.makeAdminReservation((ReservedHours) bodyObject.get("selectedHour"), (Long) bodyObject.get("adminId"));
     }
 
-    @PostMapping("/makeReservationAlwaysBetweenTwoDates")
+    @PostMapping("/reservationBetweenPeriod")
     public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody Map<String, Object> body){
         return adminService.makeReservationBetweenPeriod(body.get("startDate").toString(), body.get("endDate").toString(), (ReservedHours) body.get("selectedHour"), (Long) body.get("adminId"));
     }
 
-    @PostMapping("/makeReservationByRepetitiveDates")
+    @PostMapping("/reservationRepetitive")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(@RequestBody Map<String, Object> body){
         return adminService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), (ArrayList<String>) body.get("selectedDay"), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
     }
 
-    //Terem bezárása:
+    //TEREM BEZARASA:
     @PostMapping("/closeRoomForADay")
     public ResponseEntity<Object> closeRoomForADay(@RequestBody Map<String, String> body){
         return adminService.closeRoomForADay(body.get("date"), body.get("closeType"));
@@ -52,16 +51,25 @@ public class AdminController {
         return adminService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("closeType").toString(), (ArrayList<String>) body.get("selectedDay"));
     }
 
-    //
-    //Tovabbi foglalasi tipus
-    @GetMapping("/adminIntervallumCheck") //Intervallum foglalas leellenorzes
+    //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ
+    @GetMapping("/intervallumCheck")
     public ResponseEntity<Object> getReservationsForAdminIntervallum(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour) {
         return adminService.getReservationsForAdminIntervallum(startDateText, endDateText, startHour, endHour);
     }
 
-    @GetMapping("/adminRepetitiveCheck")
-    public ResponseEntity<Object> checkReservationForRepetitive(@RequestParam("dateText") String dateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
-//        return adminService.checkReservationForRepetitive(dateText, startHour, endHour);
+    @GetMapping("/repetitiveCheck")
+    public ResponseEntity<Object> checkReservationForRepetitive(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("selectedDays") ArrayList<String> selectedDays, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
+        return adminService.checkReservationForRepetitive(startDateText, endDateText, selectedDays, startHour, endHour);
+    }
+
+    @GetMapping("/reservationCheck")
+    public ResponseEntity<Object> checkReservationForSimple(@RequestParam("dateText") String dateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
+        return adminService.checkReservationForSimple(dateText, startHour, endHour);
+    }
+
+    //FOGLALASOK VISSZASZERZESE REPETITIVE ZARASHOZ
+    @GetMapping("/repetitiveCloseCheck")
+    public ResponseEntity<Object> repetitiveCloseCheck(){
         return null;
     }
 
@@ -71,7 +79,7 @@ public class AdminController {
         return adminService.makeAdmin(id, newAdminDetails);
     }
 
-    @GetMapping("/admin")
+    @GetMapping("")
     public ResponseEntity<List<Users>> getAdminList() {
         return adminService.getAllAdmin();
     }
