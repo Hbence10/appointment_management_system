@@ -10,20 +10,16 @@ import { ReservationService } from '../../services/reservation-service';
   templateUrl: './reservation-card.html',
   styleUrl: './reservation-card.scss'
 })
-export class ReservationCard implements OnInit {
+export class ReservationCard {
   private reservationService = inject(ReservationService)
   private elementRef = inject(ElementRef)
 
-  parentComponent = input.required<"profilePage" | "adminPage">()
+  parentComponent = input.required<"profilePage" | "adminPage" | "reservationPopUp">()
   reservationDetails = input.required<Reservation>()
 
   showDetailsOutput = output<Reservation>()
   cancelReservationOutput = output()
   dateText: string = ""
-
-  ngOnInit(): void {
-
-  }
 
   cancelReservation() {
     this.cancelReservationOutput.emit()

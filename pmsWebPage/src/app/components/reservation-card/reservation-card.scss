@@ -8,14 +8,12 @@
   font-weight: 500;
 }
 
-.filledButton{
-  @include mat.badge-overrides((
-    background-color: white,
-    text-color: #004D40
-  ));
+.filledButton {
+  @include mat.badge-overrides((background-color: white,
+      text-color: #004D40));
 }
 
-.adminPageView{
+.adminPageView {
   p {
     font-size: 20px;
   }
@@ -24,3 +22,5 @@
     width: 200px !important;
   }
 }
+
+.popUpView {}

@@ -95,7 +95,7 @@ public class AdminService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, ArrayList<String> selectedDays, ReservedHours repetitiveHour, Long adminId) {
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, ArrayList<String> selectedDays, Integer startHour, Integer endHour, Long adminId) {
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
         if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
             return ResponseEntity.notFound().build();
@@ -108,8 +108,18 @@ public class AdminService {
             for (int i = 0; i < dateList.size(); i++) {
                 if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
                     Reservations baseReservation = new Reservations();
-                    repetitiveHour.setDate(new ReservedDates(dateList.get(i)));
                     baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
+
+                    ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                    ReservedHours reservedHours = new ReservedHours(startHour, endHour);
+
+                    if (reservedDates == null || reservedDates.getId() == null) {
+                        reservedHours.setDate(new ReservedDates(dateList.get(i)));
+                    } else {
+                        reservedHours.setDate(reservedDates);
+                    }
+
+                    baseReservation.setReservedHours(reservedHours);
                     reservedDateRepository.save(baseReservation.getReservedHours().getDate());
                     createdReservations.add(baseReservation);
                 }

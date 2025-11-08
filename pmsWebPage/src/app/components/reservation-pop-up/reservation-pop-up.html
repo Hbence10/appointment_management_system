@@ -1,29 +1,32 @@
-<div class="container-fluid" id="mainContainer">
+<div class="container-fluid d-flex justify-content-center align-items-center" id="mainContainer">
   <div class="row">
     <div class="col-lg-12">
 
-      <div class="container-fluid" id="secondContainer">
-        <div class="row">
-          <div class="col-lg-12">
+      <div class="container-fluid strongShadow" id="secondContainer">
+        <div class="row mb-4">
+          <div class="col-lg-12 mt-3 d-flex justify-content-between">
             <div></div>
-            <h1>Útban lévő foglalások</h1>
-            <button (click)="close()" class="d-flex justify-content-center align-items-center navigationButton">
+            <h1 class="mainFont">Útban lévő foglalások</h1>
+            <button (click)="close()" class="d-flex justify-content-center align-items-center iconButton">
               <span class="material-symbols-outlined">close</span>
             </button>
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="height: 680px; overflow-y: auto;">
           <div class="col-lg-12">
             @for (reservation of reservationList(); track $index) {
-              <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'profilePage'" />
+              <app-reservation-card (showDetailsOutput)="showReservationDetails($event)"  [reservationDetails]="reservation" [parentComponent]="'profilePage'" />
+              @if(isShowPupUp()){
+                <app-pop-up (closePopUp)="isShowPupUp.set(false)" (reservationCancel)="isShowPupUp.set(false)" [baseDetails]="popUpDetails" [reservation]="selectedReservation()!"/>
+              }
             }
           </div>
         </div>
 
         <div class="row">
-          <div class="col-lg-12">
-            <button mat-flat-button (click)="confirmEvent()">{{eventType() == 'close' ? 'Zárás' : 'Foglalás'}} megerősítése</button>
+          <div class="col-lg-12 d-flex justify-content-center align-items-center">
+            <button matButton="filled" class="filledButton w-75" (click)="confirmEvent()">{{eventType() == 'close' ? 'Zárás' : 'Foglalás'}} megerősítése</button>
           </div>
         </div>
 

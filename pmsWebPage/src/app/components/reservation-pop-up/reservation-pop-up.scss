@@ -1,9 +1,29 @@
 .mainFont {
   font-weight: 800;
-  font-size: 18px;
+  font-size: 38px;
 }
 
 .secondFont {
   font-weight: 500;
   font-size: 25px;
+}
+
+#mainContainer{
+  background-color: rgba($color: black, $alpha: 0.6);
+  height: 100vh;
+  width: 100vw;
+}
+
+#secondContainer{
+  width: 640px;
+  height: 850px;
+  background-color: #B2DFDB;
+  border-radius: 16px;
+}
+
+app-pop-up {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 4;
 }

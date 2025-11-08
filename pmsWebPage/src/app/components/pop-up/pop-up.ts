@@ -45,6 +45,7 @@ export class PopUp implements OnInit {
   editForm!: FormGroup
   form!: FormGroup;
   newsBannerImg: any = null
+  reservationCancel = output()
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]
@@ -361,7 +362,8 @@ export class PopUp implements OnInit {
 
   cancelReservation(){
     this.reservationService.cancelReservation(this.reservation().getId, this.userService.user()).subscribe({
-      next: response=> console.log(response)
+      next: response=> console.log(response),
+      complete: () => {this.closePopUp.emit()}
     })
   }
 }

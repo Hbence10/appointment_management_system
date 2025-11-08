@@ -159,7 +159,7 @@
                   <form>
                     <mat-form-field style="width: 300px;">
                       <mat-label>Válaszd ki a dátumot</mat-label>
-                       <input matInput [matDatepicker]="picker" [min]="startDate">
+                       <input matInput [matDatepicker]="picker" [min]="startDate" [formControl]="selectedDate">
                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -303,6 +303,6 @@
   </div>
 </div>
 
-@if(reservationList.length != 0){
-  <app-reservation-pop-up [reservationList]="reservationList" [eventType]="selectedEventType!"/>
+@if(showPopUp()){
+  <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="makeReservation(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
 }

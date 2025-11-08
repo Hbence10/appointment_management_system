@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Nov 04. 21:31
+-- Létrehozás ideje: 2025. Nov 08. 11:49
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -32,12 +32,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `checkReservationForAdminReservation
     INNER JOIN reserved_date rd 
     ON rh.date_id = rd.id 
     WHERE
-    rd.date = dateIN AND 
+    
     (
-    	(startHourIN BETWEEN rh.start AND rh.end) 
-        OR 
-        (endHourIN BETWEEN rh.start AND rh.end)
-    );
+     rd.date = dateIN 
+     AND
+     startHourIN BETWEEN rh.start AND rh.end
+    )
+    OR
+    (
+     rd.date = dateIN 
+     AND
+     endHourIN BETWEEN rh.start AND rh.end
+    )
+    OR 
+    (
+    rd.date = dateIN 
+    AND 
+    rh.start BETWEEN startHourIN AND endHourIN
+    )
+    OR 
+    (
+    rd.date = dateIN 
+    AND 
+    rh.end BETWEEN startHourIN AND endHourIN
+    )
+    ;
+    
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllAdmin` ()   BEGIN
@@ -94,13 +114,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationsForAdminReservation`
     rd.id = rh.date_id 
     
     WHERE 
+    (
+    (rd.date BETWEEN startDateIN AND endDateIN)
+    AND 
+    (startHourIN BETWEEN rh.start AND rh.end)
+    )
+    OR
 	(
-    	(startHourIN BETWEEN rh.start AND rh.end) 
-        OR 
+    	(rd.date BETWEEN startDateIN AND endDateIN)
+    AND 
         (endHourIN BETWEEN rh.start AND rh.end)
-    ) AND   
-    
-    (rd.date BETWEEN startDateIN AND endDateIN);
+    );
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservedDateBetweenTwoDateByDate` (IN `startDateIN` DATE, IN `endDateIN` DATE, IN `dateIN` DATE)   BEGIN
@@ -163,7 +187,7 @@ CREATE TABLE `admin_details` (
 --
 
 INSERT INTO `admin_details` (`id`, `first_name`, `last_name`, `email`, `phone`, `user_id`, `is_deleted`, `deleted_at`) VALUES
-(1, 'Halmai', 'Bence', 'bzhalmai@gmail.com', '+36706285232', 48, 0, NULL),
+(1, 'Halmai', 'Bence', 'bzhalmai@gmail.com', '706285232', 48, 0, NULL),
 (2, 'Halmai', 'Bence', 'bzhalmai@gmail.com', '12345', 1, 0, NULL),
 (3, 'asd', 'asd', 'asd@gmail.com', 'a', 3, 1, '2025-10-22 12:20:50');
 
@@ -670,7 +694,34 @@ CREATE TABLE `reservation` (
 INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`, `canceler_email`) VALUES
 (37, 'a', 'a', 'a', 102, 'a', NULL, NULL, 9, 52, 1, 1, 17, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL),
 (38, 'a', 'a', 'a', 102, 'a', 'a', NULL, 1, 52, 1, 1, 18, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL),
-(39, 'a', 'a', 'a', 102, 'a', NULL, NULL, 6, 3, 1, 1, 19, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL);
+(39, 'a', 'a', 'a', 102, 'a', NULL, NULL, 6, 3, 1, 1, 19, '2025-11-04 18:52:09', NULL, NULL, NULL, NULL),
+(40, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$9sX20nW2RnyyWfNQKkonuA$9Y+8iw92JlzYKGVfglAr2ufXdZ1seXa8Sj+Y4T/FzJk', 2, NULL, 2, 1, 20, '2025-11-06 07:33:01', 0, NULL, NULL, NULL),
+(41, 'postTest', 'postTest', 'bzhalmai@gmail.com', 102, '212322232', 'asd', '$argon2id$v=19$m=4096,t=3,p=1$FaeREt2cvZOqqGbDSLphvg$7pv2wiHASbAQ3VJuXyc23WMT6rtdhteo8mFUOg1Sudc', 2, NULL, 2, 1, 22, '2025-09-19 19:47:00', 0, NULL, NULL, NULL),
+(42, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$+8kQygVHZTy5TNft5lgRmg$Fr0bqGl1hsYaLPwsYdD2XbVgpbZ1f6M/Ay6+UynBT5k', 2, NULL, 2, 1, 23, '2025-11-06 07:51:55', 0, NULL, NULL, NULL),
+(43, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$XwPRykR9bILdfMUeFkRG/A$JQWyBsmh6RGN0ryCiVQPlDsPZQ8FHId5XvquYTw2XL4', 2, NULL, 3, 1, 24, '2025-11-06 07:52:31', 0, NULL, NULL, NULL),
+(44, 'Hasd', 'asd', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$k95dwf3LKFWnSXoFAc9tmw$NBRMBAKMuDTZykngpUBtSSV6by2JbMyNKLoX/a4d5cU', 2, NULL, 2, 1, 25, '2025-11-06 08:27:50', 0, NULL, NULL, NULL),
+(45, 'Halmai', 'Bebce', 'bzhalmai@gmail.com', 102, '706287232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$iYMu/gyZKzgk3BZzFhOWOA$29vcJZxOB1FtGd32WVHLTH7zEybFce0hxzl7CSJ+yys', 2, NULL, 2, 1, 26, '2025-11-06 08:55:44', 0, NULL, NULL, NULL),
+(46, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$TScU3DuNO9gKTCBi1CawZQ$5E9VLZQ5JZ77OZUOLagzn5N6mXbQYoAUbQZtavjepAs', 2, NULL, 1, 1, 27, '2025-11-06 09:39:53', 0, NULL, NULL, NULL),
+(47, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$MGd1lvu7ect0WwCb1z04EA$EJ5STNSbXOSnZbLHms2qZ1UhvSSa/biV7cEPZVaKWuE', 2, NULL, 2, 1, 28, '2025-11-06 10:03:19', 0, NULL, NULL, NULL),
+(48, 'fsafsa', 'fsafsa', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$E4IKAxSam5PJrixEY1XIZA$CJIgqPoaGFngZ+xJX+lN84Mfy4i1kOteJxTd6Z9HLtg', 2, NULL, 2, 1, 29, '2025-11-06 10:20:10', 0, NULL, NULL, NULL),
+(49, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 32, '2025-11-06 17:32:39', 0, NULL, NULL, NULL),
+(50, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 33, '2025-11-06 17:35:56', 0, NULL, NULL, NULL),
+(51, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 34, '2025-11-06 17:53:20', 0, NULL, NULL, NULL),
+(52, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 35, '2025-11-06 17:53:20', 0, NULL, NULL, NULL),
+(53, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 36, '2025-11-06 17:53:20', 0, NULL, NULL, NULL),
+(54, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 37, '2025-11-06 17:53:20', 0, NULL, NULL, NULL),
+(55, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 38, '2025-11-06 17:54:10', 0, NULL, NULL, NULL),
+(56, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 39, '2025-11-06 17:54:10', 0, NULL, NULL, NULL),
+(57, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 40, '2025-11-06 17:54:10', 0, NULL, NULL, NULL),
+(58, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 41, '2025-11-06 17:54:10', 0, NULL, NULL, NULL),
+(59, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 42, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(60, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 43, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(61, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 44, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(62, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 45, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(63, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 46, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(64, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 47, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(65, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 48, '2025-11-06 18:36:33', 0, NULL, NULL, NULL),
+(66, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 48, NULL, 1, 49, '2025-11-06 18:36:33', 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -725,7 +776,29 @@ INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`)
 (59, '2025-10-08', 0, 0, 0),
 (60, '2025-10-09', 0, 0, 0),
 (61, '2025-10-10', 0, 0, 0),
-(62, '2025-10-11', 0, 0, 0);
+(62, '2025-10-11', 0, 0, 0),
+(63, '2025-11-06', 0, 0, 0),
+(64, '2025-09-21', 0, 0, 0),
+(65, '2025-11-13', 0, 0, 0),
+(66, '2025-11-24', 0, 0, 0),
+(67, '2025-11-28', 0, 0, 0),
+(68, '2025-11-20', 0, 0, 0),
+(72, '2025-11-16', 0, 0, 0),
+(73, '2025-11-30', 0, 0, 0),
+(74, '2025-12-01', 0, 0, 0),
+(78, '2025-12-03', 0, 0, 0),
+(80, '2026-02-01', 0, 0, 0),
+(81, '2026-02-02', 0, 0, 0),
+(82, '2026-02-03', 0, 0, 0),
+(83, '2026-02-04', 0, 0, 0),
+(84, '2026-01-05', 0, 0, 0),
+(85, '2026-01-07', 0, 0, 0),
+(86, '2026-01-12', 0, 0, 0),
+(87, '2026-01-14', 0, 0, 0),
+(88, '2026-01-19', 0, 0, 0),
+(89, '2026-01-21', 0, 0, 0),
+(90, '2026-01-26', 0, 0, 0),
+(91, '2026-01-28', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -749,7 +822,34 @@ CREATE TABLE `reserved_hour` (
 INSERT INTO `reserved_hour` (`id`, `start`, `end`, `date_id`, `is_deleted`, `deleted_at`) VALUES
 (17, 14, 16, 58, 0, NULL),
 (18, 17, 18, 60, 0, NULL),
-(19, 16, 19, 62, 0, NULL);
+(19, 16, 19, 62, 0, NULL),
+(20, 12, 14, 63, 0, NULL),
+(22, 13, 15, 64, 0, NULL),
+(23, 14, 17, 65, 0, NULL),
+(24, 14, 17, 66, 0, NULL),
+(25, 14, 16, 67, 0, NULL),
+(26, 13, 15, 68, 0, NULL),
+(27, 13, 15, 72, 0, NULL),
+(28, 12, 15, 73, 0, NULL),
+(29, 12, 14, 74, 0, NULL),
+(32, 15, 17, 78, 0, NULL),
+(33, 18, 19, 78, 0, NULL),
+(34, 15, 18, 80, 0, NULL),
+(35, 15, 18, 81, 0, NULL),
+(36, 15, 18, 82, 0, NULL),
+(37, 15, 18, 83, 0, NULL),
+(38, 11, 13, 80, 0, NULL),
+(39, 11, 13, 81, 0, NULL),
+(40, 11, 13, 82, 0, NULL),
+(41, 11, 13, 83, 0, NULL),
+(42, 10, 15, 84, 0, NULL),
+(43, 10, 15, 85, 0, NULL),
+(44, 10, 15, 86, 0, NULL),
+(45, 10, 15, 87, 0, NULL),
+(46, 10, 15, 88, 0, NULL),
+(47, 10, 15, 89, 0, NULL),
+(48, 10, 15, 90, 0, NULL),
+(49, 10, 15, 91, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -905,10 +1005,11 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 1, '2025-09-24 10:07:39', NULL, 0, NULL),
 (47, 'securityTest7621', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-11-03 21:17:39', 0, NULL),
 (48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-11-04 14:57:12', 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\93137338.png', 0, 3, '2025-08-23 04:45:44', '2025-11-04 18:55:58', 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\93137338.png', 0, 3, '2025-08-23 04:45:44', '2025-11-08 10:35:54', 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
-(51, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
-(52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL);
+(51, 'Hbence102', 'bzhalmai2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
+(52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL),
+(53, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$hlOwH9m6xK1Dd32KvM4rrw$GynOLkKK/ajBhRmq6Hw6Cle1ziSzo98RpV1sdE7dmzM', 'assets/placeholder.png', 0, 1, '2025-11-06 07:37:47', '2025-11-06 08:38:06', 0, NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -1126,7 +1227,7 @@ ALTER TABLE `phone_country_code`
 -- AUTO_INCREMENT a táblához `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -1138,13 +1239,13 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_date`
 --
 ALTER TABLE `reserved_date`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hour`
 --
 ALTER TABLE `reserved_hour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -1180,7 +1281,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Megkötések a kiírt táblákhoz

@@ -29,3 +29,16 @@ h2{
   font-weight: 400;
 }
 
+app-reservation-pop-up{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 3;
+}
+
+app-pop-up {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+}

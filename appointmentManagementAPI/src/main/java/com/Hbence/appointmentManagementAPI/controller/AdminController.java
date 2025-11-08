@@ -32,7 +32,7 @@ public class AdminController {
 
     @PostMapping("/reservationRepetitive")
     public ResponseEntity<Object> makeReservationByRepetitiveDates(@RequestBody Map<String, Object> body){
-        return adminService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), (ArrayList<String>) body.get("selectedDay"), (ReservedHours) body.get("repetitiveHour"), (Long) body.get("adminId"));
+        return adminService.makeReservationByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), (ArrayList<String>) body.get("selectedDay"), (Integer) body.get("startHour"), (Integer) body.get("endHour"), Long.valueOf(body.get("adminId").toString()));
     }
 
     //TEREM BEZARASA:
