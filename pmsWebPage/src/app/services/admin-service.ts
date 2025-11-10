@@ -61,7 +61,7 @@ export class AdminService {
     })
   }
 
-  closeByRepetitiveDates(startDate: string, endDate: string, closeType: "holiday" | "full" | "other", selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY") {
+  closeByRepetitiveDates(startDate: string, endDate: string, closeType: "holiday" | "full" | "other", selectedDay: string[]) {
     return this.http.post(`${this.baseURL()}/closeByRepetitiveDates`, {
       startDate: startDate,
       endDate: endDate,
@@ -83,8 +83,9 @@ export class AdminService {
     return this.http.get<Reservation[]>(`${this.baseURL()}/intervallumCheck?startDateText=${startDateText}&endDateText=${endDateText}&startHour=${startHour}&endHour=${endHour}`)
   }
 
-  checkReservationForRepetitive(startDateText: string, endDateText: string, selectedDays: any, startHour: number, endHour: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/repetitiveCheck`)
+  checkReservationForRepetitive(startDateText: string, endDateText: string, selectedDays: string, startHour: number, endHour: number): Observable<Reservation[]> {
+    console.log(selectedDays)
+    return this.http.get<Reservation[]>(`${this.baseURL()}/repetitiveCheck?startDateText=${startDateText}&endDateText=${endDateText}&selectedDays=${selectedDays}&startHour=${startHour}&endHour=${endHour}`)
   }
   //Foglalasok visszaszerzese repetitive zarashoz
   repetitiveCloseCheck(startDateText: string, endDateText: string, selectedDays: string[]): Observable<Reservation[]> {

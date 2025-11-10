@@ -58,7 +58,7 @@ public class AdminController {
     }
 
     @GetMapping("/repetitiveCheck")
-    public ResponseEntity<Object> checkReservationForRepetitive(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("selectedDays") ArrayList<String> selectedDays, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
+    public ResponseEntity<Object> checkReservationForRepetitive(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("selectedDays") List<String> selectedDays, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour){
         return adminService.checkReservationForRepetitive(startDateText, endDateText, selectedDays, startHour, endHour);
     }
 

@@ -48,9 +48,11 @@ export class ReservationPopUp implements OnInit {
     this.isShowPupUp.set(true)
   }
 
-  setCanceledReservation(index: number, canceledReservation: Reservation){
+  setCanceledReservation(canceledReservation: Reservation){
+    let searchedReservation: Reservation = this.reservationList().find(searchedR => searchedR.getId == canceledReservation.getId)!
+
     this.reservationList.update(oldList => {
-      oldList[index] = canceledReservation
+      oldList[this.reservationList().indexOf(searchedReservation!)] = canceledReservation
       return oldList
     })
 

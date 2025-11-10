@@ -18,7 +18,7 @@
             @for (reservation of reservationList(); track $index) {
               <app-reservation-card (showDetailsOutput)="showReservationDetails($event)"  [reservationDetails]="reservation" [parentComponent]="'profilePage'" />
               @if(isShowPupUp()){
-                <app-pop-up (closePopUp)="isShowPupUp.set(false)" (reservationCancel)="setCanceledReservation($index, $event)" [baseDetails]="popUpDetails" [reservation]="selectedReservation()!"/>
+                <app-pop-up (closePopUp)="isShowPupUp.set(false)" (reservationCancel)="setCanceledReservation($event)" [baseDetails]="popUpDetails" [reservation]="selectedReservation()!"/>
               }
             }
           </div>

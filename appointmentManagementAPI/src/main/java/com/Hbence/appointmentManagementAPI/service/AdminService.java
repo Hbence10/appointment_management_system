@@ -234,7 +234,7 @@ public class AdminService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> checkReservationForRepetitive(String startDateText, String endDateText, ArrayList<String> selectedDays, Integer startHour, Integer endHour) {
+    public ResponseEntity<Object> checkReservationForRepetitive(String startDateText, String endDateText, List<String> selectedDays, Integer startHour, Integer endHour) {
         if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return null;
         } else if (startHour > endHour) {

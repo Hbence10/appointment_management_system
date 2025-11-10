@@ -42,7 +42,7 @@ export class RoomControlPanel implements OnInit {
     end: new FormControl<Date | null>(null),
   });
 
-  selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" | null = null
+  selectedDays = new FormControl([])
   selectedCloseType: "holiday" | "full" | "other" | null = null
   selectedDate = new FormControl(new Date());
   selectedHourAmount: number | null = null
@@ -73,7 +73,7 @@ export class RoomControlPanel implements OnInit {
       end: new FormControl<Date | null>(null),
     });
 
-    this.selectedDay = null
+    this.selectedDays = new FormControl([])
     this.selectedCloseType = null
     this.selectedDate = new FormControl(new Date());
     this.selectedHourAmount = null
@@ -97,41 +97,6 @@ export class RoomControlPanel implements OnInit {
       //   next: response => this.reservationList = this.reservationService.setObject(response),
       //   error: error => console.log(error)
       // })
-    }
-  }
-
-  checkReservationForReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive", startDateText: string, endDateText: string) {
-    if (methodType == "single") {
-      const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
-      this.adminService.checkReservationForSimple(dateText, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
-        next: response => {
-          this.reservationList.set(this.reservationService.setObject(response))
-          if(this.reservationList().length == 0){
-            this.sendReservation(methodType)
-          }
-        },
-        error: error => console.log(error)
-      })
-    } else if (methodType == "betweenTwoDate") {
-      this.adminService.getReservationsForAdminIntervallum(startDateText, endDateText, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
-        next: response => {
-          this.reservationList.set(this.reservationService.setObject(response))
-          if(this.reservationList().length == 0){
-            this.sendReservation(methodType)
-          }
-        },
-        error: error => console.log(error)
-      })
-    } else if (methodType == "betweenTwoDateRepetitive") {
-      this.adminService.checkReservationForRepetitive(startDateText, endDateText, this.selectedDay, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
-        next: response => {
-          this.reservationList.set(this.reservationService.setObject(response))
-          if(this.reservationList().length == 0){
-            this.sendReservation(methodType)
-          }
-        },
-        error: error => console.log(error)
-      })
     }
   }
 
@@ -171,7 +136,7 @@ export class RoomControlPanel implements OnInit {
   }
 
   closeByRepetitiveDates(startDateText: string, endDateText: string) {
-    this.adminService.closeByRepetitiveDates(startDateText, endDateText, this.selectedCloseType!, this.selectedDay!).subscribe({
+    this.adminService.closeByRepetitiveDates(startDateText, endDateText, this.selectedCloseType!, this.selectedDays.value!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
@@ -208,7 +173,6 @@ export class RoomControlPanel implements OnInit {
   //ENDPOINTOK:
   makeAdminReservation() {
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
-    console.log(this.userService.user()!.getAdminDetails.getId, this.selectedStartHour!, this.selectedStartHour!+ this.selectedHourAmount!, dateText)
     this.adminService.makeAdminReservation(this.userService.user()!.getAdminDetails.getId, this.selectedStartHour!, this.selectedStartHour!+ this.selectedHourAmount!, dateText).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
@@ -225,10 +189,46 @@ export class RoomControlPanel implements OnInit {
   }
 
   makeReservationByRepetitiveDates(startDateText: string, endDateText: string) {
-    this.adminService.makeReservationByRepetitiveDates(startDateText, endDateText, this.selectedDay!, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount! , this.user.getAdminDetails.getId!).subscribe({
+    this.adminService.makeReservationByRepetitiveDates(startDateText, endDateText, this.selectedDays.value!, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount! , this.user.getAdminDetails.getId!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
     })
+  }
+
+  checkReservationForReservation(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive", startDateText: string, endDateText: string) {
+    if (methodType == "single") {
+      const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
+      this.adminService.checkReservationForSimple(dateText, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
+        next: response => {
+          this.reservationList.set(this.reservationService.setObject(response))
+          if(this.reservationList().length == 0){
+            this.sendReservation(methodType)
+          }
+        },
+        error: error => console.log(error)
+      })
+    } else if (methodType == "betweenTwoDate") {
+      this.adminService.getReservationsForAdminIntervallum(startDateText, endDateText, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
+        next: response => {
+          this.reservationList.set(this.reservationService.setObject(response))
+          if(this.reservationList().length == 0){
+            this.sendReservation(methodType)
+          }
+        },
+        error: error => console.log(error)
+      })
+    } else if (methodType == "betweenTwoDateRepetitive") {
+      console.log()
+      this.adminService.checkReservationForRepetitive(startDateText, endDateText, this.selectedDays.value!.toString().replaceAll("[", "").replaceAll("]", "")!, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
+        next: response => {
+          this.reservationList.set(this.reservationService.setObject(response))
+          if(this.reservationList().length == 0){
+            this.sendReservation(methodType)
+          }
+        },
+        error: error => console.log(error)
+      })
+    }
   }
 }

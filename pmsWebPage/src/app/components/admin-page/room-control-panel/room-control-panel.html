@@ -121,7 +121,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Melyik napokon legyen?" [(value)]="selectedDay" multiple>
+                      <mat-select placeholder="Melyik napokon legyen?" [formControl]="selectedDays" multiple>
                         @for (day of hunDayNames; track $index) {
                           <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
@@ -129,7 +129,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null && selectedDay == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null && selectedDays.value == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -285,7 +285,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Melyik napokon legyen?" multiple="" [value]="selectedDay">
+                      <mat-select placeholder="Melyik napokon legyen?" multiple [formControl]="selectedDays">
                         @for (day of hunDayNames; track $index) {
                           <mat-option [value]="dayNames[$index]">{{day}}</mat-option>
                         }
