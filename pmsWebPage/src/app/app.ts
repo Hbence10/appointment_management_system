@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Users } from './models/user.model';
 import { Role } from './models/role.model';
 import { SmallNavbar } from './components/small-navbar/small-navbar';
+import { AdminDetails } from './models/adminDetails.model';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class App implements OnInit {
     }
 
     user.setRole = Object.assign(new Role(), user.getRole)
+    user.setAdminDetails = Object.assign(new AdminDetails(), user.getAdminDetails)
     if(user.getId != null){
       this.userService.user.set(user)
     }

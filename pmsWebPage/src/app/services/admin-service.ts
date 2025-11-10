@@ -15,28 +15,32 @@ export class AdminService {
   selectedUserIdForAdmin: number | null = 0;
 
   //foglalasok:
-  makeAdminReservation(selectedHour: ReservedHours, adminId: number) {
+  makeAdminReservation(adminId: number, startHour: number, endHour: number, dateText: string) {
     return this.http.post(`${this.baseURL()}/reservation`, {
-      selectedHour: selectedHour,
-      adminId: adminId
+      adminId: adminId,
+      startHour: startHour,
+      endHour: endHour,
+      dateText: dateText
     })
   }
 
-  makeReservationBetweenPeriod(startDate: string, endDate: string, selectedHour: ReservedHours, adminId: number) {
+  makeReservationBetweenPeriod(startDateText: string, endDateText: string, startHour: number, endHour: number, adminId: number) {
     return this.http.post(`${this.baseURL()}/reservationBetweenPeriod`, {
-      startDate: startDate,
-      endDate: endDate,
-      selectedHour: selectedHour,
+      startDateText: startDateText,
+      endDateText: endDateText,
+      startHour: startHour,
+      endHour: endHour,
       adminId: adminId
     })
   }
 
-  makeReservationByRepetitiveDates(startDate: string, endDate: string, selectedDay: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY", selectedHour: ReservedHours, adminId: number) {
+  makeReservationByRepetitiveDates(startDateText: string, endDateText: string, selectedDay: any, startHour: number, endHour: number, adminId: number) {
     return this.http.post(`${this.baseURL()}/reservationRepetitive`, {
-      startDate: startDate,
-      endDate: endDate,
+      startDateText: startDateText,
+      endDateText: endDateText,
       selectedDay: selectedDay,
-      repetitiveHour: selectedHour,
+      startHour: startHour,
+      endHour: endHour,
       adminId: adminId
     })
   }
@@ -76,7 +80,7 @@ export class AdminService {
   }
 
   getReservationsForAdminIntervallum(startDateText: string, endDateText: string, startHour: number, endHour: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/intervallumCheck`)
+    return this.http.get<Reservation[]>(`${this.baseURL()}/intervallumCheck?startDateText=${startDateText}&endDateText=${endDateText}&startHour=${startHour}&endHour=${endHour}`)
   }
 
   checkReservationForRepetitive(startDateText: string, endDateText: string, selectedDays: any, startHour: number, endHour: number): Observable<Reservation[]> {

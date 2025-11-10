@@ -45,7 +45,7 @@ export class PopUp implements OnInit {
   editForm!: FormGroup
   form!: FormGroup;
   newsBannerImg: any = null
-  reservationCancel = output()
+  reservationCancel = output<Reservation>()
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]
@@ -117,9 +117,11 @@ export class PopUp implements OnInit {
       })
     }
 
-    this.destroyRef.onDestroy(() => {
-      subscription!.unsubscribe()
-    })
+    if (subscription != undefined){
+      this.destroyRef.onDestroy(() => {
+        subscription!.unsubscribe()
+      })
+    }
   }
 
   close() {
@@ -360,10 +362,19 @@ export class PopUp implements OnInit {
     }
   }
 
-  cancelReservation(){
+  cancelReservation() {
+    let cancelledReservation!: Reservation;
     this.reservationService.cancelReservation(this.reservation().getId, this.userService.user()).subscribe({
-      next: response=> console.log(response),
-      complete: () => {this.closePopUp.emit()}
+      next: response => {
+        console.log("response:")
+        console.log(response)
+        cancelledReservation = this.reservationService.setObject([response])[0]
+      },
+      complete: () => {
+        console.log("cancelledReservation:")
+        console.log(cancelledReservation)
+        this.reservationCancel.emit(cancelledReservation)
+      }
     })
   }
 }

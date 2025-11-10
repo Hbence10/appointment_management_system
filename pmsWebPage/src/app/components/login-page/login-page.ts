@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Role } from '../../models/role.model';
 import { Users } from '../../models/user.model';
 import { UserService } from '../../services/user-service';
+import { AdminDetails } from '../../models/adminDetails.model';
 
 @Component({
   selector: 'app-login-page',
@@ -33,8 +34,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl("", [Validators.required]),
-      password: new FormControl("", [Validators.required])
+      username: new FormControl("securityTest3", [Validators.required]),
+      password: new FormControl("test5.Asd", [Validators.required])
     })
   }
 
@@ -43,9 +44,10 @@ export class LoginPage implements OnInit {
       next: response => {
         let user: Users = Object.assign(new Users(), response.body)
         user.setRole = Object.assign(new Role(), user.getRole)
+        user.setAdminDetails = Object.assign(new AdminDetails(), user.getAdminDetails)
         this.userService.user.set(user)
         this.token = response.headers.headers.get("authorization")[0]
-        console.log(this.token)
+        console.log(this.userService.user()?.getAdminDetails.getId)
       },
       error: error => { this.isError.set(true) },
       complete: () => {

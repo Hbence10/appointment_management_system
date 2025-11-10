@@ -184,7 +184,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="filledButton secondFont" (click)="makeReservation('single')" mat-flat-button>Mentés</button>
+                <button class="filledButton secondFont" (click)="makeReservation('single')" mat-flat-button>Foglalás</button>
               </div>
             }
           </div>
@@ -234,7 +234,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="filledButton secondFont" (click)="makeReservation('betweenTwoDate')" mat-flat-button>Mentés</button>
+                <button class="filledButton secondFont" (click)="makeReservation('betweenTwoDate')" mat-flat-button>Foglalás</button>
               </div>
             }
           </div>
@@ -293,7 +293,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button class="filledButton secondFont" (click)="makeReservation('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
+                <button class="filledButton secondFont" (click)="makeReservation('betweenTwoDateRepetitive')" mat-flat-button>Foglalás</button>
               </div>
             }
           </div>
@@ -304,5 +304,5 @@
 </div>
 
 @if(showPopUp()){
-  <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="makeReservation(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
+  <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="sendReservation(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
 }

@@ -57,8 +57,6 @@ public class ReservationController {
         return reservationService.getReservationByEmailAndVCode(requestBody.get("email"), requestBody.get("vCode"));
     }
 
-    //ADMIN PAGE
-    //
     @GetMapping("/reservedDate")
     public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){
         return reservationService.getReservedDateByDate(selectedDateText);

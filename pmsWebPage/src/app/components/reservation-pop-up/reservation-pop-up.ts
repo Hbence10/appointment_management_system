@@ -11,7 +11,7 @@ import { PopUp } from '../pop-up/pop-up';
   templateUrl: './reservation-pop-up.html',
   styleUrl: './reservation-pop-up.scss'
 })
-export class ReservationPopUp implements OnInit{
+export class ReservationPopUp implements OnInit {
   reservationListInput = input.required<Reservation[]>()
   eventType = input.required<'close' | 'reservation'>()
   popUpDetails!: Details
@@ -22,34 +22,39 @@ export class ReservationPopUp implements OnInit{
   confirmClose = output()
   closePopUp = output()
   reservationList = signal<Reservation[]>([])
-  buttonDisable = computed<boolean>(() => {
-    return true
-  })
+  buttonDisable: boolean = true
 
 
   ngOnInit(): void {
     this.reservationList.set(this.reservationListInput())
   }
 
-  //ameddig az osszes foglalas nincs lemondva az adott admin altal, addig a gomb disable lesz, ha az osszes foglalas le van mondva, csak azutan tudja az admin megcsinalni az adott eventet
-  confirmEvent(){
-    if (this.eventType() == 'close'){
+  confirmEvent() {
+    console.log(this.eventType())
+    if (this.eventType() == 'close') {
       this.confirmClose.emit()
-    } else if (this.eventType() == 'reservation'){
+    } else if (this.eventType() == 'reservation') {
       this.confirmReservations.emit()
     }
   }
 
-  close(){
+  close() {
     this.closePopUp.emit()
   }
 
   showReservationDetails(wantedReservation: Reservation) {
-      console.log(wantedReservation)
-      console.log(wantedReservation.getId)
+    this.popUpDetails = new Details(`#${wantedReservation.getId} Foglalás`, "cancelReservation", "reservation")
+    this.selectedReservation.set(wantedReservation)
+    this.isShowPupUp.set(true)
+  }
 
-      this.popUpDetails = new Details(`#${wantedReservation.getId} Foglalás`, "cancelReservation", "reservation")
-      this.selectedReservation.set(wantedReservation)
-      this.isShowPupUp.set(true)
-    }
+  setCanceledReservation(index: number, canceledReservation: Reservation){
+    this.reservationList.update(oldList => {
+      oldList[index] = canceledReservation
+      return oldList
+    })
+
+    this.buttonDisable = this.reservationList().filter(reservation => reservation.getIsCanceled).length != this.reservationList().length
+    this.isShowPupUp.set(false)
+  }
 }
