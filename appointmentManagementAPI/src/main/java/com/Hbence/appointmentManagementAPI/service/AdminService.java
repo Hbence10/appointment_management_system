@@ -263,7 +263,17 @@ public class AdminService {
         }
     }
 
-    //FOGLALASOK VISSZASZERZESE REPETITIVE ZARASHOZ
+    //FOGLALASOK VISSZASZERZESE A ZARASHOZ
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<List<Reservations>> intervallumCloseCheck(String startDateText, String endDateText){
+        if(ValidatorCollection.rangeValidator(startDateText, endDateText)){
+            return ResponseEntity.notFound().build();
+        } else {
+            List<Long> idList = reservationRepository.getAllReservationsBetweenIntervallum(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
+            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        }
+    }
+
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> repetitiveCloseCheck(String startDateText, String endDateText, ArrayList<String> selectedDays) {
         if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {

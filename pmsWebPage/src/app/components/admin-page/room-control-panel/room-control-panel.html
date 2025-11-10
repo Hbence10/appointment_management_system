@@ -275,7 +275,7 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Hány órát szeretnénk próbálni?" [value]="selectedHourAmount">
+                      <mat-select placeholder="Hány órát szeretnénk próbálni?" [(value)]="selectedHourAmount">
                         <mat-option [value]="12">Egész napra</mat-option>
                         @for(hour of hours; track $index){
                         <mat-option [value]="hour">{{hour}}</mat-option>
@@ -304,5 +304,5 @@
 </div>
 
 @if(showPopUp()){
-  <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="sendReservation(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
+  <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="sendReservation(methodType!)" (confirmClose)="sendClose(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
 }

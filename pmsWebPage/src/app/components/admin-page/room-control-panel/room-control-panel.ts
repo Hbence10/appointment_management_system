@@ -81,39 +81,60 @@ export class RoomControlPanel implements OnInit {
     this.reservationList.set([])
   }
 
-  checkReservationForClose(methodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive", dateText: string, startDateText: string, endDateText: string) {
-    if (methodType == "single") {
-      // this.reservationService.getReservationByDate("").subscribe({
-      //   next: response => this.reservationList = this.reservationService.setObject(response),
-      //   error: error => console.log(error)
-      // })
-    } else if (methodType == "betweenTwoDate") {
-      // this.reservationService.getReservationBetweenIntervallum("", "").subscribe({
-      //   next: response => this.reservationList = this.reservationService.setObject(response),
-      //   error: error => console.log(error)
-      // })
-    } else if (methodType == "betweenTwoDateRepetitive") {
-      // this.adminService.repetitiveCloseCheck(startDateText, endDateTextm sele).subscribe({
-      //   next: response => this.reservationList = this.reservationService.setObject(response),
-      //   error: error => console.log(error)
-      // })
-    }
-  }
-
   //ZARAS
   closeRoom(closeType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
+    this.methodType = closeType
+    this.selectedEventType = 'close'
     const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
     const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
-    this.selectedEventType = 'close'
-
     this.checkReservationForClose(closeType, dateText, startDateText!, endDateText!)
+  }
 
-    if (closeType == 'single') {
+  checkReservationForClose(closeMethodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive", dateText: string, startDateText: string, endDateText: string) {
+    if (closeMethodType == "single") {
+      this.adminService.fullDayCheck(dateText).subscribe({
+        next: response => {
+          this.reservationList.set(this.reservationService.setObject(response))
+          if (this.reservationList().length == 0) {
+            this.sendClose(closeMethodType)
+          }
+        },
+        error: error => console.log(error)
+      })
+    } else if (closeMethodType == "betweenTwoDate") {
+      this.adminService.intervallumCheck(startDateText, endDateText).subscribe({
+        next: response => {
+          this.reservationList.set(this.reservationService.setObject(response))
+          if (this.reservationList().length == 0) {
+            this.sendClose(closeMethodType)
+          }
+        },
+        error: error => console.log(error)
+      })
+    } else if (closeMethodType == "betweenTwoDateRepetitive") {
+      this.adminService.repetitiveCloseCheck(startDateText, endDateText, this.selectedDays.value!.toString().replaceAll("[", "").replaceAll("]", "")).subscribe({
+        next: response => {
+          this.reservationList.set(this.reservationService.setObject(response))
+          if (this.reservationList().length == 0) {
+            this.sendClose(closeMethodType)
+          }
+        },
+        error: error => console.log(error)
+      })
+    }
+  }
+
+  sendClose(closeMethodType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
+    const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
+    const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
+    const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
+
+    if (closeMethodType == "single") {
       this.closeRoomForADay(dateText)
-    } else if (closeType == 'betweenTwoDate') {
+    } else if (closeMethodType == "betweenTwoDate") {
       this.closeRoomBetweenPeriod(startDateText!, endDateText!)
-    } else if (closeType == 'betweenTwoDateRepetitive') {
+    } else if (closeMethodType == "betweenTwoDateRepetitive") {
       this.closeByRepetitiveDates(startDateText!, endDateText!)
     }
   }
@@ -150,10 +171,6 @@ export class RoomControlPanel implements OnInit {
     const startDateText: string | undefined = this.range.controls["start"].value?.toISOString().split("T")[0]
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
     this.checkReservationForReservation(reservationType, startDateText!, endDateText!)
-
-    if(this.reservationList.length == 0){
-
-    }
   }
 
   sendReservation(reservationType: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive") {
@@ -162,7 +179,7 @@ export class RoomControlPanel implements OnInit {
     const endDateText: string | undefined = this.range.controls["end"].value?.toISOString().split("T")[0]
 
     if (reservationType == 'single') {
-      this.makeAdminReservation()
+      this.makeAdminReservation(dateText)
     } else if (reservationType == 'betweenTwoDate') {
       this.makeReservationBetweenPeriod(startDateText!, endDateText!)
     } else if (reservationType == 'betweenTwoDateRepetitive') {
@@ -171,9 +188,8 @@ export class RoomControlPanel implements OnInit {
   }
 
   //ENDPOINTOK:
-  makeAdminReservation() {
-    const dateText: string = this.selectedDate.value!.toISOString().split("T")[0]
-    this.adminService.makeAdminReservation(this.userService.user()!.getAdminDetails.getId, this.selectedStartHour!, this.selectedStartHour!+ this.selectedHourAmount!, dateText).subscribe({
+  makeAdminReservation(dateText: string) {
+    this.adminService.makeAdminReservation(this.userService.user()!.getAdminDetails.getId, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!, dateText).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
@@ -189,7 +205,7 @@ export class RoomControlPanel implements OnInit {
   }
 
   makeReservationByRepetitiveDates(startDateText: string, endDateText: string) {
-    this.adminService.makeReservationByRepetitiveDates(startDateText, endDateText, this.selectedDays.value!, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount! , this.user.getAdminDetails.getId!).subscribe({
+    this.adminService.makeReservationByRepetitiveDates(startDateText, endDateText, this.selectedDays.value!, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!, this.user.getAdminDetails.getId!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
@@ -202,7 +218,7 @@ export class RoomControlPanel implements OnInit {
       this.adminService.checkReservationForSimple(dateText, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
         next: response => {
           this.reservationList.set(this.reservationService.setObject(response))
-          if(this.reservationList().length == 0){
+          if (this.reservationList().length == 0) {
             this.sendReservation(methodType)
           }
         },
@@ -212,18 +228,17 @@ export class RoomControlPanel implements OnInit {
       this.adminService.getReservationsForAdminIntervallum(startDateText, endDateText, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
         next: response => {
           this.reservationList.set(this.reservationService.setObject(response))
-          if(this.reservationList().length == 0){
+          if (this.reservationList().length == 0) {
             this.sendReservation(methodType)
           }
         },
         error: error => console.log(error)
       })
     } else if (methodType == "betweenTwoDateRepetitive") {
-      console.log()
       this.adminService.checkReservationForRepetitive(startDateText, endDateText, this.selectedDays.value!.toString().replaceAll("[", "").replaceAll("]", "")!, this.selectedStartHour!, this.selectedStartHour! + this.selectedHourAmount!).subscribe({
         next: response => {
           this.reservationList.set(this.reservationService.setObject(response))
-          if(this.reservationList().length == 0){
+          if (this.reservationList().length == 0) {
             this.sendReservation(methodType)
           }
         },

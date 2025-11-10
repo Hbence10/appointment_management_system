@@ -1,6 +1,7 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
+import com.Hbence.appointmentManagementAPI.entity.Reservations;
 import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.AdminService;
@@ -68,6 +69,11 @@ public class AdminController {
     }
 
     //FOGLALASOK VISSZASZERZESE REPETITIVE ZARASHOZ
+    @GetMapping("/intervallumCloseCheck")
+    public ResponseEntity<List<Reservations>> intervallumCloseCheck(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText){
+        return adminService.intervallumCloseCheck(startDateText, endDateText);
+    }
+
     @GetMapping("/repetitiveCloseCheck")
     public ResponseEntity<Object> repetitiveCloseCheck(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("selectedDays") ArrayList<String> selectedDays){
         return adminService.repetitiveCloseCheck(startDateText, endDateText, selectedDays);
