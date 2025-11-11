@@ -7,8 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Reservation } from '../../../models/reservation.model';
-import { ReservedDates } from '../../../models/reservedDates.model';
-import { ReservedHours } from '../../../models/reservedHours.model';
 import { Users } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service';
 import { ReservationService } from '../../../services/reservation-service';

@@ -17,8 +17,8 @@ export class DeviceService {
     return this.http.get<any[]>(`${this.baseURL()}/getAllCategory`)
   }
 
-  addDeviceCategory(newDevicesCategory: DevicesCategory) {
-    return this.http.post(`${this.baseURL()}/addCategory`, newDevicesCategory)
+  addDeviceCategory(newDevicesCategory: DevicesCategory): Observable<DevicesCategory> {
+    return this.http.post<DevicesCategory>(`${this.baseURL()}/addCategory`, newDevicesCategory)
   }
 
   updateDeviceCategory(updatedDeviceCategory: DevicesCategory){
@@ -30,8 +30,8 @@ export class DeviceService {
   }
 
   //device:
-  addDevice(newDevice: Device){
-    return this.http.post(`${this.baseURL()}/addDevice`, newDevice)
+  addDevice(newDevice: Device): Observable<Device>{
+    return this.http.post<Device>(`${this.baseURL()}/addDevice`, newDevice)
   }
 
   updateDevice(updatedDevice: Device){

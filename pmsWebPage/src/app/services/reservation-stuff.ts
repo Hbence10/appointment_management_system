@@ -33,8 +33,8 @@ export class ReservationStuff {
     return this.http.delete(`${this.baseURL()}/deleteReservationType/${id}`)
   }
 
-  createReservationType(newReservationType: ReservationType){
-    return this.http.post(`${this.baseURL()}/addReservationType`, newReservationType)
+  createReservationType(newReservationType: ReservationType): Observable<ReservationType>{
+    return this.http.post<ReservationType>(`${this.baseURL()}/addReservationType`, newReservationType)
   }
 }
 

@@ -117,7 +117,7 @@ export class PopUp implements OnInit {
       })
     }
 
-    if (subscription != undefined){
+    if (subscription != undefined) {
       this.destroyRef.onDestroy(() => {
         subscription!.unsubscribe()
       })
@@ -131,6 +131,41 @@ export class PopUp implements OnInit {
   setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery | Users)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
     responseList.forEach(element => {
       this.cardList.update(old => [...old, new CardItem(element.getName, objectType, element, element instanceof Gallery ? "viewImage" : "delete")])
+    })
+  }
+
+  addSingleCard(newItem: DevicesCategory | Device | News | ReservationType | Gallery | Users, objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
+    this.cardList.update(old => {
+      old.push(new CardItem(newItem.getName, objectType, newItem, "delete"))
+      return old;
+    })
+  }
+
+  updateSingleCard(response: DevicesCategory | Device | News | ReservationType | Gallery | Users){
+    let index = this.cardList().indexOf(this.cardList().find(card => card.object.getId == response.getId)!)
+    let searchedCard = this.cardList()[index]
+
+    console.log(`index: ${index}`)
+
+    console.log("searchedCard before update: ")
+    console.log(searchedCard)
+
+    searchedCard.name = response.getName
+    searchedCard.object = response
+
+    console.log("searchedCard after update:")
+    console.log(searchedCard)
+
+    this.cardList.update(old => {
+      old[index] = searchedCard
+      return old
+    })
+  }
+
+  removeSingleCard(index: number) {
+    this.cardList.update(old => {
+      old.splice(index, 1)
+      return old
     })
   }
 
@@ -226,7 +261,7 @@ export class PopUp implements OnInit {
     if (this.selectedObject instanceof News) {
       this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.updateNews(this.selectedObject).subscribe({
-        next: response => console.log(response),
+        next: response => this.updateSingleCard(Object.assign(new News(), response)),
         error: error => console.log(error),
         complete: () => {
           //Ez csak akkor fog lefutni ha az admin valtoztatta a cover kepet:
@@ -239,30 +274,30 @@ export class PopUp implements OnInit {
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
       this.reservationStuffService.updateReservationType(this.selectedObject).subscribe({
-        next: response => console.log(response),
+        next: response => this.updateSingleCard(Object.assign(new ReservationType(), response)),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!)
       this.deviceService.updateDeviceCategory(this.selectedObject).subscribe({
-        next: response => console.log(response),
+        next: response => this.updateSingleCard(Object.assign(new DevicesCategory(), response)),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Device) {
       this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.deviceService.selectedCategory)
       this.deviceService.updateDevice(this.selectedObject).subscribe({
-        next: response => console.log(response),
+        next: response => this.updateSingleCard(Object.assign(new Device(), response)),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Users) {
       const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
       this.adminService.updateAdmin(newAdminDetails).subscribe({
-        next: response => console.log(response),
+        next: response => this.updateSingleCard(Object.assign(new Users(), response)),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => this.backToListPage()
       })
     }
   }
@@ -285,48 +320,72 @@ export class PopUp implements OnInit {
     } else if (this.selectedObject instanceof ReservationType) {
       this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
       this.reservationStuffService.createReservationType(this.selectedObject).subscribe({
-        next: response => console.log(response)
+        next: response => this.addSingleCard(Object.assign(new ReservationType(), response), "reservationType"),
+        complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(null, this.form.controls["property1"].value)
       this.deviceService.addDeviceCategory(this.selectedObject).subscribe({
-        next: response => console.log(response)
+        next: response => this.addSingleCard(Object.assign(new DevicesCategory(), response), "deviceCategory"),
+        complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Device) {
       this.selectedObject = new Device(null, this.form.controls["property1"].value!, Number(this.form.controls["property2"].value!), this.deviceService.selectedCategory)
       this.deviceService.addDevice(this.selectedObject).subscribe({
-        next: response => console.log(response)
+        next: response => this.addSingleCard(Object.assign(new Device(), response), "device"),
+        complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Users) {
       const newAdminDetails: AdminDetails = new AdminDetails(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
       this.adminService.makeAdmin(newAdminDetails).subscribe({
-        next: response => console.log(response)
+        next: response => this.addSingleCard(Object.assign(new Users(), response), "user"),
+        complete: () => this.backToListPage()
       })
     }
   }
 
   sendDeleteRequest() {
+    let index = this.cardList().indexOf(this.cardList().find(card => card.object.getId == this.selectedObject!.getId)!)
+
     if (this.selectedObject instanceof News) {
       this.newsService.deleteNews(this.selectedObject.getId!).subscribe({
-        next: response => console.log(response),
         error: error => console.log(error),
-        complete: () => this.actualPage = "listPage"
+        complete: () => {
+          this.removeSingleCard(index)
+          this.backToListPage()
+        }
       })
     } else if (this.selectedObject instanceof ReservationType) {
       this.reservationStuffService.deleteReservationType(this.selectedObject.getId!).subscribe({
-        next: response => console.log(response),
+        error: error => console.log(error),
+        complete: () => {
+          this.removeSingleCard(index)
+          this.backToListPage()
+        }
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.deviceService.deleteDeviceCategory(this.selectedObject.getId!).subscribe({
-        next: response => console.log(response)
+        error: error => console.log(error),
+        complete: () => {
+          this.removeSingleCard(index)
+          this.backToListPage()
+        }
       })
     } else if (this.selectedObject instanceof Device) {
       this.deviceService.deleteDevice(this.selectedObject.getId!).subscribe({
-        next: response => console.log(response)
+        error: error => console.log(error),
+        complete: () => {
+          this.removeSingleCard(index)
+          this.backToListPage()
+        }
       })
     } else if (this.selectedObject instanceof Users) {
       this.adminService.deleteAdmin(this.selectedObject.getAdminDetails.getId!).subscribe({
-        next: response => console.log(response)
+        error: error => console.log(error),
+        complete: () => {
+          this.removeSingleCard(index)
+          this.backToListPage()
+        }
       })
     }
   }

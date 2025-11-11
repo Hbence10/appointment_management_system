@@ -102,8 +102,8 @@ export class AdminService {
   }
 
   //Adminok kezelese:
-  makeAdmin(adminDetails: AdminDetails) {
-    return this.http.post(`${this.baseURL()}/makeAdmin/${this.selectedUserIdForAdmin}`, adminDetails)
+  makeAdmin(adminDetails: AdminDetails): Observable<Users> {
+    return this.http.post<Users>(`${this.baseURL()}/makeAdmin/${this.selectedUserIdForAdmin}`, adminDetails)
   }
 
   getAllAdmin(): Observable<Users[]> {
