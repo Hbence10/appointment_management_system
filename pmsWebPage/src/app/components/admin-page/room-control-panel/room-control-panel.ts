@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAnchor } from "@angular/material/button";
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -12,6 +12,7 @@ import { AdminService } from '../../../services/admin-service';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationPopUp } from '../../reservation-pop-up/reservation-pop-up';
+import { CloseReason } from '../../../models/closeReason.model';
 
 @Component({
   selector: 'app-room-control-panel',
@@ -25,6 +26,7 @@ export class RoomControlPanel implements OnInit {
   private adminService = inject(AdminService)
   private userService = inject(UserService)
   private reservationService = inject(ReservationService)
+  private destroyRef = inject(DestroyRef)
   user!: Users
   showList: boolean[] = [false, false, false, false, false, false]
 
@@ -49,9 +51,19 @@ export class RoomControlPanel implements OnInit {
   selectedEventType!: 'close' | 'reservation';
   showPopUp = computed(() => this.reservationList().length > 0)
   methodType!: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive"
+  closeReasons = signal<CloseReason[]>([])
 
   ngOnInit(): void {
     this.user = this.userService.user()!
+
+    const subscription = this.adminService.getAllCloseReason().subscribe({
+      next: responseList => this.closeReasons.set(responseList.map(reason => Object.assign(new CloseReason(), reason))),
+      error: error => console.log(error)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe()
+    })
   }
 
   manageExpansionPanel(index: number) {

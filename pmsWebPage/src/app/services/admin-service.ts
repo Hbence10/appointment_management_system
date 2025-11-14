@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Users } from '../models/user.model';
 import { AdminDetails } from '../models/adminDetails.model';
 import { Reservation } from '../models/reservation.model';
+import { CloseReason } from '../models/closeReason.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,10 @@ export class AdminService {
       closeType: closeType,
       selectedDay: selectedDay
     })
+  }
+
+  getAllCloseReason(): Observable<CloseReason[]>{
+    return this.http.get<CloseReason[]>(`${this.baseURL}/closeReasons`);
   }
 
   getReservedDateByDate(selectedDateText: string) {

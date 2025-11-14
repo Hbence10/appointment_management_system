@@ -48,8 +48,6 @@ public class UserController {
     }
 
     //Adminok kezelese
-
-
     @GetMapping("")
     public ResponseEntity<Object> getShortUsersList(){
         return userService.getShortUsersList();

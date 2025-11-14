@@ -1,9 +1,9 @@
-export class Role{
+export class CloseReason{
   constructor(
-    private id?:number,
-    private name?:string,
+    private name?: string,
+    private id:number | null = null,
     private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
+    private deletedAt?: Date
   ){}
 
   // Getterek
@@ -16,10 +16,15 @@ export class Role{
   }
 
   get getIsDeleted(): boolean{
-    return this.isDeleted
+    return this.isDeleted!
   }
 
   get getDeletedAt(): Date | null {
-    return this.deletedAt
+    return this.deletedAt!
+  }
+
+  // Setterek:
+  set setName(newName: string){
+    this.name = newName
   }
 }

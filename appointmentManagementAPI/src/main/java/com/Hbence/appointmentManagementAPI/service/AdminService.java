@@ -1,10 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
-import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
-import com.Hbence.appointmentManagementAPI.repository.UserRepository;
+import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +24,7 @@ public class AdminService {
     private final AdminDetailsRepository adminDetailsRepository;
     private final ReservedDateRepository reservedDateRepository;
     private final ReservationRepository reservationRepository;
+    private final CloseReasonRepository closeReasonRepository;
     private final UserRepository userRepository;
     private final ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holiday", "full", "other"));
     private final ArrayList<String> days = new ArrayList<>(Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
@@ -220,6 +218,11 @@ public class AdminService {
         }
     }
 
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<List<CloseReason>> getAllCloseReason(){
+        return ResponseEntity.ok().body(closeReasonRepository.findAll());
+    }
+
     //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> getReservationsForAdminIntervallum(String startDateText, String endDateText, int startHour, int endHour) {
@@ -265,8 +268,8 @@ public class AdminService {
 
     //FOGLALASOK VISSZASZERZESE A ZARASHOZ
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<List<Reservations>> intervallumCloseCheck(String startDateText, String endDateText){
-        if(ValidatorCollection.rangeValidator(startDateText, endDateText)){
+    public ResponseEntity<List<Reservations>> intervallumCloseCheck(String startDateText, String endDateText) {
+        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.notFound().build();
         } else {
             List<Long> idList = reservationRepository.getAllReservationsBetweenIntervallum(LocalDate.parse(startDateText), LocalDate.parse(endDateText));

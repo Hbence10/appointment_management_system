@@ -1,9 +1,6 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
-import com.Hbence.appointmentManagementAPI.entity.Reservations;
-import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
-import com.Hbence.appointmentManagementAPI.entity.Users;
+import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +47,11 @@ public class AdminController {
     @PostMapping("/closeByRepetitiveDates")
     public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, Object> body){
         return adminService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("closeType").toString(), (ArrayList<String>) body.get("selectedDay"));
+    }
+
+    @GetMapping("/closeReasons")
+    public ResponseEntity<List<CloseReason>> getAllCloseReason(){
+        return adminService.getAllCloseReason();
     }
 
     //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ
