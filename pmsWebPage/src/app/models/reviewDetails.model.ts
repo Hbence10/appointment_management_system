@@ -10,8 +10,6 @@ export class Review {
     private author?: Users,
     private isAnonymus: boolean = false,
     private createdAt: Date = new Date(),
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
     private likeCount: number = 0,
     private dislikeCount: number = 0,
     private likeHistories: ReviewHistory[] = []
@@ -52,14 +50,6 @@ export class Review {
 
   get getLikeHistories(): ReviewHistory[] {
     return this.likeHistories
-  }
-
-  get getIsDeleted(): boolean {
-    return this.isDeleted;
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt;
   }
 
   // Setterek:

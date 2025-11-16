@@ -1,9 +1,7 @@
 export class PaymentMethod {
   constructor(
     private id?: number,
-    private name?: string,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null
+    private name?: string
   ) { }
 
   // Getterek:
@@ -13,14 +11,6 @@ export class PaymentMethod {
 
   get getName(): string {
     return this.name!;
-  }
-
-  get getIsDeleted(): boolean {
-    return this.isDeleted
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt
   }
 
   // Setterek

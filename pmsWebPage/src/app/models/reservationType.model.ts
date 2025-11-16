@@ -3,8 +3,6 @@ export class ReservationType {
     private id: number | null = null,
     private name?: string,
     private price?: number,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
     private placeholders: string[] = ["Írd ide a szolgáltatás nevét", "Add meg az árát"],
     private labelText: string[] = ["Szolgáltatás neve", "Árazás"]
   ) { }
@@ -30,14 +28,6 @@ export class ReservationType {
     return this.labelText
   }
 
-  get getIsDeleted(): boolean {
-    return this.isDeleted
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt
-  }
-
   // Setterek:
   set setName(newName: string) {
     this.name = newName
@@ -46,13 +36,4 @@ export class ReservationType {
   set setPrice(newPrice: number) {
     this.price = newPrice
   }
-
-  set setIsDeleted(newValue: boolean){
-    this.isDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date){
-    this.deletedAt = newDate
-  }
-
 }

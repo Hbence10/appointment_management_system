@@ -1,9 +1,7 @@
 export class CloseReason{
   constructor(
     private name?: string,
-    private id:number | null = null,
-    private isDeleted: boolean = false,
-    private deletedAt?: Date
+    private id:number | null = null
   ){}
 
   // Getterek
@@ -13,14 +11,6 @@ export class CloseReason{
 
   get getName(): string {
     return this.name!
-  }
-
-  get getIsDeleted(): boolean{
-    return this.isDeleted!
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt!
   }
 
   // Setterek:

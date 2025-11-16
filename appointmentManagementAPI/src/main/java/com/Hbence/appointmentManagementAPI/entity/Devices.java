@@ -41,10 +41,12 @@ public class Devices {
 
     @Column(name = "is_deleted")
     @NotNull
+    @JsonIgnore
     private boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
+    @JsonIgnore
     private Date deletedAt;
 
     //Kapcsolatok:

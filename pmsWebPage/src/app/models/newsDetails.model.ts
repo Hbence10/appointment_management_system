@@ -9,9 +9,6 @@ export class News {
     private writer?: Users,
     private placement: number = 0,
     private createdAt: Date | null = null,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
-    private lastEditAt: Date | null = null,
     private placeholders: string[] = ["Írd ide a hír cÍmét", "Írd ide a hírnek a szövegét", "Válaszd ki a kivánt képet"],
     private labelText: string[] = ["Hír címe", "Hír szövege", "Hírhez tartozó kép"]
   ) { }
@@ -39,14 +36,6 @@ export class News {
 
   get getCreatedAt(): Date {
     return this.createdAt!
-  }
-
-  get getIsDeleted(): boolean {
-    return this.isDeleted
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt
   }
 
   get getPlaceholdersText(): string[] {

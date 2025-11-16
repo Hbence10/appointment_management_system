@@ -4,9 +4,7 @@ export class AdminDetails {
     private firstName?: string,
     private lastName?: string,
     private email?: string,
-    private phone?: string,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null
+    private phone?: string
   ) { }
 
   get getId(): number {
@@ -27,13 +25,5 @@ export class AdminDetails {
 
   get getPhone(): string {
     return this.phone!;
-  }
-
-  get getIsDeleted(): boolean {
-    return this.isDeleted;
-  }
-
-  get getDeletedAt(): Date{
-    return this.deletedAt!;
   }
 }

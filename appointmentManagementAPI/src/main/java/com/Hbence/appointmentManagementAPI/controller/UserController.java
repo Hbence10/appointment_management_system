@@ -60,8 +60,8 @@ public class UserController {
     }
 
     @PostMapping("/checkVerificationCode")
-    public ResponseEntity<Object> checkVerificationCode(@RequestBody Map<String, String> codeObject) {
-        return userService.checkVCode(codeObject.get("vCode"));
+    public ResponseEntity<Object> checkVerificationCode(@RequestBody Map<String, String> body) {
+        return userService.checkVCode(body.get("vCode"), body.get("email"));
     }
 
     @PatchMapping("/passwordReset")

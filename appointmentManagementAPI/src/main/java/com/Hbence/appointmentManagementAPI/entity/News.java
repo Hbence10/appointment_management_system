@@ -47,14 +47,17 @@ public class News {
     private Date createdAt;
 
     @Column(name = "is_deleted")
+    @JsonIgnore
     private Boolean isDeleted;
 
     @Column(name = "deleted_at")
     @Null
+    @JsonIgnore
     private Date deletedAt;
 
     @Column(name = "last_edit_at")
     @Null
+    @JsonIgnore
     private Date lastEditAt;
 
     //Kapcsolatok:

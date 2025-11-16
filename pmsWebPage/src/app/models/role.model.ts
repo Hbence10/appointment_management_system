@@ -1,9 +1,7 @@
 export class Role{
   constructor(
     private id?:number,
-    private name?:string,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
+    private name?:string
   ){}
 
   // Getterek
@@ -13,13 +11,5 @@ export class Role{
 
   get getName(): string {
     return this.name!
-  }
-
-  get getIsDeleted(): boolean{
-    return this.isDeleted
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt
   }
 }

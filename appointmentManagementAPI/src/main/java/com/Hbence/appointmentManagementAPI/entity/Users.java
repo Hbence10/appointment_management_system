@@ -56,18 +56,22 @@ public class Users {
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date createdAt;
 
     @Column(name = "last_login")
     @Null
+    @JsonIgnore
     private Date lastLogin;
 
     @Column(name = "is_deleted")
+    @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     @Null
+    @JsonIgnore
     private Date deletedAt;
 
     @Column(name = "is_notification_about_news")

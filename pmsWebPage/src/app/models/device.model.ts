@@ -6,8 +6,6 @@ export class Device {
     private name?: string,
     private amount?: number,
     private categoryId: DevicesCategory | null = null,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
     private placeholders: string[] = ["Irjad be az eszköz nevét", "Az eszöz darabszáma", "Válaszd ki az eszköz kategóriáját"],
     private labelText: string[] = ["Eszköz neve", "Darabszám", "Eszköz kategóriája"]
   ) { }
@@ -27,14 +25,6 @@ export class Device {
 
   get getCategoryId(): DevicesCategory{
     return this.categoryId!
-  }
-
-  get getIsDeleted(): boolean {
-    return this.isDeleted;
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt;
   }
 
   get getPlaceholdersText(): string[] {

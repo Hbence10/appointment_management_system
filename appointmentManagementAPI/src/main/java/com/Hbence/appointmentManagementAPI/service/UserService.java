@@ -48,8 +48,6 @@ public class UserService {
     }
 
     public ResponseEntity<Object> register(Users newUser) {
-        System.out.println(newUser);
-
         if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
             return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
         } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
@@ -125,8 +123,6 @@ public class UserService {
     }
 
     //Adminok kezelese
-
-
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> getShortUsersList() {
         List<Users> userList = userRepository.findAll().stream().filter(user -> user.getRole().getId() == 1 && !user.getIsDeleted()).toList();
@@ -142,7 +138,6 @@ public class UserService {
         return ResponseEntity.ok().body(responseList);
     }
 
-    //Password-reset:
     public ResponseEntity<String> updatePassword(String email, String newPassword, String userVCode) {
         Users user = userRepository.getUserByEmail(email);
 
@@ -162,6 +157,7 @@ public class UserService {
         }
     }
 
+    //Password-reset:
     public ResponseEntity<String> getVerificationCode(String email) {
         List<String> emailList = userRepository.getAllEmail();
 
@@ -176,7 +172,9 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> checkVCode(String userVCode) {
+    public ResponseEntity<Object> checkVCode(String userVCode, String email) {
+        Users searchedUser = userRepository.getUserByEmail(email);
+
         if (userVCode.length() != 10) {
             return ResponseEntity.status(417).body("InvalidVerificationCode");
         } else {

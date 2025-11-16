@@ -46,11 +46,13 @@ public class AdminDetails {
     private String phone;
 
     @Column(name = "is_deleted")
+    @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     @Null
+    @JsonIgnore
     private Date deletedAt;
 
     //Kapcsolatok

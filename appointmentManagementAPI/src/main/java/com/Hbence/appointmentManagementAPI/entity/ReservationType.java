@@ -39,20 +39,20 @@ public class ReservationType {
 
     @Column(name = "is_deleted")
     @NotNull
+    @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
+    @JsonIgnore
     private Date deletedAt;
 
     //Kapcsolatok
     @OneToMany(mappedBy = "reservationTypeId", fetch = FetchType.LAZY, cascade = {})
-//    @JsonIgnoreProperties({})
     @JsonIgnore
     private List<Reservations> reservation;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {}, mappedBy = "reservationTypes")
-//    @JsonIgnoreProperties({})
     @JsonIgnore
     private List<Devices> devicesList;
 

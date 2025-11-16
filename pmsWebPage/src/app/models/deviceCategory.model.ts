@@ -5,8 +5,6 @@ export class DevicesCategory {
     private id: number | null = null,
     private name?: string,
     private devicesList?: Device[],
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
     private placeholders: string[] = ["Ird ide a kategória nevét"],
     private labelText: string[] = ["Kategória neve"]
   ) { }
@@ -22,14 +20,6 @@ export class DevicesCategory {
 
   get getDevicesList(): Device[] {
     return this.devicesList!;
-  }
-
-  get getIsDeleted(): boolean{
-    return this.isDeleted
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt
   }
 
   get getPlaceholdersText(): string[] {

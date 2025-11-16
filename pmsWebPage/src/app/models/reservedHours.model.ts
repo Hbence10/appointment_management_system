@@ -5,9 +5,7 @@ export class ReservedHours {
     private id: number | null = null,
     private start?: number,
     private end?: number,
-    private date?: ReservedDates,
-    private isDeleted: boolean = false,
-    private deletedAt: Date | null = null,
+    private date?: ReservedDates
   ) { }
 
   // Getterek:
@@ -27,14 +25,6 @@ export class ReservedHours {
     return this.date!
   }
 
-  get getIsDeleted(): boolean {
-    return this.isDeleted
-  }
-
-  get getDeletedAt(): Date | null {
-    return this.deletedAt
-  }
-
   // Setterek:
   set setStart(newStart: number) {
     this.start = newStart
@@ -46,13 +36,5 @@ export class ReservedHours {
 
   set setDate(newDate: ReservedDates) {
     this.date = newDate
-  }
-
-  set setIsDeleted(newValue: boolean) {
-    this.setIsDeleted = newValue
-  }
-
-  set setDeletedAt(newDate: Date) {
-    this.deletedAt = newDate
   }
 }
