@@ -217,9 +217,15 @@ public class AdminService {
         }
     }
 
+    //CLOSEREASON
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<List<CloseReason>> getAllCloseReason(){
         return ResponseEntity.ok().body(closeReasonRepository.findAll());
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> addCloseReason(CloseReason newCloseReason){
+        return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
     }
 
     //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ

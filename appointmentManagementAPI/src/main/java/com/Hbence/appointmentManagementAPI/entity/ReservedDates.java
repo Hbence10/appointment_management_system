@@ -45,6 +45,10 @@ public class ReservedDates {
     @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "is_closed")
+    @NotNull
+    private Boolean isClosed = false;
+
     @Column(name = "is_deleted")
     @NotNull
     @JsonIgnore

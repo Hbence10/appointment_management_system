@@ -32,15 +32,15 @@
                     </mat-form-field>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseType">
-                        <mat-option value="holiday">Ünnep miatt</mat-option>
-                        <mat-option value="full">Telt ház miatt</mat-option>
-                        <mat-option value="other">Egyébb ok miatt</mat-option>
+                      <mat-select placeholder="Miért zárunk be?">
+                        @for(reason of closeReasons(); track $index){
+                          <mat-option>{{reason.getName}}</mat-option>
+                        }
                       </mat-select>
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="selectedCloseType == null" class="filledButton secondFont" (click)="closeRoom('single')" mat-flat-button>Mentés</button>
+                <button [disabled]="selectedCloseReason() == null" class="filledButton secondFont" (click)="closeRoom('single')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -72,15 +72,15 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseType">
-                        <mat-option value="holiday">Ünnep miatt</mat-option>
-                        <mat-option value="full">Telt ház miatt</mat-option>
-                        <mat-option value="other">Egyébb ok miatt</mat-option>
+                      <mat-select placeholder="Miért zárunk be?">
+                        @for(reason of closeReasons(); track $index){
+                          <mat-option>{{reason.getName}}</mat-option>
+                        }
                       </mat-select>
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseReason() == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDate')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -112,10 +112,10 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseType">
-                        <mat-option value="holiday">Ünnep miatt</mat-option>
-                        <mat-option value="full">Telt ház miatt</mat-option>
-                        <mat-option value="other">Egyébb ok miatt</mat-option>
+                      <mat-select placeholder="Miért zárunk be?">
+                        @for(reason of closeReasons(); track $index){
+                          <mat-option>{{reason.getName}}</mat-option>
+                        }
                       </mat-select>
                     </mat-form-field>
 
@@ -129,7 +129,7 @@
                     </mat-form-field>
                   </form>
                 </div>
-                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseType == null && selectedDays.value == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
+                <button [disabled]="range.controls['start'].value == null && range.controls['end'].value == null && selectedCloseReason() == null && selectedDays.value == null" class="filledButton secondFont" (click)="closeRoom('betweenTwoDateRepetitive')" mat-flat-button>Mentés</button>
               </div>
             }
           </div>
@@ -306,3 +306,5 @@
 @if(showPopUp()){
   <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="sendReservation(methodType!)" (confirmClose)="sendClose(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
 }
+
+

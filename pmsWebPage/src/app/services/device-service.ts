@@ -9,36 +9,36 @@ import { Device } from '../models/device.model';
 })
 export class DeviceService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/devices")
+  baseURL = "http://localhost:8080/devices"
   selectedCategory!: DevicesCategory
 
   //device_category
   getAllDevicesByCategories(): Observable<DevicesCategory[]> {
-    return this.http.get<any[]>(`${this.baseURL()}/getAllCategory`)
+    return this.http.get<any[]>(`${this.baseURL}/getAllCategory`)
   }
 
   addDeviceCategory(newDevicesCategory: DevicesCategory): Observable<DevicesCategory> {
-    return this.http.post<DevicesCategory>(`${this.baseURL()}/addCategory`, newDevicesCategory)
+    return this.http.post<DevicesCategory>(`${this.baseURL}/addCategory`, newDevicesCategory)
   }
 
   updateDeviceCategory(updatedDeviceCategory: DevicesCategory){
-    return this.http.put(`${this.baseURL()}/updateCategory`, updatedDeviceCategory)
+    return this.http.put(`${this.baseURL}/updateCategory`, updatedDeviceCategory)
   }
 
   deleteDeviceCategory(id: number){
-    return this.http.delete(`${this.baseURL()}/deleteCategory/${id}`)
+    return this.http.delete(`${this.baseURL}/deleteCategory/${id}`)
   }
 
   //device:
   addDevice(newDevice: Device): Observable<Device>{
-    return this.http.post<Device>(`${this.baseURL()}/addDevice`, newDevice)
+    return this.http.post<Device>(`${this.baseURL}/addDevice`, newDevice)
   }
 
   updateDevice(updatedDevice: Device){
-    return this.http.put(`${this.baseURL()}/update`, updatedDevice)
+    return this.http.put(`${this.baseURL}/update`, updatedDevice)
   }
 
   deleteDevice(id: number){
-    return this.http.delete(`${this.baseURL()}/delete/${id}`)
+    return this.http.delete(`${this.baseURL}/delete/${id}`)
   }
 }

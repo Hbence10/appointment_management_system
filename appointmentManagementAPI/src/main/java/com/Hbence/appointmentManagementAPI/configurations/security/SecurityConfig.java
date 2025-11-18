@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/reservation", "/admin/reservationBetweenPeriod", "/admin/reservationRepetitive", "/admin/intervallumCloseCheck").hasAnyRole("admin", "superAdmin")
                         .requestMatchers("/admin/closeRoomForADay", "/admin/closeRoomBetweenPeriod", "/admin/closeByRepetitiveDates", "/admin/closeReasons").hasRole("superAdmin")
                         .requestMatchers("/admin/intervallumCheck", "/admin/repetitiveCheck", "/admin/reservationCheck", "/admin/repetitiveCloseCheck").hasAnyRole("admin", "superAdmin")
-                        .requestMatchers("/makeAdmin/**", "/admin", "/admin/updateAdmin", "/admin/deleteAdmin/**").hasRole("superAdmin")
+                        .requestMatchers("/makeAdmin/**", "/admin", "/admin/updateAdmin", "/admin/deleteAdmin/**", "/admin/makeCloseReasons").hasRole("superAdmin")
                         .requestMatchers("/reservation/makeReservation", "/test").permitAll()
 
                         //swagger:

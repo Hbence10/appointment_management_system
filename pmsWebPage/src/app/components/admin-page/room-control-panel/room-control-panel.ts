@@ -32,7 +32,6 @@ export class RoomControlPanel implements OnInit {
 
   dayNames: string[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
   hunDayNames: string[] = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"]
-  closeTypes: string[] = ["holiday", "full", "other"]
   startHours: number[] = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
   hours: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   startDate = new Date()
@@ -43,7 +42,6 @@ export class RoomControlPanel implements OnInit {
   });
 
   selectedDays = new FormControl([])
-  selectedCloseType: "holiday" | "full" | "other" | null = null
   selectedDate = new FormControl(new Date());
   selectedHourAmount: number | null = null
   selectedStartHour: number | null = null
@@ -51,7 +49,12 @@ export class RoomControlPanel implements OnInit {
   selectedEventType!: 'close' | 'reservation';
   showPopUp = computed(() => this.reservationList().length > 0)
   methodType!: "single" | "betweenTwoDate" | "betweenTwoDateRepetitive"
+
+  //closeReason
   closeReasons = signal<CloseReason[]>([])
+  selectedCloseReason = signal<null | CloseReason>(null)
+  newCloseReasonName: string = ''
+  isCloseReasonPopUp = signal(false)
 
   ngOnInit(): void {
     this.user = this.userService.user()!
@@ -84,7 +87,6 @@ export class RoomControlPanel implements OnInit {
     });
 
     this.selectedDays = new FormControl([])
-    this.selectedCloseType = null
     this.selectedDate = new FormControl(new Date());
     this.selectedHourAmount = null
     this.selectedStartHour = null
@@ -151,7 +153,7 @@ export class RoomControlPanel implements OnInit {
 
   //ENDPOINTOK
   closeRoomForADay(dateText: string) {
-    this.adminService.closeRoomForADay(dateText, this.selectedCloseType!).subscribe({
+    this.adminService.closeRoomForADay(dateText, this.selectedCloseReason()?.getId!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
@@ -159,7 +161,7 @@ export class RoomControlPanel implements OnInit {
   }
 
   closeRoomBetweenPeriod(startDateText: string, endDateText: string) {
-    this.adminService.closeRoomBetweenPeriod(startDateText, endDateText, this.selectedCloseType!).subscribe({
+    this.adminService.closeRoomBetweenPeriod(startDateText, endDateText, this.selectedCloseReason()?.getId!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
@@ -167,7 +169,7 @@ export class RoomControlPanel implements OnInit {
   }
 
   closeByRepetitiveDates(startDateText: string, endDateText: string) {
-    this.adminService.closeByRepetitiveDates(startDateText, endDateText, this.selectedCloseType!, this.selectedDays.value!).subscribe({
+    this.adminService.closeByRepetitiveDates(startDateText, endDateText, this.selectedCloseReason()?.getId!, this.selectedDays.value!).subscribe({
       next: response => console.log(response),
       error: error => console.log(error),
       complete: () => this.setValuesToNull()
@@ -256,4 +258,14 @@ export class RoomControlPanel implements OnInit {
       })
     }
   }
+
+  //closeReason:
+  createCloseReason(){
+    this.adminService.createCloseReason(new CloseReason('', null)).subscribe({
+      next: response => {
+
+      }
+    })
+  }
+
 }

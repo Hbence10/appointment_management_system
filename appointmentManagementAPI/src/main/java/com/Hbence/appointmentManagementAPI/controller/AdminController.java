@@ -54,6 +54,11 @@ public class AdminController {
         return adminService.getAllCloseReason();
     }
 
+    @PostMapping("/makeCloseReasons")
+    public ResponseEntity<Object> addCloseReason(@RequestBody CloseReason newCloseReason){
+        return adminService.addCloseReason(newCloseReason);
+    }
+
     //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ
     @GetMapping("/intervallumCheck")
     public ResponseEntity<Object> getReservationsForAdminIntervallum(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText, @RequestParam("startHour") Integer startHour, @RequestParam("endHour") Integer endHour) {

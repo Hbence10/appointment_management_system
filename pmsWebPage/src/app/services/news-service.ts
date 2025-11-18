@@ -8,11 +8,11 @@ import { News } from '../models/newsDetails.model';
 })
 export class NewsService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/news")
+  baseURL = "http://localhost:8080/news"
   newsList = signal<News[]>([])
 
   getAllNews(): Observable<News[]> {
-    return this.http.get<News[]>(`${this.baseURL()}/getAll`,)
+    return this.http.get<News[]>(`${this.baseURL}/getAll`,)
   }
 
   uploadBannerImg(newsId: number){
@@ -20,14 +20,14 @@ export class NewsService {
   }
 
   updateNews(updatedNews: News) {
-    return this.http.put(`${this.baseURL()}/update`, updatedNews)
+    return this.http.put(`${this.baseURL}/update`, updatedNews)
   }
 
   createNews(newNews: News) {
-    return this.http.post(`${this.baseURL()}/addNews`, newNews, { observe: "response" })
+    return this.http.post(`${this.baseURL}/addNews`, newNews, { observe: "response" })
   }
 
   deleteNews(id: number) {
-    return this.http.delete(`${this.baseURL()}/delete/${id}`)
+    return this.http.delete(`${this.baseURL}/delete/${id}`)
   }
 }

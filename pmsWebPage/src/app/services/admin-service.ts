@@ -12,12 +12,12 @@ import { CloseReason } from '../models/closeReason.model';
 })
 export class AdminService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/admin")
+  baseURL = "http://localhost:8080/admin"
   selectedUserIdForAdmin: number | null = 0;
 
   //foglalasok:
   makeAdminReservation(adminId: number, startHour: number, endHour: number, dateText: string) {
-    return this.http.post(`${this.baseURL()}/reservation`, {
+    return this.http.post(`${this.baseURL}/reservation`, {
       adminId: adminId,
       startHour: startHour,
       endHour: endHour,
@@ -26,7 +26,7 @@ export class AdminService {
   }
 
   makeReservationBetweenPeriod(startDateText: string, endDateText: string, startHour: number, endHour: number, adminId: number) {
-    return this.http.post(`${this.baseURL()}/reservationBetweenPeriod`, {
+    return this.http.post(`${this.baseURL}/reservationBetweenPeriod`, {
       startDateText: startDateText,
       endDateText: endDateText,
       startHour: startHour,
@@ -36,7 +36,7 @@ export class AdminService {
   }
 
   makeReservationByRepetitiveDates(startDateText: string, endDateText: string, selectedDay: any, startHour: number, endHour: number, adminId: number) {
-    return this.http.post(`${this.baseURL()}/reservationRepetitive`, {
+    return this.http.post(`${this.baseURL}/reservationRepetitive`, {
       startDateText: startDateText,
       endDateText: endDateText,
       selectedDay: selectedDay,
@@ -47,50 +47,55 @@ export class AdminService {
   }
 
   //terem bezaras
-  closeRoomForADay(dateText: string, closeType: "holiday" | "full" | "other") {
-    return this.http.post(`${this.baseURL()}/closeRoomForADay`, {
+  closeRoomForADay(dateText: string, closeReasonId: number) {
+    return this.http.post(`${this.baseURL}/closeRoomForADay`, {
       date: dateText,
-      closeType: closeType
+      closeReasonId: closeReasonId
     })
   }
 
-  closeRoomBetweenPeriod(startDate: string, endDate: string, closeType: "holiday" | "full" | "other") {
-    return this.http.post(`${this.baseURL()}/closeRoomBetweenPeriod`, {
+  closeRoomBetweenPeriod(startDate: string, endDate: string, closeReasonId: number) {
+    return this.http.post(`${this.baseURL}/closeRoomBetweenPeriod`, {
       startDate: startDate,
       endDate: endDate,
-      closeType: closeType
+      closeReasonId: closeReasonId
     })
   }
 
-  closeByRepetitiveDates(startDate: string, endDate: string, closeType: "holiday" | "full" | "other", selectedDay: string[]) {
-    return this.http.post(`${this.baseURL()}/closeByRepetitiveDates`, {
+  closeByRepetitiveDates(startDate: string, endDate: string, closeReasonId: number, selectedDay: string[]) {
+    return this.http.post(`${this.baseURL}/closeByRepetitiveDates`, {
       startDate: startDate,
       endDate: endDate,
-      closeType: closeType,
+      closeReasonId: closeReasonId,
       selectedDay: selectedDay
     })
   }
 
+  //closeReason
   getAllCloseReason(): Observable<CloseReason[]>{
     return this.http.get<CloseReason[]>(`${this.baseURL}/closeReasons`);
   }
 
+  createCloseReason(newCloseReason: CloseReason): Observable<CloseReason>{
+    return this.http.post<CloseReason>(``, {})
+  }
+
   getReservedDateByDate(selectedDateText: string) {
-    return this.http.get(`${this.baseURL()}/reservedDate?selectedDate=${selectedDateText}`)
+    return this.http.get(`${this.baseURL}/reservedDate?selectedDate=${selectedDateText}`)
   }
 
   //Foglalasok visszaszerzese az admin foglalashoz
   checkReservationForSimple(dateText: string, startHour: number, endHour: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/reservationCheck?dateText=${dateText}&startHour=${startHour}&endHour=${endHour}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/reservationCheck?dateText=${dateText}&startHour=${startHour}&endHour=${endHour}`)
   }
 
   getReservationsForAdminIntervallum(startDateText: string, endDateText: string, startHour: number, endHour: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/intervallumCheck?startDateText=${startDateText}&endDateText=${endDateText}&startHour=${startHour}&endHour=${endHour}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/intervallumCheck?startDateText=${startDateText}&endDateText=${endDateText}&startHour=${startHour}&endHour=${endHour}`)
   }
 
   checkReservationForRepetitive(startDateText: string, endDateText: string, selectedDays: string, startHour: number, endHour: number): Observable<Reservation[]> {
     console.log(selectedDays)
-    return this.http.get<Reservation[]>(`${this.baseURL()}/repetitiveCheck?startDateText=${startDateText}&endDateText=${endDateText}&selectedDays=${selectedDays}&startHour=${startHour}&endHour=${endHour}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/repetitiveCheck?startDateText=${startDateText}&endDateText=${endDateText}&selectedDays=${selectedDays}&startHour=${startHour}&endHour=${endHour}`)
   }
 
   //Foglalasok visszaszerzese zarashoz
@@ -99,27 +104,27 @@ export class AdminService {
   }
 
   intervallumCheck(startDateText: string, endDateText: string): Observable<Reservation[]>{
-    return this.http.get<Reservation[]>(`${this.baseURL()}/intervallumCloseCheck?startDateText=${startDateText}&endDateText=${endDateText}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/intervallumCloseCheck?startDateText=${startDateText}&endDateText=${endDateText}`)
   }
 
   repetitiveCloseCheck(startDateText: string, endDateText: string, selectedDays: string): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/repetitiveCloseCheck?startDateText=${startDateText}&endDateText=${endDateText}&selectedDays=${selectedDays}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/repetitiveCloseCheck?startDateText=${startDateText}&endDateText=${endDateText}&selectedDays=${selectedDays}`)
   }
 
   //Adminok kezelese:
   makeAdmin(adminDetails: AdminDetails): Observable<Users> {
-    return this.http.post<Users>(`${this.baseURL()}/makeAdmin/${this.selectedUserIdForAdmin}`, adminDetails)
+    return this.http.post<Users>(`${this.baseURL}/makeAdmin/${this.selectedUserIdForAdmin}`, adminDetails)
   }
 
   getAllAdmin(): Observable<Users[]> {
-    return this.http.get<Users[]>(`${this.baseURL()}`)
+    return this.http.get<Users[]>(`${this.baseURL}`)
   }
 
   updateAdmin(updatedDetails: AdminDetails) {
-    return this.http.put(`${this.baseURL()}/updateAdmin`, updatedDetails)
+    return this.http.put(`${this.baseURL}/updateAdmin`, updatedDetails)
   }
 
   deleteAdmin(adminId: number) {
-    return this.http.delete(`${this.baseURL()}/deleteAdmin/${adminId}`)
+    return this.http.delete(`${this.baseURL}/deleteAdmin/${adminId}`)
   }
 }

@@ -1,12 +1,12 @@
+import { CloseReason } from "./closeReason.model";
 import { ReservedHours } from "./reservedHours.model";
 
 export class ReservedDates {
   constructor(
     private date?: Date,
-    private id: number| null = null,
-    private isHoliday: boolean = false,
     private isClosed: boolean = false,
-    private isFull: boolean = false,
+    private closeReason: CloseReason | null = null,
+    private id: number| null = null,
     private reservedHours: ReservedHours[] = [],
     private unavailableHours: number[] = [],
     private availableHours: number[] = []
@@ -21,18 +21,6 @@ export class ReservedDates {
     return this.date!
   }
 
-  get getIsHoliday(): boolean {
-    return this.isHoliday
-  }
-
-  get getIsClosed(): boolean {
-    return this.isClosed
-  }
-
-  get getIsFull(): boolean {
-    return this.isFull
-  }
-
   get getReservedHours(): (ReservedHours | any)[] {
     return this.reservedHours
   }
@@ -43,6 +31,14 @@ export class ReservedDates {
 
   get getAvailableHours(): number[] {
     return this.availableHours
+  }
+
+  get getIsClosed(): boolean | null {
+    return this.isClosed
+  }
+
+  get getCloseReason(): CloseReason | null {
+    return this.closeReason
   }
 
   // Setterek
