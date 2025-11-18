@@ -26,7 +26,6 @@ public class AdminService {
     private final ReservationRepository reservationRepository;
     private final CloseReasonRepository closeReasonRepository;
     private final UserRepository userRepository;
-    private final ArrayList<String> closeTypes = new ArrayList<String>(Arrays.asList("holiday", "full", "other"));
     private final ArrayList<String> days = new ArrayList<>(Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
 
     //ADMIN FOGLALAS
@@ -140,18 +139,18 @@ public class AdminService {
 
     //TEREM BEZARASA
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> closeRoomForADay(String selectedDateText, String closeType) {
-        if (!closeTypes.contains(closeType)) {
-            return ResponseEntity.status(409).build();
+    public ResponseEntity<Object> closeRoomForADay(String selectedDateText, Integer closeReasonId) {
+        CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+
+        if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
+            return ResponseEntity.notFound().build();
         } else {
             ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
             if (selectedDate == null || selectedDate.getId() == null) {
-                selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+                selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), searchedCloseReason);
                 System.out.println("nincs ilyen datum");
             } else {
-                selectedDate.setIsHoliday(closeType.equals("holiday"));
-                selectedDate.setIsFull(closeType.equals("full"));
-                selectedDate.setIsClosed(closeType.equals("other"));
+                selectedDate.setCloseReason(searchedCloseReason);
                 System.out.println("van ilyen datum");
             }
             System.out.println(selectedDate.getDate());
@@ -161,8 +160,10 @@ public class AdminService {
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> closeRoomBetweenPeriod(String startDateText, String endDateText, String closeType) {
-        if (!closeTypes.contains(closeType)) {
+    public ResponseEntity<Object> closeRoomBetweenPeriod(String startDateText, String endDateText, Integer closeReasonId) {
+        CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+
+        if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
             return ResponseEntity.status(409).build();
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
@@ -174,11 +175,9 @@ public class AdminService {
                 ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
 
                 if (searchedDate == null || searchedDate.getId() == null) {
-                    searchedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+                    searchedDate = new ReservedDates(dateList.get(i), searchedCloseReason);
                 } else {
-                    searchedDate.setIsHoliday(closeType.equals("holiday"));
-                    searchedDate.setIsFull(closeType.equals("full"));
-                    searchedDate.setIsClosed(closeType.equals("other"));
+                    searchedDate.setCloseReason(searchedCloseReason);
                 }
                 closedDates.add(searchedDate);
             }
@@ -188,8 +187,10 @@ public class AdminService {
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, String closeType, ArrayList<String> selectedDays) {
-        if (!closeTypes.contains(closeType)) {
+    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, Integer closeReasonId, ArrayList<String> selectedDays) {
+        CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+
+        if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
             return ResponseEntity.status(409).build();
         } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
             return ResponseEntity.status(417).build();
@@ -203,11 +204,9 @@ public class AdminService {
                     ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
 
                     if (searchedDate == null || searchedDate.getId() == null) {
-                        searchedDate = new ReservedDates(dateList.get(i), closeType.equals("holiday"), closeType.equals("full"), closeType.equals("other"));
+                        searchedDate = new ReservedDates(dateList.get(i), searchedCloseReason);
                     } else {
-                        searchedDate.setIsHoliday(closeType.equals("holiday"));
-                        searchedDate.setIsFull(closeType.equals("full"));
-                        searchedDate.setIsClosed(closeType.equals("other"));
+                        searchedDate.setCloseReason(searchedCloseReason);
                     }
 
                     closedDates.add(searchedDate);

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name = "close_reason")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class CloseReason {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long Id;
+    private Integer Id;
 
     @Column(name = "name")
     @NotNull
@@ -33,7 +34,7 @@ public class CloseReason {
     @Column(name = "is_deleted")
     @NotNull
     @JsonIgnore
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
@@ -41,5 +42,16 @@ public class CloseReason {
     private LocalDateTime deletedAt;
 
     //Kapcsolatok
-    List<ReservedDates> reservedDatesList;
+    @OneToMany(
+            mappedBy = "closeReason",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.REMOVE}
+    )
+    @JsonIgnore
+    private List<ReservedDates> reservedDatesList;
+
+    @ManyToOne(cascade = {})
+    @JoinColumn(name = "creator_id")
+    @JsonIgnore
+    private Users creatorUser;
 }

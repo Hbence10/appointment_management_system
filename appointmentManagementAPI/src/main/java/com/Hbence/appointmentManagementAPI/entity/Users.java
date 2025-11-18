@@ -111,4 +111,8 @@ public class Users {
     @Null
     @JsonIgnoreProperties({"adminUser", "isDeleted", "deletedAt"})
     private AdminDetails adminDetails;
+
+    @OneToMany(mappedBy = "creatorUser", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+    @JsonIgnore
+    private List<CloseReason> closeReasons;
 }

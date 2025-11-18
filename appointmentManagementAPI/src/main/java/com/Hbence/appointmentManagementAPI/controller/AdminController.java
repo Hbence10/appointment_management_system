@@ -16,7 +16,6 @@ import java.util.Map;
 public class AdminController {
 
     private final AdminService adminService;
-
     //ADMIN FOGLALAS
     @PostMapping("/reservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
@@ -36,19 +35,20 @@ public class AdminController {
     //TEREM BEZARASA:
     @PostMapping("/closeRoomForADay")
     public ResponseEntity<Object> closeRoomForADay(@RequestBody Map<String, String> body){
-        return adminService.closeRoomForADay(body.get("date"), body.get("closeType"));
+        return adminService.closeRoomForADay(body.get("date"), Integer.valueOf(body.get("closeReasonId")));
     }
 
     @PostMapping("/closeRoomBetweenPeriod")
     public ResponseEntity<Object> closeRoomBetweenPeriod(@RequestBody Map<String, String> body){
-        return adminService.closeRoomBetweenPeriod(body.get("startDate"), body.get("endDate"), body.get("closeType"));
+        return adminService.closeRoomBetweenPeriod(body.get("startDate"), body.get("endDate"), Integer.valueOf(body.get("closeReasonId")));
     }
 
     @PostMapping("/closeByRepetitiveDates")
     public ResponseEntity<Object> closeByRepetitiveDates(@RequestBody Map<String, Object> body){
-        return adminService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), body.get("closeType").toString(), (ArrayList<String>) body.get("selectedDay"));
+        return adminService.closeByRepetitiveDates(body.get("startDate").toString(), body.get("endDate").toString(), Integer.valueOf(body.get("closeReasonId").toString()), (ArrayList<String>) body.get("selectedDay"));
     }
 
+    //CLOSEREASON:
     @GetMapping("/closeReasons")
     public ResponseEntity<List<CloseReason>> getAllCloseReason(){
         return adminService.getAllCloseReason();

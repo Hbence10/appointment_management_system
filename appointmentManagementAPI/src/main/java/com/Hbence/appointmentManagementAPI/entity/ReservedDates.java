@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -43,17 +45,15 @@ public class ReservedDates {
     @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "is_holiday")
+    @Column(name = "is_deleted")
     @NotNull
-    private Boolean isHoliday = false;
+    @JsonIgnore
+    private Boolean isDeleted = false;
 
-    @Column(name = "is_closed")
-    @NotNull
-    private Boolean isClosed = false;
-
-    @Column(name = "is_full")
-    @NotNull
-    private Boolean isFull = false;
+    @Column(name = "deleted_at")
+    @Null
+    @JsonIgnore
+    private LocalDateTime deletedAt;
 
     //Kapcsolatok
     @JsonIgnoreProperties({"date", "reservationHour"})
@@ -64,15 +64,18 @@ public class ReservedDates {
     )
     private List<ReservedHours> reservedHours;
 
-    //Constructorok
-    public ReservedDates(LocalDate date, Boolean isHoliday, Boolean isClosed, Boolean isFull) {
-        this.date = date;
-        this.isHoliday = isHoliday;
-        this.isClosed = isClosed;
-        this.isFull = isFull;
-    }
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "close_reason_id")
+    @Null
+    private CloseReason closeReason;
 
+    //Constructorok
     public ReservedDates(LocalDate date) {
         this.date = date;
+    }
+
+    public ReservedDates(LocalDate date, CloseReason closeReason) {
+        this.date = date;
+        this.closeReason = closeReason;
     }
 }

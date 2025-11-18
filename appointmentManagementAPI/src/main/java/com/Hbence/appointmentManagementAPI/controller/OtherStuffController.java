@@ -1,8 +1,8 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.Gallery;
-import com.Hbence.appointmentManagementAPI.entity.History;
-import com.Hbence.appointmentManagementAPI.entity.Rules;
+import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.repository.CloseReasonRepository;
+import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import java.util.List;
 public class OtherStuffController {
 
     private final OtherStuffService otherStuffService;
+    private final CloseReasonRepository closeReasonRepository;
 
     //Galleria:
     @GetMapping("/gallery")
@@ -46,5 +47,10 @@ public class OtherStuffController {
     @GetMapping("/history")
     public ResponseEntity<List<History>> getHistory(){
         return otherStuffService.getHistory();
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<List<CloseReason>> getAll() {
+        return ResponseEntity.ok().body(closeReasonRepository.findAll());
     }
 }
