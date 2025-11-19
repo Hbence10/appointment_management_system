@@ -42,10 +42,7 @@ export class LoginPage implements OnInit {
   login() {
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
-        let user: Users = Object.assign(new Users(), response.body)
-        user.setRole = Object.assign(new Role(), user.getRole)
-        user.setAdminDetails = Object.assign(new AdminDetails(), user.getAdminDetails)
-        this.userService.user.set(user)
+        this.userService.setObject(response.body)
         this.token = response.headers.headers.get("authorization")[0]
         console.log(this.userService.user()?.getAdminDetails.getId)
       },

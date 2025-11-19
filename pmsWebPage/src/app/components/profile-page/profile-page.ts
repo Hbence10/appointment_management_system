@@ -13,10 +13,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminDetails } from '../../models/adminDetails.model';
+import { Role } from '../../models/role.model';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [MatButtonModule, ReservationCard, RouterModule, PopUp, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [MatButtonModule, FormsModule , ReservationCard, RouterModule, PopUp, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss'
 })
@@ -50,11 +51,9 @@ export class ProfilePage implements OnInit {
       next: responseList => this.reservations.set(this.reservationService.setObject(responseList)),
       error: error => {
         console.log(error)
-      },
-      complete: () => {
-
       }
     })
+
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
     })
@@ -94,12 +93,12 @@ export class ProfilePage implements OnInit {
     if (!this.isEdit()) {
       this.userService.updateUser(this.form.controls["email"].value!, this.form.controls["username"].value!, this.user.getId!).subscribe({
         next: response => {
-          let user = Object.assign(new Users(), response)
-          let adminDetails = Object.assign(new AdminDetails(), response.getAdminDetails)
-          user.setAdminDetails = adminDetails
-          this.userService.user.set(Object.assign(new Users(), user))
+          this.userService.setObject(response)
         },
         error: error => console.log(error),
+        complete: () => {
+          this.user = this.userService.user()!
+        }
       })
     }
   }
@@ -108,15 +107,26 @@ export class ProfilePage implements OnInit {
     const file: File = event.target.files[0];
     if (file){
       const formData: FormData = new FormData()
-      formData.append("pfpImg", JSON.stringify(file));
-
-      console.log(file)
+      formData.append("pfpImg", file);
 
       this.userService.uploadPfp(this.user.getId!, formData).subscribe({
         next: response => {
-          console.log(response)
+          this.userService.setObject(response)
+        },
+        error: error => console.log(error),
+        complete: () => {
+          this.user = this.userService.user()!
         }
       })
+    }
+  }
+
+  navigateForReservation(){
+    console.log(this.user.getRole)
+    if(this.user.getRole.getName == "ROLE_user"){
+      this.router.navigate(["/makeReservation"])
+    } else {
+      this.router.navigate(["/adminPage"])
     }
   }
 }

@@ -1,6 +1,5 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -69,6 +66,11 @@ public class UserController {
         HashMap<String, String> returnObject = new HashMap<>();
         returnObject.put("result", userService.updatePassword(body.get("email"), body.get("newPassword"), body.get("vCode")).getBody());
         return ResponseEntity.ok(returnObject);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Users> getUserById(@PathVariable("id") Long id){
+        return userService.getUserById(id);
     }
 
     //Error lekezelesek:

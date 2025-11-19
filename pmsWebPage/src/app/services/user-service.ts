@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Users } from '../models/user.model';
 import { AdminDetails } from '../models/adminDetails.model';
+import { Role } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,13 @@ export class UserService {
   private baseURL = "http://localhost:8080/users"
   user = signal<null | Users>(null)
   token: string = ""
+
+  setObject(response: any) {
+    let user: Users = Object.assign(new Users(), response)
+    user.setRole = Object.assign(new Role(), user.getRole)
+    user.setAdminDetails = Object.assign(new AdminDetails(), user.getAdminDetails)
+    this.user.set(user)
+  }
 
   //endpointok:
   login(username: string, password: string): Observable<any> {
@@ -30,13 +38,13 @@ export class UserService {
     return this.http.delete(`${this.baseURL}/deleteUser/${userId}`)
   }
 
-  uploadPfp(userId: number, pfpImage: FormData){
-    return this.http.patch(`${this.baseURL}/changePfp/${userId}`, {pfpImg : pfpImage})
+  uploadPfp(userId: number, pfpImage: FormData): Observable<Users> {
+    return this.http.patch<Users>(`${this.baseURL}/changePfp/${userId}`, pfpImage)
   }
 
   //adminPage:
-  getShortUsersList(): Observable<{id: number, username: string}[]>{
-    return this.http.get<{id: number, username: string}[]>(`${this.baseURL}`)
+  getShortUsersList(): Observable<{ id: number, username: string }[]> {
+    return this.http.get<{ id: number, username: string }[]>(`${this.baseURL}`)
   }
 
   //password reset

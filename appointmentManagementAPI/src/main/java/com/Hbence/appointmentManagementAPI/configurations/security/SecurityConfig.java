@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/reviews/addReview", "/reviews/addLike", "/reviews/deleteLike/**", "/reviews/changeLikeType/**", "/reservation/user/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/deleteReview/**", "/reviews/update", "/users/updateUser/**", "users/deleteUser/**", "users/changePfp/**").hasAnyRole("user", "admin", "superAdmin")
                         .requestMatchers("/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory").permitAll()
-                        .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset").permitAll()
+                        .requestMatchers("/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset", "/users/**").permitAll()
 
                         //admin page
                         .requestMatchers("/admin/reservation", "/admin/reservationBetweenPeriod", "/admin/reservationRepetitive", "/admin/intervallumCloseCheck").hasAnyRole("admin", "superAdmin")
@@ -83,13 +83,11 @@ public class SecurityConfig {
         return http.build();
     }
 
-    //
     @Bean
     PasswordEncoder passwordEncoder() {
         return new Argon2PasswordEncoder(16, 32, 1, 1 << 12, 3);
     }
 
-    //
     @Bean
     public CompromisedPasswordChecker compromisedPasswordChecker() {
         return new HaveIBeenPwnedRestApiPasswordChecker();

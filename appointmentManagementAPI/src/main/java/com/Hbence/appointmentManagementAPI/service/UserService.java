@@ -58,6 +58,7 @@ public class UserService {
             String hashedPassword = passwordEncoder.encode(newUser.getPassword());
             newUser.setPassword(hashedPassword);
             Users registeredUser = userRepository.save(newUser);
+            emailSender.sendEmailAboutRegistration(newUser.getEmail());
             return ResponseEntity.ok(registeredUser);
         }
     }
@@ -183,6 +184,15 @@ public class UserService {
             } else {
                 return ResponseEntity.ok(false);
             }
+        }
+    }
+
+    public ResponseEntity<Users> getUserById(Long id){
+        Users searchedUser = userRepository.findById(id).get();
+        if(searchedUser == null || searchedUser.getId() == null || searchedUser.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(searchedUser);
         }
     }
 }
