@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAnchor } from "@angular/material/button";
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -13,10 +13,11 @@ import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationPopUp } from '../../reservation-pop-up/reservation-pop-up';
 import { CloseReason } from '../../../models/closeReason.model';
+import { MatBadge } from "@angular/material/badge";
 
 @Component({
   selector: 'app-room-control-panel',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatAnchor, ReservationPopUp],
+  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatAnchor, ReservationPopUp, MatBadge],
   templateUrl: './room-control-panel.html',
   styleUrl: './room-control-panel.scss',
   providers: [provideNativeDateAdapter()],
@@ -52,9 +53,12 @@ export class RoomControlPanel implements OnInit {
 
   //closeReason
   closeReasons = signal<CloseReason[]>([])
-  selectedCloseReason = signal<null | CloseReason>(null)
-  newCloseReasonName: string = ''
-  isCloseReasonPopUp = signal(false)
+  selectedCloseReason = computed(() => this.closeReasons().find(reason => reason.getName == this.selectedCloseReasonName()))
+  selectedCloseReasonName = signal('')
+  isCloseReasonPopUp = computed(() => this.selectedCloseReasonName() == 'newReason')
+  closeReasonForm: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required])
+  })
 
   ngOnInit(): void {
     this.user = this.userService.user()!
@@ -261,9 +265,12 @@ export class RoomControlPanel implements OnInit {
 
   //closeReason:
   createCloseReason(){
-    this.adminService.createCloseReason(new CloseReason('', null)).subscribe({
+    this.adminService.createCloseReason(new CloseReason(this.closeReasonForm.controls['name'].value, this.userService.user()!, null)).subscribe({
       next: response => {
-
+        this.closeReasons.update(old => [...old, Object.assign(new CloseReason(), response)])
+      },
+      complete: () => {
+        this.selectedCloseReasonName.set(this.closeReasons()[this.closeReasons().length - 1].getName)
       }
     })
   }

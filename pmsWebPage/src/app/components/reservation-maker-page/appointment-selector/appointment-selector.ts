@@ -9,6 +9,7 @@ import { ReservedHours } from '../../../models/reservedHours.model';
 import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
+import { CloseReason } from '../../../models/closeReason.model';
 
 @Component({
   selector: 'app-appointment-selector',
@@ -57,6 +58,7 @@ export class AppointmentSelector implements OnInit {
     }
 
     this.baseReservation = signal<Reservation>(this.reservationService.baseReservation())
+    console.log(this.baseReservation())
 
     try {
       this.selectedHourAmount.set(this.baseReservation()?.getReservedHours.getEnd - this.baseReservation()?.getReservedHours.getStart)
@@ -71,11 +73,13 @@ export class AppointmentSelector implements OnInit {
       next: responseList => {
         responseList.forEach(response => {
           let reservedDate = Object.assign(new ReservedDates(), response)
+          reservedDate.setCloseReason = Object.assign(new CloseReason(), reservedDate.getCloseReason)
           const hourList: ReservedHours[] = []
           reservedDate.getReservedHours.forEach(element => {
             hourList.push(Object.assign(new ReservedHours(), element))
           });
           reservedDate.setReservedHours = hourList
+
           this.reservedDatesOfActualPeriod.update(old => [...old, reservedDate])
         })
 
@@ -95,7 +99,7 @@ export class AppointmentSelector implements OnInit {
 
     if (this.baseReservation().getReservedHours.getDate == undefined) {
       if (!selectedReservedDate) {
-        this.baseReservation().getReservedHours.setDate = new ReservedDates(this.selectedDate(), null, false, false, false)
+        this.baseReservation().getReservedHours.setDate = new ReservedDates(this.selectedDate(), false, null)
         this.baseReservation().getReservedHours.getDate.setAvailableHours = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
       } else {
         this.baseReservation().getReservedHours.setDate = selectedReservedDate

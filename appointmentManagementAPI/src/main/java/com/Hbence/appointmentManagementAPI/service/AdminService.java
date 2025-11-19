@@ -225,6 +225,7 @@ public class AdminService {
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> addCloseReason(CloseReason newCloseReason){
+        System.out.println(newCloseReason);
         return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
     }
 

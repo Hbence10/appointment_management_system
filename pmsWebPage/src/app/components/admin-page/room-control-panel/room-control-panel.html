@@ -32,9 +32,10 @@
                     </mat-form-field>
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?">
+                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseReasonName">
+                        <mat-option [value]="'newReason'">+ Indok létrehozása</mat-option>
                         @for(reason of closeReasons(); track $index){
-                          <mat-option>{{reason.getName}}</mat-option>
+                          <mat-option [value]="reason.getName">{{reason.getName}}</mat-option>
                         }
                       </mat-select>
                     </mat-form-field>
@@ -72,9 +73,10 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?">
+                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseReasonName">
+                        <mat-option [value]="'newReason'">+ Indok létrehozása</mat-option>
                         @for(reason of closeReasons(); track $index){
-                          <mat-option>{{reason.getName}}</mat-option>
+                          <mat-option [value]="reason.getName">{{reason.getName}}</mat-option>
                         }
                       </mat-select>
                     </mat-form-field>
@@ -112,9 +114,10 @@
 
                     <mat-form-field style="width: 300px;">
                       <input type="text" matInput style="display: none;">
-                      <mat-select placeholder="Miért zárunk be?">
+                      <mat-select placeholder="Miért zárunk be?" [(value)]="selectedCloseReasonName">
+                        <mat-option [value]="'newReason'">+ Indok létrehozása</mat-option>
                         @for(reason of closeReasons(); track $index){
-                          <mat-option>{{reason.getName}}</mat-option>
+                          <mat-option [value]="reason.getName">{{reason.getName}}</mat-option>
                         }
                       </mat-select>
                     </mat-form-field>
@@ -307,4 +310,45 @@
   <app-reservation-pop-up (closePopUp)="reservationList.set([])" (confirmReservations)="sendReservation(methodType!)" (confirmClose)="sendClose(methodType!)" [reservationListInput]="reservationList()" [eventType]="selectedEventType!"/>
 }
 
+<!-- CloseReason -->
+@if(isCloseReasonPopUp()){
+  <div class="container-fluid" id="closeReasonCreatorContainer">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
+      <div class="col-lg-12">
 
+        <div class="container-fluid d-flex flex-column justify-content-between py-4" id="creatorContainer">
+          <!-- 1. -->
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-between align-items-center">
+              <div></div>
+              <h1 class="mainFont">Zárási indok létrehozása</h1>
+              <button class="d-flex justify-content-center align-items-center iconButton" style="height: 35px; width: 35px;">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. -->
+          <div class="row">
+            <div class="col-lg-12">
+              <form [formGroup]="closeReasonForm">
+                <mat-form-field class="example-full-width w-100">
+                  <mat-label>Zárási indok</mat-label>
+                  <input matInput type="text" placeholder="Írd ide az okot!" formControlName="name">
+                </mat-form-field>
+              </form>
+            </div>
+          </div>
+
+          <!-- 3. -->
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center align-items-center">
+              <button class="filledButton secondFont w-75" mat-flat-button [disabled]="closeReasonForm.invalid" (click)="createCloseReason()">Mentés</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}

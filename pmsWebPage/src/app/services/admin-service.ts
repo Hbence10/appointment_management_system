@@ -77,9 +77,10 @@ export class AdminService {
   }
 
   createCloseReason(newCloseReason: CloseReason): Observable<CloseReason>{
-    return this.http.post<CloseReason>(``, {})
+    return this.http.post<CloseReason>(`${this.baseURL}/makeCloseReasons`, newCloseReason)
   }
 
+  //egyeb
   getReservedDateByDate(selectedDateText: string) {
     return this.http.get(`${this.baseURL}/reservedDate?selectedDate=${selectedDateText}`)
   }

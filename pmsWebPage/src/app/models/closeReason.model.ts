@@ -1,11 +1,14 @@
-export class CloseReason{
+import { Users } from "./user.model"
+
+export class CloseReason {
   constructor(
     private name?: string,
-    private id:number | null = null
-  ){}
+    private creatorUser?: Users,
+    private id: number | null = null,
+  ) { }
 
   // Getterek
-  get getId(): number{
+  get getId(): number {
     return this.id!
   }
 
@@ -14,7 +17,7 @@ export class CloseReason{
   }
 
   // Setterek:
-  set setName(newName: string){
+  set setName(newName: string) {
     this.name = newName
   }
 }

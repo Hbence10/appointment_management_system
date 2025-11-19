@@ -42,3 +42,19 @@ app-pop-up {
   left: 0px;
   z-index: 2;
 }
+
+#closeReasonCreatorContainer{
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  z-index: 5;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+
+#creatorContainer{
+  background-color: #B2DFDB;
+  height: 350px;
+  width: 550px;
+  border-radius: 16px;
+}

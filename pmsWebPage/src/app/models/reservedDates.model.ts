@@ -54,4 +54,7 @@ export class ReservedDates {
     this.reservedHours = newList
   }
 
+  set setCloseReason(newCloseReason: CloseReason){
+    this.closeReason = newCloseReason
+  }
 }
