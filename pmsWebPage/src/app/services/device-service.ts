@@ -9,7 +9,7 @@ import { Device } from '../models/device.model';
 })
 export class DeviceService {
   private http = inject(HttpClient)
-  baseURL = "http://localhost:8080/devices"
+  private baseURL = "http://localhost:8080/devices"
   selectedCategory!: DevicesCategory
 
   //device_category

@@ -6,18 +6,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { CloseReason } from '../../../models/closeReason.model';
 import { Reservation } from '../../../models/reservation.model';
 import { Users } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service';
 import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationPopUp } from '../../reservation-pop-up/reservation-pop-up';
-import { CloseReason } from '../../../models/closeReason.model';
-import { MatBadge } from "@angular/material/badge";
 
 @Component({
   selector: 'app-room-control-panel',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatAnchor, ReservationPopUp, MatBadge],
+  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatAnchor, ReservationPopUp],
   templateUrl: './room-control-panel.html',
   styleUrl: './room-control-panel.scss',
   providers: [provideNativeDateAdapter()],
@@ -270,9 +269,9 @@ export class RoomControlPanel implements OnInit {
         this.closeReasons.update(old => [...old, Object.assign(new CloseReason(), response)])
       },
       complete: () => {
+        this.closeReasonForm.controls['name'].setValue('')
         this.selectedCloseReasonName.set(this.closeReasons()[this.closeReasons().length - 1].getName)
       }
     })
   }
-
 }

@@ -9,46 +9,46 @@ import { AdminDetails } from '../models/adminDetails.model';
 })
 export class UserService {
   private http = inject(HttpClient)
-  private baseURL = signal<string>("http://localhost:8080/users")
+  private baseURL = "http://localhost:8080/users"
   user = signal<null | Users>(null)
   token: string = ""
 
   //endpointok:
   login(username: string, password: string): Observable<any> {
-    return this.http.post<Users>(`${this.baseURL()}/login`, { username: username, password: password }, { observe: "response" })
+    return this.http.post<Users>(`${this.baseURL}/login`, { username: username, password: password }, { observe: "response" })
   }
 
   register(newUser: Users) {
-    return this.http.post(`${this.baseURL()}/register`, newUser)
+    return this.http.post(`${this.baseURL}/register`, newUser)
   }
 
   updateUser(newEmail: string, newUsername: string, userId: number): Observable<Users> {
-    return this.http.patch<Users>(`${this.baseURL()}/updateUser/${userId}`, { email: newEmail, username: newUsername })
+    return this.http.patch<Users>(`${this.baseURL}/updateUser/${userId}`, { email: newEmail, username: newUsername })
   }
 
   deleteUser(userId: number) {
-    return this.http.delete(`${this.baseURL()}/deleteUser/${userId}`)
+    return this.http.delete(`${this.baseURL}/deleteUser/${userId}`)
   }
 
   uploadPfp(userId: number, pfpImage: FormData){
-    return this.http.patch(`${this.baseURL()}/changePfp/${userId}`, {pfpImg : pfpImage})
+    return this.http.patch(`${this.baseURL}/changePfp/${userId}`, {pfpImg : pfpImage})
   }
 
   //adminPage:
   getShortUsersList(): Observable<{id: number, username: string}[]>{
-    return this.http.get<{id: number, username: string}[]>(`${this.baseURL()}`)
+    return this.http.get<{id: number, username: string}[]>(`${this.baseURL}`)
   }
 
   //password reset
   getVerificationCode(email: string) {
-    return this.http.get(`${this.baseURL()}/getVerificationCode`, { params: new HttpParams().set("email", email) })
+    return this.http.get(`${this.baseURL}/getVerificationCode`, { params: new HttpParams().set("email", email) })
   }
 
   checkVerificationCode(userVCode: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseURL()}/checkVerificationCode`, { vCode: userVCode })
+    return this.http.post<boolean>(`${this.baseURL}/checkVerificationCode`, { vCode: userVCode })
   }
 
   passwordReset(email: string, newPassword: string, vCode: string) {
-    return this.http.patch(`${this.baseURL()}/passwordReset`, { email: email, newPassword: newPassword, vCode: vCode })
+    return this.http.patch(`${this.baseURL}/passwordReset`, { email: email, newPassword: newPassword, vCode: vCode })
   }
 }

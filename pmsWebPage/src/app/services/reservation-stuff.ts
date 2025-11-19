@@ -9,32 +9,31 @@ import { ReservationType } from '../models/reservationType.model';
 })
 export class ReservationStuff {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/reservationStuff")
+  private baseURL = "http://localhost:8080/reservationStuff"
 
   //egyeb
   getPaymentMethods(): Observable<PaymentMethod[]> {
-    return this.http.get<PaymentMethod[]>(`${this.baseURL()}/paymentMethods`)
+    return this.http.get<PaymentMethod[]>(`${this.baseURL}/paymentMethods`)
   }
 
   getPhoneCodes(): Observable<{ id: number, countryCode: number, countryName: string }[]> {
-    return this.http.get<{ id: number, countryCode: number, countryName: string }[]>(`${this.baseURL()}/phoneCodes`)
+    return this.http.get<{ id: number, countryCode: number, countryName: string }[]>(`${this.baseURL}/phoneCodes`)
   }
 
   //Reservation Types:
   getReservationTypes(): Observable<ReservationType[]> {
-    return this.http.get<ReservationType[]>(`${this.baseURL()}/getReservationType`)
+    return this.http.get<ReservationType[]>(`${this.baseURL}/getReservationType`)
   }
 
   updateReservationType(updatedReservationType: ReservationType){
-    return this.http.put(`${this.baseURL()}/updateReservationType`, updatedReservationType)
+    return this.http.put(`${this.baseURL}/updateReservationType`, updatedReservationType)
   }
 
   deleteReservationType(id: number){
-    return this.http.delete(`${this.baseURL()}/deleteReservationType/${id}`)
+    return this.http.delete(`${this.baseURL}/deleteReservationType/${id}`)
   }
 
   createReservationType(newReservationType: ReservationType): Observable<ReservationType>{
-    return this.http.post<ReservationType>(`${this.baseURL()}/addReservationType`, newReservationType)
+    return this.http.post<ReservationType>(`${this.baseURL}/addReservationType`, newReservationType)
   }
 }
-

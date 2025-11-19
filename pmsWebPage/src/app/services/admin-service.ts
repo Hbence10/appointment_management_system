@@ -1,18 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { ReservedHours } from '../models/reservedHours.model';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Users } from '../models/user.model';
 import { AdminDetails } from '../models/adminDetails.model';
-import { Reservation } from '../models/reservation.model';
 import { CloseReason } from '../models/closeReason.model';
+import { Reservation } from '../models/reservation.model';
+import { Users } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   private http = inject(HttpClient)
-  baseURL = "http://localhost:8080/admin"
+  private baseURL = "http://localhost:8080/admin"
   selectedUserIdForAdmin: number | null = 0;
 
   //foglalasok:

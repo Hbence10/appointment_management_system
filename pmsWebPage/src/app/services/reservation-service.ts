@@ -15,7 +15,7 @@ import { Users } from '../models/user.model';
 })
 export class ReservationService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/reservation")
+  private baseURL = "http://localhost:8080/reservation"
   baseReservation = signal<Reservation>(new Reservation())
   ifRegistrationWithReservation = signal<boolean>(false)
   progressBarSteps = [true, false, false, false]
@@ -45,31 +45,30 @@ export class ReservationService {
     return returnList
   }
 
-
   //Keresek:
   getReservationByUserId(userId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/user/${userId}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/user/${userId}`)
   }
 
   getReservationBetweenIntervallum(startDate: string, endDate: string): Observable<ReservedDates[]> {
-    return this.http.get<ReservedDates[]>(`${this.baseURL()}/reservedDates?startDate=${startDate}&endDate=${endDate}`)
+    return this.http.get<ReservedDates[]>(`${this.baseURL}/reservedDates?startDate=${startDate}&endDate=${endDate}`)
   }
 
   getReservationByDate(wantedDate: string): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.baseURL()}/date/${wantedDate}`)
+    return this.http.get<Reservation[]>(`${this.baseURL}/date/${wantedDate}`)
   }
 
   //Foglalás keszitése
   makeReservation() {
-    return this.http.post(`${this.baseURL()}/makeReservation`, this.baseReservation())
+    return this.http.post(`${this.baseURL}/makeReservation`, this.baseReservation())
   }
 
   //Foglalás lemondása:
   getReservationByEmailAndVCode(email: string, vCode: string): Observable<Reservation> {
-    return this.http.post<Reservation>(`${this.baseURL()}/getByEmailAndVCode`, { email: email, vCode: vCode })
+    return this.http.post<Reservation>(`${this.baseURL}/getByEmailAndVCode`, { email: email, vCode: vCode })
   }
 
   cancelReservation(id: number, canceledBy: null | Users): Observable<Reservation> {
-    return this.http.patch<Reservation>(`${this.baseURL()}/cancel/${id}`, canceledBy)
+    return this.http.patch<Reservation>(`${this.baseURL}/cancel/${id}`, canceledBy)
   }
 }

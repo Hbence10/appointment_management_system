@@ -9,27 +9,27 @@ import { ReviewHistory } from '../models/reviewHistory.model';
 })
 export class ReviewService {
   private http = inject(HttpClient)
-  baseURL = signal<string>("http://localhost:8080/reviews")
+  private baseURL = "http://localhost:8080/reviews"
 
   //review:
   getAllReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseURL()}/getAll`)
+    return this.http.get<Review[]>(`${this.baseURL}/getAll`)
   }
 
   addReview(newReview: Review): Observable<Review>{
-    return this.http.post<Review>(`${this.baseURL()}/addReview`, newReview)
+    return this.http.post<Review>(`${this.baseURL}/addReview`, newReview)
   }
 
   //reviewLike:
   addLike(reviewLike: ReviewHistory): Observable<ReviewHistory>{
-    return this.http.post<ReviewHistory>(`${this.baseURL()}/addLike`, reviewLike)
+    return this.http.post<ReviewHistory>(`${this.baseURL}/addLike`, reviewLike)
   }
 
   updateLike(id: number): Observable<ReviewHistory>{
-    return this.http.put<ReviewHistory>(`${this.baseURL()}/changeLikeType/${id}`, {})
+    return this.http.put<ReviewHistory>(`${this.baseURL}/changeLikeType/${id}`, {})
   }
 
   deleteLike(id: number){
-    return this.http.delete(`${this.baseURL()}/deleteLike/${id}`)
+    return this.http.delete(`${this.baseURL}/deleteLike/${id}`)
   }
 }
