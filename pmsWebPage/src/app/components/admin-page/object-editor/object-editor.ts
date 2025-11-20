@@ -15,10 +15,12 @@ import { CommonModule } from '@angular/common';
 import { Users } from '../../../models/user.model';
 import { UserService } from '../../../services/user-service';
 import { AdminService } from '../../../services/admin-service';
+import { MatAnchor } from "@angular/material/button";
+import { NewsService } from '../../../services/news-service';
 
 @Component({
   selector: 'app-object-editor',
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, CommonModule],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, CommonModule, MatAnchor],
   templateUrl: './object-editor.html',
   styleUrl: './object-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +31,7 @@ export class ObjectEditor implements OnInit {
   userService = inject(UserService)
   adminService = inject(AdminService)
   private destroyRef = inject(DestroyRef)
+  private newsService = inject(NewsService)
   reservationService = inject(ReservationService)
   objectType = input.required<Details>()
 
@@ -47,7 +50,6 @@ export class ObjectEditor implements OnInit {
 
   selectedUserId: number = 1
   selectedDeviceCategoryId:number = 0;
-  selectBannerImg = output<any>()
 
   ngOnInit(): void {
     this.details.set(this.objectType())
@@ -82,6 +84,7 @@ export class ObjectEditor implements OnInit {
   }
 
   selectFile(event: any){
-
+    const selectedFile: File = event.target.files[0];
+    this.newsService.selectedBannerImg = selectedFile
   }
 }

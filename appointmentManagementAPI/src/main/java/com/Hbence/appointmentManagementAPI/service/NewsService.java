@@ -37,7 +37,7 @@ public class NewsService {
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<News> addCoverImg(Long newsId, MultipartFile coverImg) {
         News searchedNews = newsRepository.findById(newsId).get();
-        if (searchedNews.getId() == null || searchedNews.getIsDeleted()) {
+        if (searchedNews == null || searchedNews.getId() == null || searchedNews.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\news" + File.separator + coverImg.getOriginalFilename();
@@ -48,17 +48,16 @@ public class NewsService {
                 fout.close();
 
                 searchedNews.setBannerImgPath("assets\\images\\news" + File.separator + coverImg.getOriginalFilename());
+                return ResponseEntity.ok().body(newsRepository.save(searchedNews));
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().build();
             }
         }
-
-        return ResponseEntity.ok().body(newsRepository.save(searchedNews));
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<News> updateNews(News updatedNews) {
-        if (updatedNews.getId() == null || updatedNews.getIsDeleted()) {
+        if (updatedNews == null || updatedNews.getId() == null || updatedNews.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             updatedNews.setTitle(updatedNews.getTitle().trim());
@@ -70,7 +69,7 @@ public class NewsService {
     public ResponseEntity<String> deleteNews(Long id) {
         News wantedNews = newsRepository.findById(id).get();
 
-        if (wantedNews == null || wantedNews.getIsDeleted()) {
+        if (wantedNews == null || wantedNews.getId() == null || wantedNews.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             wantedNews.setIsDeleted(true);

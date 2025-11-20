@@ -25,6 +25,7 @@ import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { AdminService } from '../../services/admin-service';
+import { response } from 'express';
 
 
 @Component({
@@ -141,20 +142,12 @@ export class PopUp implements OnInit {
     })
   }
 
-  updateSingleCard(response: DevicesCategory | Device | News | ReservationType | Gallery | Users){
+  updateSingleCard(response: DevicesCategory | Device | News | ReservationType | Gallery | Users) {
     let index = this.cardList().indexOf(this.cardList().find(card => card.object.getId == response.getId)!)
     let searchedCard = this.cardList()[index]
 
-    console.log(`index: ${index}`)
-
-    console.log("searchedCard before update: ")
-    console.log(searchedCard)
-
     searchedCard.name = response.getName
     searchedCard.object = response
-
-    console.log("searchedCard after update:")
-    console.log(searchedCard)
 
     this.cardList.update(old => {
       old[index] = searchedCard
@@ -261,14 +254,24 @@ export class PopUp implements OnInit {
     if (this.selectedObject instanceof News) {
       this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.updateNews(this.selectedObject).subscribe({
-        next: response => this.updateSingleCard(Object.assign(new News(), response)),
+        next: response => {
+          let updatedNews = Object.assign(new News(), response);
+          this.updateSingleCard(updatedNews)
+          this.newNewsId = updatedNews.getId
+        },
         error: error => console.log(error),
         complete: () => {
-          //Ez csak akkor fog lefutni ha az admin valtoztatta a cover kepet:
-          this.newsService.uploadBannerImg(1).subscribe({
-
-          })
-          this.actualPage = "listPage"
+          if (this.newsService.selectedBannerImg != null) {
+            this.newsService.uploadBannerImg(this.newNewsId!).subscribe({
+              next: response => this.updateSingleCard(Object.assign(new News(), response)),
+              error: error => console.log(error),
+              complete: () => {
+                this.newsService.selectedBannerImg = null
+                this.backToListPage()
+              }
+            })
+          }
+          this.backToListPage()
         }
       })
     } else if (this.selectedObject instanceof ReservationType) {
@@ -302,19 +305,30 @@ export class PopUp implements OnInit {
     }
   }
 
+  newNewsId: number | null = null
+
   sendPostRequest() {
     if (this.selectedObject instanceof News) {
       this.selectedObject = new News(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.createNews(this.selectedObject).subscribe({
-        next: response => console.log(response),
+        next: response => {
+          let newNews = Object.assign(new News(), response)
+          this.addSingleCard(newNews, "news")
+          this.newNewsId = newNews.getId
+        },
         error: error => console.log(error),
         complete: () => {
-          //Ez csak akkor fog lefutni, ha az admin valasztott neki kepet + sikeresen letre lett hozva az alap hir:
-          this.newsService.uploadBannerImg(1).subscribe({
-
-          })
-
-          this.actualPage = "listPage"
+          if (this.newsService.selectedBannerImg != null) {
+            this.newsService.uploadBannerImg(this.newNewsId!).subscribe({
+              next: response => this.updateSingleCard(Object.assign(new News(), response)),
+              error: error => console.log(error),
+              complete: () => {
+                this.newsService.selectedBannerImg = null
+                this.backToListPage()
+              }
+            })
+          }
+          this.backToListPage()
         }
       })
     } else if (this.selectedObject instanceof ReservationType) {

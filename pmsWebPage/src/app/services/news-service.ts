@@ -9,22 +9,25 @@ import { News } from '../models/newsDetails.model';
 export class NewsService {
   private http = inject(HttpClient)
   private baseURL = "http://localhost:8080/news"
-  newsList = signal<News[]>([])
+  selectedBannerImg: File | null = null
 
   getAllNews(): Observable<News[]> {
     return this.http.get<News[]>(`${this.baseURL}/getAll`,)
   }
 
-  uploadBannerImg(newsId: number) {
-    return this.http.patch(`${this.baseURL}/addCoverImg/${newsId}`, {})
+  uploadBannerImg(newsId: number): Observable<News> {
+    const formData: FormData = new FormData()
+    formData.append("coverImg", this.selectedBannerImg!)
+
+    return this.http.patch<News>(`${this.baseURL}/addCoverImg/${newsId}`, formData)
   }
 
-  updateNews(updatedNews: News) {
-    return this.http.put(`${this.baseURL}/update`, updatedNews)
+  updateNews(updatedNews: News): Observable<News> {
+    return this.http.put<News>(`${this.baseURL}/update`, updatedNews)
   }
 
-  createNews(newNews: News) {
-    return this.http.post(`${this.baseURL}/addNews`, newNews, { observe: "response" })
+  createNews(newNews: News): Observable<News> {
+    return this.http.post<News>(`${this.baseURL}/addNews`, newNews)
   }
 
   deleteNews(id: number) {

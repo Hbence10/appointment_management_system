@@ -48,7 +48,7 @@ public class News {
 
     @Column(name = "is_deleted")
     @JsonIgnore
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null

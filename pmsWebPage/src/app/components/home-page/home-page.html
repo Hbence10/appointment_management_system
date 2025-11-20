@@ -42,7 +42,7 @@
                       </div>
                       @if (newsDetails.getBannerImgPath != null) {
                         <div class="col-lg-4 p-0">
-                          <img style="height: auto !important;" src="assets/placeholder.png" alt="" class="img-fluid" id="bannerImg">
+                          <img style="height: auto !important;" [src]="newsDetails.getBannerImgPath" [alt]="newsDetails.getName+' című hír borítóképe'" class="img-fluid" id="bannerImg">
                         </div>
                       }
                     </div>

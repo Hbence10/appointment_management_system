@@ -26,7 +26,7 @@ public class NewsController {
         return newsService.addNewNews(newNews);
     }
 
-    @PostMapping("/addCoverImg/{id}")
+    @PatchMapping("/addCoverImg/{id}")
     public ResponseEntity<News> addCoverImg(@PathVariable("id") Long id, @RequestParam("coverImg") MultipartFile coverImg){
         return newsService.addCoverImg(id, coverImg);
     }
