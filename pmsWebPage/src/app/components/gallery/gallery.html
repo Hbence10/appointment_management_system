@@ -1,18 +1,19 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <div style="width: 1675px; height: 400px; overflow: hidden;">
-
-      </div>
+      <h1 class="mainFont text-center">Galléria</h1>
     </div>
   </div>
 
   <div class="row">
-
-  <div class="row">
-
+    <div class="col-lg-12">
+      <div id="container">
+        @for (image of galleryImages; track $index) {
+          <img (click)="openCarousel(image)" [src]="image.getPhotoPath" [alt]="image.getPlacement + '._Kép'">
+        }
+      </div>
+    </div>
   </div>
-
 </div>
 
 @if(showCarousel()){

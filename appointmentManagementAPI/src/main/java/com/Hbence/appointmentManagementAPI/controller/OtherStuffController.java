@@ -15,7 +15,6 @@ import java.util.List;
 public class OtherStuffController {
 
     private final OtherStuffService otherStuffService;
-    private final CloseReasonRepository closeReasonRepository;
 
     //Galleria:
     @GetMapping("/gallery")
@@ -28,6 +27,16 @@ public class OtherStuffController {
         return otherStuffService.updateGalleryImage(updatedGallery);
     }
 
+    @PostMapping("/addGallery")
+    public ResponseEntity<Gallery> addGalleryImage(@RequestBody Gallery newGallery){
+        return otherStuffService.addGalleryImage(newGallery);
+    }
+
+    @DeleteMapping("/gallery/{id}")
+    public ResponseEntity<Object> deleteGalleryImage(@PathVariable("id") Long id){
+        return otherStuffService.deleteGalleryImage(id);
+    }
+
     //Szabalyzat:
     @GetMapping("/rule")
     public ResponseEntity<Rules> getRule() {
@@ -36,10 +45,6 @@ public class OtherStuffController {
 
     @PutMapping("/rule/update")
     public ResponseEntity<Rules> updateRule(@RequestBody Rules updatedRule) {
-        if (updatedRule.getId() == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         return otherStuffService.updateRules(updatedRule);
     }
 
@@ -47,10 +52,5 @@ public class OtherStuffController {
     @GetMapping("/history")
     public ResponseEntity<List<History>> getHistory(){
         return otherStuffService.getHistory();
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<List<CloseReason>> getAll() {
-        return ResponseEntity.ok().body(closeReasonRepository.findAll());
     }
 }

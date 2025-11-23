@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { Gallery } from '../../../models/galleryImage.model';
 import { OtherService } from '../../../services/other-service';
 
@@ -10,7 +10,6 @@ import { OtherService } from '../../../services/other-service';
 })
 export class Carousel {
   private otherService = inject(OtherService)
-  private destroyRef = inject(DestroyRef)
 
   galleryImages = signal<Gallery[]>([])
   closeCarousel = output()
@@ -19,16 +18,7 @@ export class Carousel {
 
   ngOnInit(): void {
     this.selectedImg.set(this.otherService.selectedImgForCarousel());
-    console.log(this.selectedImg())
-
-    const subscription = this.otherService.getAllGalleryImages().subscribe({
-      next: response => this.galleryImages.set(response),
-      complete: () => console.log(this.galleryImages())
-    })
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe()
-    })
+    this.galleryImages.set(this.otherService.galleryImages)
   }
 
   switchImage(nextIndex: 1 | -1) {

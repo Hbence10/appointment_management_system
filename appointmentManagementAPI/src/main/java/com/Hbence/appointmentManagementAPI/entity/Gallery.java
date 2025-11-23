@@ -1,10 +1,13 @@
 package com.Hbence.appointmentManagementAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "gallery")
@@ -31,6 +34,15 @@ public class Gallery {
     @NotNull
     @Size(max = 2)
     private int placement;
+
+    @Column(name = "is_deleted")
+    @JsonIgnore
+    private Boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    @Null
+    @JsonIgnore
+    private Date deletedAt;
 
     //Constructorok
     public Gallery(String photoName, String photoPath, int placement) {

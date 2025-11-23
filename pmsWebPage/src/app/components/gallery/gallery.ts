@@ -13,17 +13,17 @@ export class GalleryPage implements OnInit {
   private otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
 
-  galleryImages = signal<Gallery[]>([])
+  galleryImages: Gallery[] = []
   showCarousel = signal<boolean>(false)
 
   ngOnInit(): void {
     const subscription = this.otherService.getAllGalleryImages().subscribe({
       next: responseList => {
         responseList.forEach(response => {
-          this.galleryImages.update(old => [...old, Object.assign(new Gallery(), response)])
+          this.otherService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
         })
       },
-      complete: () => console.log(this.galleryImages())
+      complete: () => this.galleryImages = this.otherService.galleryImages
     })
 
     this.destroyRef.onDestroy(() => {

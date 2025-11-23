@@ -1,0 +1,37 @@
+.switcherButton {
+  height: 75px;
+  width: 35px;
+  // border: 1px solid #004D40;
+  border: none;
+  border-radius: 8px;
+  background-color: #B2DFDB;
+  color: #004D40;
+  transition: 0.5s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+}
+
+.switcherButton:hover {
+  height: 100px;
+  transition: 0.5s ease;
+  background-color: #004D40;
+  color: #B2DFDB;
+}
+
+#closeButton {
+  border: none;
+  border-radius: 8px;
+  background-color: #B2DFDB;
+  color: #004D40;
+  width: 35px;
+  height: 35px;
+  transition: 0.5s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+}
+
+#closeButton:hover {
+  height: 45px;
+  width: 45px;
+  transition: 0.5s ease;
+  background-color: #004D40;
+  color: #B2DFDB;
+}

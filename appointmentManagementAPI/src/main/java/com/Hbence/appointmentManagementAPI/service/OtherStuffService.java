@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -26,12 +27,29 @@ public class OtherStuffService {
 
     //Galleria:
     public ResponseEntity<List<Gallery>> getGalleryImages() {
-        return ResponseEntity.ok(galleryRepository.findAll());
+        return ResponseEntity.ok(galleryRepository.findAll().stream().filter(image -> !image.getIsDeleted()).toList());
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
         return ResponseEntity.ok(galleryRepository.save(updatedGalleryImage));
+    }
+
+    public ResponseEntity<Gallery> addGalleryImage(Gallery newImage){
+        return null;
+    }
+
+    public ResponseEntity<Object> deleteGalleryImage(Long id) {
+        Gallery searchedImage = galleryRepository.findById(id).get();
+        if(searchedImage == null || searchedImage.getId() == null || searchedImage.getIsDeleted()){
+            return ResponseEntity.notFound().build();
+        } else {
+            searchedImage.setIsDeleted(true);
+            searchedImage.setDeletedAt(new Date());
+            galleryRepository.save(searchedImage);
+
+            return ResponseEntity.ok().build();
+        }
     }
 
     //Szabalyzat:
@@ -41,8 +59,12 @@ public class OtherStuffService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Rules> updateRules(Rules updatedRules) {
-        updatedRules.setLastEditAt(LocalDateTime.now());
-        return ResponseEntity.ok(ruleRepository.save(updatedRules));
+        if (updatedRules.getId() > 1) {
+            return ResponseEntity.notFound().build();
+        } else {
+            updatedRules.setLastEditAt(LocalDateTime.now());
+            return ResponseEntity.ok(ruleRepository.save(updatedRules));
+        }
     }
 
     //History

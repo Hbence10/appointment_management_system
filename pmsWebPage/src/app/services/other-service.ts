@@ -12,6 +12,7 @@ export class OtherService {
   private http = inject(HttpClient)
   private baseURL = "http://localhost:8080"
   selectedImgForCarousel = signal<null | Gallery>(null)
+  galleryImages: Gallery[] = []
 
   //Galleria
   getAllGalleryImages(): Observable<Gallery[]> {
