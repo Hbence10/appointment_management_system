@@ -12,7 +12,7 @@ export class reservationTrackAuthGuard implements CanMatch {
   router = inject(Router)
 
   canMatch(route: Route, segments: UrlSegment[]) {
-    if (this.userService.user()?.getRole.getName != "ROLE_admin" && this.userService.user()?.getRole.getName != "ROLE_superAdmin" && this.userService.user()?.getRole.getName != "ROLE_user") {
+    if (this.userService.user() == null) {
       return true
     }
 

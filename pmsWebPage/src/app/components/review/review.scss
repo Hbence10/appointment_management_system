@@ -17,8 +17,15 @@ mat-form-field {
 }
 
 //Reszponzivitas
-@media screen and (min-width: 480px) {
+@media screen and (max-width: 992px) {
+  mat-form-field {
+    width: 100%;
+    height: 300px;
+  }
 
+  app-review-card #mainContainer {
+    width: 100% !important;
+  }
 }
 
 //Csillagok:

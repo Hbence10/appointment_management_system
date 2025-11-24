@@ -36,6 +36,7 @@ public class OtherStuffService {
     }
 
     public ResponseEntity<Gallery> addGalleryImage(Gallery newImage){
+
         return null;
     }
 

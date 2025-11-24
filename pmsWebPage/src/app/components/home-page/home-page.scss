@@ -71,3 +71,9 @@ mat-expansion-panel {
 mat-expansion-panel-header {
   height: 85px;
 }
+
+@media screen and (max-width: 900px) {
+  img {
+    height: 100%;
+  }
+}
