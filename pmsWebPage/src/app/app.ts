@@ -8,10 +8,11 @@ import { Users } from './models/user.model';
 import { Role } from './models/role.model';
 import { SmallNavbar } from './components/small-navbar/small-navbar';
 import { AdminDetails } from './models/adminDetails.model';
+import { ThemeSwitcher } from './components/theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer, Navbar, SmallNavbar],
+  imports: [RouterOutlet, Footer, Navbar, SmallNavbar, ThemeSwitcher],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
