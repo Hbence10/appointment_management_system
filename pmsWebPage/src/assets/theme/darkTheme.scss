@@ -1,0 +1,98 @@
+@use '@angular/material' as mat;
+
+.bodyBg {
+  background-color: #2C595E !important;
+}
+
+mat-checkbox {
+  @include mat.checkbox-overrides(( //
+      label-text-weight: 500,
+      label-text-color: #18363A,
+      selected-checkmark-color: white, //A pipa ikonnak a szine
+
+      //A selected checkbox hatterszine:
+      selected-focus-icon-color: #18363A,
+      selected-icon-color: #18363A,
+      selected-pressed-icon-color: #18363A,
+      selected-hover-icon-color: #18363A //
+    ));
+}
+
+mat-form-field {
+  @include mat.form-field-overrides(( //
+      //SZINEK:
+      filled-container-color: white, //inputok hattere
+      filled-focus-active-indicator-color: #18363A, //also vonal
+      filled-active-indicator-color: #18363A,
+      filled-focus-label-text-color: #18363A,
+      filled-hover-active-indicator-color: #18363A,
+      filled-hover-label-text-color: #18363A,
+      filled-input-text-color: #18363A,
+      filled-input-text-placeholder-color: #18363A,
+      filled-label-text-color: #18363A,
+
+      //FONTOK:
+    ));
+}
+
+mat-select {
+  @include mat.select-overrides(( //
+      //SZINEK:
+      panel-background-color: white,
+      placeholder-text-color: #18363A));
+}
+
+.mainFont {
+  color: #18363A;
+}
+
+.secondFont {
+  color: #18363A;
+}
+
+.numberFont {
+  color: #18363A;
+}
+
+.material-symbols-outlined {
+  color: #18363A;
+}
+
+.filledButton {
+  background-color: #18363A !important;
+  color: white !important;
+}
+
+.iconButton {
+  border: 1px solid #18363A;
+}
+
+.iconButton:hover {
+  background-color: #18363A;
+
+  span {
+    color: #B2DFDB !important;
+  }
+}
+
+.lightBg {
+  background-color: #18363A;
+
+  .mainFont {
+    color: #E9F0ED;
+  }
+
+  .secondFont {
+    color: #E9F0ED;
+  }
+
+  .numberFont {
+    color: #E9F0ED;
+  }
+}
+
+.mediumBg {}
+
+.darkBg {
+  background-color: #18363A;
+}

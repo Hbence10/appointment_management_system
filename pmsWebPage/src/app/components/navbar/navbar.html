@@ -1,4 +1,4 @@
-<div class="container-fluid mb-5">
+<div class="container-fluid mb-5 darkBg">
   <div class="row w-100">
     <div class="col-lg-2 d-flex justify-content-center align-items-center">
       <a routerLink="homePage">
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="col-lg-2 d-flex justify-content-center align-items-center flex-column">
+    <div class="col-lg-2 d-flex justify-content-center align-items-center">
       @if(userService.user() == null){
         <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
       }@else {
@@ -39,4 +39,13 @@
       }
     </div>
   </div>
+</div>
+
+<div style="position: fixed; top: 15px; right: 15px;">
+  <button>
+    <span class="material-symbols-outlined">dark_mode</span>
+  </button>
+  <button>
+    <span class="material-symbols-outlined">light_mode</span>
+  </button>
 </div>
