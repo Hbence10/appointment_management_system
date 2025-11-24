@@ -10,20 +10,17 @@ import { Carousel } from './carousel/carousel';
   styleUrl: './gallery.scss'
 })
 export class GalleryPage implements OnInit {
-  private otherService = inject(OtherService)
+  otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
 
-  galleryImages: Gallery[] = []
   showCarousel = signal<boolean>(false)
 
   ngOnInit(): void {
     const subscription = this.otherService.getAllGalleryImages().subscribe({
       next: responseList => {
-        responseList.forEach(response => {
-          this.otherService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
-        })
-      },
-      complete: () => this.galleryImages = this.otherService.galleryImages
+        console.log(responseList)
+        this.otherService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
+      }
     })
 
     this.destroyRef.onDestroy(() => {
