@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user-service';
 
@@ -11,7 +11,17 @@ import { UserService } from '../../services/user-service';
 
   ]
 })
-export class Navbar {
+export class Navbar implements OnInit{
   userService = inject(UserService)
   router = inject(Router)
+  selectedTheme!: string;
+
+ngOnInit(): void {
+  this.selectedTheme = localStorage.getItem("theme") != null ? sessionStorage.getItem("theme")! : 'light'
+  console.log(localStorage.getItem("theme"))
+}
+
+  selectTheme(newTheme: 'dark' | 'light') {
+    this.selectedTheme = newTheme
+  }
 }

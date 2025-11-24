@@ -1,5 +1,9 @@
 @use '@angular/material' as mat;
 
+*{
+  transition: 0.2s ease-in;
+}
+
 .bodyBg {
   background-color: #2C595E !important;
 }

@@ -41,11 +41,12 @@
   </div>
 </div>
 
-<div style="position: fixed; top: 15px; right: 15px;">
-  <button>
+<!-- TEMA VALTOZTATAS -->
+<div class="d-flex" style="position: fixed; top: 15px; right: 15px;">
+  <button onclick="selectTheme('dark')" (click)="selectTheme('dark')" [class.selectedThemeColor]="selectedTheme == 'dark'" class="themeButton d-flex justify-content-center align-items-center mx-1">
     <span class="material-symbols-outlined">dark_mode</span>
   </button>
-  <button>
+  <button onclick="selectTheme('light')" (click)="selectTheme('light')" [class.selectedThemeColor]="selectedTheme == 'light'" class="themeButton d-flex justify-content-center align-items-center mx-1">
     <span class="material-symbols-outlined">light_mode</span>
   </button>
 </div>

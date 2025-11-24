@@ -58,3 +58,24 @@ a {
   cursor: pointer;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
+.themeButton{
+  width: 35px;
+  height: 35px;
+  border: none;
+  background-color: transparent;
+
+  span {
+    color: #E0F2F1;
+  }
+}
+
+.selectedThemeColor, .themeButton:hover {
+  background-color: #E0F2F1;
+  border: none;
+  border-radius: 5px;
+
+  span{
+    color: #004D40;
+  }
+}
