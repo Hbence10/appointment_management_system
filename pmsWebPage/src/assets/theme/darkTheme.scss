@@ -30,7 +30,7 @@ mat-form-field {
       filled-input-text-color: #18363A,
       filled-input-text-placeholder-color: #18363A,
       filled-label-text-color: #18363A //
-    ));
+    ) !important);
 }
 
 mat-select {

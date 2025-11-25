@@ -31,7 +31,7 @@ public class Role {
     @Column(name = "is_deleted")
     @NotNull
     @JsonIgnore
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null

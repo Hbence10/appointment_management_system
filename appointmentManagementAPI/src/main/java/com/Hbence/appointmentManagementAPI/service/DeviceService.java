@@ -26,7 +26,7 @@ public class DeviceService {
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
         List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
         for (DevicesCategory i : devicesCategoryList) {
-            i.setDevicesList(i.getDevicesList().stream().filter(device -> !device.isDeleted()).toList());
+            i.setDevicesList(i.getDevicesList().stream().filter(device -> !device.getIsDeleted()).toList());
         }
         return ResponseEntity.ok(devicesCategoryList);
     }
@@ -97,10 +97,10 @@ public class DeviceService {
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteDevice(Long id) {
         Devices searchedDevice = deviceRepository.findById(id).get();
-        if (searchedDevice == null || searchedDevice.isDeleted()) {
+        if (searchedDevice == null || searchedDevice.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
-            searchedDevice.setDeleted(true);
+            searchedDevice.setIsDeleted(true);
             searchedDevice.setDeletedAt(new Date());
             return ResponseEntity.ok().build();
         }
