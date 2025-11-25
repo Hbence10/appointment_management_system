@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-*{
+* {
   transition: 0.2s ease-in;
 }
 
@@ -10,11 +10,8 @@
 
 mat-checkbox {
   @include mat.checkbox-overrides(( //
-      label-text-weight: 500,
       label-text-color: #18363A,
-      selected-checkmark-color: white, //A pipa ikonnak a szine
-
-      //A selected checkbox hatterszine:
+      selected-checkmark-color: white,
       selected-focus-icon-color: #18363A,
       selected-icon-color: #18363A,
       selected-pressed-icon-color: #18363A,
@@ -24,7 +21,6 @@ mat-checkbox {
 
 mat-form-field {
   @include mat.form-field-overrides(( //
-      //SZINEK:
       filled-container-color: white, //inputok hattere
       filled-focus-active-indicator-color: #18363A, //also vonal
       filled-active-indicator-color: #18363A,
@@ -33,17 +29,15 @@ mat-form-field {
       filled-hover-label-text-color: #18363A,
       filled-input-text-color: #18363A,
       filled-input-text-placeholder-color: #18363A,
-      filled-label-text-color: #18363A,
-
-      //FONTOK:
+      filled-label-text-color: #18363A //
     ));
 }
 
 mat-select {
   @include mat.select-overrides(( //
-      //SZINEK:
       panel-background-color: white,
-      placeholder-text-color: #18363A));
+      placeholder-text-color: #18363A //
+    ));
 }
 
 .mainFont {
@@ -79,24 +73,39 @@ mat-select {
   }
 }
 
-.lightBg {
-  background-color: #18363A;
-
-  .mainFont {
-    color: #E9F0ED;
-  }
-
-  .secondFont {
-    color: #E9F0ED;
-  }
-
-  .numberFont {
-    color: #E9F0ED;
-  }
+.lightBg{
+background-color: #18363A;
 }
+.mainFont {
+  color: #E9F0ED;
+}
+
+.secondFont {
+  color: #E9F0ED;
+}
+
+.numberFont {
+  color: #E9F0ED;
+}
+
 
 .mediumBg {}
 
 .darkBg {
   background-color: #18363A;
+}
+
+@media screen and (min-width: 992px) {
+  #bioContainer {
+    border-left: 3px solid #E9F0ED !important;
+  }
+}
+
+.expansionPanelText{
+  color: #18363A !important;
+}
+
+#homeReservationButton{
+  background-color: #E9F0ED !important;
+  color: #18363A !important;
 }

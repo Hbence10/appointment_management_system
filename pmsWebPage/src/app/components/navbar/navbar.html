@@ -31,22 +31,30 @@
       </div>
     </div>
 
-    <div class="col-lg-2 d-flex justify-content-center align-items-center">
-      @if(userService.user() == null){
+    <div class="col-lg-2 d-flex justify-content-end align-items-center">
+      <div class="mx-5 d-flex justify-content-center align-items-center">
+        @if(userService.user() == null){
         <span routerLink="/login" id="userIcon" class="material-symbols-outlined">account_circle</span>
-      }@else {
-        <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="profil_kep" id="pfpImage">
-      }
+        }@else {
+          <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="profil_kep" id="pfpImage">
+        }
+      </div>
+    <!-- </div>
+
+    <div class="col-lg-1 d-flex"> -->
+      <div class="d-flex justify-content-center">
+        <button onclick="selectTheme('dark')" (click)="selectTheme('dark')" [class.selectedThemeColor]="selectedTheme == 'dark'" class="themeButton d-flex justify-content-center align-items-center mx-1">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+        <button onclick="selectTheme('light')" (click)="selectTheme('light')" [class.selectedThemeColor]="selectedTheme == 'light'" class="themeButton d-flex justify-content-center align-items-center mx-1">
+          <span class="material-symbols-outlined">light_mode</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- TEMA VALTOZTATAS -->
-<div class="d-flex" style="position: fixed; top: 15px; right: 15px;">
-  <button onclick="selectTheme('dark')" (click)="selectTheme('dark')" [class.selectedThemeColor]="selectedTheme == 'dark'" class="themeButton d-flex justify-content-center align-items-center mx-1">
-    <span class="material-symbols-outlined">dark_mode</span>
-  </button>
-  <button onclick="selectTheme('light')" (click)="selectTheme('light')" [class.selectedThemeColor]="selectedTheme == 'light'" class="themeButton d-flex justify-content-center align-items-center mx-1">
-    <span class="material-symbols-outlined">light_mode</span>
-  </button>
-</div>
+<!-- <div class="d-flex" style="position: fixed; top: 15px; right: 15px;">
+
+</div> -->
