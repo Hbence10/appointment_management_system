@@ -28,11 +28,6 @@ body {
 }
 
 //SAJAT GLOBALIS MATERIAL STILUS:
-mat-checkbox {
-  @include mat.checkbox-overrides(( //
-      label-text-weight: 500 //
-    ));
-}
 
 //FONTOK:
 .mainFont {

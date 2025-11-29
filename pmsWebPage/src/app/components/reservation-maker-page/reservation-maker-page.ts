@@ -31,4 +31,8 @@ export class ReservationMakerPage implements OnInit {
   ngOnInit(): void {
     this.reservationService.baseReservation.set(new Reservation())
   }
+
+  testA(){
+    console.log("next step emitted!")
+  }
 }

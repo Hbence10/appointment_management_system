@@ -6,12 +6,14 @@
 
 .bodyBg {
   background-color: #F4FBFF;
+  color: #004D40 !important;
 }
 
 mat-expansion-panel {
   @include mat.expansion-overrides(( //
       container-text-color: #004D40,
-      header-text-color: #004D40 //
+      header-text-color: #004D40,
+      container-background-color: white //
     ));
 }
 
@@ -48,22 +50,6 @@ mat-select {
     ));
 }
 
-.mainFont {
-  color: #004D40;
-}
-
-.secondFont {
-  color: #004D40;
-}
-
-.numberFont {
-  color: #004D40;
-}
-
-.material-symbols-outlined {
-  color: #004D40;
-}
-
 .filledButton {
   background-color: #004D40 !important;
   color: white !important;
@@ -81,14 +67,20 @@ mat-select {
   }
 }
 
-.lightBg {
+.secondBg {
   background-color: #B2DFDB;
 }
 
-.mediumBg {}
+.thirdBg {
+  background-color: #26A69A;
+}
 
-.darkBg {
+.navbarBg {
   background-color: #004D40;
+}
+
+#ruleContainer{
+  background-color: white;
 }
 
 @media screen and (min-width: 992px) {

@@ -6,10 +6,20 @@
 
 .bodyBg {
   background-color: #2C595E !important;
+  color: #E9F0ED !important;
+}
+
+mat-expansion-panel {
+  @include mat.expansion-overrides(( //
+      container-text-color: #E9F0ED,
+      header-text-color: #E9F0ED,
+      container-background-color: #417E85 //
+    ));
 }
 
 mat-checkbox {
   @include mat.checkbox-overrides(( //
+      label-text-weight: 500,
       label-text-color: #18363A,
       selected-checkmark-color: white,
       selected-focus-icon-color: #18363A,
@@ -40,18 +50,6 @@ mat-select {
     ));
 }
 
-.mainFont {
-  color: #18363A;
-}
-
-.secondFont {
-  color: #18363A;
-}
-
-.numberFont {
-  color: #18363A;
-}
-
 .material-symbols-outlined {
   color: #18363A;
 }
@@ -73,27 +71,27 @@ mat-select {
   }
 }
 
-.lightBg{
-background-color: #18363A;
-}
-.mainFont {
-  color: #E9F0ED;
-}
+.secondBg {
+  background-color: #18363A;
 
-.secondFont {
-  color: #E9F0ED;
+  .filledButton {
+    background-color: #E9F0ED !important;
+    color: #18363A !important;
+  }
 }
 
-.numberFont {
-  color: #E9F0ED;
+.thirdBg {
+  background-color: #417E85;
 }
 
-
-.mediumBg {}
-
-.darkBg {
+.navbarBg {
   background-color: #18363A;
 }
+
+#ruleContainer{
+  background-color: #417E85;
+}
+
 
 @media screen and (min-width: 992px) {
   #bioContainer {
@@ -101,11 +99,11 @@ background-color: #18363A;
   }
 }
 
-.expansionPanelText{
+.expansionPanelText {
   color: #18363A !important;
 }
 
-#homeReservationButton{
+#homeReservationButton {
   background-color: #E9F0ED !important;
   color: #18363A !important;
 }

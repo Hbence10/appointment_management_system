@@ -8,23 +8,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Role } from '../../models/role.model';
-import { Users } from '../../models/user.model';
 import { UserService } from '../../services/user-service';
-import { AdminDetails } from '../../models/adminDetails.model';
 
 @Component({
   selector: 'app-login-page',
   imports: [RouterModule, MatTooltipModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatCheckbox, MatIconModule, ReactiveFormsModule],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.scss',
+  styleUrls: ['./login-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPage implements OnInit {
   private userService = inject(UserService)
   private cookieService = inject(CookieService)
   private router = inject(Router)
-  private token: string = ""
 
   isShowPassword = signal<boolean>(false)
   isError = signal<boolean>(false)
@@ -43,7 +39,8 @@ export class LoginPage implements OnInit {
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
         this.userService.setObject(response.body)
-        this.token = response.headers.headers.get("authorization")[0]
+        this.cookieService.set("pmsToken", response.headers.headers.get("authorization")[0])
+
         console.log(this.userService.user()?.getAdminDetails.getId)
       },
       error: error => { this.isError.set(true) },
@@ -61,10 +58,10 @@ export class LoginPage implements OnInit {
 
   checkIsRemember() {
     if (this.isRemember()) {
-      this.cookieService.set("pmsJwtToken", this.token, { expires: 30 })
-      this.cookieService.set("pmsUserD", JSON.stringify(this.userService.user()), 30)
+      this.cookieService.set("pmsJwtToken", this.cookieService.get("pmsToken"))
+      this.cookieService.set("pmsUserD", JSON.stringify(this.userService.user()))
     } else {
-      sessionStorage.setItem("pmsJwtToken", this.token)
+      sessionStorage.setItem("pmsJwtToken", this.cookieService.get("pmsToken"))
       sessionStorage.setItem("pmsUserD", JSON.stringify(this.userService.user()))
     }
   }
