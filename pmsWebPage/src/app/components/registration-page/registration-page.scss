@@ -1,20 +1,31 @@
 .mainFont {
   font-weight: 800;
+  font-size: 30px;
 }
 
 .secondFont {
   font-weight: 500;
+  font-size: 20px;
+}
+
+p, a {
+  font-size: 14px !important;
 }
 
 #mainContainer {
   width: 510px;
   height: 725px;
   border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 app-rule-reader {
   position: fixed;
   top: 0px;
   left: 0px;
+}
+
+@media screen and (max-width: 550px) {
+  #mainContainer {
+    width: 100%;
+  }
 }
