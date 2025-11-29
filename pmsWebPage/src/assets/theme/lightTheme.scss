@@ -47,7 +47,7 @@ mat-select {
   @include mat.select-overrides(( //
       panel-background-color: white,
       placeholder-text-color: #004D40 //
-    ));
+    ) !important);
 }
 
 .filledButton {
@@ -72,23 +72,25 @@ mat-select {
 }
 
 .thirdBg {
-  background-color: #26A69A;
+  background-color: white;
 }
 
 .navbarBg {
   background-color: #004D40;
 }
 
-#ruleContainer{
-  background-color: white;
-}
-
 @media screen and (min-width: 992px) {
-  #bioContainer{
+  #bioContainer {
     border-left: 3px solid #004D40 !important;
   }
 }
 
-.expansionPanelText{
+.expansionPanelText {
   color: #004D40 !important;
 }
+
+.appointmentBg, mat-card {
+  background-color: #26A69A !important;
+}
+
+//

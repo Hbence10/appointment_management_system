@@ -9,12 +9,12 @@
 
     <!-- Terem kezelese: -->
     <div class="col-lg-4">
-      <app-room-control-panel class="cardDiv reservationCard" />
+      <app-room-control-panel class="cardDiv secondBg reservationCard" />
     </div>
 
     <!-- Foglalások kezelése: -->
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv reservationCard container-fluid">
+      <div class="cardDiv secondBg reservationCard container-fluid">
         <div class="row">
           <div class="col-lg-12 d-flex flex-column justify-content-center">
             <h1 class="text-center my-3 mainFont">Mai nap foglalásai</h1>
@@ -36,7 +36,7 @@
   <div class="row my-4">
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div
-        class="cardDiv d-flex justify-content-center align-items-center"
+        class="cardDiv secondBg d-flex justify-content-center align-items-center"
         (click)="
           selectObjectList('Kategóriák listája', 'newEntity', 'deviceCategory')
         "
@@ -47,7 +47,7 @@
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div
-        class="cardDiv d-flex justify-content-center align-items-center"
+        class="cardDiv secondBg d-flex justify-content-center align-items-center"
         (click)="selectObjectList('Hírek kezelése', 'newEntity', 'news')"
       >
         <p class="text-center mainFont">Hírek kezelése</p>
@@ -56,7 +56,7 @@
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div
-        class="cardDiv d-flex justify-content-center align-items-center"
+        class="cardDiv secondBg d-flex justify-content-center align-items-center"
         (click)="
           selectObjectList('Próba Kategóriák', 'newEntity', 'reservationType')
         "
@@ -69,7 +69,7 @@
   <div class="row">
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div
-        class="cardDiv d-flex justify-content-center align-items-center"
+        class="cardDiv secondBg d-flex justify-content-center align-items-center"
         (click)="
           selectObjectList('Szabályzat szerkesztése', 'saveChanges', 'rule')
         "
@@ -80,7 +80,7 @@
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div
-        class="cardDiv d-flex justify-content-center align-items-center"
+        class="cardDiv secondBg d-flex justify-content-center align-items-center"
         (click)="
           selectObjectList('Galléria szerkesztése', 'galleryView', 'gallery')
         "
@@ -91,7 +91,7 @@
 
     <div class="col-lg-4 d-flex justify-content-center align-items-center">
       <div
-        class="cardDiv d-flex justify-content-center align-items-center"
+        class="cardDiv secondBg d-flex justify-content-center align-items-center"
         (click)="selectObjectList('Admin hozzáadása', 'newEntity', 'user')"
         [class.disableDiv]="user.getRole.getName != 'ROLE_superAdmin'"
       >

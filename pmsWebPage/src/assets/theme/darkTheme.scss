@@ -88,11 +88,6 @@ mat-select {
   background-color: #18363A;
 }
 
-#ruleContainer{
-  background-color: #417E85;
-}
-
-
 @media screen and (min-width: 992px) {
   #bioContainer {
     border-left: 3px solid #E9F0ED !important;
@@ -106,4 +101,8 @@ mat-select {
 #homeReservationButton {
   background-color: #E9F0ED !important;
   color: #18363A !important;
+}
+
+.appointmentBg, mat-card {
+  background-color: #417E85 !important;
 }

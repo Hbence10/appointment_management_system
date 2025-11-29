@@ -7,20 +7,18 @@
 }
 
 #mainContainer {
-  background-color: #B2DFDB;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
+  // box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
   height: 270px;
   width: 960px;
   border-radius: 16px;
-  padding: 46px 60px !important;
+  padding: 46px 60px;
 }
 
 #secondContainer {
   height: 180px;
-  background-color: white;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+  // box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
 }
 
 .iconButton {
@@ -41,4 +39,20 @@
   cursor: pointer;
 }
 
-//Reszponzivitas
+hr {
+  border: 1px solid #004D40 !important;
+  border-radius: 25px;
+  background-color: #004D40;
+}
+
+@media screen and (max-width: 992px) {
+  #mainContainer {
+    width: 100% !important;
+    height: auto;
+    padding: 26px 40px !important;
+  }
+
+  #secondContainer {
+    height: 100%;
+  }
+}

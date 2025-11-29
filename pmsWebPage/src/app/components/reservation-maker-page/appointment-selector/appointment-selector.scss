@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+
 .mainFont {
   font-size: 18px;
   font-weight: 800;
@@ -16,7 +17,7 @@
 
 //-----
 #mainContainer {
-  background-color: #B2DFDB;
+  // background-color: #B2DFDB;
   border-radius: 16px;
   width: 1400px;
   height: 650px;
@@ -25,7 +26,7 @@
 }
 
 #hourContainer {
-  background-color: #26A69A;
+  // background-color: #26A69A;
   height: 530px;
   width: 100%;
   border-radius: 16px;
@@ -33,11 +34,11 @@
 }
 
 mat-card {
-  background-color: #26A69A;
+  // background-color: #26A69A;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-mat-calendar-header{
+mat-calendar-header {
   color: white !important;
 }
 
@@ -95,10 +96,11 @@ mat-card-title {
 }
 
 .selectedHourDiv,
-.hourDiv:Hover {
+.hourDiv:hover {
   background-color: #004D40;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
 }
 
 .amountCard {
@@ -114,7 +116,7 @@ mat-card-title {
   opacity: 1;
 
   p,
-  mat-icon {
+  .material-symbols-outlined {
     color: white !important;
   }
 }

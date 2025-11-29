@@ -16,26 +16,24 @@ export class ReviewCard implements OnInit {
   private userService = inject(UserService)
 
   reviewDetail = input.required<Review>()
-  starList = signal<number[]>([])
+  starList = signal<number[]>([1, 1, 1, 1, 1])
   usersReviewLike = signal<ReviewHistory | null>(null);
 
   ngOnInit(): void {
-    this.reviewDetail().getLikeHistories.forEach(reviewLike => {
-      reviewLike.setLikerUser = Object.assign(new Users(), reviewLike.getLikerUser)
 
-      if (reviewLike.getLikerUser.getId == this.userService.user()?.getId) {
-        this.usersReviewLike.set(reviewLike)
-      }
-    })
   }
 
   setLike(likeType: "like" | "dislike") {
-    if (this.usersReviewLike() == null) {
-      this.addLike(likeType)
-    } else if (this.usersReviewLike()?.getLikeType == likeType && this.usersReviewLike() != null) {
-      this.deleteLike()
-    } else if (this.usersReviewLike()?.getLikeType != likeType && this.usersReviewLike != null) {
-      this.updateLike()
+    if (this.userService.user() == null) {
+      alert("Előbb jelentkezzél be!")
+    } else {
+      if (this.usersReviewLike() == null) {
+        this.addLike(likeType)
+      } else if (this.usersReviewLike()?.getLikeType == likeType && this.usersReviewLike() != null) {
+        this.deleteLike()
+      } else if (this.usersReviewLike()?.getLikeType != likeType && this.usersReviewLike != null) {
+        this.updateLike()
+      }
     }
   }
 

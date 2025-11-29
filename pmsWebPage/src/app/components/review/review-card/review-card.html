@@ -1,37 +1,31 @@
-<div class="container-fluid my-5" id="mainContainer">
+<div class="container-fluid my-5 secondBg" id="mainContainer">
   <div class="row">
     <div class="col-lg-12 p-0">
-      <div class="container-fluid" id="secondContainer">
+      <div class="container-fluid thirdBg" id="secondContainer">
         <div class="row">
           <div class="col-lg-12">
-            <h5 class="m-0 mainFont">{{reviewDetail().getIsAnonymus ? 'Névtelen' : reviewDetail().getAuthor.getName}}</h5>
-            <hr class="my-1" style="border: px solid #004D40 !important; border-radius: 25px; background-color: #004D40;">
+            <h5 class="m-0 mainFont text-xl-start text-lg-start text-md-center text-center">{{reviewDetail().getIsAnonymus ? 'Névtelen' : reviewDetail().getAuthor.getName}}</h5>
+            <hr class="my-1">
           </div>
         </div>
 
         <div class="row">
           <div class="col-lg-12 reviewTextContainer">
-            <p class="secondFont">{{reviewDetail().getReviewText}}</p>
+            <p class="secondFont text-xl-start text-lg-start text-md-center text-center">{{reviewDetail().getReviewText}}</p>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-lg-12 d-flex justify-content-between align-items-center">
+          <div class="col-lg-12 d-flex flex-xl-row flex-lg-row flex-md-column flex-sm-column flex-column justify-content-between align-items-center pb-2">
 
-            <div id="starts">
+            <!-- csillagok -->
+            <div>
               @for (starAmount of starList(); track $index) {
-                <span class="material-symbols-outlined">
-                  @if (starAmount == 1) {
-                    star_rate
-                  } @else if (starAmount == 0.5){
-                    star_rate_half
-                  } @else {
-                    star_rate
-                  }
-                </span>
+                <span class="material-symbols-outlined">star_rate</span>
               }
             </div>
 
+            <!-- like gombok: -->
             <div id="likeButtons" class="d-flex justify-content-center align-items-center">
 
               <div class="d-flex justify-content-center align-items-center mx-2">
