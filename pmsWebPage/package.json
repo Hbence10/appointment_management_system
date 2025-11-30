@@ -33,6 +33,7 @@
     "@angular/router": "^20.1.0",
     "@angular/ssr": "^20.1.4",
     "@auth0/angular-jwt": "^5.2.0",
+    "@kolkov/angular-editor": "^3.0.3",
     "express": "^5.1.0",
     "mui-tiptap": "^1.27.0",
     "ngx-cookie-service": "^20.1.0",
