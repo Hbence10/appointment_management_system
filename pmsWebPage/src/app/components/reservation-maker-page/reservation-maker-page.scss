@@ -15,10 +15,8 @@
 }
 
 mat-stepper {
-  .mat-horizontal-stepper-wrapper {
-    .mat-horizontal-content-container {
-      padding: 0px !important;
-    }
+  .mat-vertical-content{
+    padding: 0px !important;
   }
 
   @include mat.stepper-overrides(( //
@@ -51,5 +49,9 @@ mat-stepper {
 @media screen and (max-width: 1440px) {
   #stepperContainer {
     display: block;
+  }
+
+  .mat-vertical-content{
+    padding: 0px !important;
   }
 }

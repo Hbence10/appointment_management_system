@@ -17,7 +17,6 @@ img {
 .infoContainer {
   width: 845px;
   height: 750px;
-  // background-color: #B2DFDB;
 }
 
 .material-box {
@@ -44,6 +43,11 @@ p {
   line-height: 30px;
 }
 
+.expansionPanelParagraph {
+  font-size: 16px;
+  line-height: 20px;
+}
+
 .filledButton {
   width: 250px !important;
   height: 75px !important;
@@ -53,15 +57,10 @@ p {
 
 mat-expansion-panel {
   @include mat.expansion-overrides(( //
-      // container-text-color: #004D40,
-      // Container
       container-text-font: Montserrat,
-
-      // Header
       header-text-font: Oswald,
       header-text-size: 25px,
       header-text-line-height: 35px,
-      // header-text-color: #004D40 //
     ));
 }
 
@@ -74,8 +73,36 @@ mat-expansion-panel-header {
   height: 85px;
 }
 
+#expansionPanelBodyContainer {
+  height: 175px;
+}
+
+//Reszponzivitas
 @media screen and (max-width: 900px) {
   img {
     height: 100%;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .infoContainer {
+    width: auto !important;
+  }
+
+  #newsContainer {
+    padding: 0px !important;
+    height: auto !important;
+  }
+
+  mat-expansion-panel {
+    width: 90%;
+  }
+
+  #paragraphBox {
+    padding: 0px;
+  }
+
+  #expansionPanelBodyContainer {
+    height: auto;
   }
 }
