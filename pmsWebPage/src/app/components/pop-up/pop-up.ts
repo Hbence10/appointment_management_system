@@ -456,6 +456,13 @@ export class PopUp implements OnInit {
   }
 
   updateRule(){
+    this.otherService.saveRuleChanges(this.otherService.rule!).subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error),
+      complete: () => {
+        this.close()
+      }
+    })
     console.log("Szabályzat frissitése!")
   }
 }

@@ -60,7 +60,7 @@ public class OtherStuffService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Rules> updateRules(Rules updatedRules) {
-        if (updatedRules.getId() > 1) {
+        if (updatedRules.getId() != 1) {
             return ResponseEntity.notFound().build();
         } else {
             updatedRules.setLastEditAt(LocalDateTime.now());
