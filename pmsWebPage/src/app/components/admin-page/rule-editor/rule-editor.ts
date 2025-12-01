@@ -3,10 +3,11 @@ import { Rule } from '../../../models/rule.model';
 import { OtherService } from '../../../services/other-service';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { FormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill'
 
 @Component({
   selector: 'app-rule-editor',
-  imports: [AngularEditorModule, FormsModule],
+  imports: [FormsModule, QuillModule],
   templateUrl: './rule-editor.html',
   styleUrl: './rule-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -16,33 +17,33 @@ export class RuleEditor implements OnInit {
   private destroyRef = inject(DestroyRef)
   otherStuffService = inject(OtherService)
   rule = signal<Rule | null>(null)
-  config: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    minHeight: '20rem',
-    maxHeight: '20rem',
-    placeholder: 'Enter text here...',
-    translate: 'no',
-    sanitize: true,
-    toolbarPosition: 'top',
-    defaultFontName: 'Arial',
+  // config: AngularEditorConfig = {
+  //   editable: true,
+  //   spellcheck: true,
+  //   minHeight: '20rem',
+  //   maxHeight: '20rem',
+  //   placeholder: 'Enter text here...',
+  //   translate: 'no',
+  //   sanitize: true,
+  //   toolbarPosition: 'top',
+  //   defaultFontName: 'Arial',
 
-    customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ]
-  }
+  //   customClasses: [
+  //     {
+  //       name: 'quote',
+  //       class: 'quote',
+  //     },
+  //     {
+  //       name: 'redText',
+  //       class: 'redText'
+  //     },
+  //     {
+  //       name: 'titleText',
+  //       class: 'titleText',
+  //       tag: 'h1',
+  //     },
+  //   ]
+  // }
   text: string = "<div><span><b>Szab&#225;lyzat</b></span></div><div><br></div><div>dasdsa<b>da</b></div>"
 
   ngOnInit(): void {
