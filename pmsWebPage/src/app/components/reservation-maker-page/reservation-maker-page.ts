@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject, OnInit } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router, RouterModule } from '@angular/router';
 import { Reservation } from '../../models/reservation.model';
@@ -21,9 +21,10 @@ import { RuleReader } from './rule-reader/rule-reader';
     },
   ],
 })
-export class ReservationMakerPage implements OnInit {
+export class ReservationMakerPage implements OnInit, AfterViewInit {
   private router = inject(Router)
   private reservationService = inject(ReservationService)
+  stepperOrientation: "vertical" | "horizontal" = "horizontal"
 
   checkList = this.reservationService.progressBarSteps
   actualSteps = this.router.url
@@ -32,7 +33,22 @@ export class ReservationMakerPage implements OnInit {
     this.reservationService.baseReservation.set(new Reservation())
   }
 
-  testA(){
-    console.log("next step emitted!")
+  //reszponzivitas
+  ngAfterViewInit(): void {
+    const startScreenWidth = window.innerWidth;
+    if (startScreenWidth > 1440) {
+      this.stepperOrientation = "horizontal"
+    } else if (startScreenWidth <= 1440) {
+      this.stepperOrientation = "vertical"
+    }
+  }
+
+  @HostListener('window:resize', ['$event.target.innerWidth'!])
+  onResize(width: number) {
+    if (width > 1440) {
+      this.stepperOrientation = "horizontal"
+    } else if (width <= 1440) {
+      this.stepperOrientation = "vertical"
+    }
   }
 }

@@ -15,6 +15,12 @@
 }
 
 mat-stepper {
+  .mat-horizontal-stepper-wrapper {
+    .mat-horizontal-content-container {
+      padding: 0px !important;
+    }
+  }
+
   @include mat.stepper-overrides(( //
       header-height: 75px,
       //COLOR
@@ -31,9 +37,19 @@ mat-stepper {
       header-label-text-size: 15px,
       header-selected-state-label-text-weight: 700,
       header-selected-state-label-text-size: 18px,
-      container-color: transparent
-      //
+      container-color: transparent //
     ));
 }
 
+//reszponzivitas
+#stepperContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+@media screen and (max-width: 1440px) {
+  #stepperContainer {
+    display: block;
+  }
+}
