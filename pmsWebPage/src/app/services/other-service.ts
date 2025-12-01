@@ -13,6 +13,7 @@ export class OtherService {
   private baseURL = "http://localhost:8080"
   selectedImgForCarousel = signal<null | Gallery>(null)
   galleryImages: Gallery[] = []
+  rule!: Rule
 
   //Galleria
   getAllGalleryImages(): Observable<Gallery[]> {
@@ -24,8 +25,8 @@ export class OtherService {
     return this.http.get<Rule>(`${this.baseURL}/rule`)
   }
 
-  saveRuleChanges(newRule: Rule) {
-    return this.http.post(`${this.baseURL}/rule/update`, { updatedRule: newRule })
+  saveRuleChanges(updatedRule: Rule) {
+    return this.http.post(`${this.baseURL}/rule/update`, updatedRule)
   }
 
   //History

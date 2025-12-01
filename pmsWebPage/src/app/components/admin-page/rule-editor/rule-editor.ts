@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 
 export class RuleEditor implements OnInit {
   private destroyRef = inject(DestroyRef)
-  private otherStuffService = inject(OtherService)
+  otherStuffService = inject(OtherService)
   rule = signal<Rule | null>(null)
   config: AngularEditorConfig = {
     editable: true,
@@ -48,7 +48,7 @@ export class RuleEditor implements OnInit {
   ngOnInit(): void {
     const subscription = this.otherStuffService.getRule().subscribe({
       next: response => {
-        this.rule.set(Object.assign(new Rule(), response))
+        this.otherStuffService.rule = Object.assign(new Rule(), response)
       },
       error: error => console.log(error),
       complete: () => {

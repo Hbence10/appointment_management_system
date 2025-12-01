@@ -192,6 +192,11 @@ export class PopUp implements OnInit {
       } else if (this.selectedObject.getId != null) {
         this.sendPutRequest()
       }
+
+      if (this.actualDetails()?.objectType == "rule"){
+        this.updateRule()
+      }
+
     } else if (this.actualDetails()?.buttonText == "deleteEntity") {
       this.sendDeleteRequest()
     } else if (this.actualDetails()?.buttonText == "cancelReservation") {
@@ -448,6 +453,10 @@ export class PopUp implements OnInit {
         this.reservationCancel.emit(cancelledReservation)
       }
     })
+  }
+
+  updateRule(){
+    console.log("Szabályzat frissitése!")
   }
 }
 
