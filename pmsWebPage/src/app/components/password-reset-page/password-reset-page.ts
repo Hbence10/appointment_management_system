@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,7 +35,7 @@ function validatePassword(control: AbstractControl): { [key: string]: any } | nu
 }
 @Component({
   selector: 'app-password-reset-page',
-  imports: [MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule, RouterModule, ReactiveFormsModule, MatError],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule, ReactiveFormsModule, MatError],
   templateUrl: './password-reset-page.html',
   styleUrl: './password-reset-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

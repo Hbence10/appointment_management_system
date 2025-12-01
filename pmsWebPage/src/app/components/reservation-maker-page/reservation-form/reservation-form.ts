@@ -12,7 +12,7 @@ import { ReservationService } from '../../../services/reservation-service';
 import { UserService } from '../../../services/user-service';
 import { ReservationStuff } from '../../../services/reservation-stuff';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+
 // import { NgForOf } from "../../../../../node_modules/@angular/common/common_module.d";
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
@@ -28,7 +28,7 @@ function validatePhone(control: AbstractControl): { [key: string]: any } | null 
 
 @Component({
   selector: 'app-reservation-form',
-  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule, MatSelectModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatLabel, MatCheckboxModule, MatButtonModule, MatSelectModule],
   templateUrl: './reservation-form.html',
   styleUrl: './reservation-form.scss',
   standalone: true,

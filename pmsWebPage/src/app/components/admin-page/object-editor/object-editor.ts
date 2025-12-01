@@ -11,7 +11,7 @@ import { Details } from '../../../models/notEntityModels/details.model';
 import { ReservationType } from '../../../models/reservationType.model';
 import { DeviceService } from '../../../services/device-service';
 import { ReservationService } from '../../../services/reservation-service';
-import { CommonModule } from '@angular/common';
+
 import { Users } from '../../../models/user.model';
 import { UserService } from '../../../services/user-service';
 import { AdminService } from '../../../services/admin-service';
@@ -20,7 +20,7 @@ import { NewsService } from '../../../services/news-service';
 
 @Component({
   selector: 'app-object-editor',
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, CommonModule, MatAnchor],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatAnchor],
   templateUrl: './object-editor.html',
   styleUrl: './object-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
