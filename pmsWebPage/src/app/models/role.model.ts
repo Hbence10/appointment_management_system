@@ -1,7 +1,7 @@
 export class Role{
   constructor(
     private id?:number,
-    private name?:string
+    private name?: "ROLE_user" | "ROLE_admin" | "ROLE_superAdmin"
   ){}
 
   // Getterek
@@ -9,7 +9,7 @@ export class Role{
     return this.id!
   }
 
-  get getName(): string {
+  get getName(): "ROLE_user" | "ROLE_admin" | "ROLE_superAdmin" {
     return this.name!
   }
 }

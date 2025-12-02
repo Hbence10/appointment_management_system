@@ -122,7 +122,6 @@ export class ProfilePage implements OnInit {
   }
 
   navigateForReservation(){
-    console.log(this.user.getRole)
     if(this.user.getRole.getName == "ROLE_user"){
       this.router.navigate(["/makeReservation"])
     } else {
