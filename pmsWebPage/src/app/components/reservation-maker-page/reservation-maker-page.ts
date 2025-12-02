@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, HostListener, inject, OnInit } from '@angular/core';
-import { MatStepperModule } from '@angular/material/stepper';
+import { AfterViewInit, Component, ContentChildren, HostListener, inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { MatStepHeader, MatStepperModule } from '@angular/material/stepper';
 import { Router, RouterModule } from '@angular/router';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
@@ -34,6 +34,7 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
   }
 
   //reszponzivitas
+  // @ContentChildren(MatStepHeader) header!: MatStepHeader
   ngAfterViewInit(): void {
     const startScreenWidth = window.innerWidth;
     if (startScreenWidth > 1440) {
@@ -41,6 +42,8 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
     } else if (startScreenWidth <= 1440) {
       this.stepperOrientation = "vertical"
     }
+
+    // console.log(this.header)
   }
 
   @HostListener('window:resize', ['$event.target.innerWidth'!])
@@ -51,4 +54,5 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
       this.stepperOrientation = "vertical"
     }
   }
+
 }

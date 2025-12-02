@@ -8,10 +8,7 @@
 
 #mainContainer {
   border-radius: 16px;
-  background-color: #B2DFDB;
   height: 475px !important;
-  width: 575px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   cursor: pointer;
   overflow-y: auto;
 }
@@ -53,8 +50,22 @@ app-pop-up {
 }
 
 #creatorContainer{
-  background-color: #B2DFDB;
   height: 350px;
   width: 550px;
   border-radius: 16px;
+}
+
+mat-form-field {
+  width: 300px !important;
+}
+
+.selectInput {
+  display: none;
+}
+
+//Reszponzivitas
+@media screen and (max-width: 992px) {
+  .inputDiv, mat-form-field, input, .filledButton{
+    width: 100% !important;
+  }
 }

@@ -1,12 +1,12 @@
-.mainFont{
+.mainFont {
   font-weight: 500 !important;
 }
 
-.secondFont{
+.secondFont {
   font-weight: 400;
 }
 
-.numberFont{
+.numberFont {
   font-weight: 600;
   font-size: 25px;
 }
@@ -15,25 +15,16 @@
   font-size: 28px;
   border-radius: 16px;
   height: 125px;
-  width: 575px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   cursor: pointer;
 }
 
-.reservationCard {
+.controlPanel {
+  border-radius: 16px;
   height: 475px !important;
-}
-
-p {
-  margin: 0px;
 }
 
 .cardDiv:hover {
   transform: scale(1.05, 1.05);
-}
-
-.reservationCard:hover {
-  transform: none;
 }
 
 app-pop-up {
@@ -59,7 +50,7 @@ app-pop-up {
   }
 }
 
-.disableDiv{
+.disableDiv {
   pointer-events: none;
   opacity: 0.6;
 }

@@ -1,30 +1,26 @@
 <div class="container-fluid">
   <div class="row mt-4">
     <!-- Naptar: -->
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <mat-card>
+    <div class="col-lg-4 my-lg-0 my-3" style="padding: 80px; height: 475px;">
+      <mat-card style="position: absolute;">
         <mat-calendar [(selected)]="selectedDate"></mat-calendar>
       </mat-card>
     </div>
 
     <!-- Terem kezelese: -->
-    <div class="col-lg-4">
-      <app-room-control-panel class="cardDiv secondBg reservationCard" />
+    <div class="col-lg-4 my-lg-0 my-3">
+      <app-room-control-panel class="secondBg controlPanel" />
     </div>
 
     <!-- Foglalások kezelése: -->
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div class="cardDiv secondBg reservationCard container-fluid">
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="controlPanel weakShadow w-100 secondBg controlPanel container-fluid">
         <div class="row">
           <div class="col-lg-12 d-flex flex-column justify-content-center">
             <h1 class="text-center my-3 mainFont">Mai nap foglalásai</h1>
             <div style="max-height: 375px; overflow-y: auto">
               @for (reservation of reservationsOfSelectedDate(); track $index) {
-              <app-reservation-card
-                [reservationDetails]="reservation"
-                [parentComponent]="'adminPage'"
-                (showDetailsOutput)="showReservationDetails($event)"
-              />
+                <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'" (showDetailsOutput)="showReservationDetails($event)" />
               }
             </div>
           </div>
@@ -33,69 +29,42 @@
     </div>
   </div>
 
-  <div class="row my-4">
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div
-        class="cardDiv secondBg d-flex justify-content-center align-items-center"
-        (click)="
-          selectObjectList('Kategóriák listája', 'newEntity', 'deviceCategory')
-        "
-      >
-        <p class="text-center mainFont">Eszközök kezelése</p>
+  <div class="row my-lg-4">
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)=" selectObjectList('Kategóriák listája', 'newEntity', 'deviceCategory') " >
+        <p class="m-0 text-center mainFont">Eszközök kezelése</p>
       </div>
     </div>
 
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div
-        class="cardDiv secondBg d-flex justify-content-center align-items-center"
-        (click)="selectObjectList('Hírek kezelése', 'newEntity', 'news')"
-      >
-        <p class="text-center mainFont">Hírek kezelése</p>
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)="selectObjectList('Hírek kezelése', 'newEntity', 'news')" >
+        <p class="m-0 text-center mainFont">Hírek kezelése</p>
       </div>
     </div>
 
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div
-        class="cardDiv secondBg d-flex justify-content-center align-items-center"
-        (click)="
-          selectObjectList('Próba Kategóriák', 'newEntity', 'reservationType')
-        "
-      >
-        <p class="text-center mainFont">Próba lehetőségek kezelése</p>
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)=" selectObjectList('Próba Kategóriák', 'newEntity', 'reservationType') " >
+        <p class="m-0 text-center mainFont">Próba lehetőségek kezelése</p>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div
-        class="cardDiv secondBg d-flex justify-content-center align-items-center"
-        (click)="
-          selectObjectList('Szabályzat szerkesztése', 'saveChanges', 'rule')
-        "
-      >
-        <p class="text-center mainFont">Szabályzat szerkesztése</p>
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)=" selectObjectList('Szabályzat szerkesztése', 'saveChanges', 'rule') " >
+        <p class="m-0 text-center mainFont">Szabályzat szerkesztése</p>
       </div>
     </div>
 
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div
-        class="cardDiv secondBg d-flex justify-content-center align-items-center"
-        (click)="
-          selectObjectList('Galléria szerkesztése', 'galleryView', 'gallery')
-        "
-      >
-        <p class="text-center mainFont">Galléria szerkesztése</p>
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)=" selectObjectList('Galléria szerkesztése', 'galleryView', 'gallery') " >
+        <p class="m-0 text-center mainFont">Galléria szerkesztése</p>
       </div>
     </div>
 
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <div
-        class="cardDiv secondBg d-flex justify-content-center align-items-center"
-        (click)="selectObjectList('Admin hozzáadása', 'newEntity', 'user')"
-        [class.disableDiv]="user.getRole.getName != 'ROLE_superAdmin'"
-      >
-        <p class="text-center mainFont">Adminok kezelése</p>
+    <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)="selectObjectList('Admin hozzáadása', 'newEntity', 'user')" [class.disableDiv]="user.getRole.getName != 'ROLE_superAdmin'" >
+        <p class="m-0 text-center mainFont">Adminok kezelése</p>
       </div>
     </div>
   </div>
@@ -103,10 +72,7 @@
   @if(user.getRole.getName == 'ROLE_superAdmin'){
     <div class="row position-fixed w-100">
       <div class="col-lg-12 d-flex justify-content-end align-items-center">
-        <button
-          id="historyButton"
-          class="d-flex justify-content-center align-items-center mx-4 mb-5"
-        >
+        <button id="historyButton" class="d-flex justify-content-center align-items-center mx-4 mb-5" >
           <span class="material-symbols-outlined">history</span>
         </button>
       </div>
