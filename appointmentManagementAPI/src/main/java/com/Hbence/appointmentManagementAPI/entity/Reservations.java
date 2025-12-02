@@ -99,6 +99,11 @@ public class Reservations {
     @Size(max = 100)
     private String cancelerEmail;
 
+    @Column(name = "reservation_id")
+    @Null
+    @Size(max = 11)
+    private String reservationId;
+
     //Kapcsolatok
     @OneToOne(cascade = {})
     @JoinColumn(name = "canceled_by")

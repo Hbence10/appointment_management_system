@@ -7,6 +7,7 @@ import { Reservation } from '../../../models/reservation.model';
 import { ReservationService } from '../../../services/reservation-service';
 import { ReservationStuff } from '../../../services/reservation-stuff';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user-service';
 
 @Component({
   selector: 'app-reservation-finalize',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 
 export class ReservationFinalize implements OnInit {
   private reservationService = inject(ReservationService)
+  private userService = inject(UserService)
   private reservationStuffService = inject(ReservationStuff)
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
@@ -37,7 +39,6 @@ export class ReservationFinalize implements OnInit {
         responseList.forEach(response => {
           this.paymentMethods.update(old => [...old, Object.assign(new PaymentMethod(), response)])
         })
-        console.log(this.paymentMethods())
       },
     })
 
@@ -56,7 +57,10 @@ export class ReservationFinalize implements OnInit {
   finalizeReservation() {
     this.reservationService.baseReservation.set(this.baseReservation())
     this.reservationService.baseReservation().setReservedAt = new Date().toISOString()
-    console.log(this.reservationService.baseReservation())
+
+    if(this.userService.user() != null){
+      this.reservationService.baseReservation().setUser = this.userService.user()!
+    }
 
     this.reservationService.makeReservation().subscribe({
       next: response => console.log(response),
