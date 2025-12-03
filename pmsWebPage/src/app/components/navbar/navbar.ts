@@ -16,10 +16,10 @@ export class Navbar implements OnInit{
   router = inject(Router)
   selectedTheme!: string;
 
-ngOnInit(): void {
-  this.selectedTheme = localStorage.getItem("theme") != null ? localStorage.getItem("theme")! : 'light'
-  console.log(this.selectedTheme)
-}
+  ngOnInit(): void {
+    this.selectedTheme = localStorage.getItem("theme") != null ? localStorage.getItem("theme")! : 'light'
+    console.log(this.selectedTheme)
+  }
 
   selectTheme(newTheme: 'dark' | 'light') {
     this.selectedTheme = newTheme

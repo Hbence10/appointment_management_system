@@ -15,7 +15,6 @@
 #popupContainer {
   width: 640px;
   height: 850px;
-  background-color: #B2DFDB;
   border-radius: 16px;
 }
 
@@ -28,4 +27,10 @@
 #popUpBody {
   max-height: 600px;
   overflow-y: auto !important;
+}
+
+@media screen and (max-width: 992px) {
+  #popupContainer {
+    width: 80vw;
+  }
 }

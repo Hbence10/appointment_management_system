@@ -12,4 +12,14 @@ export class SmallNavbar{
   userService = inject(UserService)
   router = inject(Router)
   showNavBar = signal<boolean>(false)
+  selectedTheme!: string;
+
+  ngOnInit(): void {
+    this.selectedTheme = localStorage.getItem("theme") != null ? localStorage.getItem("theme")! : 'light'
+    console.log(this.selectedTheme)
+  }
+
+  selectTheme(newTheme: 'dark' | 'light') {
+    this.selectedTheme = newTheme
+  }
 }

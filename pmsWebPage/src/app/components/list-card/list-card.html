@@ -1,10 +1,10 @@
 <div class="container-fluid my-4">
   <div class="row h-100" [class.deviceCard]="cardItem().objectType == 'deviceCategory'">
-    <div class="col-lg-9 d-flex justify-content-start align-items-center" (click)="showDevices()">
+    <div class="col-9 d-flex justify-content-start align-items-center" (click)="showDevices()">
       <p class="m-0 secondFont">{{ cardItem().name | titlecase}}</p>
     </div>
 
-    <div class="col-lg-3 d-flex justify-content-end align-items-center">
+    <div class="col-3 d-flex justify-content-end align-items-center">
       <button class="d-flex justify-content-center align-items-center mx-1" (click)="button1Event()">
         @if(cardItem().button1Event == "delete"){
         <span class="material-symbols-outlined"> delete </span>

@@ -29,9 +29,11 @@
   width: 100vw;
   z-index: 9999;
 
-  .material-symbols-outlined {
-    color: #004D40 !important;
-  }
+}
+
+
+.material-symbols-outlined {
+  color: #004D40 !important;
 }
 
 #logoImg {
@@ -61,15 +63,6 @@ ul li {
   border-radius: 50px;
 }
 
-#listRow {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  height: 100vh;
-  width: 100vw;
-  z-index: -1;
-}
-
 button {
   width: 50px;
   height: 50px;
@@ -85,6 +78,10 @@ button {
 #closedCol button {
   background-color: #004D40;
   color: #E0F2F1;
+
+  .material-symbols-outlined {
+    color: #E0F2F1  !important;
+  }
 }
 
 #openedContainer button {
@@ -96,4 +93,23 @@ button {
 #closedCol button:focus {
   background-color: #E0F2F1;
   color: #004D40;
+}
+
+.themeButton {
+  background-color: transparent !important;
+  border: 0.1px solid #E0F2F1;
+
+  span {
+    color: #E0F2F1 !important;
+  }
+}
+
+.selectedThemeColor, .themeButton:hover {
+  background-color: #E0F2F1 !important;
+  border: none !important;
+  border-radius: 5px !important;
+
+  span{
+    color: #004D40 !important;
+  }
 }
