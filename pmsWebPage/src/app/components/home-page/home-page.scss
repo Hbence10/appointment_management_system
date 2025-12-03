@@ -12,16 +12,13 @@
 img {
   width: 840px;
   height: 560px;
+  border-radius: 16px !important;
 }
 
 .infoContainer {
   width: 845px;
   height: 750px;
-}
-
-.material-box {
   border-radius: 16px !important;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 #newsContainer {
@@ -32,6 +29,7 @@ img {
 
 #promoBox {
   padding: 30px;
+  overflow: auto;
 }
 
 #paragraphBox {
@@ -103,6 +101,10 @@ mat-expansion-panel-header {
   }
 
   #expansionPanelBodyContainer {
+    height: auto;
+  }
+
+  #promoBox{
     height: auto;
   }
 }

@@ -34,23 +34,20 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
   }
 
   //reszponzivitas
-  // @ContentChildren(MatStepHeader) header!: MatStepHeader
   ngAfterViewInit(): void {
     const startScreenWidth = window.innerWidth;
-    if (startScreenWidth > 1440) {
+    if (startScreenWidth > 992) {
       this.stepperOrientation = "horizontal"
-    } else if (startScreenWidth <= 1440) {
+    } else if (startScreenWidth <= 992) {
       this.stepperOrientation = "vertical"
     }
-
-    // console.log(this.header)
   }
 
   @HostListener('window:resize', ['$event.target.innerWidth'!])
   onResize(width: number) {
-    if (width > 1440) {
+    if (width > 992) {
       this.stepperOrientation = "horizontal"
-    } else if (width <= 1440) {
+    } else if (width <= 992) {
       this.stepperOrientation = "vertical"
     }
   }

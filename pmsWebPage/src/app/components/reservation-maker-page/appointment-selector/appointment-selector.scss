@@ -19,26 +19,16 @@
 #mainContainer {
   border-radius: 16px;
   width: 1400px;
-  height: 650px;
+  height: 650px !important;
   padding: 60px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 #hourContainer {
-  height: 530px;
+  height: 530px !important;
   width: 100%;
   border-radius: 16px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-mat-card {
-  // background-color: #26A69A;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-
-mat-calendar-header {
-  color: white !important;
-}
 
 mat-calendar {
   @include mat.datepicker-overrides((calendar-body-label-text-color: white,
@@ -87,10 +77,6 @@ mat-card-title {
 
 .reservedHour {
   pointer-events: none;
-
-  p {
-    color: #004D40;
-  }
 }
 
 .selectedHourDiv,
@@ -98,14 +84,21 @@ mat-card-title {
   background-color: #004D40;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
 
+#cardCol {
+  padding: 30px !important;
+
+  h3 {
+    font-weight: 600 !important;
+  }
 }
 
 .amountCard {
   background-color: white;
   height: 65px;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); //weak
 }
 
 .amountCard:hover,
@@ -135,6 +128,16 @@ mat-card-title {
 .noneSelect {
   opacity: 0.6;
   pointer-events: none;
+}
+
+#fullText {
+  font-size: 45px;
+  line-height: 60px;
+}
+
+#hourCol {
+  overflow-y: auto;
+  height: 500px;
 }
 
 //reszponzivitas

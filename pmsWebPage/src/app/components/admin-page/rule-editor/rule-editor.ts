@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Rule } from '../../../models/rule.model';
 import { OtherService } from '../../../services/other-service';
-import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill'
 

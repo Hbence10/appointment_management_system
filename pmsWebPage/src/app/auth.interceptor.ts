@@ -12,8 +12,10 @@ export function asdInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): 
 
   let httpHeaders = new HttpHeaders();
   if (req.url.includes("http://localhost:8080/users/login")) {
+    console.log(body.id)
     httpHeaders = httpHeaders.append('Authorization', 'Basic ' + btoa(body.username + ':' + body.password));
   } else {
+    console.log(cookieService.get("pmsToken"))
     if (cookieService.get("pmsToken") != "") {
       httpHeaders = httpHeaders.append('Authorization', cookieService.get("pmsToken"));
     }

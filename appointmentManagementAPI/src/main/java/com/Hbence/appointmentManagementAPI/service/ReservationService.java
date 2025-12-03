@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Transactional
 @Service
@@ -80,7 +81,13 @@ public class ReservationService {
             return ResponseEntity.internalServerError().build();
         }
         reservedDateRepository.save(newReservation.getReservedHours().getDate());
-        return ResponseEntity.ok(reservationRepository.save(newReservation));
+        System.out.println(newReservation);
+
+        Reservations newReservations = reservationRepository.save(newReservation);
+        newReservations.setReservationId(new Random().nextInt(100000, 999999) + "" + newReservations.getId());
+
+        System.out.println(newReservations);
+        return ResponseEntity.ok(newReservations);
     }
 
     //Foglalas lemondasa
