@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, ContentChildren, HostListener, inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
-import { MatStepHeader, MatStepperModule } from '@angular/material/stepper';
+import { AfterViewInit, Component, ContentChildren, ElementRef, HostListener, inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { MatStepHeader, MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { Router, RouterModule } from '@angular/router';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation-service';
@@ -26,7 +26,7 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
   private reservationService = inject(ReservationService)
   stepperOrientation: "vertical" | "horizontal" = "horizontal"
 
-  checkList = this.reservationService.progressBarSteps
+  checkList = [true, false, false, false]
   actualSteps = this.router.url
 
   ngOnInit(): void {
@@ -34,7 +34,10 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
   }
 
   //reszponzivitas
+  @ViewChild("stepper") step!: MatStepper;
   ngAfterViewInit(): void {
+    console.log(this.step)
+
     const startScreenWidth = window.innerWidth;
     if (startScreenWidth > 992) {
       this.stepperOrientation = "horizontal"
@@ -52,4 +55,10 @@ export class ReservationMakerPage implements OnInit, AfterViewInit {
     }
   }
 
+  nextStep(index: number){
+    this.checkList[index] = true
+    this.step.next()
+    // console.log(this.step.nativeElement)
+    // this.step.nativeElement.next()
+  }
 }

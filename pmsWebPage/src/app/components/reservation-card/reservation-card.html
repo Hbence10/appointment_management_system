@@ -1,6 +1,6 @@
 <div class="container-fluid" [class.profilePageView]="parentComponent() == 'profilePage'" [class.adminPageView]="parentComponent() == 'adminPage'" [class.popUpView]="parentComponent() == 'reservationPopUp'">
   <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-8 col-6">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4 d-flex justify-content-end align-items-end">
+    <div class="col-lg-4 col-6 d-flex justify-content-end align-items-end">
       <button matBadge="o" id="detailsButton" class="mx-2 filledButton secondFont" matButton="filled" (click)="showReservationDetails()">Részletek</button>
     </div>
   </div>

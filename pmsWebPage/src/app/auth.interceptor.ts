@@ -1,8 +1,7 @@
 import { HttpEvent, HttpHandlerFn, HttpHeaders, HttpRequest } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { Observable } from "rxjs";
-import { UserService } from "./services/user-service";
 import { CookieService } from "ngx-cookie-service";
+import { Observable } from "rxjs";
 
 export function asdInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const cookieService = inject(CookieService)
@@ -15,7 +14,6 @@ export function asdInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): 
     console.log(body.id)
     httpHeaders = httpHeaders.append('Authorization', 'Basic ' + btoa(body.username + ':' + body.password));
   } else {
-    console.log(cookieService.get("pmsToken"))
     if (cookieService.get("pmsToken") != "") {
       httpHeaders = httpHeaders.append('Authorization', cookieService.get("pmsToken"));
     }

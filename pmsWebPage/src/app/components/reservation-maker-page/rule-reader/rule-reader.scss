@@ -11,7 +11,6 @@
   width: 640px;
   height: 850px;
   border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 #ruleContainer {
@@ -19,7 +18,6 @@
   max-height: 650px;
   overflow-y: auto;
   border-radius: 16px !important;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 ::-webkit-scrollbar {
@@ -42,4 +40,15 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+@media screen and (max-width: 680px) {
+  #mainContainer {
+    width: auto;
+    overflow-y: auto;
+  }
+
+  #ruleContainer{
+    // height: 100% !important;
+  }
 }

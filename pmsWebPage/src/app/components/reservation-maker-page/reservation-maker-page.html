@@ -3,14 +3,14 @@
     <div id="stepperContainer" class="col-lg-12 p-0 mb-4">
       <mat-stepper [linear]="true" [orientation]="stepperOrientation" #stepper>
 
-        <mat-step [completed]="checkList[1]">
+        <mat-step>
           <ng-template matStepLabel>Időpont választás</ng-template>
           <ng-template matStepContent>
-            <app-appointment-selector (nextStep)="stepper.next()"/>
+            <app-appointment-selector (nextStep)="nextStep($event)"/>
           </ng-template>
         </mat-step>
 
-        <mat-step [completed]="checkList[2]">
+        <mat-step>
           <ng-template matStepLabel>Adatok megadása</ng-template>
           <ng-template matStepContent>
             <app-reservation-form (nextStep)="stepper.next()"/>
@@ -32,9 +32,9 @@
         </mat-step>
 
         <!-- Iconok: -->
-        <ng-template matStepperIcon="done">
+        <!-- <ng-template matStepperIcon="done">
             <span class="material-symbols-outlined">check</span>
-        </ng-template>
+        </ng-template> -->
       </mat-stepper>
     </div>
   </div>

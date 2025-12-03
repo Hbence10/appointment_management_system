@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid mt-3">
   <div class="row">
     <div class="col-lg-12">
-      <div id="mainContainer" class="container-fluid d-flex flex-column justify-content-between ">
+      <div id="mainContainer" class="container-fluid d-flex flex-column justify-content-between secondBg strongShadow">
         <div>
           <div class="row">
             <div class="col-lg-12">
@@ -11,7 +11,7 @@
 
           <div class="row">
             <div class="col-lg-12 px-4">
-              <p class="secondFont fw-bold" style="border-bottom: 2px solid #004d40">Foglalás adatai:</p>
+              <p class="secondFont fw-bold underlinedParagraph text-lg-start text-center">Foglalás adatai:</p>
 
               <p class="my-3 d-flex justify-content-between align-content-center">
                 <span class="fw-bold mainFont boldedSpans">Név: </span>
@@ -51,7 +51,7 @@
 
           <div class="row mt-4">
             <div class="col-lg-12">
-              <p class="secondFont fw-bold m-0" style="border-bottom: 2px solid #004d40">Fizetési mód kiválasztása</p>
+              <p class="secondFont fw-bold m-0 underlinedParagraph">Fizetési mód kiválasztása</p>
               <div>
                 @for (paymentMethod of paymentMethods(); track $index) {
                   <mat-checkbox [checked]="baseReservation().getPaymentMethod == paymentMethod" (change)="selectPaymentMethod(paymentMethod)">{{ paymentMethod.getName }}</mat-checkbox>
@@ -62,7 +62,7 @@
 
           <div class="row mt-4">
             <div class="col-lg-12">
-              <p class="secondFont fw-bold d-flex justify-content-between align-items-center" style="border-bottom: 2px solid #004d40">
+              <p class="secondFont fw-bold d-flex justify-content-between align-items-center underlinedParagraph">
                 Google naptárhoz adás
                 <mat-slide-toggle></mat-slide-toggle>
               </p>

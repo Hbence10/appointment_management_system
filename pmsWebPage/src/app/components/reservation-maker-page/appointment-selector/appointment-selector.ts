@@ -22,7 +22,7 @@ export class AppointmentSelector implements OnInit {
   private reservationService = inject(ReservationService)
   private userService = inject(UserService)
   private destroyRef = inject(DestroyRef)
-  nextStep = output()
+  nextStep = output<number>()
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -150,8 +150,8 @@ export class AppointmentSelector implements OnInit {
       this.baseReservation().getReservedHours.getEnd - this.baseReservation().getReservedHours.getStart
     )
 
-    this.reservationService.progressBarSteps[1] = true
-    this.nextStep.emit()
+    // this.reservationService.progressBarSteps[1] = true
+    this.nextStep.emit(1)
   }
 
   setCheckerList() {
