@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +54,8 @@ public class ReservationController {
     }
 
     @PostMapping("/getByEmailAndVCode")
-    public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody Map<String, String> requestBody){
-        return reservationService.getReservationByEmailAndVCode(requestBody.get("email"), requestBody.get("vCode"));
+    public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody JsonNode requestBody){
+        return reservationService.getReservationByEmailAndVCode(requestBody.get("email").asText(), requestBody.get("vCode").asText());
     }
 
     @GetMapping("/reservedDate")

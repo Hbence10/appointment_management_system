@@ -1,8 +1,6 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
-import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
-import com.Hbence.appointmentManagementAPI.entity.Role;
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
@@ -33,6 +31,10 @@ public class UserService {
 
     //Endpointok
     public ResponseEntity<Users> login(String username, String password) {
+        if (username == null || password == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         Users loggedUser = userRepository.login(username);
 
         boolean successFullLogin = passwordEncoder.matches(password, loggedUser.getPassword());
@@ -140,6 +142,10 @@ public class UserService {
     }
 
     public ResponseEntity<String> updatePassword(String email, String newPassword, String userVCode) {
+        if (email == null || newPassword == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         Users user = userRepository.getUserByEmail(email);
 
         if (!ValidatorCollection.emailChecker(email) && !ValidatorCollection.passwordChecker(newPassword)) {
@@ -173,7 +179,11 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> checkVCode(String userVCode, String email) {
+    public ResponseEntity<Object> checkVerificationCode(String userVCode, String email) {
+        if (userVCode == null || email == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         Users searchedUser = userRepository.getUserByEmail(email);
 
         if (userVCode.length() != 10) {
@@ -187,9 +197,9 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Users> getUserById(Long id){
+    public ResponseEntity<Users> getUserById(Long id) {
         Users searchedUser = userRepository.findById(id).get();
-        if(searchedUser == null || searchedUser.getId() == null || searchedUser.getIsDeleted()){
+        if (searchedUser == null || searchedUser.getId() == null || searchedUser.getIsDeleted()) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(searchedUser);

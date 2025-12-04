@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -116,6 +114,10 @@ public class ReservationService {
     }
 
     public ResponseEntity<Object> getReservationByEmailAndVCode(String email, String vCode) {
+        if (email == null || vCode == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         if (ValidatorCollection.emailChecker(email)) {
             List<String> allEmail = reservationRepository.getAllReservationEmail();
             if (!allEmail.contains(email)) {
@@ -139,8 +141,6 @@ public class ReservationService {
 
     //ADMIN PAGE
     //Tovabbi foglalas az admin pagen:
-
-
     public ResponseEntity<ReservedDates> getReservedDateByDate(String selectedDateText) {
         ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
 

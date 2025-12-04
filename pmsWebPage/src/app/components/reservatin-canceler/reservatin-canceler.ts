@@ -26,7 +26,7 @@ export class ReservatinCanceler implements OnInit{
   ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl("bzhalmai@gmail.com", [Validators.required, Validators.email]),
-      vCode: new FormControl("c0ezvscsmr", [Validators.required, Validators.minLength(10), Validators.maxLength(10)])
+      vCode: new FormControl("8llkfj2tdo", [Validators.required, Validators.minLength(10), Validators.maxLength(10)])
     })
   }
 

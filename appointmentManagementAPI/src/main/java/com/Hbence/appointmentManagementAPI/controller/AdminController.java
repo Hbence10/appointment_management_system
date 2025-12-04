@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.AdminService;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,13 @@ public class AdminController {
     private final AdminService adminService;
     //ADMIN FOGLALAS
     @PostMapping("/reservation")
-    public ResponseEntity<Object> makeAdminReservation(@RequestBody Map<String, Object> bodyObject){
-        return adminService.makeAdminReservation( Long.valueOf(bodyObject.get("adminId").toString()), (Integer) bodyObject.get("startHour"), (Integer) bodyObject.get("endHour"), bodyObject.get("dateText").toString());
+    public ResponseEntity<Object> makeAdminReservation(@RequestBody JsonNode requestBody){
+        return adminService.makeAdminReservation(requestBody.get("adminId").asLong(), requestBody.get("startHour").asInt(), requestBody.get("endHour").asInt(), requestBody.get("dateText").asText());
     }
 
     @PostMapping("/reservationBetweenPeriod")
-    public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody Map<String, Object> body){
-        return adminService.makeReservationBetweenPeriod(body.get("startDateText").toString(), body.get("endDateText").toString(), (Integer) body.get("startHour"), (Integer) body.get("endHour") ,Long.valueOf(body.get("adminId").toString()));
+    public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody JsonNode requestBody){
+        return adminService.makeReservationBetweenPeriod(requestBody.get("startDateText").asText(), requestBody.get("endDateText").asText(), requestBody.get("startHour").asInt(), requestBody.get("endHour").asInt() ,requestBody.get("adminId").asLong());
     }
 
     @PostMapping("/reservationRepetitive")
@@ -34,13 +35,13 @@ public class AdminController {
 
     //TEREM BEZARASA:
     @PostMapping("/closeRoomForADay")
-    public ResponseEntity<Object> closeRoomForADay(@RequestBody Map<String, String> body){
-        return adminService.closeRoomForADay(body.get("date"), Integer.valueOf(body.get("closeReasonId")));
+    public ResponseEntity<Object> closeRoomForADay(@RequestBody JsonNode requestBody){
+        return adminService.closeRoomForADay(requestBody.get("date").asText(), requestBody.get("closeReasonId").asInt());
     }
 
     @PostMapping("/closeRoomBetweenPeriod")
-    public ResponseEntity<Object> closeRoomBetweenPeriod(@RequestBody Map<String, String> body){
-        return adminService.closeRoomBetweenPeriod(body.get("startDate"), body.get("endDate"), Integer.valueOf(body.get("closeReasonId")));
+    public ResponseEntity<Object> closeRoomBetweenPeriod(@RequestBody JsonNode requestBody){
+        return adminService.closeRoomBetweenPeriod(requestBody.get("startDate").asText(), requestBody.get("endDate").asText(), requestBody.get("closeReasonId").asInt());
     }
 
     @PostMapping("/closeByRepetitiveDates")

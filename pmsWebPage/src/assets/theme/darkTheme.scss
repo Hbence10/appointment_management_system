@@ -9,6 +9,10 @@
   color: #E9F0ED !important;
 }
 
+a {
+  color: #E9F0ED !important;
+}
+
 mat-expansion-panel {
   @include mat.expansion-overrides(( //
       container-text-color: #E9F0ED,
@@ -103,6 +107,12 @@ mat-select {
   color: #18363A !important;
 }
 
-.appointmentBg, mat-card {
+.appointmentBg,
+mat-card {
   background-color: #417E85 !important;
+}
+
+.active {
+  background-color: #E9F0ED;
+  color: #18363A !important;
 }

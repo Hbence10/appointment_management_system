@@ -56,7 +56,7 @@ export class UserService {
     return this.http.post<boolean>(`${this.baseURL}/checkVerificationCode`, { vCode: userVCode })
   }
 
-  passwordReset(email: string, newPassword: string, vCode: string) {
-    return this.http.patch(`${this.baseURL}/passwordReset`, { email: email, newPassword: newPassword, vCode: vCode })
+  passwordReset(email: string, newPassword: string) {
+    return this.http.patch(`${this.baseURL}/passwordReset`, { email: email, newPassword: newPassword })
   }
 }

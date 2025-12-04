@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +30,10 @@ public class AdminService {
     //ADMIN FOGLALAS
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeAdminReservation(Long adminId, Integer startHour, Integer endHour, String dateText) {
+        if (adminId == null || startHour == null || endHour == null || dateText == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
         if (searchedAminDetails.getId() == null) {
@@ -60,6 +63,10 @@ public class AdminService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, Integer startHour, Integer endHour, Long adminId) {
+        if (startDateText == null || endDateText == null || startHour == null || endHour == null || adminId == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
         if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
@@ -140,6 +147,10 @@ public class AdminService {
     //TEREM BEZARASA
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomForADay(String selectedDateText, Integer closeReasonId) {
+        if (selectedDateText == null || closeReasonId == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
 
         if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
@@ -161,6 +172,10 @@ public class AdminService {
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomBetweenPeriod(String startDateText, String endDateText, Integer closeReasonId) {
+        if (startDateText == null || endDateText == null || closeReasonId == null) {
+            return ResponseEntity.status(422).build();
+        }
+
         CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
 
         if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
@@ -219,12 +234,12 @@ public class AdminService {
 
     //CLOSEREASON
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<List<CloseReason>> getAllCloseReason(){
+    public ResponseEntity<List<CloseReason>> getAllCloseReason() {
         return ResponseEntity.ok().body(closeReasonRepository.findAll());
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> addCloseReason(CloseReason newCloseReason){
+    public ResponseEntity<Object> addCloseReason(CloseReason newCloseReason) {
         System.out.println(newCloseReason);
         return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
     }

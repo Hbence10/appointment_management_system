@@ -9,7 +9,6 @@
   color: #004D40 !important;
 }
 
-
 .filledButton {
   background-color: #004D40 !important;
   color: white !important;
@@ -49,8 +48,14 @@
   color: #004D40 !important;
 }
 
-.appointmentBg, mat-card {
+.appointmentBg,
+mat-card {
   background-color: #26A69A !important;
+}
+
+.active {
+  background-color: #E0F2F1;
+  color: #004D40 !important;
 }
 
 //

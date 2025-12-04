@@ -57,6 +57,10 @@ public class ReviewService {
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Review> updateReview(Long id, String updatedReviewText) {
+        if (id == null || updatedReviewText == null){
+            return ResponseEntity.status(422).build();
+        }
+
         Review searchedReview = reviewRepository.findById(id).get();
 
         if (searchedReview == null || searchedReview.getIsDeleted()) {

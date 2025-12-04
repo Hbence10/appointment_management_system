@@ -4,6 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
 import com.Hbence.appointmentManagementAPI.service.ReviewService;
 import com.Hbence.appointmentManagementAPI.service.other.ReviewHistoryWithReview;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +36,8 @@ public class ReviewController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Review> updateReview(@PathVariable("id") Long id, @RequestBody Map<String, String> requestBody) {
-        return reviewService.updateReview(id, requestBody.get("text"));
+    public ResponseEntity<Review> updateReview(@PathVariable("id") Long id, @RequestBody JsonNode requestBody) {
+        return reviewService.updateReview(id, requestBody.get("text").asText());
     }
 
     @PostMapping("/addLike")

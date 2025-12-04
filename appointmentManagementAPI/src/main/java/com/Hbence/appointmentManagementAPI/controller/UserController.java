@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.UserService;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Map<String, String> loginBody) {
-        return userService.login(loginBody.get("username"), loginBody.get("password"));
+    public ResponseEntity<Users> login(@RequestBody JsonNode loginBody) {
+        return userService.login(loginBody.get("username").asText(null), loginBody.get("password").asText(null));
     }
 
     @PostMapping("/register")
@@ -29,8 +30,8 @@ public class UserController {
     }
 
     @PatchMapping("/updateUser/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable("id") Long id, @RequestBody Map<String, String> requestBody) {
-        return userService.updateUser(id, requestBody.get("email"), requestBody.get("username"));
+    public ResponseEntity<Object> updateUser(@PathVariable("id") Long id, @RequestBody JsonNode requestBody) {
+        return userService.updateUser(id, requestBody.get("email").asText(), requestBody.get("username").asText());
     }
 
     @DeleteMapping("/deleteUser/{id}")
@@ -57,14 +58,14 @@ public class UserController {
     }
 
     @PostMapping("/checkVerificationCode")
-    public ResponseEntity<Object> checkVerificationCode(@RequestBody Map<String, String> body) {
-        return userService.checkVCode(body.get("vCode"), body.get("email"));
+    public ResponseEntity<Object> checkVerificationCode(@RequestBody JsonNode requestBody) {
+        return userService.checkVerificationCode(requestBody.get("vCode").asText(null), requestBody.get("email").asText(null));
     }
 
     @PatchMapping("/passwordReset")
-    public ResponseEntity<HashMap<String, String>> updatePassword(@RequestBody Map<String, String> body) {
+    public ResponseEntity<HashMap<String, String>> updatePassword(@RequestBody JsonNode body) {
         HashMap<String, String> returnObject = new HashMap<>();
-        returnObject.put("result", userService.updatePassword(body.get("email"), body.get("newPassword"), body.get("vCode")).getBody());
+        returnObject.put("result", userService.updatePassword(body.get("email").asText(), body.get("newPassword").asText(), body.get("vCode").asText()).getBody());
         return ResponseEntity.ok(returnObject);
     }
 
