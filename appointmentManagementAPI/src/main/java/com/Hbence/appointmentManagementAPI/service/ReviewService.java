@@ -71,7 +71,6 @@ public class ReviewService {
         }
     }
 
-    //--------
     //ReviewLike
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<ReviewLikeHistory> addLike(ReviewHistoryWithReview reviewLike) {

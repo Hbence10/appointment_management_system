@@ -95,9 +95,9 @@ public class Users {
     @JsonIgnore
     private List<Reservations> reservations;
 
-    @OneToOne(mappedBy = "canceledBy", cascade = {})
+    @OneToMany(mappedBy = "canceledBy", cascade = {})
     @JsonIgnore
-    private Reservations canceledReservation;
+    private List<Reservations> canceledReservation;
 
     @OneToMany(mappedBy = "editedBy", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnore

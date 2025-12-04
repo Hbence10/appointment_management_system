@@ -105,7 +105,7 @@ public class Reservations {
     private String reservationId;
 
     //Kapcsolatok
-    @OneToOne(cascade = {})
+    @ManyToOne(cascade = {})
     @JoinColumn(name = "canceled_by")
     @Null
     private Users canceledBy;

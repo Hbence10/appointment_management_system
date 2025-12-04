@@ -78,7 +78,7 @@
               </div>
               <div class="row">
                 <div class="col-lg-12" id="reservationDiv">
-                  @for (reservation of reservations(); track $index) {
+                  @for (reservation of reservations; track $index) {
                     <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'profilePage'" (showDetailsOutput)="showDetailsOfReservation($event)"/>
                   } @empty {
                     <div class="d-flex flex-column justify-content-center align-items-center" id="emptyReservation">
@@ -106,7 +106,7 @@
 </div>
 
 @if(showPopUp()){
-  <app-pop-up (closePopUp)="showPopUp.set(false)" [baseDetails]="popUpDetails" [reservation]="selectedReservation()" />
+  <app-pop-up (reservationCancel)="cancelReservation($event)" (closePopUp)="this.showPopUp.set(false)" [baseDetails]="popUpDetails" [reservation]="selectedReservation()" />
 }
 
 @if(isShowDeletePopUp()){

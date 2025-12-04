@@ -1,5 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Details } from '../../models/notEntityModels/details.model';
@@ -9,11 +12,6 @@ import { ReservationService } from '../../services/reservation-service';
 import { UserService } from '../../services/user-service';
 import { PopUp } from '../pop-up/pop-up';
 import { ReservationCard } from '../reservation-card/reservation-card';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AdminDetails } from '../../models/adminDetails.model';
-import { Role } from '../../models/role.model';
 
 @Component({
   selector: 'app-profile-page',
@@ -29,7 +27,7 @@ export class ProfilePage implements OnInit {
   private router = inject(Router)
 
   user!: Users;
-  reservations = signal<Reservation[]>([])
+  reservations: Reservation[] = []
   showPopUp = signal<boolean>(false)
   selectedReservation = signal<Reservation>(new Reservation())
   popUpDetails: Details = new Details("", "cancelReservation", "reservation")
@@ -50,7 +48,7 @@ export class ProfilePage implements OnInit {
     const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
       next: responseList => {
         console.log(responseList)
-        this.reservations.set(this.reservationService.setObject(responseList))
+        this.reservations = this.reservationService.setObject(responseList)
       },
       error: error => {
         console.log(error)
@@ -130,5 +128,10 @@ export class ProfilePage implements OnInit {
     } else {
       this.router.navigate(["/adminPage"])
     }
+  }
+
+  cancelReservation(canceledReservation: Reservation) {
+    this.reservations[this.reservations.indexOf(this.reservations.find(reservation => reservation.getId == canceledReservation.getId)!)] = canceledReservation
+    this.showPopUp.set(false)
   }
 }

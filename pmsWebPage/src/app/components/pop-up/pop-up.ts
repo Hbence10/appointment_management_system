@@ -443,13 +443,9 @@ export class PopUp implements OnInit {
     let cancelledReservation!: Reservation;
     this.reservationService.cancelReservation(this.reservation().getId, this.userService.user()).subscribe({
       next: response => {
-        console.log("response:")
-        console.log(response)
         cancelledReservation = this.reservationService.setObject([response])[0]
       },
       complete: () => {
-        console.log("cancelledReservation:")
-        console.log(cancelledReservation)
         this.reservationCancel.emit(cancelledReservation)
       }
     })

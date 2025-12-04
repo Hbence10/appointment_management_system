@@ -41,10 +41,10 @@
   <div class="row d-lg-none d-flex">
     <div class="col-lg-12">
       @for(reservationType of reservationTypes(); track $index){
-        <table class="w-100">
+        <table class="table border-0 my-3">
           <thead>
             <tr>
-              <th scope="col" class="text-center align-content-end py-2 mainFont" style="font-size: 25px; color: #00695C;">{{reservationType.getName}}</th>
+              <th colspan="2" scope="col" class="align-content-center mainFont" style="font-size: 35px; color: #00695C;">{{reservationType.getName}}:</th>
             </tr>
           </thead>
 
@@ -54,11 +54,9 @@
                 <th scope="row" class="align-content-center hourColumn">
                   <span class="text-white mainFont" style="font-size: 25px;">{{hourAmount}} óra</span>
                 </th>
-                <!-- @for (reservationType of reservationTypeRow; track $index;) { -->
-                  <td class="text-center align-content-center whiteBorder numberFont">
-                    <span class="text-white">{{calculateHourPrice(reservationType.getPrice!, hourAmount)}} Ft</span>
+                  <td class="text-end align-content-center whiteBorder numberFont">
+                    <span class="text-white mx-2">{{calculateHourPrice(reservationType.getPrice!, hourAmount)}} Ft</span>
                   </td>
-                <!-- } -->
               </tr>
             }
           </tbody>

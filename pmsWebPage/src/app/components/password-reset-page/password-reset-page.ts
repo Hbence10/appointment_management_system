@@ -105,7 +105,7 @@ export class PasswordResetPage implements OnInit {
   }
 
   sendReset(vCode: string) {
-    this.userService.passwordReset(this.form.controls["email"].value, this.form.controls["password"].value, vCode).subscribe({
+    this.userService.passwordReset(this.form.controls["email"].value, this.form.controls["password"].value).subscribe({
       next: response => console.log(response),
       complete: () => { this.router.navigate(["/login"]) }
     })
