@@ -1,7 +1,22 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
+      <div class="NgxEditor__Wrapper">
+        <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+        <ngx-editor
+          [editor]="editor"
+          [ngModel]="rule().getText"
+          [disabled]="false"
+          [placeholder]="'Type here...'"
+          style="height: 100%;"
+        ></ngx-editor>
+      </div>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-lg-12">
+      <button (click)="typeRule()">TEST</button>
     </div>
   </div>
 </div>

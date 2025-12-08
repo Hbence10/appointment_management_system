@@ -25,7 +25,7 @@
           <div class="col-lg-12 px-4" id="popUpBody">
             @if(actualPage == "listPage"){
               @if(actualDetails()!.objectType == "rule"){
-                <app-rule-editor />
+                <app-rule-editor [rule]="rule"/>
               } @else if (actualDetails()!.objectType == "reservation"){
                 <app-reservation-detail [reservation]="reservation()" />
               } @else {

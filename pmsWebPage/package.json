@@ -36,6 +36,7 @@
     "express": "^5.1.0",
     "mui-tiptap": "^1.27.0",
     "ngx-cookie-service": "^20.1.0",
+    "ngx-editor": "^19.0.0-beta.1",
     "ngx-quill": "^30.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

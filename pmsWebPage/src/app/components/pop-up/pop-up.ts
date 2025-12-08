@@ -25,6 +25,7 @@ import { ObjectEditor } from '../admin-page/object-editor/object-editor';
 import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
+import { Rule } from '../../models/rule.model';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class PopUp implements OnInit {
   form!: FormGroup;
   newsBannerImg: any = null
   reservationCancel = output<Reservation>()
+  rule!: Rule
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]
@@ -114,6 +116,11 @@ export class PopUp implements OnInit {
           list.forEach(element => element.setAdminDetails = Object.assign(new AdminDetails(), element.getAdminDetails))
           this.setCardList(list, "user")
         }
+      })
+    } else if (this.actualDetails()?.objectType == 'rule'){
+      subscription = this.otherService.getRule().subscribe({
+        next: response => this.rule = Object.assign(new Rule(), response),
+        error: error => console.log(error)
       })
     }
 

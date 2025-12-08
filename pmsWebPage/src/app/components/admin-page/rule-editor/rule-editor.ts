@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { Rule } from '../../../models/rule.model';
 import { OtherService } from '../../../services/other-service';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill'
-
+import { NgxEditorComponent, NgxEditorMenuComponent, Editor } from 'ngx-editor';
+import { toHTML } from 'ngx-editor';
 @Component({
   selector: 'app-rule-editor',
-  imports: [FormsModule],
+  imports: [NgxEditorComponent, NgxEditorMenuComponent, FormsModule],
   templateUrl: './rule-editor.html',
   styleUrl: './rule-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -15,20 +16,16 @@ import { QuillModule } from 'ngx-quill'
 export class RuleEditor implements OnInit {
   private destroyRef = inject(DestroyRef)
   otherStuffService = inject(OtherService)
-  rule = signal<Rule | null>(null)
-  ruleText: string = ""
-  selectedHeadlineType: string = ""
+  rule = input.required<Rule>()
+  editor!: Editor
+  typing = output()
 
   ngOnInit(): void {
-    const subscription = this.otherStuffService.getRule().subscribe({
-      next: response => {
-        this.rule.set(Object.assign(new Rule(), response)),
-          this.ruleText = this.rule()?.getText!
-      }
-    })
+    this.editor = new Editor();
+    console.log(this.rule)
+  }
 
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe()
-    })
+  typeRule() {
+    console.log(this.editor)
   }
 }
