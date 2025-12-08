@@ -14,8 +14,21 @@
   color: white !important;
 }
 
+::ng-deep .mat-step-header[aria-expanded="true"]{
+  padding: 25px 10px 25px 10px;
+}
+
+::ng-deep .mat-vertical-content-container, .mat-stepper-vertical-line, .mat-vertical-content-container-active {
+  margin-left: 0px !important;
+}
+
 mat-stepper {
-  .mat-vertical-content{
+
+  .mat-step-header {
+    padding: 0px !important;
+  }
+
+  .mat-vertical-content {
     padding: 0px !important;
   }
 
@@ -51,7 +64,7 @@ mat-stepper {
     display: block;
   }
 
-  .mat-vertical-content{
+  .mat-vertical-content {
     padding: 0px !important;
   }
 }

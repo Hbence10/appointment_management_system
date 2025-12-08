@@ -4,7 +4,7 @@
       <mat-stepper [linear]="true" [orientation]="stepperOrientation" #stepper>
 
         <mat-step>
-          <ng-template matStepLabel>Időpont választás</ng-template>
+          <ng-template matStepLabel class="px-0">Időpont választás</ng-template>
           <ng-template matStepContent>
             <app-appointment-selector (nextStep)="nextStep($event)"/>
           </ng-template>

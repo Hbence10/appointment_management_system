@@ -1,5 +1,9 @@
 @use '@angular/material' as mat;
 
+.mat-vertical-content-container{
+  margin-left: 0px !important;
+}
+
 .mainFont {
   font-size: 18px;
   font-weight: 800;
@@ -24,11 +28,11 @@
 }
 
 #hourContainer {
-  height: 530px !important;
+  // height: 530px !important;
+  height: 100%;
   width: 100%;
   border-radius: 16px;
 }
-
 
 mat-calendar {
   @include mat.datepicker-overrides((calendar-body-label-text-color: white,
@@ -147,5 +151,19 @@ mat-card-title {
     height: 80vh;
     padding: 30px 20px;
     overflow-y: auto;
+  }
+
+  #hourCol{
+    overflow: hidden;
+  }
+
+  #cardCol{
+    padding: 10px !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #hourContainer{
+    height: auto;
   }
 }
