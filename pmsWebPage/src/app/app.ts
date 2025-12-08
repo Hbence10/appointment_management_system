@@ -35,5 +35,6 @@ export class App implements OnInit {
     if(user.getId != null){
       this.userService.user.set(user)
     }
+
   }
 }

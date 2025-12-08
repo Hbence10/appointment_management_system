@@ -73,6 +73,10 @@ app-pop-up {
   overflow-y: auto;
 }
 
+.updateDiv{
+  height: 40px;
+}
+
 //Reszponzivitas
 @media screen and (max-width: 992px) {
   #mainContainer {

@@ -15,7 +15,7 @@ export function asdInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): 
     httpHeaders = httpHeaders.append('Authorization', 'Basic ' + btoa(body.username + ':' + body.password));
   } else {
     if (cookieService.get("pmsToken") != "") {
-      httpHeaders = httpHeaders.append('Authorization', cookieService.get("pmsToken"));
+      httpHeaders = httpHeaders.append('Authorization', cookieService.get("pmsJwtToken"));
     }
   }
 

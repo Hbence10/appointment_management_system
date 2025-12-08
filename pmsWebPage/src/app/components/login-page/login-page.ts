@@ -27,6 +27,7 @@ export class LoginPage implements OnInit {
   isRemember = signal<boolean>(false)
 
   loginForm!: FormGroup
+  token: string = ""
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -39,7 +40,7 @@ export class LoginPage implements OnInit {
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
         this.userService.setObject(response.body)
-        this.cookieService.set("pmsToken", response.headers.headers.get("authorization")[0])
+        this.token = response.headers.headers.get("authorization")[0]
 
         console.log(this.userService.user()?.getAdminDetails.getId)
       },
@@ -58,11 +59,13 @@ export class LoginPage implements OnInit {
 
   checkIsRemember() {
     if (this.isRemember()) {
-      this.cookieService.set("pmsJwtToken", this.cookieService.get("pmsToken"))
+      this.cookieService.set("pmsJwtToken", this.token)
       this.cookieService.set("pmsUserD", JSON.stringify(this.userService.user()))
     } else {
-      sessionStorage.setItem("pmsJwtToken", this.cookieService.get("pmsToken"))
+      sessionStorage.setItem("pmsJwtToken", this.token)
       sessionStorage.setItem("pmsUserD", JSON.stringify(this.userService.user()))
     }
+
+    this.token = ""
   }
 }
