@@ -1,11 +1,7 @@
 package com.Hbence.appointmentManagementAPI.service;
 
-import com.Hbence.appointmentManagementAPI.entity.Gallery;
-import com.Hbence.appointmentManagementAPI.entity.History;
-import com.Hbence.appointmentManagementAPI.entity.Rules;
-import com.Hbence.appointmentManagementAPI.repository.GalleryRepository;
-import com.Hbence.appointmentManagementAPI.repository.HistoryRepository;
-import com.Hbence.appointmentManagementAPI.repository.RuleRepository;
+import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +20,8 @@ public class OtherStuffService {
     private final RuleRepository ruleRepository;
     private final GalleryRepository galleryRepository;
     private final HistoryRepository historyRepository;
+    private final DetailsRepository detailsRepository;
+    private final OpeningDetailsRepository openingDetailsRepository;
 
     //Galleria:
     public ResponseEntity<List<Gallery>> getGalleryImages() {
@@ -33,24 +31,6 @@ public class OtherStuffService {
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
         return ResponseEntity.ok(galleryRepository.save(updatedGalleryImage));
-    }
-
-    public ResponseEntity<Gallery> addGalleryImage(Gallery newImage){
-
-        return null;
-    }
-
-    public ResponseEntity<Object> deleteGalleryImage(Long id) {
-        Gallery searchedImage = galleryRepository.findById(id).get();
-        if(searchedImage == null || searchedImage.getId() == null || searchedImage.getIsDeleted()){
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedImage.setIsDeleted(true);
-            searchedImage.setDeletedAt(new Date());
-            galleryRepository.save(searchedImage);
-
-            return ResponseEntity.ok().build();
-        }
     }
 
     //Szabalyzat:
@@ -73,4 +53,27 @@ public class OtherStuffService {
     public ResponseEntity<List<History>> getHistory(){
         return ResponseEntity.ok().body(historyRepository.findAll());
     }
+
+    //Adatok
+    public ResponseEntity<Details> getDetails(){
+        return ResponseEntity.ok().body(detailsRepository.findById(1).orElse(null));
+    }
+
+    public ResponseEntity<Details> updateDetails(Details updatedDetails){
+        return null;
+    }
+
+    public ResponseEntity<List<OpeningDetails>> getOpeningDetails(){
+        return ResponseEntity.ok().body(openingDetailsRepository.findAll());
+    }
+
+    public ResponseEntity<OpeningDetails> updateOpeningDetails(){
+        return null;
+    }
+
+    public ResponseEntity<OpeningDetails> addOpeningDetails(){
+        return null;
+    }
+
+
 }

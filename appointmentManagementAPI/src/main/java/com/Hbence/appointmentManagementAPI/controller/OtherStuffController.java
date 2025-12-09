@@ -27,16 +27,6 @@ public class OtherStuffController {
         return otherStuffService.updateGalleryImage(updatedGallery);
     }
 
-    @PostMapping("/addGallery")
-    public ResponseEntity<Gallery> addGalleryImage(@RequestBody Gallery newGallery){
-        return otherStuffService.addGalleryImage(newGallery);
-    }
-
-    @DeleteMapping("/gallery/{id}")
-    public ResponseEntity<Object> deleteGalleryImage(@PathVariable("id") Long id){
-        return otherStuffService.deleteGalleryImage(id);
-    }
-
     //Szabalyzat:
     @GetMapping("/rule")
     public ResponseEntity<Rules> getRule() {
@@ -52,5 +42,31 @@ public class OtherStuffController {
     @GetMapping("/history")
     public ResponseEntity<List<History>> getHistory(){
         return otherStuffService.getHistory();
+    }
+
+    //Adatok
+    @GetMapping("/details")
+    public ResponseEntity<Details> getDetails(){
+        return otherStuffService.getDetails();
+    }
+
+    @PutMapping("/details/update")
+    public ResponseEntity<Details> updateDetails(@RequestBody Details updatedDetails){
+        return null;
+    }
+
+    @GetMapping("/openingDetails")
+    public ResponseEntity<List<OpeningDetails>> getOpeningDetails(){
+        return otherStuffService.getOpeningDetails();
+    }
+
+    @PutMapping("/openingDetails/update")
+    public ResponseEntity<OpeningDetails> updateOpeningDetails(@RequestBody OpeningDetails updatedOpeningDetails){
+        return null;
+    }
+
+    @PostMapping("/openingDetails/add")
+    public ResponseEntity<OpeningDetails> addOpeningDetails(@RequestBody OpeningDetails addedOpeningDetails){
+        return null;
     }
 }
