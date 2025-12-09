@@ -1,24 +1,36 @@
-import { Component } from '@angular/core';
-import {GoogleMap} from '@angular/google-maps';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { OtherService } from '../../services/other-service';
+import { Details } from '../../models/details.model';
+import { OpeningDetails } from '../../models/openingDetails.model';
 
 @Component({
   selector: 'app-footer',
-  imports: [GoogleMap],
+  imports: [],
   templateUrl: './footer.html',
   styleUrl: './footer.scss'
 })
-export class Footer {
+export class Footer implements OnInit {
+  private otherService = inject(OtherService)
+  private destroyRef = inject(DestroyRef)
+  details!: Details
+  openingDetails: OpeningDetails[] = []
 
-  center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
-  zoom = 4;
-  display!: google.maps.LatLngLiteral;
+  ngOnInit(): void {
+    const subscription = this.otherService.getDetails().subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error),
+      complete: () => {
+        this.otherService.getOpeningDetails().subscribe({
+          next: response => console.log(response),
+          error: error => console.log(error),
+        })
+      }
+    })
 
-  moveMap(event: google.maps.MapMouseEvent) {
-    this.center = (event.latLng!.toJSON());
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe()
+    })
   }
 
-  move(event: google.maps.MapMouseEvent) {
-    this.display = event.latLng!.toJSON();
-  }
 
 }

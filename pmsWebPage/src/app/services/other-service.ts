@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Gallery } from '../models/galleryImage.model';
 import { Rule } from '../models/rule.model';
 import { History } from '../models/history.model';
+import { Details } from '../models/details.model';
+import { OpeningDetails } from '../models/openingDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,29 @@ export class OtherService {
   }
 
   //History
-  getHistory(): Observable<History[]>{
+  getHistory(): Observable<History[]> {
     return this.http.get<History[]>(`${this.baseURL}/history`)
   }
+
+  //Adatok:
+  getDetails(): Observable<Details> {
+    return this.http.get<Details>(`${this.baseURL}/details`)
+  }
+
+  updateDetails(updatedDetails: Details): Observable<Details> {
+    return this.http.put<Details>(`${this.baseURL}/details/update`, updatedDetails)
+  }
+
+  getOpeningDetails(): Observable<OpeningDetails[]>{
+    return this.http.get<OpeningDetails[]>(`${this.baseURL}/openingDetails`)
+  }
+
+  updateOpeningDetails(updatedOpeningDetails: OpeningDetails): Observable<OpeningDetails> {
+    return this.http.put<OpeningDetails>(`${this.baseURL}/openingDetails/update`, updatedOpeningDetails)
+  }
+
+  addOpeningDetails(newOpeningDetails: OpeningDetails): Observable<OpeningDetails> {
+    return this.http.post<OpeningDetails>(`${this.baseURL}/openingDetails/add`, newOpeningDetails)
+  }
+
 }
