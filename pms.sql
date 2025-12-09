@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Nov 14. 10:21
+-- Létrehozás ideje: 2025. Dec 09. 09:38
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -182,8 +182,34 @@ INSERT INTO `admin_details` (`id`, `first_name`, `last_name`, `email`, `phone`, 
 CREATE TABLE `close_reason` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `creator_id` int(11) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `close_reason`
+--
+
+INSERT INTO `close_reason` (`id`, `name`, `creator_id`, `is_deleted`, `deleted_at`) VALUES
+(1, 'closeReason1', 1, 0, NULL),
+(2, 'closeReason2', 1, 0, NULL),
+(3, 'closeReasonPostTest', 49, 0, NULL),
+(4, 'frontendPostTest1', 49, 0, NULL),
+(5, 'adsdsasda', 49, 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `details`
+--
+
+CREATE TABLE `details` (
+  `id` int(11) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `fire_phone` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -243,7 +269,7 @@ INSERT INTO `device` (`id`, `name`, `category_id`, `amount`, `is_deleted`, `dele
 -- Eseményindítók `device`
 --
 DELIMITER $$
-CREATE TRIGGER `checkFullDay` BEFORE INSERT ON `device` FOR EACH ROW BEGIN
+CREATE TRIGGER `checkFullDay` AFTER INSERT ON `device` FOR EACH ROW BEGIN
 
 END
 $$
@@ -320,22 +346,24 @@ CREATE TABLE `gallery` (
   `id` int(11) NOT NULL,
   `photo_name` longtext NOT NULL,
   `photo_path` longtext NOT NULL,
-  `placement` int(2) NOT NULL
+  `placement` int(2) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `gallery`
 --
 
-INSERT INTO `gallery` (`id`, `photo_name`, `photo_path`, `placement`) VALUES
-(1, '1.jpg', 'assets/images/gallery/1.jpg', 1),
-(2, '2.jpg', 'assets/images/gallery/2.jpg', 2),
-(3, '3.jpg', 'assets/images/gallery/3.jpg', 3),
-(4, '4.jpg', 'assets/images/gallery/4.jpg', 4),
-(5, '5.jpg', 'assets/images/gallery/5.jpg', 5),
-(6, '6.jpg', 'assets/images/gallery/6.jpg', 6),
-(7, '7.jpg', 'assets/images/gallery/7.jpg', 7),
-(8, '8.jpg', 'assets/images/gallery/8.jpg', 8);
+INSERT INTO `gallery` (`id`, `photo_name`, `photo_path`, `placement`, `is_deleted`, `deleted_at`) VALUES
+(1, '1.jpg', 'assets/images/gallery/1.jpg', 1, 0, NULL),
+(2, '2.jpg', 'assets/images/gallery/2.jpg', 2, 0, NULL),
+(3, '3.jpg', 'assets/images/gallery/3.jpg', 3, 0, NULL),
+(4, '4.jpg', 'assets/images/gallery/4.jpg', 4, 0, NULL),
+(5, '5.jpg', 'assets/images/gallery/5.jpg', 5, 0, NULL),
+(6, '6.jpg', 'assets/images/gallery/6.jpg', 6, 0, NULL),
+(7, '7.jpg', 'assets/images/gallery/7.jpg', 7, 0, NULL),
+(8, '8.jpg', 'assets/images/gallery/8.jpg', 8, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -386,7 +414,30 @@ INSERT INTO `news` (`id`, `title`, `text`, `banner_img_path`, `writer_id`, `plac
 (4, 'Új foglalási rendszer indult', 'Mostantól egyszerűbben és gyorsabban tudtok időpontot foglalni. Az online naptár segítségével azonnal látható, mikor szabad a terem. Így elkerülhetők a félreértések és ütközések. Próbáljátok ki, és foglaljatok pár kattintással!', 'assets/images/news/placeholder.png', 1, 3, '2025-08-27 08:07:08', 0, NULL, NULL),
 (5, 'Koncert a próbaterem zenekaraival', 'A nálunk próbáló zenekarok közül többen fellépnek egy közös koncerten. Az esemény célja, hogy bemutassuk a helyi tehetségeket. A belépés ingyenes, mindenkit szeretettel várunk. Részletek hamarosan a weboldalunkon!', 'assets/images/news/placeholder.png', 1, 5, '2025-08-27 08:07:08', 0, NULL, NULL),
 (9, 'updateTest', 'adsadad', 'a', 48, 0, '2025-10-05 16:22:06', 1, '2025-10-06 14:08:20', NULL),
-(10, 'a', 'a', NULL, 48, 0, '2025-10-05 16:06:59', 1, '2025-10-05 18:28:52', NULL);
+(10, 'a', 'a', NULL, 48, 0, '2025-10-05 16:06:59', 1, '2025-10-05 18:28:52', NULL),
+(11, 'newsWithoutBannerImgPostTest', 'asd', NULL, 49, 0, '2025-11-20 18:17:51', 0, NULL, NULL),
+(13, 'newsWithBannerImage', 'asdasdsadasd', NULL, 49, 0, '2025-11-20 18:23:45', 0, NULL, NULL),
+(14, 'newsWithBannerImage2', 'asdsad', NULL, 49, 0, '2025-11-20 18:27:48', 0, NULL, NULL),
+(15, 'asd', 'asd', NULL, 49, 0, '2025-11-20 18:30:41', 0, NULL, NULL),
+(16, 'sgddsggdsgds', 'qr', NULL, 49, 0, '2025-11-20 18:32:06', 0, NULL, NULL),
+(17, 'Newswithbannerimage3', 'asdasdasd', NULL, 49, 0, '2025-11-20 18:35:53', 0, NULL, NULL),
+(18, 'asfasfasf', 'afsfasfasfsaf', NULL, 49, 0, '2025-11-20 18:38:51', 0, NULL, NULL),
+(19, 'Newswithbannerimage4', 'dasdsadsadsa', 'assets\\images\\news\\thumb2-raiden-shogun-with-sword-genshin-impact-night-raiden-shogun-genshin-impact-violet-lightings.jpg', 49, 0, '2025-11-20 18:41:49', 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `opening_details`
+--
+
+CREATE TABLE `opening_details` (
+  `id` int(11) NOT NULL,
+  `day_name` varchar(40) NOT NULL,
+  `start_hour` int(2) NOT NULL,
+  `start_min` int(2) NOT NULL,
+  `end_hour` int(2) NOT NULL,
+  `end_min` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -685,16 +736,21 @@ CREATE TABLE `reservation` (
   `is_canceled` tinyint(1) DEFAULT NULL,
   `canceled_at` datetime DEFAULT NULL,
   `canceled_by` int(11) DEFAULT NULL,
-  `canceler_email` varchar(100) DEFAULT NULL
+  `canceler_email` varchar(100) DEFAULT NULL,
+  `reservation_id` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `reservation`
 --
 
-INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`, `canceler_email`) VALUES
-(1, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 49, NULL, 3, 1, '2025-11-11 13:48:37', 1, '2025-11-11 00:00:00', 49, NULL),
-(2, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, NULL, 49, NULL, 1, 2, '2025-11-11 13:49:35', 0, NULL, NULL, NULL);
+INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_country_code_id`, `phone_number`, `comment`, `cancel_v_code`, `reservation_type_id`, `user_id`, `payment_method_id`, `status_id`, `reserved_hour_id`, `reserved_at`, `is_canceled`, `canceled_at`, `canceled_by`, `canceler_email`, `reservation_id`) VALUES
+(1, 'sfdfds', 'sdf', 'asd@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$TT0goFe1qMUL1WzjRCSsIg$BOu+6w/BPh+4uZ2a9Lfb9rf+Z5gdYKckmIPsMqym5o4', 2, NULL, 2, 1, 1, '2025-11-20 09:24:36', 0, NULL, NULL, NULL, '0'),
+(2, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$f1Gtw466UNCJqIK6qp3VTA$fsVuNsOq6IGWohebX4nG9t0gHQyDGgBCpUkDeDBXEhY', 2, NULL, 2, 1, 2, '2025-12-02 17:26:42', 0, NULL, NULL, NULL, '0'),
+(3, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 2, 53, 2, 3, 3, '2025-12-02 17:31:40', 1, '2025-12-04 00:00:00', 53, NULL, '0'),
+(4, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, NULL, 2, 53, 2, 3, 4, '2025-12-02 17:44:53', 1, '2025-12-04 00:00:00', 53, NULL, '398240'),
+(7, 'a', 'a', 'a', 102, '706285232', NULL, NULL, NULL, NULL, NULL, 1, 5, '2025-12-02 19:49:14', NULL, NULL, NULL, NULL, '9825890'),
+(8, 'Halmai', 'Bence', 'bzhalmai@gmail.com', 102, '706285232', NULL, '$argon2id$v=19$m=4096,t=3,p=1$PDgCEXzxDlmmTu6MopFTBg$ZxIHdFqydnh22TSMklbejs9KwSNyquBJBn5cMyTtovk', 2, NULL, 3, 1, 6, '2025-12-03 20:12:48', 0, NULL, NULL, NULL, '7966318');
 
 -- --------------------------------------------------------
 
@@ -732,30 +788,25 @@ INSERT INTO `reservation_type` (`id`, `name`, `price`, `is_deleted`, `deleted_at
 CREATE TABLE `reserved_date` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `is_holiday` tinyint(1) NOT NULL DEFAULT '0',
   `is_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `is_full` tinyint(1) NOT NULL DEFAULT '0'
+  `close_reason_id` int(11) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `reserved_date`
 --
 
-INSERT INTO `reserved_date` (`id`, `date`, `is_holiday`, `is_closed`, `is_full`) VALUES
-(1, '2025-11-12', 0, 0, 1),
-(2, '2025-12-03', 1, 0, 0),
-(3, '2025-12-04', 1, 0, 0),
-(4, '2025-12-05', 1, 0, 0),
-(5, '2025-12-06', 1, 0, 0),
-(6, '2025-12-07', 1, 0, 0),
-(7, '2025-12-08', 1, 0, 0),
-(8, '2025-12-09', 1, 0, 0),
-(9, '2026-01-01', 1, 0, 0),
-(10, '2026-01-08', 1, 0, 0),
-(11, '2026-01-15', 1, 0, 0),
-(12, '2026-01-22', 1, 0, 0),
-(13, '2026-01-29', 1, 0, 0),
-(14, '2026-02-04', 0, 0, 0);
+INSERT INTO `reserved_date` (`id`, `date`, `is_closed`, `close_reason_id`, `is_deleted`, `deleted_at`) VALUES
+(15, '2025-11-19', 1, 1, 0, NULL),
+(16, '2025-11-22', 0, NULL, 0, NULL),
+(17, '2025-11-27', 0, 4, 0, NULL),
+(18, '2025-11-20', 0, NULL, 0, NULL),
+(19, '2025-12-09', 0, NULL, 0, NULL),
+(20, '2025-12-01', 0, NULL, 0, NULL),
+(21, '2025-12-02', 0, NULL, 0, NULL),
+(22, '2025-12-03', 0, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -777,8 +828,12 @@ CREATE TABLE `reserved_hour` (
 --
 
 INSERT INTO `reserved_hour` (`id`, `start`, `end`, `date_id`, `is_deleted`, `deleted_at`) VALUES
-(1, 11, 13, 14, 0, NULL),
-(2, 10, 12, 14, 0, NULL);
+(1, 12, 14, 18, 0, NULL),
+(2, 12, 14, 19, 0, NULL),
+(3, 13, 16, 20, 0, NULL),
+(4, 12, 14, 21, 0, NULL),
+(5, 19, 20, 15, 0, NULL),
+(6, 13, 16, 22, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -837,7 +892,10 @@ INSERT INTO `review_like_history` (`id`, `review_id`, `like_type`, `user_id`, `l
 (6, 3, 'like', 48, '2025-11-03 18:48:45'),
 (7, 4, 'like', 48, '2025-11-03 19:32:04'),
 (10, 10, 'like', 49, '2025-11-03 20:05:41'),
-(11, 2, 'like', 49, '2025-11-11 13:52:49');
+(11, 2, 'dislike', 49, '2025-11-11 13:52:49'),
+(12, 4, 'like', 49, '2025-11-19 10:08:27'),
+(13, 5, 'like', 49, '2025-11-19 10:08:31'),
+(14, 6, 'like', 49, '2025-11-19 10:08:33');
 
 -- --------------------------------------------------------
 
@@ -935,11 +993,11 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notif
 (46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 1, '2025-09-24 10:07:39', NULL, 0, NULL),
 (47, 'securityTest7621', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-11-03 21:17:39', 0, NULL),
 (48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-11-11 14:53:53', 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\93137338.png', 0, 3, '2025-08-23 04:45:44', '2025-11-11 14:42:47', 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\40dcb05edcff51960b931c482028343f.jpg', 0, 3, '2025-08-23 04:45:44', '2025-12-09 10:05:18', 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
-(51, 'Hbence102', 'bzhalmai2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$u7z7om52Z0b2bK4s1Ur0ag$Iajf7Y/fODVN9HyJ1xW0cns24CuadsCyZYgDJpQHGmY', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
 (52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL),
-(53, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$hlOwH9m6xK1Dd32KvM4rrw$GynOLkKK/ajBhRmq6Hw6Cle1ziSzo98RpV1sdE7dmzM', 'assets/placeholder.png', 0, 1, '2025-11-06 07:37:47', '2025-11-06 08:38:06', 0, NULL);
+(53, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$JtwjQ4bXneyhFG7xKOK02A$nahLIrN45HzCwK3C2WNvl2KZXaQZd9OkZD9ZwpDUHmM', 'assets\\images\\pfp\\aqua.jpg', 0, 1, '2025-11-06 07:37:47', '2025-12-08 18:34:28', 0, NULL),
+(54, 'deleteTest1', 'bzhalmai3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$xAR6ptxxQ80YPZvBEY4nLQ$iJPliPGHsTIgiU7MnWdpMsp1KsvICzXkiXq6mGDhtow', 'assets/placeholder.png', 0, 1, '2025-11-19 13:15:52', '2025-11-19 14:16:32', 1, '2025-11-19 13:16:37');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -956,6 +1014,13 @@ ALTER TABLE `admin_details`
 -- A tábla indexei `close_reason`
 --
 ALTER TABLE `close_reason`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `creator` (`creator_id`);
+
+--
+-- A tábla indexei `details`
+--
+ALTER TABLE `details`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1008,6 +1073,12 @@ ALTER TABLE `news`
   ADD KEY `writer` (`writer_id`);
 
 --
+-- A tábla indexei `opening_details`
+--
+ALTER TABLE `opening_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `payment_method`
 --
 ALTER TABLE `payment_method`
@@ -1044,7 +1115,8 @@ ALTER TABLE `reservation_type`
 --
 ALTER TABLE `reserved_date`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `date` (`date`);
+  ADD UNIQUE KEY `date` (`date`),
+  ADD KEY `date_reason` (`close_reason_id`);
 
 --
 -- A tábla indexei `reserved_hour`
@@ -1109,6 +1181,12 @@ ALTER TABLE `admin_details`
 -- AUTO_INCREMENT a táblához `close_reason`
 --
 ALTER TABLE `close_reason`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT a táblához `details`
+--
+ALTER TABLE `details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1151,7 +1229,13 @@ ALTER TABLE `history`
 -- AUTO_INCREMENT a táblához `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT a táblához `opening_details`
+--
+ALTER TABLE `opening_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `payment_method`
@@ -1169,7 +1253,7 @@ ALTER TABLE `phone_country_code`
 -- AUTO_INCREMENT a táblához `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `reservation_type`
@@ -1181,13 +1265,13 @@ ALTER TABLE `reservation_type`
 -- AUTO_INCREMENT a táblához `reserved_date`
 --
 ALTER TABLE `reserved_date`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT a táblához `reserved_hour`
 --
 ALTER TABLE `reserved_hour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `review`
@@ -1199,7 +1283,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT a táblához `review_like_history`
 --
 ALTER TABLE `review_like_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `role`
@@ -1223,7 +1307,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -1234,6 +1318,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `admin_details`
   ADD CONSTRAINT `admin_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `close_reason`
+--
+ALTER TABLE `close_reason`
+  ADD CONSTRAINT `creator` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`);
 
 --
 -- Megkötések a táblához `device`
@@ -1272,6 +1362,12 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_type` FOREIGN KEY (`reservation_type_id`) REFERENCES `reservation_type` (`id`),
   ADD CONSTRAINT `status` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
   ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Megkötések a táblához `reserved_date`
+--
+ALTER TABLE `reserved_date`
+  ADD CONSTRAINT `date_reason` FOREIGN KEY (`close_reason_id`) REFERENCES `close_reason` (`id`);
 
 --
 -- Megkötések a táblához `reserved_hour`
