@@ -31,83 +31,132 @@ public class ReviewService {
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Object> addReview(Review newReview) {
-        if (newReview.getId() != null) {
-            return ResponseEntity.notFound().build();
-        } else if (newReview.getRating() > 5 || newReview.getRating() < 0) {
-            return ResponseEntity.status(409).body("");
-        } else {
-            newReview.setReviewText(newReview.getReviewText().trim());
-            return ResponseEntity.ok(reviewRepository.save(newReview));
+        try {
+            if (newReview == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (newReview.getId() != null) {
+                return ResponseEntity.notFound().build();
+            } else if (newReview.getRating() > 5 || newReview.getRating() < 0) {
+                return ResponseEntity.status(409).body("");
+            } else {
+                newReview.setReviewText(newReview.getReviewText().trim());
+                return ResponseEntity.ok(reviewRepository.save(newReview));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<String> deleteReview(Long id) {
-        Review searchedReview = reviewRepository.findById(id).get();
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        if (searchedReview == null || searchedReview.getAuthor().getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedReview.setIsDeleted(true);
-            searchedReview.setDeletedAt(LocalDateTime.now());
-            reviewRepository.save(searchedReview);
-            return ResponseEntity.ok().build();
+            Review searchedReview = reviewRepository.findById(id).get();
+
+            if (searchedReview == null || searchedReview.getAuthor().getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedReview.setIsDeleted(true);
+                searchedReview.setDeletedAt(LocalDateTime.now());
+                reviewRepository.save(searchedReview);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Review> updateReview(Long id, String updatedReviewText) {
-        if (id == null || updatedReviewText == null){
-            return ResponseEntity.status(422).build();
-        }
+        try {
+            if (id == null || updatedReviewText == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        Review searchedReview = reviewRepository.findById(id).get();
+            Review searchedReview = reviewRepository.findById(id).get();
 
-        if (searchedReview == null || searchedReview.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedReview.setReviewText(updatedReviewText.trim());
-            return ResponseEntity.ok().body(reviewRepository.save(searchedReview));
+            if (searchedReview == null || searchedReview.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedReview.setReviewText(updatedReviewText.trim());
+                return ResponseEntity.ok().body(reviewRepository.save(searchedReview));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     //ReviewLike
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<ReviewLikeHistory> addLike(ReviewHistoryWithReview reviewLike) {
-        if (reviewLike.getId() != null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            ReviewLikeHistory reviewLikeHistory = new ReviewLikeHistory(reviewLike.getLikeType(), reviewLike.getLikedReview(), reviewLike.getLikerUser());
-            return ResponseEntity.ok(reviewLikeHistoryRepository.save(reviewLikeHistory));
+        try {
+            if (reviewLike == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (reviewLike.getId() != null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                ReviewLikeHistory reviewLikeHistory = new ReviewLikeHistory(reviewLike.getLikeType(), reviewLike.getLikedReview(), reviewLike.getLikerUser());
+                return ResponseEntity.ok(reviewLikeHistoryRepository.save(reviewLikeHistory));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<ReviewLikeHistory> changeLikeTypeOfReview(Long id) {
-        ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
-        System.out.println("update!");
-
-        if (searchedReviewLike.getId() == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            String originalLikeType = searchedReviewLike.getLikeType();
-            if (originalLikeType.equals("like")) {
-                searchedReviewLike.setLikeType("dislike");
-            } else {
-                searchedReviewLike.setLikeType("like");
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
             }
-            return ResponseEntity.ok(reviewLikeHistoryRepository.save(searchedReviewLike));
+
+            ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
+
+            if (searchedReviewLike.getId() == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                String originalLikeType = searchedReviewLike.getLikeType();
+                if (originalLikeType.equals("like")) {
+                    searchedReviewLike.setLikeType("dislike");
+                } else {
+                    searchedReviewLike.setLikeType("like");
+                }
+                return ResponseEntity.ok(reviewLikeHistoryRepository.save(searchedReviewLike));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Object> deleteReviewLike(Long id) {
-        ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
-        if (searchedReviewLike.getId() == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            reviewLikeHistoryRepository.delete(searchedReviewLike);
-            return ResponseEntity.ok().build();
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
+            if (searchedReviewLike.getId() == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                reviewLikeHistoryRepository.delete(searchedReviewLike);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

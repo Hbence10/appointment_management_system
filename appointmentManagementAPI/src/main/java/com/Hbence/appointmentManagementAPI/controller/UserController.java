@@ -65,7 +65,7 @@ public class UserController {
     @PatchMapping("/passwordReset")
     public ResponseEntity<HashMap<String, String>> updatePassword(@RequestBody JsonNode body) {
         HashMap<String, String> returnObject = new HashMap<>();
-        returnObject.put("result", userService.updatePassword(body.get("email").asText(), body.get("newPassword").asText(), body.get("vCode").asText()).getBody());
+        returnObject.put("result", userService.updatePassword(body.get("email").asText(), body.get("newPassword").asText()).getBody());
         return ResponseEntity.ok(returnObject);
     }
 

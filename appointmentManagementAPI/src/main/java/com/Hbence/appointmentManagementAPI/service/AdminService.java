@@ -30,60 +30,25 @@ public class AdminService {
     //ADMIN FOGLALAS
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeAdminReservation(Long adminId, Integer startHour, Integer endHour, String dateText) {
-        if (adminId == null || startHour == null || endHour == null || dateText == null) {
-            return ResponseEntity.status(422).build();
-        }
-
-        AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
-
-        if (searchedAminDetails.getId() == null) {
-            return ResponseEntity.notFound().build();
-        } else if (searchedAminDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            Reservations baseReservation = new Reservations();
-            baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
-            ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(LocalDate.parse(dateText));
-            ReservedHours reservedHours = new ReservedHours(startHour, endHour);
-
-            if (reservedDates == null || reservedDates.getId() == null) {
-                reservedHours.setDate(new ReservedDates(LocalDate.parse(dateText)));
-            } else {
-                reservedHours.setDate(reservedDates);
+        try {
+            if (adminId == null || startHour == null || endHour == null || dateText == null) {
+                return ResponseEntity.status(422).build();
             }
 
-            baseReservation.setReservedHours(reservedHours);
+            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
 
-            reservedDateRepository.save(baseReservation.getReservedHours().getDate());
-            reservationRepository.save(baseReservation);
-
-            return ResponseEntity.ok().build();
-        }
-    }
-
-    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, Integer startHour, Integer endHour, Long adminId) {
-        if (startDateText == null || endDateText == null || startHour == null || endHour == null || adminId == null) {
-            return ResponseEntity.status(422).build();
-        }
-
-        AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
-
-        if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.notFound().build();
-        } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            for (int i = 0; i < dateList.size(); i++) {
+            if (searchedAminDetails.getId() == null) {
+                return ResponseEntity.notFound().build();
+            } else if (searchedAminDetails.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
                 Reservations baseReservation = new Reservations();
                 baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
-
-                ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(LocalDate.parse(dateText));
                 ReservedHours reservedHours = new ReservedHours(startHour, endHour);
 
                 if (reservedDates == null || reservedDates.getId() == null) {
-                    reservedHours.setDate(new ReservedDates(dateList.get(i)));
+                    reservedHours.setDate(new ReservedDates(LocalDate.parse(dateText)));
                 } else {
                     reservedHours.setDate(reservedDates);
                 }
@@ -92,25 +57,31 @@ public class AdminService {
 
                 reservedDateRepository.save(baseReservation.getReservedHours().getDate());
                 reservationRepository.save(baseReservation);
-            }
 
-            return ResponseEntity.ok().build();
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, ArrayList<String> selectedDays, Integer startHour, Integer endHour, Long adminId) {
-        AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
-        if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.notFound().build();
-        } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            ArrayList<Reservations> createdReservations = new ArrayList<>();
+    public ResponseEntity<Object> makeReservationBetweenPeriod(String startDateText, String endDateText, Integer startHour, Integer endHour, Long adminId) {
+        try {
+            if (startDateText == null || endDateText == null || startHour == null || endHour == null || adminId == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-            for (int i = 0; i < dateList.size(); i++) {
-                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
+
+            if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return ResponseEntity.notFound().build();
+            } else {
+                List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+                for (int i = 0; i < dateList.size(); i++) {
                     Reservations baseReservation = new Reservations();
                     baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
 
@@ -124,13 +95,61 @@ public class AdminService {
                     }
 
                     baseReservation.setReservedHours(reservedHours);
+
                     reservedDateRepository.save(baseReservation.getReservedHours().getDate());
-                    createdReservations.add(baseReservation);
+                    reservationRepository.save(baseReservation);
                 }
+
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
+    public ResponseEntity<Object> makeReservationByRepetitiveDates(String startDateText, String endDateText, ArrayList<String> selectedDays, Integer startHour, Integer endHour, Long adminId) {
+        try {
+            if (startDateText == null || endDateText == null || selectedDays == null || startHour == null || endHour == null || adminId == null) {
+                return ResponseEntity.status(422).build();
             }
 
-            reservationRepository.saveAll(createdReservations);
-            return ResponseEntity.ok().build();
+            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
+            if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return ResponseEntity.notFound().build();
+            } else {
+                List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+                ArrayList<Reservations> createdReservations = new ArrayList<>();
+
+                for (int i = 0; i < dateList.size(); i++) {
+                    if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+                        Reservations baseReservation = new Reservations();
+                        baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
+
+                        ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                        ReservedHours reservedHours = new ReservedHours(startHour, endHour);
+
+                        if (reservedDates == null || reservedDates.getId() == null) {
+                            reservedHours.setDate(new ReservedDates(dateList.get(i)));
+                        } else {
+                            reservedHours.setDate(reservedDates);
+                        }
+
+                        baseReservation.setReservedHours(reservedHours);
+                        reservedDateRepository.save(baseReservation.getReservedHours().getDate());
+                        createdReservations.add(baseReservation);
+                    }
+                }
+
+                reservationRepository.saveAll(createdReservations);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -147,75 +166,52 @@ public class AdminService {
     //TEREM BEZARASA
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomForADay(String selectedDateText, Integer closeReasonId) {
-        if (selectedDateText == null || closeReasonId == null) {
-            return ResponseEntity.status(422).build();
-        }
-
-        CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
-
-        if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
-            if (selectedDate == null || selectedDate.getId() == null) {
-                selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), searchedCloseReason);
-                System.out.println("nincs ilyen datum");
-            } else {
-                selectedDate.setCloseReason(searchedCloseReason);
-                System.out.println("van ilyen datum");
+        try {
+            if (selectedDateText == null || closeReasonId == null) {
+                return ResponseEntity.status(422).build();
             }
-            System.out.println(selectedDate.getDate());
-            reservedDateRepository.save(selectedDate);
-            return ResponseEntity.ok().build();
+
+            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+
+            if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
+                if (selectedDate == null || selectedDate.getId() == null) {
+                    selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), searchedCloseReason);
+                    System.out.println("nincs ilyen datum");
+                } else {
+                    selectedDate.setCloseReason(searchedCloseReason);
+                    System.out.println("van ilyen datum");
+                }
+                System.out.println(selectedDate.getDate());
+                reservedDateRepository.save(selectedDate);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> closeRoomBetweenPeriod(String startDateText, String endDateText, Integer closeReasonId) {
-        if (startDateText == null || endDateText == null || closeReasonId == null) {
-            return ResponseEntity.status(422).build();
-        }
-
-        CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
-
-        if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
-            return ResponseEntity.status(409).build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.status(417).build();
-        } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            List<ReservedDates> closedDates = new ArrayList<ReservedDates>();
-
-            for (int i = 0; i < dateList.size(); i++) {
-                ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
-
-                if (searchedDate == null || searchedDate.getId() == null) {
-                    searchedDate = new ReservedDates(dateList.get(i), searchedCloseReason);
-                } else {
-                    searchedDate.setCloseReason(searchedCloseReason);
-                }
-                closedDates.add(searchedDate);
+        try {
+            if (startDateText == null || endDateText == null || closeReasonId == null) {
+                return ResponseEntity.status(422).build();
             }
-            reservedDateRepository.saveAll(closedDates);
-            return ResponseEntity.ok().build();
-        }
-    }
 
-    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, Integer closeReasonId, ArrayList<String> selectedDays) {
-        CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
 
-        if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
-            return ResponseEntity.status(409).build();
-        } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.status(417).build();
-        } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            List<ReservedDates> closedDates = new ArrayList<>();
+            if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
+                return ResponseEntity.status(409).build();
+            } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return ResponseEntity.status(417).build();
+            } else {
+                List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+                List<ReservedDates> closedDates = new ArrayList<ReservedDates>();
 
-            for (int i = 0; i < dateList.size(); i++) {
-                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
-                    System.out.println(dateList.get(i));
+                for (int i = 0; i < dateList.size(); i++) {
                     ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
 
                     if (searchedDate == null || searchedDate.getId() == null) {
@@ -223,145 +219,281 @@ public class AdminService {
                     } else {
                         searchedDate.setCloseReason(searchedCloseReason);
                     }
-
                     closedDates.add(searchedDate);
                 }
+                reservedDateRepository.saveAll(closedDates);
+                return ResponseEntity.ok().build();
             }
-            reservedDateRepository.saveAll(closedDates);
-            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> closeByRepetitiveDates(String startDateText, String endDateText, Integer closeReasonId, ArrayList<String> selectedDays) {
+        try {
+            if (startDateText == null || endDateText == null || closeReasonId == null || selectedDays == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+
+            if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return ResponseEntity.status(417).build();
+            } else {
+                List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+                List<ReservedDates> closedDates = new ArrayList<>();
+
+                for (int i = 0; i < dateList.size(); i++) {
+                    if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+                        System.out.println(dateList.get(i));
+                        ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+
+                        if (searchedDate == null || searchedDate.getId() == null) {
+                            searchedDate = new ReservedDates(dateList.get(i), searchedCloseReason);
+                        } else {
+                            searchedDate.setCloseReason(searchedCloseReason);
+                        }
+
+                        closedDates.add(searchedDate);
+                    }
+                }
+                reservedDateRepository.saveAll(closedDates);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     //CLOSEREASON
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<List<CloseReason>> getAllCloseReason() {
-        return ResponseEntity.ok().body(closeReasonRepository.findAll());
+        try {
+            return ResponseEntity.ok().body(closeReasonRepository.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> addCloseReason(CloseReason newCloseReason) {
-        System.out.println(newCloseReason);
-        return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
+        try {
+            if (newCloseReason == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (newCloseReason.getId() != null) {
+                return ResponseEntity.status(417).build();
+            }
+
+            return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     //FOGLALASOK VISSZASZERZESE AZ ADMIN FOGLALASHOZ
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> getReservationsForAdminIntervallum(String startDateText, String endDateText, int startHour, int endHour) {
-        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return null;
-        } else if (startHour > endHour) {
-            return null;
-        } else {
-            List<Long> idList = reservationRepository.getReservationsForAdminReservation(LocalDate.parse(startDateText), LocalDate.parse(endDateText), startHour, endHour);
-            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+    public ResponseEntity<Object> getReservationsForAdminIntervallum(String startDateText, String endDateText, Integer startHour, Integer endHour) {
+        try {
+            if (startDateText == null || endDateText == null || startHour == null || endHour == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return null;
+            } else if (startHour > endHour) {
+                return null;
+            } else {
+                List<Long> idList = reservationRepository.getReservationsForAdminReservation(LocalDate.parse(startDateText), LocalDate.parse(endDateText), startHour, endHour);
+                return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> checkReservationForRepetitive(String startDateText, String endDateText, List<String> selectedDays, Integer startHour, Integer endHour) {
-        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return null;
-        } else if (startHour > endHour) {
-            return null;
-        } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            List<Long> idList = new ArrayList<Long>();
-
-            for (int i = 0; i < dateList.size(); i++) {
-                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
-                    idList.addAll(reservationRepository.checkReservationForAdminReservation(dateList.get(i), startHour, endHour));
-                }
+        try {
+            if (startDateText == null || endDateText == null || selectedDays == null || startHour == null || endHour == null) {
+                return ResponseEntity.status(422).build();
             }
 
-            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+            if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return null;
+            } else if (startHour > endHour) {
+                return null;
+            } else {
+                List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+                List<Long> idList = new ArrayList<Long>();
+
+                for (int i = 0; i < dateList.size(); i++) {
+                    if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+                        idList.addAll(reservationRepository.checkReservationForAdminReservation(dateList.get(i), startHour, endHour));
+                    }
+                }
+
+                return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> checkReservationForSimple(String dateText, Integer startHour, Integer endHour) {
-        if (startHour > endHour) {
-            return null;
-        } else {
-            List<Long> idList = reservationRepository.checkReservationForAdminReservation(LocalDate.parse(dateText), startHour, endHour);
-            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        try {
+            if (dateText == null || startHour == null || endHour == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (startHour > endHour) {
+                return null;
+            } else {
+                List<Long> idList = reservationRepository.checkReservationForAdminReservation(LocalDate.parse(dateText), startHour, endHour);
+                return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     //FOGLALASOK VISSZASZERZESE A ZARASHOZ
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<List<Reservations>> intervallumCloseCheck(String startDateText, String endDateText) {
-        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.notFound().build();
-        } else {
-            List<Long> idList = reservationRepository.getAllReservationsBetweenIntervallum(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
-            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+        try {
+            if (startDateText == null || endDateText == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return ResponseEntity.notFound().build();
+            } else {
+                List<Long> idList = reservationRepository.getAllReservationsBetweenIntervallum(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
+                return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> repetitiveCloseCheck(String startDateText, String endDateText, ArrayList<String> selectedDays) {
-        if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-            return ResponseEntity.status(417).build();
-        } else {
-            List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
-            List<Long> idList = new ArrayList<>();
-
-            for (int i = 0; i < dateList.size(); i++) {
-                if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
-                    idList.addAll(reservationRepository.getReservationByDate(dateList.get(i)));
-                }
+        try {
+            if (startDateText == null || endDateText == null || selectedDays == null) {
+                return ResponseEntity.status(422).build();
             }
-            return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+
+            if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
+                return ResponseEntity.status(417).build();
+            } else {
+                List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
+                List<Long> idList = new ArrayList<>();
+
+                for (int i = 0; i < dateList.size(); i++) {
+                    if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
+                        idList.addAll(reservationRepository.getReservationByDate(dateList.get(i)));
+                    }
+                }
+                return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     //ADMINOK KEZELESE
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Users> makeAdmin(Long userId, AdminDetails details) {
-        Users searchedUser = userRepository.findById(userId).get();
+        try {
+            if (userId == null || details == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
-            return ResponseEntity.status(407).build();
-        } else if (details.getId() != null) {
+            Users searchedUser = userRepository.findById(userId).get();
+
+            if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
+                return ResponseEntity.status(407).build();
+            } else if (details.getId() != null) {
+                return ResponseEntity.internalServerError().build();
+            } else {
+                searchedUser.setRole(new Role(Long.valueOf("2"), "ROLE_admin"));
+                details.setAdminUser(searchedUser);
+                adminDetailsRepository.save(details);
+                return ResponseEntity.ok(userRepository.save(searchedUser));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
-        } else {
-            searchedUser.setRole(new Role(Long.valueOf("2"), "ROLE_admin"));
-            details.setAdminUser(searchedUser);
-            adminDetailsRepository.save(details);
-            return ResponseEntity.ok(userRepository.save(searchedUser));
         }
     }
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<List<Users>> getAllAdmin() {
-        return ResponseEntity.ok().body(userRepository.getAllAdmin());
+        try {
+            return ResponseEntity.ok().body(userRepository.getAllAdmin());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> updateAdmin(AdminDetails updatedAdminDetails) {
-        AdminDetails testDetails = adminDetailsRepository.findById(updatedAdminDetails.getId()).get();
+        try {
+            if (updatedAdminDetails == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        if (testDetails.getId() == null || testDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else if (!ValidatorCollection.emailChecker(updatedAdminDetails.getEmail())) {
-            return ResponseEntity.status(407).build();
-        } else {
-            return ResponseEntity.ok().body(adminDetailsRepository.save(updatedAdminDetails));
+            AdminDetails testDetails = adminDetailsRepository.findById(updatedAdminDetails.getId()).get();
+
+            if (testDetails.getId() == null || testDetails.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else if (!ValidatorCollection.emailChecker(updatedAdminDetails.getEmail())) {
+                return ResponseEntity.status(407).build();
+            } else {
+                return ResponseEntity.ok().body(adminDetailsRepository.save(updatedAdminDetails));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Object> deleteAdmin(Long id) {
-        AdminDetails searchedAdminDetails = adminDetailsRepository.findById(id).get();
-        if (searchedAdminDetails.getId() == null || searchedAdminDetails.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedAdminDetails.setIsDeleted(true);
-            searchedAdminDetails.setDeletedAt(new Date());
-            adminDetailsRepository.save(searchedAdminDetails);
-            return ResponseEntity.ok().build();
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            AdminDetails searchedAdminDetails = adminDetailsRepository.findById(id).get();
+            if (searchedAdminDetails.getId() == null || searchedAdminDetails.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedAdminDetails.setIsDeleted(true);
+                searchedAdminDetails.setDeletedAt(new Date());
+                adminDetailsRepository.save(searchedAdminDetails);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

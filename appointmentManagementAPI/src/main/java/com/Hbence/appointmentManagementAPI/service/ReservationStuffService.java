@@ -30,44 +30,81 @@ public class ReservationStuffService {
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
-        if (newReservationType.getId() != null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            newReservationType.setName(newReservationType.getName().trim());
-            return ResponseEntity.ok(reservationTypeRepository.save(newReservationType));
+        try {
+           if (newReservationType == null) {
+               return ResponseEntity.status(422).build();
+           }
+
+            if (newReservationType.getId() != null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                newReservationType.setName(newReservationType.getName().trim());
+                return ResponseEntity.ok(reservationTypeRepository.save(newReservationType));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteReservationType(Long id) {
-        ReservationType searchedType = reservationTypeRepository.findById(id).get();
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        if (searchedType == null || searchedType.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedType.setIsDeleted(true);
-            searchedType.setDeletedAt(new Date());
-            return ResponseEntity.ok().build();
+            ReservationType searchedType = reservationTypeRepository.findById(id).get();
+
+            if (searchedType == null || searchedType.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedType.setIsDeleted(true);
+                searchedType.setDeletedAt(new Date());
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType) {
-        if (updatedReservationType.getId() == null || updatedReservationType.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            updatedReservationType.setName(updatedReservationType.getName().trim());
-            return ResponseEntity.ok(reservationTypeRepository.save(updatedReservationType));
+        try {
+            if (updatedReservationType == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (updatedReservationType.getId() == null || updatedReservationType.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                updatedReservationType.setName(updatedReservationType.getName().trim());
+                return ResponseEntity.ok(reservationTypeRepository.save(updatedReservationType));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     //Fizetesi modszerek
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
-        return ResponseEntity.ok(paymentMethodRepository.findAll());
+        try {
+            return ResponseEntity.ok(paymentMethodRepository.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     //Telefonszam
     public ResponseEntity<List<PhoneCountryCode>> getAllPhoneCode() {
-        return ResponseEntity.ok(phoneCountryCodeRepository.findAll());
+        try {
+            return ResponseEntity.ok(phoneCountryCodeRepository.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

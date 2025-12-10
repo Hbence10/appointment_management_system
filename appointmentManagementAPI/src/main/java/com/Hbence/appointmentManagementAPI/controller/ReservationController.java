@@ -62,9 +62,4 @@ public class ReservationController {
     public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){
         return reservationService.getReservedDateByDate(selectedDateText);
     }
-
-    @GetMapping("/admin")
-    public ResponseEntity<List<Reservations>> getReservationsForAdmin(@RequestParam("startDate") String startDateText, @RequestParam("endDate") String endDateText, @RequestParam("startHour") int startHour, @RequestParam("endHour") int endHour){
-        return reservationService.getReservationForAdmin(startDateText, endDateText, startHour, endHour);
-    }
 }

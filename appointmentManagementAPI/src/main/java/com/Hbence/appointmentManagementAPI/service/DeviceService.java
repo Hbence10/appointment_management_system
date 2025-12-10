@@ -24,85 +24,143 @@ public class DeviceService {
 
     //Eszkoz_kategoria
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
-        List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
-        for (DevicesCategory i : devicesCategoryList) {
-            i.setDevicesList(i.getDevicesList().stream().filter(device -> !device.getIsDeleted()).toList());
+        try {
+            List<DevicesCategory> devicesCategoryList = deviceCategoryRepository.findAll().stream().filter(devicesCategory -> !devicesCategory.getIsDeleted()).toList();
+            for (DevicesCategory i : devicesCategoryList) {
+                i.setDevicesList(i.getDevicesList().stream().filter(device -> !device.getIsDeleted()).toList());
+            }
+            return ResponseEntity.ok(devicesCategoryList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok(devicesCategoryList);
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addDeviceCategory(DevicesCategory newDevicesCategory) {
-        if (newDevicesCategory.getId() != null) {
-            return ResponseEntity.status(422).body("invalidInput");
-        } else {
-            System.out.println(newDevicesCategory);
-            newDevicesCategory.setName(newDevicesCategory.getName().trim());
-            return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
+        try {
+            if (newDevicesCategory == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (newDevicesCategory.getId() != null) {
+                return ResponseEntity.status(422).body("invalidInput");
+            } else {
+                System.out.println(newDevicesCategory);
+                newDevicesCategory.setName(newDevicesCategory.getName().trim());
+                return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Boolean> deleteDevicesCategory(Long id) {
-        DevicesCategory searchedDeviceCategory = deviceCategoryRepository.findById(id).orElse(new DevicesCategory(null));
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        if (searchedDeviceCategory.getId() == null || searchedDeviceCategory.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedDeviceCategory.setIsDeleted(true);
-            searchedDeviceCategory.setDeletedAt(LocalDateTime.now());
-            return ResponseEntity.ok().build();
+            DevicesCategory searchedDeviceCategory = deviceCategoryRepository.findById(id).orElse(new DevicesCategory(null));
+
+            if (searchedDeviceCategory.getId() == null || searchedDeviceCategory.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedDeviceCategory.setIsDeleted(true);
+                searchedDeviceCategory.setDeletedAt(LocalDateTime.now());
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<DevicesCategory> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
-        if (updatedDevicesCategory.getId() == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(deviceCategoryRepository.save(updatedDevicesCategory));
+        try {
+            if (updatedDevicesCategory == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (updatedDevicesCategory.getId() == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(deviceCategoryRepository.save(updatedDevicesCategory));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     //Maga_az_eszkoz
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> updateDevice(DeviceWithDeviceCategory updatedDevice) {
-        DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).get();
+        try {
+            if (updatedDevice == null) {
+                return ResponseEntity.status(422).build();
+            }
 
-        if (searched == null) {
-            return ResponseEntity.status(409).body("invalidDeviceCategory");
-        } else if (updatedDevice.getId() == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            Devices updatedD = deviceRepository.findById(updatedDevice.getId()).get();
-            updatedD.setName(updatedDevice.getName().trim());
-            updatedD.setAmount(updatedDevice.getAmount());
-            updatedD.setCategoryId(updatedDevice.getCategoryId());
-            return ResponseEntity.ok(deviceRepository.save(updatedD));
+            DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).get();
+
+            if (searched == null) {
+                return ResponseEntity.status(409).body("invalidDeviceCategory");
+            } else if (updatedDevice.getId() == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                Devices updatedD = deviceRepository.findById(updatedDevice.getId()).get();
+                updatedD.setName(updatedDevice.getName().trim());
+                updatedD.setAmount(updatedDevice.getAmount());
+                updatedD.setCategoryId(updatedDevice.getCategoryId());
+                return ResponseEntity.ok(deviceRepository.save(updatedD));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addDevice(DeviceWithDeviceCategory newDevice) {
-        System.out.println(newDevice);
-        if (newDevice.getId() != null) {
-            return ResponseEntity.status(422).body("invalidInput");
-        } else {
-            newDevice.setName(newDevice.getName().trim());
-            Devices newD = new Devices(newDevice.getName(), newDevice.getAmount(), newDevice.getCategoryId());
-            return ResponseEntity.ok(deviceRepository.save(newD));
+        try {
+            if (newDevice == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            if (newDevice.getId() != null) {
+                return ResponseEntity.status(422).body("invalidInput");
+            } else {
+                newDevice.setName(newDevice.getName().trim());
+                Devices newD = new Devices(newDevice.getName(), newDevice.getAmount(), newDevice.getCategoryId());
+                return ResponseEntity.ok(deviceRepository.save(newD));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<String> deleteDevice(Long id) {
-        Devices searchedDevice = deviceRepository.findById(id).get();
-        if (searchedDevice == null || searchedDevice.getIsDeleted()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            searchedDevice.setIsDeleted(true);
-            searchedDevice.setDeletedAt(new Date());
-            return ResponseEntity.ok().build();
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            Devices searchedDevice = deviceRepository.findById(id).get();
+            if (searchedDevice == null || searchedDevice.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedDevice.setIsDeleted(true);
+                searchedDevice.setDeletedAt(new Date());
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
