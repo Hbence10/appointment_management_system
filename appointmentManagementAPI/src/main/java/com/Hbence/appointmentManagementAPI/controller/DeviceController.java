@@ -4,6 +4,9 @@ import com.Hbence.appointmentManagementAPI.entity.Devices;
 import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.service.DeviceService;
 import com.Hbence.appointmentManagementAPI.service.other.DeviceWithDeviceCategory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -19,38 +22,87 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     //Eszkoz_kategoria
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @GetMapping("/getAllCategory")
     public ResponseEntity<List<DevicesCategory>> getAllDevicesByCategory() {
         return deviceService.getAllDevicesByCategory();
     }
 
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @PostMapping("/addCategory")
     public ResponseEntity<Object> addDeviceCategory(@RequestBody DevicesCategory newDevicesCategory) {
         System.out.println(newDevicesCategory);
         return deviceService.addDeviceCategory(newDevicesCategory);
     }
 
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @DeleteMapping("/deleteCategory/{id}")
     public ResponseEntity<Boolean> deleteDeviceCategory(@PathVariable("id") Long id) {
         return deviceService.deleteDevicesCategory(id);
     }
 
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @PutMapping("/updateCategory")
     public ResponseEntity<DevicesCategory> updateDeviceCategory(@RequestBody DevicesCategory updatedDevicesCategory) {
         return deviceService.updateDevicesCategory(updatedDevicesCategory);
     }
 
     //Maga_az_eszkoz
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @PutMapping("/update")
     public ResponseEntity<Object> updateDevice(@RequestBody DeviceWithDeviceCategory updatedDevice) {
         return deviceService.updateDevice(updatedDevice);
     }
 
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @PostMapping("addDevice")
     public ResponseEntity<Object> addDevice(@RequestBody DeviceWithDeviceCategory newDevice) {
         return deviceService.addDevice(newDevice);
     }
 
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteDevice(@PathVariable("id") Long id) {
         return deviceService.deleteDevice(id);
