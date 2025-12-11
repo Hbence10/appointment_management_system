@@ -61,17 +61,43 @@ public class UserService {
             }
 
             if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
-                return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
+                return ResponseEntity.status(415).body("InvalidPasswordAndEmail");
             } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
-                return ResponseEntity.status(417).body("InvalidEmail");
+                return ResponseEntity.status(415).body("InvalidEmail");
             } else if (!ValidatorCollection.passwordChecker(newUser.getPassword())) {
-                return ResponseEntity.status(417).body("InvalidPassword");
+                return ResponseEntity.status(415).body("InvalidPassword");
             } else {
                 String hashedPassword = passwordEncoder.encode(newUser.getPassword());
                 newUser.setPassword(hashedPassword);
                 Users registeredUser = userRepository.save(newUser);
                 emailSender.sendEmailAboutRegistration(newUser.getEmail());
                 return ResponseEntity.ok(registeredUser);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
+    public ResponseEntity<Object> updateUser(Long id, String email, String username) {
+        try {
+            if (id == null || email == null || username == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            Users searchedUser = userRepository.findById(id).get();
+            if (searchedUser.getId() == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                System.out.println(email);
+                if (!ValidatorCollection.emailChecker(email)) {
+                    return ResponseEntity.status(415).body("InvalidEmail");
+                } else {
+                    searchedUser.setUsername(username);
+                    searchedUser.setEmail(email);
+                    return ResponseEntity.ok(userRepository.save(searchedUser));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,32 +135,6 @@ public class UserService {
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<Object> updateUser(Long id, String email, String username) {
-        try {
-            if (id == null || email == null || username == null) {
-                return ResponseEntity.status(422).build();
-            }
-
-            Users searchedUser = userRepository.findById(id).get();
-            if (searchedUser.getId() == null) {
-                return ResponseEntity.notFound().build();
-            } else {
-                System.out.println(email);
-                if (!ValidatorCollection.emailChecker(email)) {
-                    return ResponseEntity.status(409).body("InvalidEmail");
-                } else {
-                    searchedUser.setUsername(username);
-                    searchedUser.setEmail(email);
-                    return ResponseEntity.ok(userRepository.save(searchedUser));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
-    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
     public ResponseEntity<Users> changePfp(Long userId, MultipartFile pfpFile) {
         try {
             if (userId == null || pfpFile == null) {
@@ -160,27 +160,6 @@ public class UserService {
 
                 return ResponseEntity.ok().body(userRepository.save(searchedUser));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
-    //Adminok kezelese
-    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Object> getShortUsersList() {
-        try {
-            List<Users> userList = userRepository.findAll().stream().filter(user -> user.getRole().getId() == 1 && !user.getIsDeleted()).toList();
-            List<Map<String, Object>> responseList = new ArrayList<>();
-
-            for (int i = 0; i < userList.size(); i++) {
-                Map<String, Object> eachResponse = new HashMap<>();
-                eachResponse.put("id", userList.get(i).getId());
-                eachResponse.put("username", userList.get(i).getUsername());
-                responseList.add(eachResponse);
-            }
-
-            return ResponseEntity.ok().body(responseList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -225,7 +204,7 @@ public class UserService {
             List<String> emailList = userRepository.getAllEmail();
 
             if (!ValidatorCollection.emailChecker(email.trim())) {
-                return ResponseEntity.status(417).body("InvalidEmail");
+                return ResponseEntity.status(415).body("InvalidEmail");
             } else if (!emailList.contains(email.trim())) {
                 return ResponseEntity.notFound().build();
             } else {
@@ -279,4 +258,14 @@ public class UserService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    /*
+    * HTTP STATUS KODOK:
+    *   - 200: Sikeres muvelet
+    *   - 404: Not Found
+    *   - 409: Mar foglalt nev
+    *   - 415: Unsupported Media Type --> Ha az adott adat invalid
+    *   - 422: Hianyzo parameter/response body
+    *   - 500: Internal Server Error
+    * */
 }

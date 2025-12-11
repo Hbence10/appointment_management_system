@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,10 +12,9 @@ import { ReservationType } from '../../../models/reservationType.model';
 import { DeviceService } from '../../../services/device-service';
 import { ReservationService } from '../../../services/reservation-service';
 
-import { Users } from '../../../models/user.model';
-import { UserService } from '../../../services/user-service';
-import { AdminService } from '../../../services/admin-service';
 import { MatAnchor } from "@angular/material/button";
+import { Users } from '../../../models/user.model';
+import { AdminService } from '../../../services/admin-service';
 import { NewsService } from '../../../services/news-service';
 
 @Component({
@@ -28,7 +27,6 @@ import { NewsService } from '../../../services/news-service';
 
 export class ObjectEditor implements OnInit {
   private deviceService = inject(DeviceService)
-  userService = inject(UserService)
   adminService = inject(AdminService)
   private destroyRef = inject(DestroyRef)
   private newsService = inject(NewsService)
@@ -70,7 +68,7 @@ export class ObjectEditor implements OnInit {
         subscription.unsubscribe()
       })
     } else if (this.selectedObject() instanceof Users){
-      this.userService.getShortUsersList().subscribe({
+      this.adminService.getShortUsersList().subscribe({
         next: responseList => this.shorterUserList.set(responseList)
       })
     }

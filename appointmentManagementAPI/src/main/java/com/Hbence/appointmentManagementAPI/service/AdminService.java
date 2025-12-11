@@ -10,10 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -491,6 +488,26 @@ public class AdminService {
                 adminDetailsRepository.save(searchedAdminDetails);
                 return ResponseEntity.ok().build();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> getShortUsersList() {
+        try {
+            List<Users> userList = userRepository.findAll().stream().filter(user -> user.getRole().getId() == 1 && !user.getIsDeleted()).toList();
+            List<Map<String, Object>> responseList = new ArrayList<>();
+
+            for (int i = 0; i < userList.size(); i++) {
+                Map<String, Object> eachResponse = new HashMap<>();
+                eachResponse.put("id", userList.get(i).getId());
+                eachResponse.put("username", userList.get(i).getUsername());
+                responseList.add(eachResponse);
+            }
+
+            return ResponseEntity.ok().body(responseList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

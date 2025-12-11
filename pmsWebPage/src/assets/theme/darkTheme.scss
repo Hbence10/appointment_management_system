@@ -33,7 +33,7 @@ mat-checkbox {
     ));
 }
 
-::ng-deep mat-form-field {
+mat-form-field {
   @include mat.form-field-overrides(( //
       filled-container-color: white, //inputok hattere
       filled-focus-active-indicator-color: #18363A, //also vonal

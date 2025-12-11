@@ -43,9 +43,6 @@ export class UserService {
   }
 
   //adminPage:
-  getShortUsersList(): Observable<{ id: number, username: string }[]> {
-    return this.http.get<{ id: number, username: string }[]>(`${this.baseURL}`)
-  }
 
   //password reset
   getVerificationCode(email: string) {

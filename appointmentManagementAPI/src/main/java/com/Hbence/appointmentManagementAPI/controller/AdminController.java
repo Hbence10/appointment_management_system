@@ -231,4 +231,16 @@ public class AdminController {
     public ResponseEntity<Object> deleteAdmin(@PathVariable("id") Long id) {
         return adminService.deleteAdmin(id);
     }
+
+    @Operation(summary = "", description = "")
+    @Parameters({
+
+    })
+    @ApiResponses({
+
+    })
+    @GetMapping("/shortList")
+    public ResponseEntity<Object> getShortUsersList() {
+        return adminService.getShortUsersList();
+    }
 }

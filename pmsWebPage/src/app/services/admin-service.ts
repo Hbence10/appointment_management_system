@@ -127,4 +127,9 @@ export class AdminService {
   deleteAdmin(adminId: number) {
     return this.http.delete(`${this.baseURL}/deleteAdmin/${adminId}`)
   }
+
+  //Adminok röviditett listájának visszaszerzése
+  getShortUsersList(): Observable<{ id: number, username: string }[]> {
+    return this.http.get<{ id: number, username: string }[]>(`${this.baseURL}/shortList`)
+  }
 }
