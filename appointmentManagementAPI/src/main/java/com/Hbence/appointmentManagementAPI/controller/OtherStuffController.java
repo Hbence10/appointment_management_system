@@ -84,44 +84,26 @@ public class OtherStuffController {
 
     //Adatok
     @Operation(summary = "", description = "")
-    @ApiResponses({
-
-    })
     @GetMapping("/details")
     public ResponseEntity<Details> getDetails(){
         return otherStuffService.getDetails();
     }
 
     @Operation(summary = "", description = "")
-    @ApiResponses({
-
-    })
     @PutMapping("/details/update")
     public ResponseEntity<Details> updateDetails(@RequestBody Details updatedDetails){
         return otherStuffService.updateDetails(updatedDetails);
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
-    @ApiResponses({
-
-    })
     @GetMapping("/openingDetails")
     public ResponseEntity<List<OpeningDetails>> getOpeningDetails(){
         return otherStuffService.getOpeningDetails();
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
-    @ApiResponses({
-
-    })
     @PutMapping("/openingDetails/update")
-    public ResponseEntity<OpeningDetails> updateOpeningDetails(@RequestBody OpeningDetails updatedOpeningDetails){
-        return null;
+    public ResponseEntity<OpeningDetails> updateOpeningDetails(@RequestBody List<OpeningDetails> updatedOpeningDetails){
+        return otherStuffService.updateOpeningDetails(updatedOpeningDetails);
     }
 }

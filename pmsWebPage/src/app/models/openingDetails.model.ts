@@ -1,10 +1,8 @@
 export class OpeningDetails {
   constructor(
-    private dayName: "Hétfő" | "Kedd" | "Szerda" | "Csütörtök" | "Péntek" | "Szombat" | "Vasárnap",
-    private startHour: number,
-    private startMin: number,
-    private endHour: number,
-    private endMin: number,
+    private dayName?: "Hétfő" | "Kedd" | "Szerda" | "Csütörtök" | "Péntek" | "Szombat" | "Vasárnap",
+    private startTime?: Date,
+    private endTime?: Date,
     private id: number | null = null
   ) { }
 
@@ -14,41 +12,23 @@ export class OpeningDetails {
 
   get getDayName(): string {
     return this.dayName
+    return this.dayName!
   }
 
-  get getStartHour(): number {
-    return this.startHour
+  get getStartTime(): Date {
+    return this.startTime!
   }
 
-  get getStartMin(): number {
-    return this.startMin
+  get getEndTime(): Date {
+    return this.endTime!
   }
 
-  get getEndHour(): number {
-    return this.endHour
+  //Setterek
+  set setStartTime(newStart: Date) {
+    this.startTime = newStart
   }
 
-  get getEndMin(): number {
-    return this.endMin
-  }
-
-  set setDayName(dayName: "Hétfő" | "Kedd" | "Szerda" | "Csütörtök" | "Péntek" | "Szombat" | "Vasárnap") {
-    this.dayName = dayName
-  }
-
-  set setStartHour(hour: number) {
-    this.startHour = hour
-  }
-
-  set setStartMin(min: number) {
-    this.startMin = min
-  }
-
-  set setEndHour(hour: number) {
-    this.endHour = hour
-  }
-
-  set setEndMin(min: number) {
-    this.endMin = min
+  set setEndTime(newEnd: Date) {
+    this.endTime = newEnd
   }
 }

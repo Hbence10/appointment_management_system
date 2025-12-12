@@ -17,15 +17,7 @@ export class OtherService {
   galleryImages: Gallery[] = []
   rule!: Rule
   detailsForFooter!: Details
-
-  get getDetailsForFooter(): Details {
-    return this.detailsForFooter!
-  }
-
-  set setDetails(newDetails: Details) {
-    this.detailsForFooter = newDetails
-  }
-
+  openingDetails: OpeningDetails[] = []
 
   //ENDPOINTOK:
   //Galleria
@@ -56,11 +48,11 @@ export class OtherService {
     return this.http.put<Details>(`${this.baseURL}/details/update`, updatedDetails)
   }
 
-  getOpeningDetails(): Observable<OpeningDetails[]>{
+  getOpeningDetails(): Observable<OpeningDetails[]> {
     return this.http.get<OpeningDetails[]>(`${this.baseURL}/openingDetails`)
   }
 
-  updateOpeningDetails(updatedOpeningDetails: OpeningDetails): Observable<OpeningDetails> {
-    return this.http.put<OpeningDetails>(`${this.baseURL}/openingDetails/update`, updatedOpeningDetails)
+  updateOpeningDetails(): Observable<OpeningDetails> {
+    return this.http.put<OpeningDetails>(`${this.baseURL}/openingDetails/update`, this.openingDetails)
   }
 }

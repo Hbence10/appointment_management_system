@@ -10,20 +10,36 @@ import { OpeningDetails } from '../../models/openingDetails.model';
   styleUrl: './footer.scss'
 })
 export class Footer implements OnInit {
-  private otherService = inject(OtherService)
+  otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
-  // details!: Details
   openingDetails: OpeningDetails[] = []
 
   ngOnInit(): void {
     this.otherService.getDetails().subscribe({
       next: response => {
-        this.otherService.setDetails = Object.assign(new Details(), response)
+        this.otherService.detailsForFooter = Object.assign(new Details(), response)
+      },
+      error: error => console.log(error)
+    })
+
+    this.otherService.getOpeningDetails().subscribe({
+      next: responseList => {
+        this.otherService.openingDetails = responseList.map(response => Object.assign(new OpeningDetails(), response))
+      },
+      error: error => console.log(error),
+      complete: () => {
+        // this.otherService.openingDetails = this.openingDetails
+        console.log(this.otherService.openingDetails)
+        this.setOpeningDetails()
       }
     })
   }
 
-  get details(): Details {
-    return this.otherService.getDetailsForFooter
+  setOpeningDetails() {
+    const settedOpeningDetails: { dayNames: [] | string, openingDetails: OpeningDetails }[] = []
+    let dayNames: string[] = []
+    for (let i: number = 0; i < this.openingDetails.length; i++) {
+
+    }
   }
 }

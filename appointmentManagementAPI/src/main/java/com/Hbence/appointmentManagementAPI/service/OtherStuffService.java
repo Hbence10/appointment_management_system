@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -92,6 +93,7 @@ public class OtherStuffService {
         return ResponseEntity.ok().body(detailsRepository.findById(1).orElse(null));
     }
 
+    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Details> updateDetails(Details updatedDetails) {
         try {
             if (updatedDetails == null) {
@@ -114,13 +116,35 @@ public class OtherStuffService {
         return ResponseEntity.ok().body(openingDetailsRepository.findAll());
     }
 
-    public ResponseEntity<OpeningDetails> updateOpeningDetails() {
-        return null;
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<OpeningDetails> updateOpeningDetails(List<OpeningDetails> openingDetails) {
+        try {
+            if (openingDetails == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            for (OpeningDetails openingDetail : openingDetails) {
+                if (openingDetail.getId() == null || openingDetail.getId() > 7 || openingDetail.getId() < 1) {
+                    return ResponseEntity.notFound().build();
+                } else if (!checkStartAndEnd(openingDetail.getStartTime(), openingDetail.getEndTime())) {
+                    return ResponseEntity.status(415).build();
+                } else {
+                    openingDetailsRepository.save(openingDetail);
+                }
+            }
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-    public ResponseEntity<OpeningDetails> addOpeningDetails() {
-        return null;
+    //
+    public Boolean checkStartAndEnd(Date start, Date end) {
+        int startMin = (start.getHours() * 60) + start.getMinutes();
+        int endMin = (end.getHours() * 60) + end.getMinutes();
+
+        return startMin < endMin;
     }
-
-
 }

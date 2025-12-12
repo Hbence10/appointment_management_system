@@ -44,17 +44,17 @@
                 <div class="row">
                   <div class="col-lg-12 d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center align-items-center">
                     <h5 class="secondFont">{{day}}:</h5>
-                    <div class="hourDiv w-100 d-flex justify-content-lg-end align-items-center">
+                    <form [formGroup]="openingDetailsForm" class="hourDiv w-100 d-flex justify-content-lg-end align-items-center">
                       <mat-form-field class="mx-2">
                         <mat-label>Nyitás:</mat-label>
-                        <input matInput type="time">
+                        <input matInput formControlName="{{day.toLowerCase()}}Start" type="time">
                       </mat-form-field>
 
-                      <mat-form-field class="">
+                      <mat-form-field>
                         <mat-label>Zárás</mat-label>
-                        <input matInput type="time">
+                        <input matInput formControlName="{{day.toLowerCase()}}End" type="time">
                       </mat-form-field>
-                    </div>
+                    </form>
                   </div>
                 </div>
               }
