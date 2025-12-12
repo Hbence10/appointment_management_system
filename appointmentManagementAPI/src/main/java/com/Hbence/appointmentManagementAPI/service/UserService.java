@@ -16,7 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Transactional
 @Service
@@ -166,34 +167,6 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> updatePassword(String email, String newPassword) {
-        try {
-            if (email == null || newPassword == null) {
-                return ResponseEntity.status(422).build();
-            }
-
-            Users user = userRepository.getUserByEmail(email);
-
-            if (!ValidatorCollection.emailChecker(email) && !ValidatorCollection.passwordChecker(newPassword)) {
-                return ResponseEntity.status(417).body("InvalidPasswordAndEmail");
-            } else if (!ValidatorCollection.emailChecker(email)) {
-                return ResponseEntity.status(417).body("InvalidEmail");
-            } else if (!ValidatorCollection.passwordChecker(newPassword)) {
-                return ResponseEntity.status(417).body("InvalidPassword");
-            } else if (user == null) {
-                return ResponseEntity.notFound().build();
-            } else {
-                String hashedPassword = passwordEncoder.encode(newPassword);
-                user.setPassword(hashedPassword);
-                userRepository.save(user);
-                return ResponseEntity.ok("successfullyReset");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     //Password-reset:
     public ResponseEntity<String> getVerificationCode(String email) {
         try {
@@ -227,13 +200,45 @@ public class UserService {
             Users searchedUser = userRepository.getUserByEmail(email);
 
             if (userVCode.length() != 10) {
-                return ResponseEntity.status(417).body("InvalidVerificationCode");
+                return ResponseEntity.status(415).body("InvalidVerificationCode");
             } else {
                 if (userVCode.equals(this.vCode)) {
                     return ResponseEntity.ok(true);
                 } else {
                     return ResponseEntity.ok(false);
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<String> updatePassword(String email, String newPassword) {
+        try {
+            if (email == null || newPassword == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            Users user = userRepository.getUserByEmail(email);
+
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            if (!ValidatorCollection.emailChecker(email) && !ValidatorCollection.passwordChecker(newPassword)) {
+                return ResponseEntity.status(415).body("InvalidPasswordAndEmail");
+            } else if (!ValidatorCollection.emailChecker(email)) {
+                return ResponseEntity.status(415).body("InvalidEmail");
+            } else if (!ValidatorCollection.passwordChecker(newPassword)) {
+                return ResponseEntity.status(415).body("InvalidPassword");
+            } else if (user == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                String hashedPassword = passwordEncoder.encode(newPassword);
+                user.setPassword(hashedPassword);
+                userRepository.save(user);
+                return ResponseEntity.ok("successfullyReset");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -260,12 +265,12 @@ public class UserService {
     }
 
     /*
-    * HTTP STATUS KODOK:
-    *   - 200: Sikeres muvelet
-    *   - 404: Not Found
-    *   - 409: Mar foglalt nev
-    *   - 415: Unsupported Media Type --> Ha az adott adat invalid
-    *   - 422: Hianyzo parameter/response body
-    *   - 500: Internal Server Error
-    * */
+     * HTTP STATUS KODOK:
+     *   - 200: Sikeres muvelet
+     *   - 404: Not Found
+     *   - 409: Mar foglalt nev
+     *   - 415: Unsupported Media Type --> Ha az adott adat invalid
+     *   - 422: Hianyzo parameter/response body
+     *   - 500: Internal Server Error
+     * */
 }

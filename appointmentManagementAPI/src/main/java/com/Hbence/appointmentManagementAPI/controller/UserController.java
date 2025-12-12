@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperties;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +31,8 @@ public class UserController {
     @Operation(summary = "Sima bejelentkezés", description = "Egy felhasználó felhasználónév & jelszó általi bejelentkezés.")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A felhasználónevet és jelszavat tartalmazza", required = true,
             content = @Content(
-
-    ))
+                    schema = @Schema(name = "username", implementation = String.class)
+            ))
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sikeres bejelentkezés."),
             @ApiResponse(responseCode = "404", description = "Sikertelen bejelentkezés, téves felhasználónév vagy email cím."),
@@ -85,16 +88,16 @@ public class UserController {
     }
 
     //PFP
-    @Operation(summary = "", description = "")
+    @Operation(summary = "Profilkép csere.", description = "Profilkép csere.")
     @Parameters({
-            @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH),
-            @Parameter(name = "", description = "", required = true)
+            @Parameter(name = "id", description = "A felhasználóhoz tartozó id.", required = true, in = ParameterIn.PATH),
+            @Parameter(name = "pfpImg", description = "A felhasználó által kiválasztott kép.", required = true)
     })
     @ApiResponses({
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
+            @ApiResponse(responseCode = "200", description = "Sikeres profilkép csere."),
+            @ApiResponse(responseCode = "404", description = "Nem létező profil"),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghivása parameter nélkül"),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba"),
     })
     @PatchMapping("/changePfp/{id}")
     public ResponseEntity<Users> changePfp(@PathVariable("id") Long id, @RequestParam("pfpImg") MultipartFile file) {
@@ -116,33 +119,27 @@ public class UserController {
         return userService.getVerificationCode(email);
     }
 
-    @Operation(summary = "", description = "")
-    @Parameters({
-            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true),
-            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
-    })
+    @Operation(summary = "Hitelesitő kód ellenőrzése", description = "Hitelesitő kód ellenőrzése")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "")
     @ApiResponses({
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = "")
+            @ApiResponse(responseCode = "200", description = "Sikeres ellenőrzés"),
+            @ApiResponse(responseCode = "415", description = "Szerkezetileg hibás hitelesitő kód megadása"),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghivása requestBody nélkül"),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.")
     })
     @PostMapping("/checkVerificationCode")
     public ResponseEntity<Object> checkVerificationCode(@RequestBody JsonNode requestBody) {
         return userService.checkVerificationCode(requestBody.get("vCode").asText(null), requestBody.get("email").asText(null));
     }
 
-    @Operation(summary = "", description = "")
-    @Parameters({
-            @Parameter(name = "", description = "", required = true, in = ParameterIn.QUERY),
-            @Parameter(name = "", description = "", required = true, in = ParameterIn.QUERY),
-    })
+    @Operation(summary = "Jelszó módosítás", description = "Jelszó módosítás")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "")
     @ApiResponses({
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = ""),
-            @ApiResponse(responseCode = "", description = "")
+            @ApiResponse(responseCode = "200", description = "Sikeres jelszó módositás"),
+            @ApiResponse(responseCode = "404", description = "A felhasználó által megadott fiók nem létezik"),
+            @ApiResponse(responseCode = "415", description = "Szerkezetileg helytelen e-mail cím vagy jelszó"),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghivása request body nélkül"),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.")
     })
     @PatchMapping("/passwordReset")
     public ResponseEntity<HashMap<String, String>> updatePassword(@RequestBody JsonNode body) {

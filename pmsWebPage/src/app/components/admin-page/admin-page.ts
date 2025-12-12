@@ -17,10 +17,11 @@ import { ReservationCard } from '../reservation-card/reservation-card';
 import { RoomControlPanel } from './room-control-panel/room-control-panel';
 import { UserService } from '../../services/user-service';
 import { Users } from '../../models/user.model';
+import { DetailsEditor } from './details-editor/details-editor';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [HistoryPopup, RoomControlPanel, MatCardModule, MatDatepickerModule, PopUp, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [HistoryPopup, DetailsEditor , RoomControlPanel, MatCardModule, MatDatepickerModule, PopUp, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -35,10 +36,12 @@ export class AdminPage implements OnInit {
   selectedReservation = signal<null | Reservation>(null)
   user!: Users
 
+  //Pop-upok dolgai:
   isShowPupUp = signal<boolean>(false)
   popUpDetails!: Details
   showCloseContainer = signal<boolean>(false)
   showHistoryPopup = signal<boolean>(false)
+  showDetailsEditor = signal<boolean>(false)
 
   //Naptar dolgai:
   currentDate: Date = new Date()
