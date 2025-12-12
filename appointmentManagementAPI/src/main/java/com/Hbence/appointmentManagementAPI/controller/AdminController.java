@@ -98,9 +98,6 @@ public class AdminController {
 
     //CLOSEREASON:
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })

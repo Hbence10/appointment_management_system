@@ -16,7 +16,18 @@ export class OtherService {
   selectedImgForCarousel = signal<null | Gallery>(null)
   galleryImages: Gallery[] = []
   rule!: Rule
+  detailsForFooter!: Details
 
+  get getDetailsForFooter(): Details {
+    return this.detailsForFooter!
+  }
+
+  set setDetails(newDetails: Details) {
+    this.detailsForFooter = newDetails
+  }
+
+
+  //ENDPOINTOK:
   //Galleria
   getAllGalleryImages(): Observable<Gallery[]> {
     return this.http.get<Gallery[]>(`${this.baseURL}/gallery`)
@@ -52,9 +63,4 @@ export class OtherService {
   updateOpeningDetails(updatedOpeningDetails: OpeningDetails): Observable<OpeningDetails> {
     return this.http.put<OpeningDetails>(`${this.baseURL}/openingDetails/update`, updatedOpeningDetails)
   }
-
-  addOpeningDetails(newOpeningDetails: OpeningDetails): Observable<OpeningDetails> {
-    return this.http.post<OpeningDetails>(`${this.baseURL}/openingDetails/add`, newOpeningDetails)
-  }
-
 }

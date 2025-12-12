@@ -84,9 +84,6 @@ public class OtherStuffController {
 
     //Adatok
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -96,15 +93,12 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
     @PutMapping("/details/update")
     public ResponseEntity<Details> updateDetails(@RequestBody Details updatedDetails){
-        return null;
+        return otherStuffService.updateDetails(updatedDetails);
     }
 
     @Operation(summary = "", description = "")
@@ -128,18 +122,6 @@ public class OtherStuffController {
     })
     @PutMapping("/openingDetails/update")
     public ResponseEntity<OpeningDetails> updateOpeningDetails(@RequestBody OpeningDetails updatedOpeningDetails){
-        return null;
-    }
-
-    @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
-    @ApiResponses({
-
-    })
-    @PostMapping("/openingDetails/add")
-    public ResponseEntity<OpeningDetails> addOpeningDetails(@RequestBody OpeningDetails addedOpeningDetails){
         return null;
     }
 }

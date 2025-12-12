@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Table(name = "opening_details")
 @Entity
@@ -27,23 +28,13 @@ public class OpeningDetails {
     @Size(max = 40)
     private String dayName;
 
-    @Column(name = "")
+    @Column(name = "start_time")
     @NotNull
-    @Size(max = 2)
-    private Integer startHour;
+    @Temporal(TemporalType.TIME)
+    private Date startTime;
 
-    @Column(name = "")
+    @Column(name = "end_time")
     @NotNull
-    @Size(max = 2)
-    private Integer startMin;
-
-    @Column(name = "")
-    @NotNull
-    @Size(max = 2)
-    private Integer endHour;
-
-    @Column(name = "")
-    @NotNull
-    @Size(max = 2)
-    private Integer endMin;
+    @Temporal(TemporalType.TIME)
+    private Date endTime;
 }

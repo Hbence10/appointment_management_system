@@ -63,6 +63,7 @@ public class SecurityConfig {
                         .requestMatchers("/makeAdmin/**", "/admin", "/admin/updateAdmin", "/admin/deleteAdmin/**").hasRole("superAdmin")
                         .requestMatchers("/reservation/makeReservation", "/details", "/openingDetails").permitAll()
 
+
                         //swagger:
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs*/**").permitAll()

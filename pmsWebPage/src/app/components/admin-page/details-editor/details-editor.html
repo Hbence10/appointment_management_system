@@ -17,22 +17,22 @@
 
           <div class="col-lg-5" style="border-right: 3px solid black;">
             <h2 class="text-center mainFont mb-4">Alap adatok</h2>
-            <form>
+            <form [formGroup]="detailsForm">
               <mat-form-field class="w-100">
                 <mat-label>Cím:</mat-label>
-                <input matInput type="text" placeholder="Add meg a helynek a címét">
+                <input matInput formControlName="address" type="text" placeholder="Add meg a helynek a címét">
               </mat-form-field>
               <mat-form-field class="w-100" >
                 <mat-label>Elérhetőség (Telefonszám)</mat-label>
-                <input matInput type="text" placeholder="Addjál meg egy telefonszámot mint elérhetőség">
+                <input matInput type="text" formControlName="phone" placeholder="Addjál meg egy telefonszámot mint elérhetőség">
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Email</mat-label>
-                <input matInput type="text" placeholder="Addjál meg egy e-mail címet mint elérhetőség">
+                <input matInput type="text" formControlName="email" placeholder="Addjál meg egy e-mail címet mint elérhetőség">
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Tűz esetén értesitendő</mat-label>
-                <input matInput type="text" placeholder="Adjál meg egy telefonszámot tűz esetére">
+                <input matInput type="text" formControlName="firePhone" placeholder="Adjál meg egy telefonszámot tűz esetére">
               </mat-form-field>
             </form>
           </div>
@@ -65,7 +65,7 @@
         <!-- Mentés -->
         <div class="row my-4">
           <div class="col-lg-12 d-flex justify-content-center">
-            <button matButton="filled" class="filledButton mainFont w-50">Változtatások mentése</button>
+            <button matButton="filled" class="filledButton mainFont w-50" (click)="saveDetails()">Változtatások mentése</button>
           </div>
         </div>
       </div>

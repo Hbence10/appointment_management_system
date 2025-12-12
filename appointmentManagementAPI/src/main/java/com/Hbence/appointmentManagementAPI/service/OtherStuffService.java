@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
+import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +93,21 @@ public class OtherStuffService {
     }
 
     public ResponseEntity<Details> updateDetails(Details updatedDetails) {
-        return null;
+        try {
+            if (updatedDetails == null) {
+                return ResponseEntity.status(422).build();
+            }
+            if (updatedDetails.getId() != 1) {
+                return ResponseEntity.status(415).build();
+            } else if (!ValidatorCollection.emailChecker(updatedDetails.getEmail())) {
+                return ResponseEntity.status(415).build();
+            } else {
+                detailsRepository.save(updatedDetails);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     public ResponseEntity<List<OpeningDetails>> getOpeningDetails() {

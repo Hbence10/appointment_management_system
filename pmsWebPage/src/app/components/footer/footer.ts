@@ -12,25 +12,18 @@ import { OpeningDetails } from '../../models/openingDetails.model';
 export class Footer implements OnInit {
   private otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
-  details!: Details
+  // details!: Details
   openingDetails: OpeningDetails[] = []
 
   ngOnInit(): void {
-    const subscription = this.otherService.getDetails().subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error),
-      complete: () => {
-        this.otherService.getOpeningDetails().subscribe({
-          next: response => console.log(response),
-          error: error => console.log(error),
-        })
+    this.otherService.getDetails().subscribe({
+      next: response => {
+        this.otherService.setDetails = Object.assign(new Details(), response)
       }
-    })
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe()
     })
   }
 
-
+  get details(): Details {
+    return this.otherService.getDetailsForFooter
+  }
 }

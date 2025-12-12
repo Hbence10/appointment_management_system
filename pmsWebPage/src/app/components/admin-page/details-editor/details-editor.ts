@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { OtherService } from '../../../services/other-service';
+import { Details } from '../../../models/details.model';
 
 @Component({
   selector: 'app-details-editor',
@@ -20,12 +21,13 @@ export class DetailsEditor implements OnInit {
 
   ngOnInit(): void {
     //Adatok lekérése
-    this.otherService.getDetails().subscribe({
-      next: response => {
 
-      },
-      error: error => console.log(error)
-    })
+        this.detailsForm = new FormGroup({
+          address: new FormControl(this.otherService.getDetailsForFooter.getAddress, [Validators.required]),
+          phone: new FormControl(this.otherService.getDetailsForFooter.getPhone, [Validators.required]),
+          email: new FormControl(this.otherService.getDetailsForFooter.getEmail, [Validators.required, Validators.email]),
+          firePhone: new FormControl(this.otherService.getDetailsForFooter.getFirePhone, [Validators.required])
+        })
 
     this.otherService.getOpeningDetails().subscribe({
       next: response => {
@@ -33,19 +35,11 @@ export class DetailsEditor implements OnInit {
       },
       error: error => console.log(error)
     })
-
-    //Formok:
-    this.detailsForm = new FormGroup({
-      address: new FormControl("", [Validators.required]),
-      phone: new FormControl("", [Validators.required]),
-      email: new FormControl("", [Validators.required, Validators.email]),
-      firePhone: new FormControl("", [Validators.required])
-    })
-
-
   }
 
   saveDetails() {
-
+    this.otherService.updateDetails(new Details(1, this.detailsForm.controls["address"].value, this.detailsForm.controls["phone"].value, this.detailsForm.controls["email"].value, this.detailsForm.controls["firePhone"].value)).subscribe({
+      next: response => console.log(response)
+    })
   }
 }
