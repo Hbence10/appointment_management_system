@@ -6,14 +6,14 @@ import com.Hbence.appointmentManagementAPI.service.ReviewService;
 import com.Hbence.appointmentManagementAPI.service.other.ReviewHistoryWithReview;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/reviews")
@@ -24,9 +24,6 @@ public class ReviewController {
 
     //Review:
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -36,9 +33,6 @@ public class ReviewController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -48,9 +42,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })
@@ -60,9 +52,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })
@@ -72,9 +62,6 @@ public class ReviewController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -84,9 +71,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })
@@ -96,9 +81,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })

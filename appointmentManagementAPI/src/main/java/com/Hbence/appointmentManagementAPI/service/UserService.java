@@ -263,14 +263,14 @@ public class UserService {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-    /*
-     * HTTP STATUS KODOK:
-     *   - 200: Sikeres muvelet
-     *   - 404: Not Found
-     *   - 409: Mar foglalt nev
-     *   - 415: Unsupported Media Type --> Ha az adott adat invalid
-     *   - 422: Hianyzo parameter/response body
-     *   - 500: Internal Server Error
-     * */
 }
+
+/*
+ * HTTP STATUS KODOK:
+ *   - 200: Sikeres muvelet
+ *   - 404: Not Found
+ *   - 409: Mar foglalt nev
+ *   - 415: Unsupported Media Type --> Ha az adott adat invalid
+ *   - 422: Hianyzo parameter/response body
+ *   - 500: Internal Server Error
+ * */

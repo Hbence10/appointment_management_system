@@ -21,9 +21,6 @@ public class OtherStuffController {
 
     //Galleria:
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -33,9 +30,6 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -46,9 +40,6 @@ public class OtherStuffController {
 
     //Szabalyzat:
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -58,9 +49,6 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -71,9 +59,6 @@ public class OtherStuffController {
 
     //History
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -84,24 +69,36 @@ public class OtherStuffController {
 
     //Adatok
     @Operation(summary = "", description = "")
+    @ApiResponses({
+
+    })
     @GetMapping("/details")
     public ResponseEntity<Details> getDetails(){
         return otherStuffService.getDetails();
     }
 
     @Operation(summary = "", description = "")
+    @ApiResponses({
+
+    })
     @PutMapping("/details/update")
     public ResponseEntity<Details> updateDetails(@RequestBody Details updatedDetails){
         return otherStuffService.updateDetails(updatedDetails);
     }
 
     @Operation(summary = "", description = "")
+    @ApiResponses({
+
+    })
     @GetMapping("/openingDetails")
     public ResponseEntity<List<OpeningDetails>> getOpeningDetails(){
         return otherStuffService.getOpeningDetails();
     }
 
     @Operation(summary = "", description = "")
+    @ApiResponses({
+
+    })
     @PutMapping("/openingDetails/update")
     public ResponseEntity<OpeningDetails> updateOpeningDetails(@RequestBody List<OpeningDetails> updatedOpeningDetails){
         return otherStuffService.updateOpeningDetails(updatedOpeningDetails);

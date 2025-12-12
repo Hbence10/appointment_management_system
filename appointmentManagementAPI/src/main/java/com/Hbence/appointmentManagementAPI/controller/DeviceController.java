@@ -5,7 +5,9 @@ import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.service.DeviceService;
 import com.Hbence.appointmentManagementAPI.service.other.DeviceWithDeviceCategory;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,9 +25,6 @@ public class DeviceController {
 
     //Eszkoz_kategoria
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -35,9 +34,6 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -48,9 +44,7 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
     @ApiResponses({
 
     })
@@ -60,9 +54,6 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -73,9 +64,6 @@ public class DeviceController {
 
     //Maga_az_eszkoz
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -85,9 +73,6 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -97,9 +82,7 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
     @ApiResponses({
 
     })

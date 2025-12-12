@@ -3,7 +3,9 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.service.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,6 @@ public class NewsController {
     public final NewsService newsService;
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -32,9 +31,6 @@ public class NewsController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -44,9 +40,7 @@ public class NewsController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
     @ApiResponses({
 
     })
@@ -56,9 +50,6 @@ public class NewsController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -68,9 +59,7 @@ public class NewsController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
     @ApiResponses({
 
     })

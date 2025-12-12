@@ -5,7 +5,9 @@ import com.Hbence.appointmentManagementAPI.entity.PhoneCountryCode;
 import com.Hbence.appointmentManagementAPI.entity.ReservationType;
 import com.Hbence.appointmentManagementAPI.service.ReservationStuffService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,6 @@ public class ReservationStuffController {
     private final ReservationStuffService reservationStuffService;
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -33,9 +32,6 @@ public class ReservationStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -45,9 +41,7 @@ public class ReservationStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })
@@ -57,9 +51,6 @@ public class ReservationStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -70,9 +61,6 @@ public class ReservationStuffController {
 
     //Fizetesi modszerek
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -83,9 +71,6 @@ public class ReservationStuffController {
 
     //Telefonszam:
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })

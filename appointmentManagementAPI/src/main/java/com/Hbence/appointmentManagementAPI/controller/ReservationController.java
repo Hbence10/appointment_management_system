@@ -4,7 +4,9 @@ import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +28,7 @@ public class ReservationController {
 
     //Foglalasok
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })
@@ -39,7 +39,8 @@ public class ReservationController {
 
     @Operation(summary = "", description = "")
     @Parameters({
-
+            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true),
+            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
     })
     @ApiResponses({
 
@@ -50,9 +51,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
     @ApiResponses({
 
     })
@@ -62,9 +61,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
     @ApiResponses({
 
     })
@@ -74,9 +71,6 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -87,9 +81,7 @@ public class ReservationController {
 
     //Foglalas lemondasa
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
     @ApiResponses({
 
     })
@@ -99,9 +91,6 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
     @ApiResponses({
 
     })
@@ -111,9 +100,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
-    @Parameters({
-
-    })
+    @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
     @ApiResponses({
 
     })
