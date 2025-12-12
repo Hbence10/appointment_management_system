@@ -39,7 +39,7 @@ public class ReviewService {
             if (newReview.getId() != null) {
                 return ResponseEntity.notFound().build();
             } else if (newReview.getRating() > 5 || newReview.getRating() < 0) {
-                return ResponseEntity.status(409).body("");
+                return ResponseEntity.status(415).build();
             } else {
                 newReview.setReviewText(newReview.getReviewText().trim());
                 return ResponseEntity.ok(reviewRepository.save(newReview));
@@ -57,9 +57,9 @@ public class ReviewService {
                 return ResponseEntity.status(422).build();
             }
 
-            Review searchedReview = reviewRepository.findById(id).get();
+            Review searchedReview = reviewRepository.findById(id).orElse(null);
 
-            if (searchedReview == null || searchedReview.getAuthor().getIsDeleted()) {
+            if (searchedReview == null || searchedReview.getAuthor().getIsDeleted() || searchedReview.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 searchedReview.setIsDeleted(true);
@@ -80,7 +80,7 @@ public class ReviewService {
                 return ResponseEntity.status(422).build();
             }
 
-            Review searchedReview = reviewRepository.findById(id).get();
+            Review searchedReview = reviewRepository.findById(id).orElse(null);
 
             if (searchedReview == null || searchedReview.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
@@ -121,9 +121,9 @@ public class ReviewService {
                 return ResponseEntity.status(422).build();
             }
 
-            ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
+            ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).orElse(null);
 
-            if (searchedReviewLike.getId() == null) {
+            if (searchedReviewLike == null) {
                 return ResponseEntity.notFound().build();
             } else {
                 String originalLikeType = searchedReviewLike.getLikeType();

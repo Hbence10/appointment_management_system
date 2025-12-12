@@ -19,7 +19,7 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "name")
     @NotNull
@@ -35,12 +35,7 @@ public class Status {
     )
     private List<Reservations> reservationsList;
 
-    //Constructorok
-    public Status(String name) {
-        this.name = name;
-    }
-
-    public Status(Long id, String name) {
+    public Status(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

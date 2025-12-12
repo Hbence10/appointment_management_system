@@ -44,9 +44,8 @@ public class DeviceService {
             }
 
             if (newDevicesCategory.getId() != null) {
-                return ResponseEntity.status(422).body("invalidInput");
+                return ResponseEntity.status(415).body("invalidInput");
             } else {
-                System.out.println(newDevicesCategory);
                 newDevicesCategory.setName(newDevicesCategory.getName().trim());
                 return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
             }
@@ -63,9 +62,9 @@ public class DeviceService {
                 return ResponseEntity.status(422).build();
             }
 
-            DevicesCategory searchedDeviceCategory = deviceCategoryRepository.findById(id).orElse(new DevicesCategory(null));
+            DevicesCategory searchedDeviceCategory = deviceCategoryRepository.findById(id).orElse(null);
 
-            if (searchedDeviceCategory.getId() == null || searchedDeviceCategory.getIsDeleted()) {
+            if (searchedDeviceCategory == null || searchedDeviceCategory.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 searchedDeviceCategory.setIsDeleted(true);
@@ -98,13 +97,13 @@ public class DeviceService {
 
     //Maga_az_eszkoz
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> updateDevice(DeviceWithDeviceCategory updatedDevice) {
+    public ResponseEntity<Object> updateDevice(Devices updatedDevice) {
         try {
             if (updatedDevice == null) {
                 return ResponseEntity.status(422).build();
             }
 
-            DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).get();
+            DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).orElse(null);
 
             if (searched == null) {
                 return ResponseEntity.status(409).body("invalidDeviceCategory");
@@ -150,7 +149,7 @@ public class DeviceService {
                 return ResponseEntity.status(422).build();
             }
 
-            Devices searchedDevice = deviceRepository.findById(id).get();
+            Devices searchedDevice = deviceRepository.findById(id).orElse(null);
             if (searchedDevice == null || searchedDevice.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {

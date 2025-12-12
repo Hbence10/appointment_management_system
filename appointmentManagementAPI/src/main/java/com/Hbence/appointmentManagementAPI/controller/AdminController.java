@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,11 @@ public class AdminController {
 
     @Operation(summary = "", description = "")
     @ApiResponses({
-
+            @ApiResponse(responseCode = "200", description = ""),
+            @ApiResponse(responseCode = "404", description = ""),
+            @ApiResponse(responseCode = "415", description = ""),
+            @ApiResponse(responseCode = "422", description = ""),
+            @ApiResponse(responseCode = "500", description = ""),
     })
     @PostMapping("/reservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody JsonNode requestBody) {
@@ -38,7 +43,11 @@ public class AdminController {
 
     @Operation(summary = "", description = "")
     @ApiResponses({
-
+            @ApiResponse(responseCode = "200", description = ""),
+            @ApiResponse(responseCode = "404", description = ""),
+            @ApiResponse(responseCode = "415", description = ""),
+            @ApiResponse(responseCode = "422", description = ""),
+            @ApiResponse(responseCode = "500", description = ""),
     })
     @PostMapping("/reservationBetweenPeriod")
     public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody JsonNode requestBody) {

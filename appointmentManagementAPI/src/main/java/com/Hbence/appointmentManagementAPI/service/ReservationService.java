@@ -2,10 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
 import com.Hbence.appointmentManagementAPI.entity.*;
-import com.Hbence.appointmentManagementAPI.repository.ReservationRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedHoursRepository;
-import com.Hbence.appointmentManagementAPI.repository.UserRepository;
+import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
@@ -26,6 +23,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
+    private final StatusRepository statusRepository;
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -36,7 +34,7 @@ public class ReservationService {
                 return ResponseEntity.status(422).build();
             }
 
-            return ResponseEntity.ok(reservationRepository.reservations(userId));
+            return ResponseEntity.ok(reservationRepository.getReservationByUserId(userId));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -50,7 +48,7 @@ public class ReservationService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(417).build();
+                return ResponseEntity.status(415).build();
             }
 
             List<ReservedDates> reservedDatesList = reservedDateRepository.reservedDatesByDate(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
@@ -100,9 +98,9 @@ public class ReservationService {
 
             String vCode = "";
             if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
-                return ResponseEntity.status(417).body("InvalidEmail");
+                return ResponseEntity.status(415).body("InvalidEmail");
             } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone())) {
-                return ResponseEntity.status(417).body("InvalidPhoneNumber");
+                return ResponseEntity.status(415).body("InvalidPhoneNumber");
             }
 
             if (newReservation.getUser() != null) {
@@ -155,7 +153,7 @@ public class ReservationService {
                 }
                 searchedReservation.setIsCanceled(true);
                 searchedReservation.setCanceledAt(LocalDate.now());
-                searchedReservation.setStatus(new Status(Long.valueOf("3"), "Lemondott"));
+                searchedReservation.setStatus(statusRepository.findById(3).get());
                 emailSender.sendEmailAboutReservationCanceled(searchedReservation.getEmail());
                 return ResponseEntity.ok(reservationRepository.save(searchedReservation));
             }

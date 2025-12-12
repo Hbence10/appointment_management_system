@@ -91,7 +91,6 @@ public class UserService {
             if (searchedUser.getId() == null) {
                 return ResponseEntity.notFound().build();
             } else {
-                System.out.println(email);
                 if (!ValidatorCollection.emailChecker(email)) {
                     return ResponseEntity.status(415).body("InvalidEmail");
                 } else {
@@ -252,8 +251,8 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            Users searchedUser = userRepository.findById(id).get();
-            if (searchedUser == null || searchedUser.getId() == null || searchedUser.getIsDeleted()) {
+            Users searchedUser = userRepository.findById(id).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 return ResponseEntity.ok().body(searchedUser);

@@ -68,7 +68,7 @@ public class DeviceController {
 
     })
     @PutMapping("/update")
-    public ResponseEntity<Object> updateDevice(@RequestBody DeviceWithDeviceCategory updatedDevice) {
+    public ResponseEntity<Object> updateDevice(@RequestBody Devices updatedDevice) {
         return deviceService.updateDevice(updatedDevice);
     }
 

@@ -21,7 +21,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long Id;
+    private Integer Id;
 
     @Column(name = "name")
     @NotNull
@@ -46,14 +46,4 @@ public class Role {
     )
     @JsonIgnore
     private List<Users> users;
-
-    //Constructorok
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role(Long id, String name) {
-        Id = id;
-        this.name = name;
-    }
 }

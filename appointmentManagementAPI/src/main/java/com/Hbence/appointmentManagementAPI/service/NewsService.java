@@ -37,7 +37,7 @@ public class NewsService {
             }
 
             if (newNews.getId() != null) {
-                return ResponseEntity.status(422).build();
+                return ResponseEntity.status(415).build();
             } else {
                 newNews.setTitle(newNews.getTitle().trim());
                 return ResponseEntity.ok(newsRepository.save(newNews));
@@ -55,8 +55,8 @@ public class NewsService {
                 return ResponseEntity.status(422).build();
             }
 
-            News searchedNews = newsRepository.findById(newsId).get();
-            if (searchedNews == null || searchedNews.getId() == null || searchedNews.getIsDeleted()) {
+            News searchedNews = newsRepository.findById(newsId).orElse(null);
+            if (searchedNews == null || searchedNews.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\news" + File.separator + coverImg.getOriginalFilename();
@@ -86,7 +86,7 @@ public class NewsService {
             }
 
             if (updatedNews.getId() == null || updatedNews.getIsDeleted()) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).build();
             } else {
                 updatedNews.setTitle(updatedNews.getTitle().trim());
                 return ResponseEntity.ok(newsRepository.save(updatedNews));
@@ -104,9 +104,9 @@ public class NewsService {
                 return ResponseEntity.status(422).build();
             }
 
-            News wantedNews = newsRepository.findById(id).get();
+            News wantedNews = newsRepository.findById(id).orElse(null);
 
-            if (wantedNews == null || wantedNews.getId() == null || wantedNews.getIsDeleted()) {
+            if (wantedNews == null || wantedNews.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 wantedNews.setIsDeleted(true);

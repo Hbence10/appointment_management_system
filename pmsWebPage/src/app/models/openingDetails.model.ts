@@ -11,7 +11,6 @@ export class OpeningDetails {
   }
 
   get getDayName(): string {
-    return this.dayName
     return this.dayName!
   }
 

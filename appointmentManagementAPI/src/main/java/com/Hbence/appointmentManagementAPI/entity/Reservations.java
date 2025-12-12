@@ -127,7 +127,7 @@ public class Reservations {
 
     @ManyToOne(cascade = {})
     @JoinColumn(name = "status_id")
-    private Status status = new Status(Long.valueOf("1"), "Aktív");
+    private Status status = new Status(1, "Aktív");
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "reserved_hour_id")

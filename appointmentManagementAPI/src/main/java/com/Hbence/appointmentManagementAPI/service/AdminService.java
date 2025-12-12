@@ -21,6 +21,7 @@ public class AdminService {
     private final ReservedDateRepository reservedDateRepository;
     private final ReservationRepository reservationRepository;
     private final CloseReasonRepository closeReasonRepository;
+    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final ArrayList<String> days = new ArrayList<>(Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
 
@@ -32,12 +33,12 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
+            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).orElse(null);
 
-            if (searchedAminDetails.getId() == null) {
+            if (searchedAminDetails == null || searchedAminDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
-            } else if (searchedAminDetails.getIsDeleted()) {
-                return ResponseEntity.notFound().build();
+            } else if (startHour >= endHour) {
+                return ResponseEntity.status(415).build();
             } else {
                 Reservations baseReservation = new Reservations();
                 baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
@@ -70,12 +71,14 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
+            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).orElse(null);
 
-            if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
+            if (searchedAminDetails == null || searchedAminDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).build();
+            } else if (startHour >= endHour) {
+                return ResponseEntity.status(415).build();
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 for (int i = 0; i < dateList.size(); i++) {
@@ -112,11 +115,13 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).get();
-            if (searchedAminDetails.getId() == null || searchedAminDetails.getIsDeleted()) {
+            AdminDetails searchedAminDetails = adminDetailsRepository.findById(adminId).orElse(null);
+            if (searchedAminDetails == null || searchedAminDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).build();
+            } else if (startHour >= endHour) {
+                return ResponseEntity.status(415).build();
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 ArrayList<Reservations> createdReservations = new ArrayList<>();
@@ -168,20 +173,17 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).orElse(null);
 
-            if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
+            if (searchedCloseReason == null || searchedCloseReason.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
                 if (selectedDate == null || selectedDate.getId() == null) {
                     selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), searchedCloseReason);
-                    System.out.println("nincs ilyen datum");
                 } else {
                     selectedDate.setCloseReason(searchedCloseReason);
-                    System.out.println("van ilyen datum");
                 }
-                System.out.println(selectedDate.getDate());
                 reservedDateRepository.save(selectedDate);
                 return ResponseEntity.ok().build();
             }
@@ -198,12 +200,12 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).orElse(null);
 
-            if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
-                return ResponseEntity.status(409).build();
+            if (searchedCloseReason == null || searchedCloseReason.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(417).build();
+                return ResponseEntity.status(415).build();
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<ReservedDates> closedDates = new ArrayList<ReservedDates>();
@@ -234,19 +236,18 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).get();
+            CloseReason searchedCloseReason = closeReasonRepository.findById(closeReasonId).orElse(null);
 
-            if (searchedCloseReason == null || searchedCloseReason.getId() == null || searchedCloseReason.getIsDeleted()) {
+            if (searchedCloseReason == null || searchedCloseReason.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(417).build();
+                return ResponseEntity.status(415).build();
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<ReservedDates> closedDates = new ArrayList<>();
 
                 for (int i = 0; i < dateList.size(); i++) {
                     if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
-                        System.out.println(dateList.get(i));
                         ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
 
                         if (searchedDate == null || searchedDate.getId() == null) {
@@ -286,7 +287,7 @@ public class AdminService {
             }
 
             if (newCloseReason.getId() != null) {
-                return ResponseEntity.status(417).build();
+                return ResponseEntity.status(415).build();
             }
 
             return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
@@ -305,9 +306,9 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return null;
-            } else if (startHour > endHour) {
-                return null;
+                return ResponseEntity.status(415).build();
+            } else if (startHour >= endHour) {
+                return ResponseEntity.status(415).build();
             } else {
                 List<Long> idList = reservationRepository.getReservationsForAdminReservation(LocalDate.parse(startDateText), LocalDate.parse(endDateText), startHour, endHour);
                 return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
@@ -326,9 +327,9 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return null;
-            } else if (startHour > endHour) {
-                return null;
+                return ResponseEntity.status(415).build();
+            } else if (startHour >= endHour) {
+                return ResponseEntity.status(415).build();
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<Long> idList = new ArrayList<Long>();
@@ -354,8 +355,8 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (startHour > endHour) {
-                return null;
+            if (startHour >= endHour) {
+                return ResponseEntity.status(415).build();
             } else {
                 List<Long> idList = reservationRepository.checkReservationForAdminReservation(LocalDate.parse(dateText), startHour, endHour);
                 return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
@@ -375,7 +376,7 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).build();
             } else {
                 List<Long> idList = reservationRepository.getAllReservationsBetweenIntervallum(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
                 return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
@@ -394,7 +395,7 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(417).build();
+                return ResponseEntity.status(415).build();
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<Long> idList = new ArrayList<>();
@@ -420,16 +421,16 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            Users searchedUser = userRepository.findById(userId).get();
+            Users searchedUser = userRepository.findById(userId).orElse(null);
 
-            if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
-                return ResponseEntity.status(407).build();
+                return ResponseEntity.status(415).build();
             } else if (details.getId() != null) {
-                return ResponseEntity.internalServerError().build();
+                return ResponseEntity.status(415).build();
             } else {
-                searchedUser.setRole(new Role(Long.valueOf("2"), "ROLE_admin"));
+                searchedUser.setRole(roleRepository.findById(2).get());
                 details.setAdminUser(searchedUser);
                 adminDetailsRepository.save(details);
                 return ResponseEntity.ok(userRepository.save(searchedUser));
@@ -457,12 +458,12 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            AdminDetails testDetails = adminDetailsRepository.findById(updatedAdminDetails.getId()).get();
+            AdminDetails testDetails = adminDetailsRepository.findById(updatedAdminDetails.getId()).orElse(null);
 
-            if (testDetails.getId() == null || testDetails.getIsDeleted()) {
+            if (testDetails == null || testDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (!ValidatorCollection.emailChecker(updatedAdminDetails.getEmail())) {
-                return ResponseEntity.status(407).build();
+                return ResponseEntity.status(415).build();
             } else {
                 return ResponseEntity.ok().body(adminDetailsRepository.save(updatedAdminDetails));
             }
@@ -479,8 +480,8 @@ public class AdminService {
                 return ResponseEntity.status(422).build();
             }
 
-            AdminDetails searchedAdminDetails = adminDetailsRepository.findById(id).get();
-            if (searchedAdminDetails.getId() == null || searchedAdminDetails.getIsDeleted()) {
+            AdminDetails searchedAdminDetails = adminDetailsRepository.findById(id).orElse(null);
+            if (searchedAdminDetails == null || searchedAdminDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 searchedAdminDetails.setIsDeleted(true);
