@@ -27,14 +27,14 @@
   transform: scale(1.05, 1.05);
 }
 
-app-pop-up {
+app-pop-up, app-history-popup, app-details-editor {
   position: fixed;
   top: 0px;
   left: 0px;
   z-index: 2;
 }
 
-#historyButton {
+.adminButton {
   background-color: #F4FBFF;
   height: 40px;
   width: 40px;
@@ -42,7 +42,7 @@ app-pop-up {
   border-radius: 8px;
 }
 
-#historyButton:hover {
+.adminButton:hover {
   background-color: #004D40;
 
   span {

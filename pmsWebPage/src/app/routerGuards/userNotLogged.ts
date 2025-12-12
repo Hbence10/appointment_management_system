@@ -7,15 +7,15 @@ import { Router } from "express";
   providedIn: "root"
 })
 
-export class reservationTrackAuthGuard implements CanMatch {
+export class userNotLogged implements CanMatch {
   userService = inject(UserService)
   router = inject(Router)
 
   canMatch(route: Route, segments: UrlSegment[]) {
-    if (this.userService.user() == null) {
-      return true
-    }
+    // if (this.userService.user() == null) {
+    //   return true
+    // }
 
-    return new RedirectCommand(this.router.parseUrl("/unauthorized"))
+    return new RedirectCommand(this.router.parseUrl(""))
   }
 }

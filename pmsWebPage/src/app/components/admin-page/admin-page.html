@@ -72,8 +72,12 @@
   @if(user.getRole.getName == 'ROLE_superAdmin'){
     <div class="row position-fixed w-100">
       <div class="col-lg-12 d-flex justify-content-end align-items-center">
-        <button id="historyButton" class="d-flex justify-content-center align-items-center mx-4 mb-5" >
+        <button class="d-flex justify-content-center align-items-center mb-5 adminButton" >
           <span class="material-symbols-outlined">history</span>
+        </button>
+
+        <button (click)="showDetailsEditor.set(true)" class="d-flex justify-content-center align-items-center mb-5 adminButton" >
+          <span class="material-symbols-outlined">build</span>
         </button>
       </div>
     </div>
@@ -91,5 +95,5 @@
 }
 
 @if (showDetailsEditor()) {
-  <app-details-editor />
+  <app-details-editor (close)="showDetailsEditor.set(false)" />
 }

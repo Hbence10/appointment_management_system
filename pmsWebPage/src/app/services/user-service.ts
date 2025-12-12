@@ -42,8 +42,6 @@ export class UserService {
     return this.http.patch<Users>(`${this.baseURL}/changePfp/${userId}`, pfpImage)
   }
 
-  //adminPage:
-
   //password reset
   getVerificationCode(email: string) {
     return this.http.get(`${this.baseURL}/getVerificationCode`, { params: new HttpParams().set("email", email) })

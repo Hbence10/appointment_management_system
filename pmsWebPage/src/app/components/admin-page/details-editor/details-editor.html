@@ -1,1 +1,74 @@
-<p>details-editor works!</p>
+<div class="container-fluid" id="mainContainer">
+  <div class="row h-100">
+    <div class="col-lg-12 h-100 d-flex justify-content-center align-items-center">
+      <div class="container-fluid secondBg d-flex flex-column justify-content-between" id="secondContainer">
+
+        <!-- Cím -->
+        <div class="row my-4">
+          <div class="col-lg-12 d-flex justify-content-between align-items-center">
+            <div style="width: 35px; height: 35px;"></div>
+            <h1 class="text-center mainFont">Terem adatainak módosítása</h1>
+            <button class="iconButton" (click)="close.emit()"><span>X</span></button>
+          </div>
+        </div>
+
+        <!-- Editor: -->
+        <div class="row px-3" id="editorRow">
+
+          <div class="col-lg-5" style="border-right: 3px solid black;">
+            <h2 class="text-center mainFont mb-4">Alap adatok</h2>
+            <form>
+              <mat-form-field class="w-100">
+                <mat-label>Cím:</mat-label>
+                <input matInput type="text" placeholder="Add meg a helynek a címét">
+              </mat-form-field>
+              <mat-form-field class="w-100" >
+                <mat-label>Elérhetőség (Telefonszám)</mat-label>
+                <input matInput type="text" placeholder="Addjál meg egy telefonszámot mint elérhetőség">
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput type="text" placeholder="Addjál meg egy e-mail címet mint elérhetőség">
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <mat-label>Tűz esetén értesitendő</mat-label>
+                <input matInput type="text" placeholder="Adjál meg egy telefonszámot tűz esetére">
+              </mat-form-field>
+            </form>
+          </div>
+
+          <div class="col-lg-7">
+            <h2 class="mainFont mb-4 text-center">Nyitvatartás:</h2>
+            <form action="" class="container-fluid">
+              @for (day of dayNames; track $index) {
+                <div class="row">
+                  <div class="col-lg-12 d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center align-items-center">
+                    <h5 class="secondFont">{{day}}:</h5>
+                    <div class="hourDiv w-100 d-flex justify-content-lg-end align-items-center">
+                      <mat-form-field class="mx-2">
+                        <mat-label>Nyitás:</mat-label>
+                        <input matInput type="time">
+                      </mat-form-field>
+
+                      <mat-form-field class="">
+                        <mat-label>Zárás</mat-label>
+                        <input matInput type="time">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              }
+            </form>
+          </div>
+        </div>
+
+        <!-- Mentés -->
+        <div class="row my-4">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <button matButton="filled" class="filledButton mainFont w-50">Változtatások mentése</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

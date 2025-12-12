@@ -1,0 +1,39 @@
+#mainContainer {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#secondContainer {
+  width: 1380px;
+  height: 820px;
+  border-radius: 12px;
+}
+
+#editorRow {
+  height: 100%;
+}
+
+.hourDiv mat-form-field {
+  width: 100px;
+}
+
+@media screen and (max-width: 992px) {
+  #secondContainer {
+    height: 90vh;
+    width: 90%;
+    overflow-y: auto;
+  }
+
+  #editorRow {
+    height: auto;
+  }
+
+  .hourDiv mat-form-field {
+    width: 50%;
+  }
+
+  .filledButton {
+    width: 100% !important;
+  }
+}
