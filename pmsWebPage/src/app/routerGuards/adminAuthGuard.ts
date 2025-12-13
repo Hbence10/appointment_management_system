@@ -1,6 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { CanMatch, RedirectCommand, Route, Router, UrlSegment } from "@angular/router";
 import { UserService } from "../services/user-service";
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable({
   providedIn: "root"
@@ -10,7 +11,6 @@ export class adminAuthGuard implements CanMatch {
   router = inject(Router)
 
   canMatch(route: Route, segments: UrlSegment[]) {
-    console.log(this.userService.user())
     if (this.userService.user()?.getRole.getName == "ROLE_admin" || this.userService.user()?.getRole.getName == "ROLE_superAdmin") {
       return true
     }

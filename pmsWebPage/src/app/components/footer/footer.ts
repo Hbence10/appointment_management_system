@@ -28,18 +28,7 @@ export class Footer implements OnInit {
       },
       error: error => console.log(error),
       complete: () => {
-        // this.otherService.openingDetails = this.openingDetails
-        console.log(this.otherService.openingDetails)
-        this.setOpeningDetails()
       }
     })
-  }
-
-  setOpeningDetails() {
-    const settedOpeningDetails: { dayNames: [] | string, openingDetails: OpeningDetails }[] = []
-    let dayNames: string[] = []
-    for (let i: number = 0; i < this.openingDetails.length; i++) {
-
-    }
   }
 }

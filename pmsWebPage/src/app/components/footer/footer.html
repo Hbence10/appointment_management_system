@@ -7,24 +7,28 @@
       </p>
 
       <p class="text-lg-start text-md-center text-sm-center text-center">
-        <span class="fw-bold mainFont">Elérhetőség</span><br>
+        <span class="fw-bold mainFont">Elérhetőség:</span><br>
         <span class="secondFont">{{this.otherService.detailsForFooter?.getPhone}}</span>
       </p>
 
       <p class="text-lg-start text-md-center text-sm-center text-center">
-        <span class="fw-bold mainFont">Email</span><br>
+        <span class="fw-bold mainFont">Email:</span><br>
         <span class="secondFont">{{this.otherService.detailsForFooter?.getEmail}}</span>
       </p>
 
       <p class="text-lg-start text-md-center text-sm-center text-center">
-        <span class="fw-bold mainFont">Tűz esetén értesitendő</span><br>
+        <span class="fw-bold mainFont">Tűz esetén értesitendő:</span><br>
         <span class="secondFont">{{this.otherService.detailsForFooter?.getFirePhone}}</span>
       </p>
 
-      <p class="text-lg-start text-md-center text-sm-center text-center">
-        <span class="fw-bold mainFont">Nyitvatartás</span><br>
-        <span class="secondFont">10:00 - 22:00</span>
-      </p>
+      <div class="">
+        <p class="text-lg-start text-center fw-bold mainFont my-lg-0 my-3">Nyitvatartás:</p>
+        <ul>
+          @for (openingDetail of otherService.openingDetails; track $index) {
+            <li class="d-flex justify-content-between my-2"><span class="mainFont">{{openingDetail.getDayName}}:</span> <span class="secondFont"> {{openingDetail.getStartTime}} - {{openingDetail.getEndTime}}</span></li>
+          }
+        </ul>
+      </div>
     </div>
     <div class="col-lg-4">
       <!-- Google Maps -->

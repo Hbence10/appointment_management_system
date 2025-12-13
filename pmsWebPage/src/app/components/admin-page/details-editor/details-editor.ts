@@ -30,7 +30,6 @@ export class DetailsEditor implements OnInit {
 
     this.openingDetailsForm = new FormGroup({})
     this.otherService.openingDetails.forEach(openingDetails => {
-      console.log(openingDetails)
       this.openingDetailsForm.addControl(`${openingDetails.getDayName.toLowerCase()}Start`, new FormControl(openingDetails.getStartTime, [Validators.required]))
       this.openingDetailsForm.addControl(`${openingDetails.getDayName.toLowerCase()}End`, new FormControl(openingDetails.getEndTime, [Validators.required]))
     })
@@ -47,16 +46,21 @@ export class DetailsEditor implements OnInit {
 
     //Nyitvatartás:
     for (let i: number = 0; i < this.dayNames.length; i++) {
-      this.otherService.openingDetails[i].setStartTime = this.openingDetailsForm.controls[`${this.dayNames[i].toLowerCase()}Start`].value
-      this.otherService.openingDetails[i].setEndTime = this.openingDetailsForm.controls[`${this.dayNames[i].toLowerCase()}End`].value
+      this.otherService.openingDetails[i].setStartTime = new Date("2025-01-01 " + this.openingDetailsForm.controls[`${this.dayNames[i].toLowerCase()}Start`].value)
+      this.otherService.openingDetails[i].setEndTime = new Date("2025-01-01 " + this.openingDetailsForm.controls[`${this.dayNames[i].toLowerCase()}End`].value)
     }
 
     this.otherService.updateOpeningDetails().subscribe({
-      next: responseList => {
-        this.otherService.openingDetails = responseList.map(response => Object.assign(new OpeningDetails(), response))
-      },
       error: error => console.log(error),
-      complete: () => this.close.emit()
+      complete: () => {
+        this.otherService.getOpeningDetails().subscribe({
+          next: responseList => {
+            this.otherService.openingDetails = responseList.map(response => Object.assign(new OpeningDetails(), response))
+          },
+          complete: () => this.close.emit()
+        })
+      }
     })
+
   }
 }
