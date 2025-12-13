@@ -52,7 +52,7 @@ export class OtherService {
     return this.http.get<OpeningDetails[]>(`${this.baseURL}/openingDetails`)
   }
 
-  updateOpeningDetails(): Observable<OpeningDetails> {
-    return this.http.put<OpeningDetails>(`${this.baseURL}/openingDetails/update`, this.openingDetails)
+  updateOpeningDetails(): Observable<OpeningDetails[]> {
+    return this.http.put<OpeningDetails[]>(`${this.baseURL}/openingDetails/update`, this.openingDetails)
   }
 }

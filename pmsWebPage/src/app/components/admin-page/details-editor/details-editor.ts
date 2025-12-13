@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { OtherService } from '../../../services/other-service';
 import { Details } from '../../../models/details.model';
+import { OpeningDetails } from '../../../models/openingDetails.model';
 
 @Component({
   selector: 'app-details-editor',
@@ -38,7 +39,9 @@ export class DetailsEditor implements OnInit {
   saveDetails() {
     //Sima details:
     this.otherService.updateDetails(new Details(1, this.detailsForm.controls["address"].value, this.detailsForm.controls["phone"].value, this.detailsForm.controls["email"].value, this.detailsForm.controls["firePhone"].value)).subscribe({
-      next: response => console.log(response),
+      next: response => {
+        this.otherService.detailsForFooter = Object.assign(new Details(), response)
+      },
       error: error => console.log(error)
     })
 
@@ -49,8 +52,11 @@ export class DetailsEditor implements OnInit {
     }
 
     this.otherService.updateOpeningDetails().subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error)
+      next: responseList => {
+        this.otherService.openingDetails = responseList.map(response => Object.assign(new OpeningDetails(), response))
+      },
+      error: error => console.log(error),
+      complete: () => this.close.emit()
     })
   }
 }

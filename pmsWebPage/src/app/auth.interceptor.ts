@@ -14,7 +14,8 @@ export function asdInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): 
     console.log(body.id)
     httpHeaders = httpHeaders.append('Authorization', 'Basic ' + btoa(body.username + ':' + body.password));
   } else {
-    if (cookieService.get("pmsToken") != "") {
+    console.log(cookieService.get("pmsJwtToken"))
+    if (cookieService.get("pmsJwtToken") != "") {
       httpHeaders = httpHeaders.append('Authorization', cookieService.get("pmsJwtToken"));
     }
   }

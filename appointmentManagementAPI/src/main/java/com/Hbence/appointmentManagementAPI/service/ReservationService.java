@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -152,7 +153,7 @@ public class ReservationService {
                     }
                 }
                 searchedReservation.setIsCanceled(true);
-                searchedReservation.setCanceledAt(LocalDate.now());
+                searchedReservation.setCanceledAt(new Date());
                 searchedReservation.setStatus(statusRepository.findById(3).get());
                 emailSender.sendEmailAboutReservationCanceled(searchedReservation.getEmail());
                 return ResponseEntity.ok(reservationRepository.save(searchedReservation));

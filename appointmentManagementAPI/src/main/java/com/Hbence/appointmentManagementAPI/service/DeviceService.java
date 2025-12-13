@@ -68,7 +68,7 @@ public class DeviceService {
                 return ResponseEntity.notFound().build();
             } else {
                 searchedDeviceCategory.setIsDeleted(true);
-                searchedDeviceCategory.setDeletedAt(LocalDateTime.now());
+                searchedDeviceCategory.setDeletedAt(new Date());
                 return ResponseEntity.ok().build();
             }
         } catch (Exception e) {

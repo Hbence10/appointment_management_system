@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class ReviewService {
                 return ResponseEntity.notFound().build();
             } else {
                 searchedReview.setIsDeleted(true);
-                searchedReview.setDeletedAt(LocalDateTime.now());
+                searchedReview.setDeletedAt(new Date());
                 reviewRepository.save(searchedReview);
                 return ResponseEntity.ok().build();
             }

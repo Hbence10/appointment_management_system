@@ -100,7 +100,7 @@ public class OtherStuffController {
 
     })
     @PutMapping("/openingDetails/update")
-    public ResponseEntity<OpeningDetails> updateOpeningDetails(@RequestBody List<OpeningDetails> updatedOpeningDetails){
+    public ResponseEntity<List<OpeningDetails>> updateOpeningDetails(@RequestBody List<OpeningDetails> updatedOpeningDetails){
         return otherStuffService.updateOpeningDetails(updatedOpeningDetails);
     }
 }

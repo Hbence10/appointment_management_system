@@ -93,19 +93,21 @@ public class OtherStuffService {
         return ResponseEntity.ok().body(detailsRepository.findById(1).orElse(null));
     }
 
-    @PreAuthorize("hasRole('superAdmin')")
+//    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Details> updateDetails(Details updatedDetails) {
+        System.out.println(updatedDetails);
+
         try {
             if (updatedDetails == null) {
                 return ResponseEntity.status(422).build();
             }
+
             if (updatedDetails.getId() != 1) {
                 return ResponseEntity.status(415).build();
             } else if (!ValidatorCollection.emailChecker(updatedDetails.getEmail())) {
                 return ResponseEntity.status(415).build();
             } else {
-                detailsRepository.save(updatedDetails);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok().body(detailsRepository.save(updatedDetails));
             }
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
@@ -117,12 +119,11 @@ public class OtherStuffService {
     }
 
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<OpeningDetails> updateOpeningDetails(List<OpeningDetails> openingDetails) {
+    public ResponseEntity<List<OpeningDetails>> updateOpeningDetails(List<OpeningDetails> openingDetails) {
         try {
             if (openingDetails == null) {
                 return ResponseEntity.status(422).build();
             }
-
             for (OpeningDetails openingDetail : openingDetails) {
                 if (openingDetail.getId() == null || openingDetail.getId() > 7 || openingDetail.getId() < 1) {
                     return ResponseEntity.notFound().build();
@@ -133,7 +134,7 @@ public class OtherStuffService {
                 }
             }
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(openingDetailsRepository.findAll());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
