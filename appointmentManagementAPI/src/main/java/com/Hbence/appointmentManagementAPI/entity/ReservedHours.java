@@ -10,6 +10,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "reserved_hour")
@@ -40,14 +41,14 @@ public class ReservedHours {
     private int end;
 
     @Column(name = "is_deleted")
-    @NotNull
     @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
     @JsonIgnore
-    private LocalDateTime deletedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedAt;
 
     //Kapcsolatok
     @ManyToOne(cascade = {CascadeType.MERGE})

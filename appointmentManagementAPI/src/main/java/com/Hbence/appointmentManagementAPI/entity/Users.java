@@ -61,6 +61,7 @@ public class Users {
 
     @Column(name = "last_login")
     @Null
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
     private Date lastLogin;
 
@@ -81,7 +82,7 @@ public class Users {
     //Kapcsolatok:
     @ManyToOne(cascade = {CascadeType.DETACH})
     @JoinColumn(name = "role_id")
-    private Role role = new Role(Long.valueOf(1), "user");
+    private Role role = new Role(1, "user");
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = {})
     @JsonIgnore

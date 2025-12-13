@@ -9,7 +9,7 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Table(name = "details")
+@Table(name = "detail")
 @Entity
 @Getter
 @Setter

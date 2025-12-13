@@ -42,6 +42,7 @@ public class Gallery {
     @Column(name = "deleted_at")
     @Null
     @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
     //Constructorok

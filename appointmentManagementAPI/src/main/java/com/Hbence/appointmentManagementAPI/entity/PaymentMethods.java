@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,14 +30,14 @@ public class PaymentMethods {
     private String name;
 
     @Column(name = "is_deleted")
-    @NotNull
     @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
     @JsonIgnore
-    private LocalDateTime deletedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedAt;
 
     //Kapcsolatok
     @JsonIgnore

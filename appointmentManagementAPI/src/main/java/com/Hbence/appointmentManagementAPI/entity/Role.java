@@ -28,16 +28,6 @@ public class Role {
     @Size(max = 100)
     private String name;
 
-    @Column(name = "is_deleted")
-    @NotNull
-    @JsonIgnore
-    private Boolean isDeleted = false;
-
-    @Column(name = "deleted_at")
-    @Null
-    @JsonIgnore
-    private LocalDateTime deletedAt;
-
     //Kapcsolatok
     @OneToMany(
             mappedBy = "role",
@@ -46,4 +36,9 @@ public class Role {
     )
     @JsonIgnore
     private List<Users> users;
+
+    public Role(Integer id, String name) {
+        Id = id;
+        this.name = name;
+    }
 }

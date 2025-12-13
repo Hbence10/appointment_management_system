@@ -53,11 +53,13 @@ public class News {
     @Column(name = "deleted_at")
     @Null
     @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
     @Column(name = "last_edit_at")
     @Null
     @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastEditAt;
 
     //Kapcsolatok:

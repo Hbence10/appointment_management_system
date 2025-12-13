@@ -50,14 +50,14 @@ public class ReservedDates {
     private Boolean isClosed = false;
 
     @Column(name = "is_deleted")
-    @NotNull
     @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
     @JsonIgnore
-    private LocalDateTime deletedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedAt;
 
     //Kapcsolatok
     @JsonIgnoreProperties({"date", "reservationHour"})

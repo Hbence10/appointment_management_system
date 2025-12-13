@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-@Table(name = "admin_details")
+@Table(name = "admin_detail")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -50,9 +50,9 @@ public class AdminDetails {
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
-    @Temporal(TemporalType.TIMESTAMP)
     @Null
     @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
     //Kapcsolatok

@@ -38,13 +38,13 @@ public class ReservationType {
     private int price;
 
     @Column(name = "is_deleted")
-    @NotNull
     @JsonIgnore
     private Boolean isDeleted = false;
 
     @Column(name = "deleted_at")
     @Null
     @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
     //Kapcsolatok

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Table(name = "opening_details")
+@Table(name = "opening_detail")
 @Entity
 @Getter
 @Setter
