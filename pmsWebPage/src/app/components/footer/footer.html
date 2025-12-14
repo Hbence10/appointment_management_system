@@ -25,7 +25,7 @@
         <p class="text-lg-start text-center fw-bold mainFont my-lg-0 my-3">Nyitvatartás:</p>
         <ul>
           @for (openingDetail of otherService.openingDetails; track $index) {
-            <li class="d-flex justify-content-between my-2"><span class="mainFont">{{openingDetail.getDayName}}:</span> <span class="secondFont"> {{openingDetail.getStartTime}} - {{openingDetail.getEndTime}}</span></li>
+            <li class="d-flex justify-content-between my-2"><span class="mainFont">{{openingDetail.getDayName}}:</span> <span class="secondFont"> {{openingDetail.getStartTime.toString().substring(0, 5)}} - {{openingDetail.getEndTime.toString().substring(0, 5)}}</span></li>
           }
         </ul>
       </div>

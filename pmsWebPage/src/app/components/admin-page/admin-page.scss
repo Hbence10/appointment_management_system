@@ -23,6 +23,10 @@
   height: 475px !important;
 }
 
+::ng-deep .mat-calendar-body-cell{
+  height: 50px;
+}
+
 .cardDiv:hover {
   transform: scale(1.05, 1.05);
 }
