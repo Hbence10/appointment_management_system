@@ -22,15 +22,13 @@
                   <input type="text" matInput placeholder="Felhasználó név" formControlName="username"/>
                 </mat-form-field>
 
-                <br>
-
-                <!-- <mat-error>{{emailErrorMsg()}}</mat-error> -->
+                @if(emailErrorMsg() != ""){
+                  <mat-error>{{emailErrorMsg()}}</mat-error>
+                }
                 <mat-form-field class="w-100">
                   <mat-label>Email</mat-label>
                   <input type="text" matInput placeholder="Email" formControlName="email"/>
                 </mat-form-field>
-
-                <br>
 
                  <mat-form-field class="w-100">
                   <mat-label>Jelszó</mat-label>
@@ -40,9 +38,7 @@
                   </button>
                 </mat-form-field>
 
-                <br>
-
-                 <mat-form-field class="w-100">
+                <mat-form-field class="w-100">
                   <mat-label>Jelszó újra</mat-label>
                   <input matInput [type]="isShowPasswordAgain() ? 'text' : 'password'" formControlName="passwordAgain" />
                   <button matIconButton matSuffix (click)="showPasswordAgain($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isShowPassword()" >

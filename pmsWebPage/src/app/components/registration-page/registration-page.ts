@@ -79,16 +79,30 @@ export class RegistrationPage implements OnInit {
   }
 
   register() {
-    let newUser: Users = new Users(null,this.form.controls["username"].value?.trim()!, this.form.controls["password"].value?.trim()!, this.form.controls["email"].value?.trim()!)
+    this.emailErrorMsg.set("")
+    this.usernameErrorMsg.set("")
+
+    let newUser: Users = new Users(null, this.form.controls["username"].value?.trim()!, this.form.controls["password"].value?.trim()!, this.form.controls["email"].value?.trim()!)
     this.userService.register(newUser).subscribe({
       next: response => console.log(response),
       error: error => {
-        console.log(error.error)
-        if (error.error == "duplicateEmail") {
-          this.emailErrorMsg.set("Ezzel az email címmel már létezik profil.")
-        } else if (error.error == "duplicateUsername") {
-          this.usernameErrorMsg.set("Ezzel a felhasználónévvel már létezik profil.")
+        console.log(error)
+        if (error.status == 409) {
+          if (error.error == "emailDuplicate") {
+            this.emailErrorMsg.set("Ezzel az e-mail címmel már regisztráltak fiókot.")
+          } else if (error.error == "usernamedDuplicate") {
+            this.usernameErrorMsg.set("Ezzel a felhasználónévvel már regisztráltak fiókot.")
+          }
+        } else if (error.status == 415) {
+          if (error.error == "InvalidEmail") {
+            
+          } else if (error.error == "InvalidPassword") {
+
+          }
+        } else if (error.status == 500) {
+
         }
+
       },
       complete: () => this.router.navigate(["login"])
     })

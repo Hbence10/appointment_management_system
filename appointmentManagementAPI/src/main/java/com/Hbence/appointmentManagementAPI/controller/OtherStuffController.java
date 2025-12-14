@@ -1,15 +1,15 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.*;
-import com.Hbence.appointmentManagementAPI.repository.CloseReasonRepository;
-import com.Hbence.appointmentManagementAPI.repository.ReservedDateRepository;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class OtherStuffController {
 
     })
     @GetMapping("/history")
-    public ResponseEntity<List<History>> getHistory(){
+    public ResponseEntity<List<History>> getHistory() {
         return otherStuffService.getHistory();
     }
 
@@ -73,7 +73,7 @@ public class OtherStuffController {
 
     })
     @GetMapping("/details")
-    public ResponseEntity<Details> getDetails(){
+    public ResponseEntity<Details> getDetails() {
         return otherStuffService.getDetails();
     }
 
@@ -82,7 +82,7 @@ public class OtherStuffController {
 
     })
     @PutMapping("/details/update")
-    public ResponseEntity<Details> updateDetails(@RequestBody Details updatedDetails){
+    public ResponseEntity<Details> updateDetails(@RequestBody Details updatedDetails) {
         return otherStuffService.updateDetails(updatedDetails);
     }
 
@@ -91,7 +91,7 @@ public class OtherStuffController {
 
     })
     @GetMapping("/openingDetails")
-    public ResponseEntity<List<OpeningDetails>> getOpeningDetails(){
+    public ResponseEntity<List<OpeningDetails>> getOpeningDetails() {
         return otherStuffService.getOpeningDetails();
     }
 
@@ -100,7 +100,7 @@ public class OtherStuffController {
 
     })
     @PutMapping("/openingDetails/update")
-    public ResponseEntity<List<OpeningDetails>> updateOpeningDetails(@RequestBody List<OpeningDetails> updatedOpeningDetails){
+    public ResponseEntity<List<OpeningDetails>> updateOpeningDetails(@RequestBody List<OpeningDetails> updatedOpeningDetails) {
         return otherStuffService.updateOpeningDetails(updatedOpeningDetails);
     }
 }

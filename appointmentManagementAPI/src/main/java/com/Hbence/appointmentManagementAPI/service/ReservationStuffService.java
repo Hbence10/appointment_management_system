@@ -8,6 +8,7 @@ import com.Hbence.appointmentManagementAPI.repository.PhoneCountryCodeRepository
 import com.Hbence.appointmentManagementAPI.repository.ReservationTypeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,9 @@ public class ReservationStuffService {
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
         try {
-           if (newReservationType == null) {
-               return ResponseEntity.status(422).build();
-           }
+            if (newReservationType == null) {
+                return ResponseEntity.status(422).build();
+            }
 
             if (newReservationType.getId() != null) {
                 return ResponseEntity.notFound().build();
@@ -41,6 +42,8 @@ public class ReservationStuffService {
                 newReservationType.setName(newReservationType.getName().trim());
                 return ResponseEntity.ok(reservationTypeRepository.save(newReservationType));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -54,7 +57,7 @@ public class ReservationStuffService {
                 return ResponseEntity.status(422).build();
             }
 
-            ReservationType searchedType = reservationTypeRepository.findById(id).get();
+            ReservationType searchedType = reservationTypeRepository.findById(id).orElse(null);
 
             if (searchedType == null || searchedType.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
@@ -82,6 +85,8 @@ public class ReservationStuffService {
                 updatedReservationType.setName(updatedReservationType.getName().trim());
                 return ResponseEntity.ok(reservationTypeRepository.save(updatedReservationType));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

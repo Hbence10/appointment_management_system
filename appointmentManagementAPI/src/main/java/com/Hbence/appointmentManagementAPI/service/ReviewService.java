@@ -8,14 +8,13 @@ import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ReviewHistoryWithReview;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Transactional
 @Service
@@ -45,7 +44,9 @@ public class ReviewService {
                 newReview.setReviewText(newReview.getReviewText().trim());
                 return ResponseEntity.ok(reviewRepository.save(newReview));
             }
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
@@ -105,6 +106,8 @@ public class ReviewService {
 
             if (reviewLike.getId() != null) {
                 return ResponseEntity.notFound().build();
+            } else if (!reviewLike.getLikeType().equals("like") && !reviewLike.getLikeType().equals("dislike")) {
+                return ResponseEntity.status(415).build();
             } else {
                 ReviewLikeHistory reviewLikeHistory = new ReviewLikeHistory(reviewLike.getLikeType(), reviewLike.getLikedReview(), reviewLike.getLikerUser());
                 return ResponseEntity.ok(reviewLikeHistoryRepository.save(reviewLikeHistory));
@@ -148,8 +151,8 @@ public class ReviewService {
                 return ResponseEntity.status(422).build();
             }
 
-            ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).get();
-            if (searchedReviewLike.getId() == null) {
+            ReviewLikeHistory searchedReviewLike = reviewLikeHistoryRepository.findById(id).orElse(null);
+            if (searchedReviewLike == null) {
                 return ResponseEntity.notFound().build();
             } else {
                 reviewLikeHistoryRepository.delete(searchedReviewLike);

@@ -1,6 +1,9 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.entity.Reservations;
+import com.Hbence.appointmentManagementAPI.entity.ReservedDates;
+import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
+import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.ReservationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,11 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -95,7 +94,7 @@ public class ReservationController {
 
     })
     @PostMapping("/getByEmailAndVCode")
-    public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody JsonNode requestBody){
+    public ResponseEntity<Object> getReservationByEmailAndVCode(@RequestBody JsonNode requestBody) {
         return reservationService.getReservationByEmailAndVCode(requestBody.get("email").asText(), requestBody.get("vCode").asText());
     }
 
@@ -105,7 +104,7 @@ public class ReservationController {
 
     })
     @GetMapping("/reservedDate")
-    public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText){
+    public ResponseEntity<ReservedDates> getReservedDateByDate(@RequestParam("selectedDate") String selectedDateText) {
         return reservationService.getReservedDateByDate(selectedDateText);
     }
 }

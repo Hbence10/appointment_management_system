@@ -3,7 +3,10 @@ package com.Hbence.appointmentManagementAPI.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -75,9 +78,11 @@ public class Users {
     @JsonIgnore
     private Date deletedAt;
 
-    @Column(name = "is_notification_about_news")
-    @NotNull
-    private Boolean isNotificationAboutNews = false;
+    @Column(name = "v_code")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Null
+    @JsonIgnore
+    private String vCode;
 
     //Kapcsolatok:
     @ManyToOne(cascade = {CascadeType.DETACH})

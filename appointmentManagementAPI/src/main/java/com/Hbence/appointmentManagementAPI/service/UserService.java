@@ -6,8 +6,8 @@ import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
-import java.util.List;
 
-@Transactional
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -74,7 +72,15 @@ public class UserService {
                 emailSender.sendEmailAboutRegistration(newUser.getEmail());
                 return ResponseEntity.ok(registeredUser);
             }
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
+            String errorMsg = "";
+            if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("for key 'email'")) {
+                errorMsg = "emailDuplicate";
+            } else {
+                errorMsg = "usernamedDuplicate";
+            }
+            return ResponseEntity.status(409).body(errorMsg);
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
@@ -173,14 +179,16 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            List<String> emailList = userRepository.getAllEmail();
+            Users searchedUser = userRepository.getUserByEmail(email).orElse(null);
 
             if (!ValidatorCollection.emailChecker(email.trim())) {
                 return ResponseEntity.status(415).body("InvalidEmail");
-            } else if (!emailList.contains(email.trim())) {
+            } else if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 this.vCode = ValidatorCollection.generateVerificationCode();
+                searchedUser.setVCode(passwordEncoder.encode(vCode));
+                userRepository.save(searchedUser);
                 emailSender.sendVerificationCodeEmail(email, vCode);
                 return ResponseEntity.ok("success");
             }
@@ -196,12 +204,15 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            Users searchedUser = userRepository.getUserByEmail(email);
+            Users searchedUser = userRepository.getUserByEmail(email).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            }
 
             if (userVCode.length() != 10) {
                 return ResponseEntity.status(415).body("InvalidVerificationCode");
             } else {
-                if (userVCode.equals(this.vCode)) {
+                if (passwordEncoder.matches(userVCode, searchedUser.getVCode())) {
                     return ResponseEntity.ok(true);
                 } else {
                     return ResponseEntity.ok(false);
@@ -219,9 +230,9 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            Users user = userRepository.getUserByEmail(email);
+            Users searchedUser = userRepository.getUserByEmail(email).orElse(null);
 
-            if (user == null) {
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             }
 
@@ -231,13 +242,11 @@ public class UserService {
                 return ResponseEntity.status(415).body("InvalidEmail");
             } else if (!ValidatorCollection.passwordChecker(newPassword)) {
                 return ResponseEntity.status(415).body("InvalidPassword");
-            } else if (user == null) {
-                return ResponseEntity.notFound().build();
             } else {
                 String hashedPassword = passwordEncoder.encode(newPassword);
-                user.setPassword(hashedPassword);
-                userRepository.save(user);
-                return ResponseEntity.ok("successfullyReset");
+                searchedUser.setPassword(hashedPassword);
+                userRepository.save(searchedUser);
+                return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
             e.printStackTrace();

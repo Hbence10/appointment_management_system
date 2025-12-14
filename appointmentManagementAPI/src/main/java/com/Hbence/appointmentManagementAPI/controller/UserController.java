@@ -9,12 +9,9 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.SchemaProperties;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,6 +50,7 @@ public class UserController {
             @ApiResponse(responseCode = "422", description = "Az endpoint meghivása request body nélkül."),
             @ApiResponse(responseCode = "500", description = "A server által okozott hiba."),
     })
+//    @ExceptionHandler(DataIntegrityViolationException.class)
     @PostMapping("/register")
     public ResponseEntity<Object> registration(@RequestBody Users newUser) {
         return userService.register(newUser);
@@ -159,19 +157,5 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<Users> getUserById(@PathVariable("id") Long id) {
         return userService.getUserById(id);
-    }
-
-    //Error lekezelesek:
-    @ExceptionHandler
-    public ResponseEntity<String> handleUniqueError(DataIntegrityViolationException e) {
-        String errorMsg = "";
-
-        if (e.getMessage().contains("key 'email'")) {
-            errorMsg = "duplicateEmail";
-        } else {
-            errorMsg = "duplicateUsername";
-        }
-
-        return ResponseEntity.status(409).body(errorMsg);
     }
 }

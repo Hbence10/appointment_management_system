@@ -4,7 +4,6 @@ import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.service.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +44,7 @@ public class NewsController {
 
     })
     @PatchMapping("/addCoverImg/{id}")
-    public ResponseEntity<News> addCoverImg(@PathVariable("id") Long id, @RequestParam("coverImg") MultipartFile coverImg){
+    public ResponseEntity<News> addCoverImg(@PathVariable("id") Long id, @RequestParam("coverImg") MultipartFile coverImg) {
         return newsService.addCoverImg(id, coverImg);
     }
 

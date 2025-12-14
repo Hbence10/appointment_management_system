@@ -44,7 +44,10 @@ export class LoginPage implements OnInit {
 
         console.log(this.userService.user()?.getAdminDetails.getId)
       },
-      error: error => { this.isError.set(true) },
+      error: error => {
+        console.log(error)  
+        this.isError.set(true)
+      },
       complete: () => {
         this.checkIsRemember()
         this.router.navigate([""])

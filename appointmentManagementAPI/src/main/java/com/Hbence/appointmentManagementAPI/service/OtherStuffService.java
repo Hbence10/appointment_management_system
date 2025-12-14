@@ -93,7 +93,7 @@ public class OtherStuffService {
         return ResponseEntity.ok().body(detailsRepository.findById(1).orElse(null));
     }
 
-//    @PreAuthorize("hasRole('superAdmin')")
+    //    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Details> updateDetails(Details updatedDetails) {
         System.out.println(updatedDetails);
 

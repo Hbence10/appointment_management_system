@@ -79,7 +79,7 @@ export class PasswordResetPage implements OnInit {
       error: error => {
         if (error.status == 404) {
           this.emailErrorMsg.set("Nincs ilyen email címmel létező fiók. Próbáld meg újra!")
-        } else if (error.status == 417) {
+        } else if (error.status == 415) {
           this.emailErrorMsg.set("Érvénytelen email címet adtál meg. Próbáld meg újra!")
         }
       }
@@ -88,17 +88,15 @@ export class PasswordResetPage implements OnInit {
 
   checkVCode(vCodeInputValue: string) {
     if (vCodeInputValue.length == 10) {
-      this.userService.checkVerificationCode(vCodeInputValue).subscribe({
+      this.userService.checkVerificationCode(vCodeInputValue, this.form.controls["email"].value).subscribe({
         next: response => this.isCorrectVCode.set(response),
         error: error => {
-          if (error.status == 417) {
-
+          if (error.status == 404) {
+            
           }
         },
         complete: () => {
-          if (!this.isCorrectVCode()) {
-            this.vCodeErrorMsg.set("Helytelen kódot adtál meg. Próbáld meg újra!")
-          }
+
         }
       })
     }

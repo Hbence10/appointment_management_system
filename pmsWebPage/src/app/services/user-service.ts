@@ -47,8 +47,8 @@ export class UserService {
     return this.http.get(`${this.baseURL}/getVerificationCode`, { params: new HttpParams().set("email", email) })
   }
 
-  checkVerificationCode(userVCode: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseURL}/checkVerificationCode`, { vCode: userVCode })
+  checkVerificationCode(userVCode: string, email: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseURL}/checkVerificationCode`, { vCode: userVCode, email: email })
   }
 
   passwordReset(email: string, newPassword: string) {

@@ -11,10 +11,8 @@
 
         <div class="row">
           <div class="col-lg-12 px-4">
-            <div id="ruleContainer" class="p-4 thirdBg weakShadow" (scroll)="readRule($event)">
-              @for (line of rule()?.getText!.split("."); track $index) {
-                <p class="secondFont">{{line}}</p>
-              }
+            <div id="ruleContainer" class="p-4 thirdBg weakShadow" [innerHTML]="rule()!.getText" (scroll)="readRule($event)">
+
             </div>
           </div>
         </div>
