@@ -38,7 +38,12 @@ public class ReservationService {
                 return ResponseEntity.status(422).build();
             }
 
-            return ResponseEntity.ok(reservationRepository.getReservationByUserId(userId));
+            Users searchedUser = userRepository.findById(userId).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(searchedUser.getReservations());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -108,8 +113,8 @@ public class ReservationService {
             }
 
             if (newReservation.getUser() != null) {
-                Users searchedUser = userRepository.findById(newReservation.getUser().getId()).get();
-                if (searchedUser.getId() == null) {
+                Users searchedUser = userRepository.findById(newReservation.getUser().getId()).orElse(null);
+                if (searchedUser == null || searchedUser.getIsDeleted()) {
                     return ResponseEntity.notFound().build();
                 }
             } else {
@@ -126,7 +131,7 @@ public class ReservationService {
             Reservations newReservations = reservationRepository.save(newReservation);
             newReservations.setReservationId(new Random().nextInt(100000, 999999) + "" + newReservations.getId());
 
-            return ResponseEntity.ok(newReservations);
+            return ResponseEntity.ok(reservationRepository.save(newReservations));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -140,16 +145,16 @@ public class ReservationService {
                 return ResponseEntity.status(422).build();
             }
 
-            Reservations searchedReservation = reservationRepository.findById(id).get();
+            Reservations searchedReservation = reservationRepository.findById(id).orElse(null);
 
-            if (searchedReservation.getId() == null) {
+            if (searchedReservation == null || searchedReservation.getIsCanceled()) {
                 return ResponseEntity.notFound().build();
             } else {
-                if (canceledBy.getId() == null) {
+                if (canceledBy == null) {
                     searchedReservation.setCancelerEmail(searchedReservation.getEmail());
                 } else {
-                    Users searchedUser = userRepository.findById(canceledBy.getId()).get();
-                    if (searchedUser.getId() == null) {
+                    Users searchedUser = userRepository.findById(canceledBy.getId()).orElse(null);
+                    if (searchedUser == null || searchedUser.getIsDeleted()) {
                         return ResponseEntity.notFound().build();
                     } else {
                         searchedReservation.setCanceledBy(canceledBy);
@@ -190,7 +195,7 @@ public class ReservationService {
                     }
                 }
             } else {
-                return ResponseEntity.status(409).body("InvalidEmail");
+                return ResponseEntity.status(415).body("InvalidEmail");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,7 +209,7 @@ public class ReservationService {
                 return ResponseEntity.status(422).build();
             }
 
-            ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
+            ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText)).orElse(null);
 
             if (reservedDate == null) {
                 return ResponseEntity.ok().body(new ReservedDates());

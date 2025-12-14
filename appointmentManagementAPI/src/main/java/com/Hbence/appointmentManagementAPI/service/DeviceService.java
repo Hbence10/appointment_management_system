@@ -7,6 +7,7 @@ import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
 import com.Hbence.appointmentManagementAPI.service.other.DeviceWithDeviceCategory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,8 @@ public class DeviceService {
                 newDevicesCategory.setName(newDevicesCategory.getName().trim());
                 return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -86,8 +89,11 @@ public class DeviceService {
             if (updatedDevicesCategory.getId() == null) {
                 return ResponseEntity.notFound().build();
             } else {
+                updatedDevicesCategory.setName(updatedDevicesCategory.getName().trim());
                 return ResponseEntity.ok(deviceCategoryRepository.save(updatedDevicesCategory));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -102,19 +108,18 @@ public class DeviceService {
                 return ResponseEntity.status(422).build();
             }
 
-            DevicesCategory searched = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).orElse(null);
+            DevicesCategory searchedDeviceCategory = deviceCategoryRepository.findById(updatedDevice.getCategoryId().getId()).orElse(null);
 
-            if (searched == null) {
-                return ResponseEntity.status(409).body("invalidDeviceCategory");
+            if (searchedDeviceCategory == null) {
+                return ResponseEntity.status(404).body("deviceCategoryDoesntExist");
             } else if (updatedDevice.getId() == null) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(404).body("deviceDoesntExist");
             } else {
-                Devices updatedD = deviceRepository.findById(updatedDevice.getId()).get();
-                updatedD.setName(updatedDevice.getName().trim());
-                updatedD.setAmount(updatedDevice.getAmount());
-                updatedD.setCategoryId(updatedDevice.getCategoryId());
-                return ResponseEntity.ok(deviceRepository.save(updatedD));
+                updatedDevice.setName(updatedDevice.getName().trim());
+                return ResponseEntity.ok(deviceRepository.save(updatedDevice));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -129,12 +134,14 @@ public class DeviceService {
             }
 
             if (newDevice.getId() != null) {
-                return ResponseEntity.status(422).body("invalidInput");
+                return ResponseEntity.status(415).build();
             } else {
                 newDevice.setName(newDevice.getName().trim());
                 Devices newD = new Devices(newDevice.getName(), newDevice.getAmount(), newDevice.getCategoryId());
                 return ResponseEntity.ok(deviceRepository.save(newD));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

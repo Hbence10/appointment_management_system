@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "rule")
@@ -25,11 +25,6 @@ public class Rules {
     private String text;
 
     @Column(name = "last_edit_at")
-    private LocalDateTime lastEditAt;
-
-    //Constructorok
-    public Rules(String text, LocalDateTime lastEditAt) {
-        this.text = text;
-        this.lastEditAt = lastEditAt;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastEditAt;
 }

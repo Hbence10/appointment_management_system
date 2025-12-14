@@ -2,7 +2,6 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.AdminDetails;
 import com.Hbence.appointmentManagementAPI.entity.CloseReason;
-import com.Hbence.appointmentManagementAPI.entity.Reservations;
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.service.AdminService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -166,7 +165,7 @@ public class AdminController {
 
     })
     @GetMapping("/intervallumCloseCheck")
-    public ResponseEntity<List<Reservations>> intervallumCloseCheck(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText) {
+    public ResponseEntity<Object> intervallumCloseCheck(@RequestParam("startDateText") String startDateText, @RequestParam("endDateText") String endDateText) {
         return adminService.intervallumCloseCheck(startDateText, endDateText);
     }
 
@@ -191,7 +190,7 @@ public class AdminController {
 
     })
     @PostMapping("/makeAdmin/{id}")
-    public ResponseEntity<Users> makeAdmin(@PathVariable("id") Long id, @RequestBody AdminDetails newAdminDetails) {
+    public ResponseEntity<Object> makeAdmin(@PathVariable("id") Long id, @RequestBody AdminDetails newAdminDetails) {
         return adminService.makeAdmin(id, newAdminDetails);
     }
 

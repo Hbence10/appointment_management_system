@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -65,10 +64,10 @@ public class OtherStuffService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (updatedRules.getId() > 1) {
+            if (updatedRules.getId() > 1 || updatedRules.getId() < 1) {
                 return ResponseEntity.notFound().build();
             } else {
-                updatedRules.setLastEditAt(LocalDateTime.now());
+                updatedRules.setLastEditAt(new Date());
                 return ResponseEntity.ok(ruleRepository.save(updatedRules));
             }
         } catch (Exception e) {
@@ -95,15 +94,13 @@ public class OtherStuffService {
 
     //    @PreAuthorize("hasRole('superAdmin')")
     public ResponseEntity<Details> updateDetails(Details updatedDetails) {
-        System.out.println(updatedDetails);
-
         try {
             if (updatedDetails == null) {
                 return ResponseEntity.status(422).build();
             }
 
             if (updatedDetails.getId() != 1) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.notFound().build();
             } else if (!ValidatorCollection.emailChecker(updatedDetails.getEmail())) {
                 return ResponseEntity.status(415).build();
             } else {

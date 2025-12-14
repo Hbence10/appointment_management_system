@@ -5,6 +5,7 @@ import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class AdminService {
             } else {
                 Reservations baseReservation = new Reservations();
                 baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
-                ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(LocalDate.parse(dateText));
+                ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(LocalDate.parse(dateText)).orElse(null);
                 ReservedHours reservedHours = new ReservedHours(startHour, endHour);
 
                 if (reservedDates == null || reservedDates.getId() == null) {
@@ -76,16 +77,16 @@ public class AdminService {
             if (searchedAminDetails == null || searchedAminDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else if (startHour >= endHour) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidHourRange");
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 for (int i = 0; i < dateList.size(); i++) {
                     Reservations baseReservation = new Reservations();
                     baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
 
-                    ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                    ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i)).orElse(null);
                     ReservedHours reservedHours = new ReservedHours(startHour, endHour);
 
                     if (reservedDates == null || reservedDates.getId() == null) {
@@ -119,9 +120,9 @@ public class AdminService {
             if (searchedAminDetails == null || searchedAminDetails.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else if (startHour >= endHour) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidHourRange");
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 ArrayList<Reservations> createdReservations = new ArrayList<>();
@@ -131,7 +132,7 @@ public class AdminService {
                         Reservations baseReservation = new Reservations();
                         baseReservation = setAdminDetails(baseReservation, searchedAminDetails);
 
-                        ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                        ReservedDates reservedDates = reservedDateRepository.getReservedDateByDate(dateList.get(i)).orElse(null);
                         ReservedHours reservedHours = new ReservedHours(startHour, endHour);
 
                         if (reservedDates == null || reservedDates.getId() == null) {
@@ -178,7 +179,7 @@ public class AdminService {
             if (searchedCloseReason == null || searchedCloseReason.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
-                ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText));
+                ReservedDates selectedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText)).orElse(null);
                 if (selectedDate == null || selectedDate.getId() == null) {
                     selectedDate = new ReservedDates(LocalDate.parse(selectedDateText), searchedCloseReason);
                 } else {
@@ -205,13 +206,13 @@ public class AdminService {
             if (searchedCloseReason == null || searchedCloseReason.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<ReservedDates> closedDates = new ArrayList<ReservedDates>();
 
                 for (int i = 0; i < dateList.size(); i++) {
-                    ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                    ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i)).orElse(null);
 
                     if (searchedDate == null || searchedDate.getId() == null) {
                         searchedDate = new ReservedDates(dateList.get(i), searchedCloseReason);
@@ -241,14 +242,14 @@ public class AdminService {
             if (searchedCloseReason == null || searchedCloseReason.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<ReservedDates> closedDates = new ArrayList<>();
 
                 for (int i = 0; i < dateList.size(); i++) {
                     if (selectedDays.contains(dateList.get(i).getDayOfWeek().toString())) {
-                        ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i));
+                        ReservedDates searchedDate = reservedDateRepository.getReservedDateByDate(dateList.get(i)).orElse(null);
 
                         if (searchedDate == null || searchedDate.getId() == null) {
                             searchedDate = new ReservedDates(dateList.get(i), searchedCloseReason);
@@ -291,6 +292,8 @@ public class AdminService {
             }
 
             return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -306,9 +309,9 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else if (startHour >= endHour) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidHourRange");
             } else {
                 List<Long> idList = reservationRepository.getReservationsForAdminReservation(LocalDate.parse(startDateText), LocalDate.parse(endDateText), startHour, endHour);
                 return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
@@ -327,9 +330,9 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else if (startHour >= endHour) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidHourRange");
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<Long> idList = new ArrayList<Long>();
@@ -356,7 +359,7 @@ public class AdminService {
             }
 
             if (startHour >= endHour) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidHourRange");
             } else {
                 List<Long> idList = reservationRepository.checkReservationForAdminReservation(LocalDate.parse(dateText), startHour, endHour);
                 return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
@@ -369,14 +372,14 @@ public class AdminService {
 
     //FOGLALASOK VISSZASZERZESE A ZARASHOZ
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<List<Reservations>> intervallumCloseCheck(String startDateText, String endDateText) {
+    public ResponseEntity<Object> intervallumCloseCheck(String startDateText, String endDateText) {
         try {
             if (startDateText == null || endDateText == null) {
                 return ResponseEntity.status(422).build();
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else {
                 List<Long> idList = reservationRepository.getAllReservationsBetweenIntervallum(LocalDate.parse(startDateText), LocalDate.parse(endDateText));
                 return ResponseEntity.ok().body(reservationRepository.findAllById(idList));
@@ -395,7 +398,7 @@ public class AdminService {
             }
 
             if (ValidatorCollection.rangeValidator(startDateText, endDateText)) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidDateRange");
             } else {
                 List<LocalDate> dateList = LocalDate.parse(startDateText).datesUntil(LocalDate.parse(endDateText)).toList();
                 List<Long> idList = new ArrayList<>();
@@ -415,7 +418,7 @@ public class AdminService {
 
     //ADMINOK KEZELESE
     @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Users> makeAdmin(Long userId, AdminDetails details) {
+    public ResponseEntity<Object> makeAdmin(Long userId, AdminDetails details) {
         try {
             if (userId == null || details == null) {
                 return ResponseEntity.status(422).build();
@@ -426,7 +429,7 @@ public class AdminService {
             if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidEmail");
             } else if (details.getId() != null) {
                 return ResponseEntity.status(415).build();
             } else {

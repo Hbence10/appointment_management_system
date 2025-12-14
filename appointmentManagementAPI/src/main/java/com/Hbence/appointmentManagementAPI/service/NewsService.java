@@ -4,6 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.News;
 import com.Hbence.appointmentManagementAPI.repository.NewsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -40,8 +41,11 @@ public class NewsService {
                 return ResponseEntity.status(415).build();
             } else {
                 newNews.setTitle(newNews.getTitle().trim());
+                newNews.setText(newNews.getText().trim());
                 return ResponseEntity.ok(newsRepository.save(newNews));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -49,7 +53,7 @@ public class NewsService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<News> addCoverImg(Long newsId, MultipartFile coverImg) {
+    public ResponseEntity<Object> addCoverImg(Long newsId, MultipartFile coverImg) {
         try {
             if (newsId == null || coverImg == null) {
                 return ResponseEntity.status(422).build();
@@ -69,7 +73,7 @@ public class NewsService {
                     searchedNews.setBannerImgPath("assets\\images\\news" + File.separator + coverImg.getOriginalFilename());
                     return ResponseEntity.ok().body(newsRepository.save(searchedNews));
                 } catch (Exception e) {
-                    return ResponseEntity.internalServerError().build();
+                    return ResponseEntity.internalServerError().body("errorWithFileUploading");
                 }
             }
         } catch (Exception e) {
@@ -89,6 +93,7 @@ public class NewsService {
                 return ResponseEntity.status(415).build();
             } else {
                 updatedNews.setTitle(updatedNews.getTitle().trim());
+                updatedNews.setText(updatedNews.getText().trim());
                 return ResponseEntity.ok(newsRepository.save(updatedNews));
             }
         } catch (Exception e) {

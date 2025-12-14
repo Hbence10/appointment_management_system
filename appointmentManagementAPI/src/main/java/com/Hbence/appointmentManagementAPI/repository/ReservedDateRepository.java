@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservedDateRepository extends JpaRepository<ReservedDates, Long> {
 
@@ -15,7 +16,7 @@ public interface ReservedDateRepository extends JpaRepository<ReservedDates, Lon
     List<ReservedDates> reservedDatesByDate(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate);
 
     @Procedure(name = "getReservedDateByDate", procedureName = "getReservedDateByDate")
-    ReservedDates getReservedDateByDate(@Param("dateIN") LocalDate date);
+    Optional<ReservedDates> getReservedDateByDate(@Param("dateIN") LocalDate date);
 
     @Procedure(name = "getReservedDateBetweenTwoDateByDate", procedureName = "getReservedDateBetweenTwoDateByDate")
     ReservedDates getReservedDateBetweenTwoDateByDate(@Param("startDateIN") LocalDate startDate, @Param("endDateIN") LocalDate endDate, @Param("dateIN") LocalDate dateIN);
