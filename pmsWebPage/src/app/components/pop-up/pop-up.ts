@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, SecurityContext, signal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -22,15 +22,16 @@ import { ReservationService } from '../../services/reservation-service';
 import { ReservationStuff } from '../../services/reservation-stuff';
 import { UserService } from '../../services/user-service';
 import { ObjectEditor } from '../admin-page/object-editor/object-editor';
-import { RuleEditor } from '../admin-page/rule-editor/rule-editor';
 import { ListCard } from '../list-card/list-card';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { Rule } from '../../models/rule.model';
+import { Editor, NgxEditorComponent, NgxEditorMenuComponent, Toolbar } from 'ngx-editor';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
   selector: 'app-pop-up',
-  imports: [MatButtonModule, ListCard, RuleEditor, ReservationDetail, MatFormFieldModule, ObjectEditor, MatSelectModule],
+  imports: [NgxEditorComponent, NgxEditorMenuComponent, FormsModule, ReactiveFormsModule, MatButtonModule, ListCard, ReservationDetail, MatFormFieldModule, ObjectEditor, MatSelectModule],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +48,14 @@ export class PopUp implements OnInit {
   form!: FormGroup;
   newsBannerImg: any = null
   reservationCancel = output<Reservation>()
+
+  //szabalyzat
   rule!: Rule
+  editor!: Editor
+  ruleForm!: FormGroup
+  ruleText: string = ""
+  sanitizer = inject(DomSanitizer)
+  toolbar!: Toolbar
 
   buttonText = computed<string>(() => {
     const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]
@@ -117,10 +125,31 @@ export class PopUp implements OnInit {
           this.setCardList(list, "user")
         }
       })
-    } else if (this.actualDetails()?.objectType == 'rule'){
+    } else if (this.actualDetails()?.objectType == 'rule') {
+      this.editor = new Editor();
+      this.toolbar = [
+        ['bold', 'italic'],
+        ['underline', 'strike'],
+        ['code', 'blockquote'],
+        ['ordered_list', 'bullet_list'],
+        [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+        ['link', 'image'],
+        ['text_color', 'background_color'],
+        ['align_left', 'align_center', 'align_right', 'align_justify'],
+        ['horizontal_rule', 'format_clear', 'indent', 'outdent'],
+        ['superscript', 'subscript'],
+        ['undo', 'redo'],
+      ];
+
       subscription = this.otherService.getRule().subscribe({
         next: response => this.rule = Object.assign(new Rule(), response),
-        error: error => console.log(error)
+        error: error => console.log(error),
+        complete: () => {
+          this.ruleText = this.rule.getText
+          this.ruleForm = new FormGroup({
+            ruleText: new FormControl(this.ruleText, [Validators.required])
+          })
+        }
       })
     }
 
@@ -200,7 +229,7 @@ export class PopUp implements OnInit {
         this.sendPutRequest()
       }
 
-      if (this.actualDetails()?.objectType == "rule"){
+      if (this.actualDetails()?.objectType == "rule") {
         this.updateRule()
       }
 
@@ -458,8 +487,12 @@ export class PopUp implements OnInit {
     })
   }
 
-  updateRule(){
-    console.log("Szabályzat frissitése!")
+  updateRule() {
+    this.rule.setText = this.sanitizer.sanitize(SecurityContext.HTML, this.ruleForm.controls["ruleText"].value)!
+    this.otherService.updateRule(this.rule).subscribe({
+      next: response => console.log(response),
+      complete: () => console.log("complete!")
+    })
   }
 }
 

@@ -30,8 +30,8 @@ export class OtherService {
     return this.http.get<Rule>(`${this.baseURL}/rule`)
   }
 
-  saveRuleChanges(updatedRule: Rule) {
-    return this.http.post(`${this.baseURL}/rule/update`, updatedRule)
+  updateRule(updatedRule: Rule) {
+    return this.http.put(`${this.baseURL}/rule/update`, updatedRule)
   }
 
   //History
