@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .mainFont {
   font-weight: 500 !important;
 }
@@ -57,4 +59,30 @@ app-pop-up, app-history-popup, app-details-editor {
 .disableDiv {
   pointer-events: none;
   opacity: 0.6;
+}
+
+mat-calendar {
+  @include mat.datepicker-overrides((calendar-body-label-text-color: white,
+      calendar-container-text-color: #004D40,
+      calendar-date-text-color: #004D40,
+      calendar-header-text-color: #004D40,
+      calendar-header-divider-color: #004D40,
+      toggle-icon-color: #004D40,
+      toggle-active-state-icon-color: #004D40,
+      range-input-separator-color: #004D40,
+      calendar-period-button-text-color: #004D40,
+      calendar-period-button-icon-color: #004D40,
+      calendar-navigation-button-icon-color: #004D40,
+      calendar-date-focus-state-background-color: #004D40,
+      calendar-date-hover-state-background-color: #004D40,
+      calendar-date-selected-state-background-color: #004D40,
+      calendar-date-today-selected-state-outline-color: #004D40,
+      calendar-container-touch-elevation-shadow: #004D40,
+      calendar-date-today-outline-color: #004D40,
+      calendar-text-font: "Rubik",
+      calendar-date-disabled-state-text-color: #004D40,
+      calendar-body-label-text-weight: 600,
+      calendar-header-text-weight: 600,
+      calendar-period-button-text-weight: 600,
+      calendar-text-size: 18px));
 }

@@ -98,7 +98,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "A server okozta hiba"),
     })
     @PatchMapping("/changePfp/{id}")
-    public ResponseEntity<Users> changePfp(@PathVariable("id") Long id, @RequestParam("pfpImg") MultipartFile file) {
+    public ResponseEntity<Object> changePfp(@PathVariable("id") Long id, @RequestParam("pfpImg") MultipartFile file) {
         return userService.changePfp(id, file);
     }
 

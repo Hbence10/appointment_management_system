@@ -8,18 +8,22 @@ import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-@Transactional
+@Transactional(noRollbackFor = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLIntegrityConstraintViolationException.class, SQLException.class})
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
@@ -124,7 +128,7 @@ public class ReservationService {
             try {
                 emailSender.sendEmailAboutReservation(newReservation.getEmail(), vCode, newReservation.getFirstName(), newReservation.getLastName());
             } catch (MessagingException ex) {
-                return ResponseEntity.internalServerError().build();
+                return ResponseEntity.internalServerError().body("emailSenderError");
             }
             reservedDateRepository.save(newReservation.getReservedHours().getDate());
 

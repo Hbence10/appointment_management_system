@@ -7,17 +7,21 @@ import com.Hbence.appointmentManagementAPI.repository.ReviewHistoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReviewRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ReviewHistoryWithReview;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
-@Transactional
+@Transactional(noRollbackFor = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLIntegrityConstraintViolationException.class, SQLException.class})
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -51,6 +55,7 @@ public class ReviewService {
                 return ResponseEntity.ok(reviewRepository.save(newReview));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (RuntimeException e) {
             e.printStackTrace();

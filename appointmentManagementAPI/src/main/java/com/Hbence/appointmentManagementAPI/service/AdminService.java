@@ -3,17 +3,21 @@ package com.Hbence.appointmentManagementAPI.service;
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.*;
 
-@Transactional
+@Transactional(noRollbackFor = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLIntegrityConstraintViolationException.class, SQLException.class})
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -293,6 +297,7 @@ public class AdminService {
 
             return ResponseEntity.ok().body(closeReasonRepository.save(newCloseReason));
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -439,6 +444,7 @@ public class AdminService {
                 return ResponseEntity.ok(userRepository.save(searchedUser));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();

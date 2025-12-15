@@ -6,17 +6,21 @@ import com.Hbence.appointmentManagementAPI.entity.ReservationType;
 import com.Hbence.appointmentManagementAPI.repository.PaymentMethodRepository;
 import com.Hbence.appointmentManagementAPI.repository.PhoneCountryCodeRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReservationTypeRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
-@Transactional
+@Transactional(noRollbackFor = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLIntegrityConstraintViolationException.class, SQLException.class})
 @Service
 @RequiredArgsConstructor
 public class ReservationStuffService {
@@ -43,6 +47,7 @@ public class ReservationStuffService {
                 return ResponseEntity.ok(reservationTypeRepository.save(newReservationType));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,6 +91,7 @@ public class ReservationStuffService {
                 return ResponseEntity.ok(reservationTypeRepository.save(updatedReservationType));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();

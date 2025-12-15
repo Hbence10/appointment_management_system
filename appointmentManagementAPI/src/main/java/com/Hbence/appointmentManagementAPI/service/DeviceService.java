@@ -5,17 +5,21 @@ import com.Hbence.appointmentManagementAPI.entity.DevicesCategory;
 import com.Hbence.appointmentManagementAPI.repository.DeviceCategoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.DeviceRepository;
 import com.Hbence.appointmentManagementAPI.service.other.DeviceWithDeviceCategory;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
-@Transactional
+@Transactional(noRollbackFor = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLIntegrityConstraintViolationException.class, SQLException.class})
 @Service
 @RequiredArgsConstructor
 public class DeviceService {
@@ -50,6 +54,7 @@ public class DeviceService {
                 return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,6 +98,7 @@ public class DeviceService {
                 return ResponseEntity.ok(deviceCategoryRepository.save(updatedDevicesCategory));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,6 +125,7 @@ public class DeviceService {
                 return ResponseEntity.ok(deviceRepository.save(updatedDevice));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,6 +148,7 @@ public class DeviceService {
                 return ResponseEntity.ok(deviceRepository.save(newD));
             }
         } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();

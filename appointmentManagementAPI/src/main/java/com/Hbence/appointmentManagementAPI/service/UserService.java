@@ -6,21 +6,25 @@ import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.ConstraintViolationException;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 
 @Service
-@Transactional
+@Transactional(noRollbackFor = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLIntegrityConstraintViolationException.class, SQLException.class})
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
@@ -81,6 +85,7 @@ public class UserService {
             } else {
                 errorMsg = "usernamedDuplicate";
             }
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).body(errorMsg);
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -95,8 +100,8 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            Users searchedUser = userRepository.findById(id).get();
-            if (searchedUser.getId() == null) {
+            Users searchedUser = userRepository.findById(id).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 if (!ValidatorCollection.emailChecker(email)) {
@@ -121,7 +126,7 @@ public class UserService {
             }
 
             Users searchedUser = userRepository.findById(id).orElse(null);
-            if (searchedUser == null) {
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 searchedUser.setIsDeleted(true);
@@ -143,15 +148,15 @@ public class UserService {
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<Users> changePfp(Long userId, MultipartFile pfpFile) {
+    public ResponseEntity<Object> changePfp(Long userId, MultipartFile pfpFile) {
         try {
             if (userId == null || pfpFile == null) {
                 return ResponseEntity.status(422).build();
             }
 
-            Users searchedUser = userRepository.findById(userId).get();
+            Users searchedUser = userRepository.findById(userId).orElse(null);
 
-            if (searchedUser.getId() == null || searchedUser.getIsDeleted()) {
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
                 String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\pfp" + File.separator + pfpFile.getOriginalFilename();
@@ -163,7 +168,7 @@ public class UserService {
 
                     searchedUser.setPfpPath("assets\\images\\pfp" + File.separator + pfpFile.getOriginalFilename());
                 } catch (Exception e) {
-                    return ResponseEntity.internalServerError().build();
+                    return ResponseEntity.internalServerError().body("fileUploadError");
                 }
 
                 return ResponseEntity.ok().body(userRepository.save(searchedUser));

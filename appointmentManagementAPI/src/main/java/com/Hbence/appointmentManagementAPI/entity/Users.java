@@ -55,7 +55,7 @@ public class Users {
 
     @Column(name = "pfp_path")
     @NotNull
-    private String pfpPath = "asd";
+    private String pfpPath = "assets/placeholder.png";
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
