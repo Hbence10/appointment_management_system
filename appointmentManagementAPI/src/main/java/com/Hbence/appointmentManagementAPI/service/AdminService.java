@@ -444,8 +444,14 @@ public class AdminService {
                 return ResponseEntity.ok(userRepository.save(searchedUser));
             }
         } catch (DataIntegrityViolationException e) {
+            String errorMsg = "";
+            if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("for key 'email'")) {
+                errorMsg = "emailDuplicate";
+            } else {
+                errorMsg = "phoneDuplicate";
+            }
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body(errorMsg);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

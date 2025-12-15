@@ -34,7 +34,7 @@ public class ReservationStuffService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<ReservationType> addNewReservationType(ReservationType newReservationType) {
+    public ResponseEntity<Object> addNewReservationType(ReservationType newReservationType) {
         try {
             if (newReservationType == null) {
                 return ResponseEntity.status(422).build();
@@ -48,7 +48,7 @@ public class ReservationStuffService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateReservationTypeName");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -78,7 +78,7 @@ public class ReservationStuffService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<ReservationType> updateReservationType(ReservationType updatedReservationType) {
+    public ResponseEntity<Object> updateReservationType(ReservationType updatedReservationType) {
         try {
             if (updatedReservationType == null) {
                 return ResponseEntity.status(422).build();
@@ -92,7 +92,7 @@ public class ReservationStuffService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateReservationTypeName");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

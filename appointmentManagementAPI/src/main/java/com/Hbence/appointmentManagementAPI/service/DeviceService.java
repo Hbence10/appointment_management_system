@@ -55,7 +55,7 @@ public class DeviceService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateDeviceCategoryName");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -85,7 +85,7 @@ public class DeviceService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<DevicesCategory> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
+    public ResponseEntity<Object> updateDevicesCategory(DevicesCategory updatedDevicesCategory) {
         try {
             if (updatedDevicesCategory == null) {
                 return ResponseEntity.status(422).build();
@@ -99,7 +99,7 @@ public class DeviceService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateDeviceCategoryName");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -126,7 +126,7 @@ public class DeviceService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateDeviceName");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -149,7 +149,7 @@ public class DeviceService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateDeviceName");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

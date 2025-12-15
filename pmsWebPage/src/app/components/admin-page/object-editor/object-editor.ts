@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Device } from '../../../models/device.model';
@@ -19,7 +19,7 @@ import { NewsService } from '../../../services/news-service';
 
 @Component({
   selector: 'app-object-editor',
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatAnchor],
+  imports: [MatError ,MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatAnchor],
   templateUrl: './object-editor.html',
   styleUrl: './object-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +32,7 @@ export class ObjectEditor implements OnInit {
   private newsService = inject(NewsService)
   reservationService = inject(ReservationService)
   objectType = input.required<Details>()
+  errorMsg = input.required<string>()
 
   selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | Users | null>()
 

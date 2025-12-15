@@ -40,6 +40,7 @@ export class PopUp implements OnInit {
   reservation = input.required<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
+  errorMsg = ""
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
@@ -200,17 +201,31 @@ export class PopUp implements OnInit {
 
   setErrors(errorResponse: any) {
     console.log(errorResponse)
-
-    if (errorResponse.status == 404) {
+    if (errorResponse.status == 500) {
+      this.errorMsg = "serverError"
+    } else if (errorResponse.status == 404) {
 
     } else if (errorResponse.status == 409) {
-
+      if (errorResponse.error == "duplicateDeviceCategoryName") {
+        this.errorMsg = "Már létezik ilyen névvel eszközkategória. Adjál meg mást."
+      } else if (errorResponse.error == "duplicateDeviceName") {
+        this.errorMsg = "Már létezik ilyen névvel eszköz. Adjál meg mást."
+      } else if (errorResponse.error == "duplicateReservationTypeName") {
+        this.errorMsg = "Már létezik ilyen névvel foglalási tipus. Adjál meg mást."
+      } else if (errorResponse.error == "duplicateNewsTitle") {
+        this.errorMsg = "Már létezik ilyen címmel hír. Adjál meg mást."
+      } else if (errorResponse.error == "emailDuplicate") {
+        this.errorMsg = "Már regisztrálva van ez az email. Adjál meg mást."
+      } else if (errorResponse.error == "phoneDuplicate") {
+        this.errorMsg = "Már regisztrálva van ez a telefonszám. Adjál meg mást."
+      }
     } else if (errorResponse.status == 415) {
 
     }
   }
 
   buttonEvent() {
+    this.errorMsg = ""
     if (this.actualDetails()?.buttonText == "newEntity") {
       const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "gallery", "user"]
       const hunObjectNames: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Foglalás tipus", "Fénykép", "Admin"]

@@ -35,7 +35,7 @@ public class ReservationStuffController {
 
     })
     @PostMapping("/addReservationType")
-    public ResponseEntity<ReservationType> addNewReservationType(@RequestBody ReservationType newReservationType) {
+    public ResponseEntity<Object> addNewReservationType(@RequestBody ReservationType newReservationType) {
         return reservationStuffService.addNewReservationType(newReservationType);
     }
 
@@ -54,7 +54,7 @@ public class ReservationStuffController {
 
     })
     @PutMapping("/updateReservationType")
-    public ResponseEntity<ReservationType> updateReservationType(@RequestBody ReservationType updatedReservationType) {
+    public ResponseEntity<Object> updateReservationType(@RequestBody ReservationType updatedReservationType) {
         return reservationStuffService.updateReservationType(updatedReservationType);
     }
 

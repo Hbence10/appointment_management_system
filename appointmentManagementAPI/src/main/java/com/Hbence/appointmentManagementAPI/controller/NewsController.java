@@ -34,7 +34,7 @@ public class NewsController {
 
     })
     @PostMapping("/addNews")
-    public ResponseEntity<News> addNewNews(@RequestBody News newNews) {
+    public ResponseEntity<Object> addNewNews(@RequestBody News newNews) {
         return newsService.addNewNews(newNews);
     }
 
@@ -53,7 +53,7 @@ public class NewsController {
 
     })
     @PutMapping("/update")
-    public ResponseEntity<News> updateNews(@RequestBody News updatedNews) {
+    public ResponseEntity<Object> updateNews(@RequestBody News updatedNews) {
         return newsService.updateNews(updatedNews);
     }
 

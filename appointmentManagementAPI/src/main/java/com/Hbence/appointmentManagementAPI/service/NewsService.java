@@ -35,7 +35,7 @@ public class NewsService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<News> addNewNews(News newNews) {
+    public ResponseEntity<Object> addNewNews(News newNews) {
         try {
             if (newNews == null) {
                 return ResponseEntity.status(422).build();
@@ -50,7 +50,7 @@ public class NewsService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).build();
+            return ResponseEntity.status(409).body("duplicateNewsTitle");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -88,7 +88,7 @@ public class NewsService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<News> updateNews(News updatedNews) {
+    public ResponseEntity<Object> updateNews(News updatedNews) {
         try {
             if (updatedNews == null) {
                 return ResponseEntity.status(422).build();
@@ -101,6 +101,9 @@ public class NewsService {
                 updatedNews.setText(updatedNews.getText().trim());
                 return ResponseEntity.ok(newsRepository.save(updatedNews));
             }
+        } catch (DataIntegrityViolationException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResponseEntity.status(409).body("duplicateNewsTitle");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
