@@ -16,11 +16,24 @@ export class ReviewCard implements OnInit {
   private userService = inject(UserService)
 
   reviewDetail = input.required<Review>()
-  starList = signal<number[]>([1, 1, 1, 1, 1])
+  starList: number[] = []
   usersReviewLike = signal<ReviewHistory | null>(null);
 
   ngOnInit(): void {
-
+    let ratingNumber = this.reviewDetail().getRating
+    while (ratingNumber != 0) {
+      if (ratingNumber % 1 == 0) {
+        this.starList.push(1)
+        ratingNumber -= 1;
+      } else {
+        this.starList.push(0.5)
+        ratingNumber -= 0.5;
+      }
+    }
+    this.starList = this.starList.reverse()
+    while (this.starList.length != 5) {
+      this.starList.push(0)
+    }
   }
 
   setLike(likeType: "like" | "dislike") {

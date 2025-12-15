@@ -123,7 +123,8 @@ export class PopUp implements OnInit {
           const list: Users[] = responseList.map(element => Object.assign(new Users(), element))
           list.forEach(element => element.setAdminDetails = Object.assign(new AdminDetails(), element.getAdminDetails))
           this.setCardList(list, "user")
-        }
+        },
+        error: error => this.setErrors(error),
       })
     } else if (this.actualDetails()?.objectType == 'rule') {
       this.editor = new Editor();
@@ -143,7 +144,7 @@ export class PopUp implements OnInit {
 
       subscription = this.otherService.getRule().subscribe({
         next: response => this.rule = Object.assign(new Rule(), response),
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           this.ruleText = this.rule.getText
           this.ruleForm = new FormGroup({
@@ -199,6 +200,14 @@ export class PopUp implements OnInit {
 
   setErrors(errorResponse: any) {
     console.log(errorResponse)
+
+    if (errorResponse.status == 404) {
+
+    } else if (errorResponse.status == 409) {
+
+    } else if (errorResponse.status == 415) {
+
+    }
   }
 
   buttonEvent() {
@@ -356,12 +365,12 @@ export class PopUp implements OnInit {
           this.addSingleCard(newNews, "news")
           this.newNewsId = newNews.getId
         },
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           if (this.newsService.selectedBannerImg != null) {
             this.newsService.uploadBannerImg(this.newNewsId!).subscribe({
               next: response => this.updateSingleCard(Object.assign(new News(), response)),
-              error: error => console.log(error),
+              error: error => this.setErrors(error),
               complete: () => {
                 this.newsService.selectedBannerImg = null
                 this.backToListPage()
@@ -375,24 +384,28 @@ export class PopUp implements OnInit {
       this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
       this.reservationStuffService.createReservationType(this.selectedObject).subscribe({
         next: response => this.addSingleCard(Object.assign(new ReservationType(), response), "reservationType"),
+        error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.selectedObject = new DevicesCategory(null, this.form.controls["property1"].value)
       this.deviceService.addDeviceCategory(this.selectedObject).subscribe({
         next: response => this.addSingleCard(Object.assign(new DevicesCategory(), response), "deviceCategory"),
+        error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Device) {
       this.selectedObject = new Device(null, this.form.controls["property1"].value!, Number(this.form.controls["property2"].value!), this.deviceService.selectedCategory)
       this.deviceService.addDevice(this.selectedObject).subscribe({
         next: response => this.addSingleCard(Object.assign(new Device(), response), "device"),
+        error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Users) {
       const newAdminDetails: AdminDetails = new AdminDetails(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
       this.adminService.makeAdmin(newAdminDetails).subscribe({
         next: response => this.addSingleCard(Object.assign(new Users(), response), "user"),
+        error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     }
@@ -403,7 +416,7 @@ export class PopUp implements OnInit {
 
     if (this.selectedObject instanceof News) {
       this.newsService.deleteNews(this.selectedObject.getId!).subscribe({
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           this.removeSingleCard(index)
           this.backToListPage()
@@ -411,7 +424,7 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof ReservationType) {
       this.reservationStuffService.deleteReservationType(this.selectedObject.getId!).subscribe({
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           this.removeSingleCard(index)
           this.backToListPage()
@@ -419,7 +432,7 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
       this.deviceService.deleteDeviceCategory(this.selectedObject.getId!).subscribe({
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           this.removeSingleCard(index)
           this.backToListPage()
@@ -427,7 +440,7 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof Device) {
       this.deviceService.deleteDevice(this.selectedObject.getId!).subscribe({
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           this.removeSingleCard(index)
           this.backToListPage()
@@ -435,7 +448,7 @@ export class PopUp implements OnInit {
       })
     } else if (this.selectedObject instanceof Users) {
       this.adminService.deleteAdmin(this.selectedObject.getAdminDetails.getId!).subscribe({
-        error: error => console.log(error),
+        error: error => this.setErrors(error),
         complete: () => {
           this.removeSingleCard(index)
           this.backToListPage()
@@ -481,6 +494,7 @@ export class PopUp implements OnInit {
       next: response => {
         cancelledReservation = this.reservationService.setObject([response])[0]
       },
+      error: error => this.setErrors(error),
       complete: () => {
         this.reservationCancel.emit(cancelledReservation)
       }
@@ -491,6 +505,7 @@ export class PopUp implements OnInit {
     this.rule.setText = this.sanitizer.sanitize(SecurityContext.HTML, this.ruleForm.controls["ruleText"].value)!
     this.otherService.updateRule(this.rule).subscribe({
       next: response => console.log(response),
+      error: error => this.setErrors(error),
       complete: () => console.log("complete!")
     })
   }

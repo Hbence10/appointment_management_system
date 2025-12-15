@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Review } from '../../models/reviewDetails.model';
 import { Users } from '../../models/user.model';
@@ -13,7 +13,7 @@ import { ReviewHistory } from '../../models/reviewHistory.model';
 
 @Component({
   selector: 'app-review',
-  imports: [MatInputModule, MatFormFieldModule, ReviewCard, MatCheckboxModule, MatButtonModule, ReactiveFormsModule],
+  imports: [MatError, MatInputModule, MatFormFieldModule, ReviewCard, MatCheckboxModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './review.html',
   styleUrl: './review.scss'
 })
@@ -30,6 +30,7 @@ export class ReviewPage implements OnInit {
   reviewDetails = signal<Review[]>([])
   isAnonymus = signal<boolean>(false)
   user = signal<Users | null>(null);
+  errorMsg = ""
 
   ngOnInit(): void {
     this.user = this.userService.user
@@ -59,16 +60,21 @@ export class ReviewPage implements OnInit {
     } else if (this.reviewDetails().find(element => element.getAuthor.getId == this.user()?.getId)) {
       alert("Maga már írt véleményt!")
     } else {
-      const newReview = new Review(null, this.reviewForm.controls["reviewText"].value!, this.reviewForm.controls["rating"].value!, this.userService.user()!, this.isAnonymus())
+      const newReview = new Review(null, this.reviewForm.controls["reviewText"].value?.trim(), this.reviewForm.controls["rating"].value!, this.userService.user()!, this.isAnonymus())
       this.reviewService.addReview(newReview).subscribe({
         next: response => {
           let review: Review = Object.assign(new Review(), response)
           review.setAuthor = Object.assign(new Users(), review.getAuthor)
           this.reviewDetails.update(old => [...old, review])
         },
-        error: error => console.log(error),
-        complete: () => {
-          alert("Sikeres véleményírás!")
+        error: error => {
+          if (error.status == 404) {
+            this.errorMsg = "Nem regisztrált fiókkal nem tudsz irni véleményt."
+          } else if (error.status == 409) {
+            this.errorMsg = "Te már írtál véleményt! Egy fiók egy véleményt irhat csak."
+          } else if (error.status == 415 && error.error == "invalidRating") {
+            this.errorMsg = "Túl nagy értékelési értéket adtál meg. Maximálisan csak 5-öt adhatsz meg."
+          }
         }
       })
     }

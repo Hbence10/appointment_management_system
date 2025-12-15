@@ -431,13 +431,15 @@ public class AdminService {
             } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
                 return ResponseEntity.status(415).body("invalidEmail");
             } else if (details.getId() != null) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.notFound().build();
             } else {
                 searchedUser.setRole(roleRepository.findById(2).get());
                 details.setAdminUser(searchedUser);
                 adminDetailsRepository.save(details);
                 return ResponseEntity.ok(userRepository.save(searchedUser));
             }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

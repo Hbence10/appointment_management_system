@@ -17,9 +17,15 @@
           <div class="col-lg-12 d-flex flex-xl-row flex-lg-row flex-md-column flex-sm-column flex-column justify-content-between align-items-center pb-2">
 
             <!-- csillagok -->
-            <div>
-              @for (starAmount of starList(); track $index) {
-                <span class="material-symbols-outlined">star_rate</span>
+            <div class="d-flex">
+              @for (starAmount of starList; track $index) {
+                @if (starAmount == 0.5) {
+                  <img src="assets/images/star_half.svg" alt="csillag_icon" class="img-fluid w-100">
+                } @else if (starAmount == 0) {
+                  <img src="assets/images/star_outline.svg" alt="csillag_icon" class="img-fluid w-100">
+                } @else if (starAmount == 1) {
+                  <img src="assets/images/star.svg" alt="csillag_icon" class="img-fluid w-100">
+                }
               }
             </div>
 

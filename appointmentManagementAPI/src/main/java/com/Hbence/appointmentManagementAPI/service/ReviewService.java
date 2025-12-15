@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.entity.Review;
 import com.Hbence.appointmentManagementAPI.entity.ReviewLikeHistory;
+import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.ReviewHistoryRepository;
 import com.Hbence.appointmentManagementAPI.repository.ReviewRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
@@ -36,10 +37,15 @@ public class ReviewService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (newReview.getId() != null) {
+            Users searchedUser = userRepository.findById(newReview.getAuthor().getId()).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
+            }
+
+            if (newReview.getId() != null) {
+                return ResponseEntity.status(415).body("invalidReviewObject");
             } else if (newReview.getRating() > 5 || newReview.getRating() < 0) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidRating");
             } else {
                 newReview.setReviewText(newReview.getReviewText().trim());
                 return ResponseEntity.ok(reviewRepository.save(newReview));
