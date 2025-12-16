@@ -65,12 +65,14 @@ public class UserService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
-                return ResponseEntity.status(415).body("InvalidPasswordAndEmail");
+            if (newUser.getId() != null) {
+                return ResponseEntity.status(415).body("invalidObject");
+            } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
+                return ResponseEntity.status(415).body("invalidPasswordAndEmail");
             } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
-                return ResponseEntity.status(415).body("InvalidEmail");
+                return ResponseEntity.status(415).body("invalidEmail");
             } else if (!ValidatorCollection.passwordChecker(newUser.getPassword())) {
-                return ResponseEntity.status(415).body("InvalidPassword");
+                return ResponseEntity.status(415).body("invalidPassword");
             } else {
                 String hashedPassword = passwordEncoder.encode(newUser.getPassword());
                 newUser.setPassword(hashedPassword);
@@ -79,12 +81,7 @@ public class UserService {
                 return ResponseEntity.ok(registeredUser);
             }
         } catch (DataIntegrityViolationException e) {
-            String errorMsg = "";
-            if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("for key 'email'")) {
-                errorMsg = "emailDuplicate";
-            } else {
-                errorMsg = "usernamedDuplicate";
-            }
+            String errorMsg = e.getMessage().contains("Duplicate entry") && e.getMessage().contains("for key 'email'") ? "emailDuplicate" : "usernameDuplicate";
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseEntity.status(409).body(errorMsg);
         } catch (RuntimeException e) {

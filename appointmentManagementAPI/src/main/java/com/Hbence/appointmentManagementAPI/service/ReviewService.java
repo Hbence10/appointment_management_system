@@ -47,7 +47,7 @@ public class ReviewService {
             }
 
             if (newReview.getId() != null) {
-                return ResponseEntity.status(415).body("invalidReviewObject");
+                return ResponseEntity.status(415).body("invalidObject");
             } else if (newReview.getRating() > 5 || newReview.getRating() < 0) {
                 return ResponseEntity.status(415).body("invalidRating");
             } else {
@@ -109,16 +109,16 @@ public class ReviewService {
 
     //ReviewLike
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
-    public ResponseEntity<ReviewLikeHistory> addLike(ReviewHistoryWithReview reviewLike) {
+    public ResponseEntity<Object> addLike(ReviewHistoryWithReview reviewLike) {
         try {
             if (reviewLike == null) {
                 return ResponseEntity.status(422).build();
             }
 
             if (reviewLike.getId() != null) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).body("invalidObject");
             } else if (!reviewLike.getLikeType().equals("like") && !reviewLike.getLikeType().equals("dislike")) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidLikeType");
             } else {
                 ReviewLikeHistory reviewLikeHistory = new ReviewLikeHistory(reviewLike.getLikeType(), reviewLike.getLikedReview(), reviewLike.getLikerUser());
                 return ResponseEntity.ok(reviewLikeHistoryRepository.save(reviewLikeHistory));

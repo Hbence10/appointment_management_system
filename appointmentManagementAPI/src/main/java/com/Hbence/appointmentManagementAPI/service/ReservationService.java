@@ -110,10 +110,13 @@ public class ReservationService {
             }
 
             String vCode = "";
-            if (!ValidatorCollection.emailChecker(newReservation.getEmail())) {
-                return ResponseEntity.status(415).body("InvalidEmail");
-            } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone())) {
-                return ResponseEntity.status(415).body("InvalidPhoneNumber");
+            if (newReservation.getId() != null) {
+                return ResponseEntity.status(415).body("invalidObject");
+            }
+            if (!ValidatorCollection.emailChecker(newReservation.getEmail().trim())) {
+                return ResponseEntity.status(415).body("invalidEmail");
+            } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone().trim())) {
+                return ResponseEntity.status(415).body("invalidPhoneNumber");
             }
 
             if (newReservation.getUser() != null) {
@@ -164,6 +167,11 @@ public class ReservationService {
                         searchedReservation.setCanceledBy(canceledBy);
                     }
                 }
+                ReservedHours searchedReservedHour = searchedReservation.getReservedHours();
+                searchedReservedHour.setIsDeleted(true);
+                searchedReservedHour.setDeletedAt(new Date());
+                reservedHoursRepository.save(searchedReservedHour);
+
                 searchedReservation.setIsCanceled(true);
                 searchedReservation.setCanceledAt(new Date());
                 searchedReservation.setStatus(statusRepository.findById(3).get());

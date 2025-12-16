@@ -42,7 +42,7 @@ public class NewsService {
             }
 
             if (newNews.getId() != null) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidObject");
             } else {
                 newNews.setTitle(newNews.getTitle().trim());
                 newNews.setText(newNews.getText().trim());

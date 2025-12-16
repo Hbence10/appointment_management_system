@@ -41,7 +41,7 @@ public class ReservationStuffService {
             }
 
             if (newReservationType.getId() != null) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).body("invalidObject");
             } else {
                 newReservationType.setName(newReservationType.getName().trim());
                 return ResponseEntity.ok(reservationTypeRepository.save(newReservationType));

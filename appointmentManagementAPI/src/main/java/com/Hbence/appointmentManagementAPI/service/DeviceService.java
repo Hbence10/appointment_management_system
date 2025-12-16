@@ -48,7 +48,7 @@ public class DeviceService {
             }
 
             if (newDevicesCategory.getId() != null) {
-                return ResponseEntity.status(415).body("invalidInput");
+                return ResponseEntity.status(415).body("invalidObject");
             } else {
                 newDevicesCategory.setName(newDevicesCategory.getName().trim());
                 return ResponseEntity.ok(deviceCategoryRepository.save(newDevicesCategory));
@@ -141,7 +141,7 @@ public class DeviceService {
             }
 
             if (newDevice.getId() != null) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidObject");
             } else {
                 newDevice.setName(newDevice.getName().trim());
                 Devices newD = new Devices(newDevice.getName(), newDevice.getAmount(), newDevice.getCategoryId());

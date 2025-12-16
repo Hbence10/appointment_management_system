@@ -436,7 +436,7 @@ public class AdminService {
             } else if (!ValidatorCollection.emailChecker(details.getEmail())) {
                 return ResponseEntity.status(415).body("invalidEmail");
             } else if (details.getId() != null) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).body("invalidObject");
             } else {
                 searchedUser.setRole(roleRepository.findById(2).get());
                 details.setAdminUser(searchedUser);
