@@ -92,7 +92,7 @@ export class ProfilePage implements OnInit {
   updateUser() {
     this.isEdit.update(old => !old)
     if (!this.isEdit()) {
-      this.userService.updateUser(this.form.controls["email"].value!, this.form.controls["username"].value!, this.user.getId!).subscribe({
+      this.userService.updateUser(this.form.controls["email"].value!.trim(), this.form.controls["username"].value!.trim(), this.user.getId!).subscribe({
         next: response => {
           this.userService.setObject(response)
         },

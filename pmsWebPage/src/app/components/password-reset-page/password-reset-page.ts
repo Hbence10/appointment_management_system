@@ -74,7 +74,7 @@ export class PasswordResetPage implements OnInit {
   }
 
   getCode() {
-    this.userService.getVerificationCode(this.form.controls["email"].value).subscribe({
+    this.userService.getVerificationCode(this.form.controls["email"].value.trim()).subscribe({
       next: response => console.log(response),
       error: error => {
         if (error.status == 404) {
@@ -88,11 +88,11 @@ export class PasswordResetPage implements OnInit {
 
   checkVCode(vCodeInputValue: string) {
     if (vCodeInputValue.length == 10) {
-      this.userService.checkVerificationCode(vCodeInputValue, this.form.controls["email"].value).subscribe({
+      this.userService.checkVerificationCode(vCodeInputValue.trim(), this.form.controls["email"].value.trim()).subscribe({
         next: response => this.isCorrectVCode.set(response),
         error: error => {
           if (error.status == 404) {
-            
+
           }
         },
         complete: () => {
@@ -103,7 +103,7 @@ export class PasswordResetPage implements OnInit {
   }
 
   sendReset(vCode: string) {
-    this.userService.passwordReset(this.form.controls["email"].value, this.form.controls["password"].value).subscribe({
+    this.userService.passwordReset(this.form.controls["email"].value.trim(), this.form.controls["password"].value.trim()).subscribe({
       next: response => console.log(response),
       complete: () => { this.router.navigate(["/login"]) }
     })

@@ -316,7 +316,7 @@ export class PopUp implements OnInit {
   //
   sendPutRequest() {
     if (this.selectedObject instanceof News) {
-      this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
+      this.selectedObject = new News(this.selectedObject.getId, this.form.controls["property1"].value.trim(), this.form.controls["property2"].value.trim(), this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.updateNews(this.selectedObject).subscribe({
         next: response => {
           let updatedNews = Object.assign(new News(), response);
@@ -339,28 +339,28 @@ export class PopUp implements OnInit {
         }
       })
     } else if (this.selectedObject instanceof ReservationType) {
-      this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
+      this.selectedObject = new ReservationType(this.selectedObject.getId, this.form.controls["property1"].value.trim(), Number(this.form.controls["property2"].value));
       this.reservationStuffService.updateReservationType(this.selectedObject).subscribe({
         next: response => this.updateSingleCard(Object.assign(new ReservationType(), response)),
         error: error => console.log(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
-      this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!)
+      this.selectedObject = new DevicesCategory(this.selectedObject.getId, this.form.controls["property1"].value!.trim())
       this.deviceService.updateDeviceCategory(this.selectedObject).subscribe({
         next: response => this.updateSingleCard(Object.assign(new DevicesCategory(), response)),
         error: error => console.log(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Device) {
-      this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.deviceService.selectedCategory)
+      this.selectedObject = new Device(this.selectedObject.getId, this.form.controls["property1"].value.trim(), this.form.controls["property2"].value, this.deviceService.selectedCategory)
       this.deviceService.updateDevice(this.selectedObject).subscribe({
         next: response => this.updateSingleCard(Object.assign(new Device(), response)),
         error: error => console.log(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Users) {
-      const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
+      const newAdminDetails: AdminDetails = new AdminDetails(this.selectedObject.getAdminDetails.getId, this.form.controls["property1"].value.trim(), this.form.controls["property2"].value.trim(), this.form.controls["property3"].value.trim(), this.form.controls["property4"].value.trim())
       this.adminService.updateAdmin(newAdminDetails).subscribe({
         next: response => this.updateSingleCard(Object.assign(new Users(), response)),
         error: error => console.log(error),
@@ -373,7 +373,7 @@ export class PopUp implements OnInit {
 
   sendPostRequest() {
     if (this.selectedObject instanceof News) {
-      this.selectedObject = new News(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.userService.user()!)
+      this.selectedObject = new News(null, this.form.controls["property1"].value.trim(), this.form.controls["property2"].value.trim(), this.form.controls["property3"].value, this.userService.user()!)
       this.newsService.createNews(this.selectedObject).subscribe({
         next: response => {
           let newNews = Object.assign(new News(), response)
@@ -396,28 +396,28 @@ export class PopUp implements OnInit {
         }
       })
     } else if (this.selectedObject instanceof ReservationType) {
-      this.selectedObject = new ReservationType(null, this.form.controls["property1"].value, Number(this.form.controls["property2"].value));
+      this.selectedObject = new ReservationType(null, this.form.controls["property1"].value.trim(), Number(this.form.controls["property2"].value));
       this.reservationStuffService.createReservationType(this.selectedObject).subscribe({
         next: response => this.addSingleCard(Object.assign(new ReservationType(), response), "reservationType"),
         error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof DevicesCategory) {
-      this.selectedObject = new DevicesCategory(null, this.form.controls["property1"].value)
+      this.selectedObject = new DevicesCategory(null, this.form.controls["property1"].value.trim())
       this.deviceService.addDeviceCategory(this.selectedObject).subscribe({
         next: response => this.addSingleCard(Object.assign(new DevicesCategory(), response), "deviceCategory"),
         error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Device) {
-      this.selectedObject = new Device(null, this.form.controls["property1"].value!, Number(this.form.controls["property2"].value!), this.deviceService.selectedCategory)
+      this.selectedObject = new Device(null, this.form.controls["property1"].value!.trim(), Number(this.form.controls["property2"].value!), this.deviceService.selectedCategory)
       this.deviceService.addDevice(this.selectedObject).subscribe({
         next: response => this.addSingleCard(Object.assign(new Device(), response), "device"),
         error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Users) {
-      const newAdminDetails: AdminDetails = new AdminDetails(null, this.form.controls["property1"].value, this.form.controls["property2"].value, this.form.controls["property3"].value, this.form.controls["property4"].value)
+      const newAdminDetails: AdminDetails = new AdminDetails(null, this.form.controls["property1"].value.trim(), this.form.controls["property2"].value.trim(), this.form.controls["property3"].value.trim(), this.form.controls["property4"].value.trim())
       this.adminService.makeAdmin(newAdminDetails).subscribe({
         next: response => this.addSingleCard(Object.assign(new Users(), response), "user"),
         error: error => this.setErrors(error),

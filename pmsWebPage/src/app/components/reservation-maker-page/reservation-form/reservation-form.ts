@@ -93,12 +93,12 @@ export class ReservationForm implements OnInit {
   }
 
   continueReservation() {
-    this.baseReservation().setFirstName = this.form.controls["firstName"].value
-    this.baseReservation().setLastName = this.form.controls["lastName"].value
-    this.baseReservation().setEmail = this.form.controls["email"].value
+    this.baseReservation().setFirstName = this.form.controls["firstName"].value.trim()
+    this.baseReservation().setLastName = this.form.controls["lastName"].value.trim()
+    this.baseReservation().setEmail = this.form.controls["email"].value.trim()
     this.baseReservation().setPhoneCode = this.phoneCodes()[this.selectedPhoneCode - 1]
-    this.baseReservation().setPhone = this.form.controls["phone"].value
-    this.baseReservation().setComment = this.form.controls["comment"].value
+    this.baseReservation().setPhone = this.form.controls["phone"].value.trim()
+    this.baseReservation().setComment = this.form.controls["comment"].value.trim()
 
     this.reservationService.progressBarSteps[2] = true
     this.nextStep.emit()

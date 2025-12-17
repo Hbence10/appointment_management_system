@@ -31,7 +31,7 @@ export class ReservatinCanceler implements OnInit{
   }
 
   getReservation(){
-    this.reservationService.getReservationByEmailAndVCode(this.form.controls["email"].value, this.form.controls["vCode"].value).subscribe({
+    this.reservationService.getReservationByEmailAndVCode(this.form.controls["email"].value.trim(), this.form.controls["vCode"].value.trim()).subscribe({
       next: response => this.wantedReservation = response,
       error: error => console.log(error),
       complete: () => {

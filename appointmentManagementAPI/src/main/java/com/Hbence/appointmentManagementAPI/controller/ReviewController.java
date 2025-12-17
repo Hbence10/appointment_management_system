@@ -66,7 +66,7 @@ public class ReviewController {
 
     })
     @PostMapping("/addLike")
-    public ResponseEntity<ReviewLikeHistory> addLike(@RequestBody ReviewHistoryWithReview reviewLike) {
+    public ResponseEntity<Object> addLike(@RequestBody ReviewHistoryWithReview reviewLike) {
         return reviewService.addLike(reviewLike);
     }
 
