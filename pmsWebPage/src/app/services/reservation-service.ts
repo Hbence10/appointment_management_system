@@ -20,14 +20,6 @@ export class ReservationService {
   ifRegistrationWithReservation = signal<boolean>(false)
   progressBarSteps = [true, false, false, false]
 
-  form: FormGroup = new FormGroup({
-    property1: new FormControl("", [Validators.required]),
-    property2: new FormControl("", []),
-    property3: new FormControl("", []),
-    property4: new FormControl("", []),
-    property5: new FormControl(null, []),
-  });
-
   setObject(responseList: any[]): Reservation[] {
     const returnList: Reservation[] = []
 
