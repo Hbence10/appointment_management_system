@@ -91,8 +91,8 @@ export class PopUp implements OnInit {
   adminService = inject(AdminService)
 
   ngOnInit() {
-    this.reservationService.form.reset()
-    this.form = this.reservationService.form
+    this.adminService.form.reset()
+    this.form = this.adminService.form
 
     this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType))
     let subscription;
@@ -304,7 +304,7 @@ export class PopUp implements OnInit {
 
   edit(wantedObject: CardItem) {
     this.selectedObject = wantedObject.object
-    this.reservationService.form.reset()
+    this.adminService.form.reset()
     this.setForm()
     this.actualPage = "editPage"
     this.actualDetails.set(new Details(`${wantedObject.name} szerkesztése`, "saveChanges", wantedObject.objectType, this.actualDetails()?.deviceCategory))
@@ -476,34 +476,34 @@ export class PopUp implements OnInit {
   }
 
   setForm() {
-    this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
+    this.adminService.form.controls["property1"].setValue(this.selectedObject!.getName)
     if (this.selectedObject instanceof Device) {
-      this.reservationService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
+      this.adminService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
       // Valtoztatas
-      this.reservationService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getId)
+      this.adminService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getId)
     } else if (this.selectedObject instanceof News) {
-      this.reservationService.form.controls["property2"].setValue((this.selectedObject as News).getText)
-      this.reservationService.form.controls["property3"].setValue((this.selectedObject as News).getName)
+      this.adminService.form.controls["property2"].setValue((this.selectedObject as News).getText)
+      this.adminService.form.controls["property3"].setValue((this.selectedObject as News).getName)
     } else if (this.selectedObject instanceof ReservationType) {
-      this.reservationService.form.controls["property2"].setValue((this.selectedObject as ReservationType).getPrice)
+      this.adminService.form.controls["property2"].setValue((this.selectedObject as ReservationType).getPrice)
     }
     if (this.selectedObject instanceof Device) {
-      this.reservationService.form.controls["property3"].addValidators(Validators.required)
+      this.adminService.form.controls["property3"].addValidators(Validators.required)
     } else if (this.selectedObject instanceof ReservationType || this.selectedObject instanceof News) {
-      this.reservationService.form.controls["property2"].addValidators(Validators.required)
-      this.reservationService.form.controls["property2"].addValidators(Validators.required)
+      this.adminService.form.controls["property2"].addValidators(Validators.required)
+      this.adminService.form.controls["property2"].addValidators(Validators.required)
     }
 
     if (this.selectedObject instanceof Users) {
-      this.reservationService.form.controls["property1"].setValue(this.selectedObject?.getAdminDetails?.getFirstName)
-      this.reservationService.form.controls["property2"].setValue(this.selectedObject?.getAdminDetails?.getLastName)
-      this.reservationService.form.controls["property3"].setValue(this.selectedObject?.getAdminDetails?.getEmail)
-      this.reservationService.form.controls["property4"].setValue(this.selectedObject?.getAdminDetails?.getPhone)
+      this.adminService.form.controls["property1"].setValue(this.selectedObject?.getAdminDetails?.getFirstName)
+      this.adminService.form.controls["property2"].setValue(this.selectedObject?.getAdminDetails?.getLastName)
+      this.adminService.form.controls["property3"].setValue(this.selectedObject?.getAdminDetails?.getEmail)
+      this.adminService.form.controls["property4"].setValue(this.selectedObject?.getAdminDetails?.getPhone)
 
-      this.reservationService.form.controls["property2"].addValidators(Validators.required)
-      this.reservationService.form.controls["property3"].addValidators([Validators.email, Validators.required])
-      this.reservationService.form.controls["property4"].addValidators(Validators.required)
-      this.reservationService.form.controls["property5"].addValidators(Validators.required)
+      this.adminService.form.controls["property2"].addValidators(Validators.required)
+      this.adminService.form.controls["property3"].addValidators([Validators.email, Validators.required])
+      this.adminService.form.controls["property4"].addValidators(Validators.required)
+      this.adminService.form.controls["property5"].addValidators(Validators.required)
     }
   }
 
