@@ -51,7 +51,7 @@ export class ObjectEditor implements OnInit {
 
   ngOnInit(): void {
     this.details.set(this.objectType())
-    this.form = this.adminService.form
+    this.form = this.reservationService.form
 
     if (this.selectedObject() instanceof Device) {
       const subscription = this.deviceService.getAllDevicesByCategories().subscribe({

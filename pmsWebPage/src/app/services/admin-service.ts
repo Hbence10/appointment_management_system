@@ -5,7 +5,6 @@ import { AdminDetails } from '../models/adminDetails.model';
 import { CloseReason } from '../models/closeReason.model';
 import { Reservation } from '../models/reservation.model';
 import { Users } from '../models/user.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +14,6 @@ export class AdminService {
   private baseURL = "http://localhost:8080/admin"
   selectedUserIdForAdmin: number | null = 0;
   errorMsg = signal("")
-  form: FormGroup = new FormGroup({
-    property1: new FormControl("", [Validators.required]),
-    property2: new FormControl("", []),
-    property3: new FormControl("", []),
-    property4: new FormControl("", []),
-    property5: new FormControl(null, []),
-  });
 
   //foglalasok:
   makeAdminReservation(adminId: number, startHour: number, endHour: number, dateText: string) {
@@ -80,11 +72,11 @@ export class AdminService {
   }
 
   //closeReason
-  getAllCloseReason(): Observable<CloseReason[]> {
+  getAllCloseReason(): Observable<CloseReason[]>{
     return this.http.get<CloseReason[]>(`${this.baseURL}/closeReasons`);
   }
 
-  createCloseReason(newCloseReason: CloseReason): Observable<CloseReason> {
+  createCloseReason(newCloseReason: CloseReason): Observable<CloseReason>{
     return this.http.post<CloseReason>(`${this.baseURL}/makeCloseReasons`, newCloseReason)
   }
 
@@ -108,11 +100,11 @@ export class AdminService {
   }
 
   //Foglalasok visszaszerzese zarashoz
-  fullDayCheck(dateText: string): Observable<Reservation[]> {
+  fullDayCheck(dateText: string): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`http://localhost:8080/reservation/date/${dateText}`)
   }
 
-  intervallumCheck(startDateText: string, endDateText: string): Observable<Reservation[]> {
+  intervallumCheck(startDateText: string, endDateText: string): Observable<Reservation[]>{
     return this.http.get<Reservation[]>(`${this.baseURL}/intervallumCloseCheck?startDateText=${startDateText}&endDateText=${endDateText}`)
   }
 
