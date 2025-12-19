@@ -32,7 +32,6 @@ export class ObjectEditor implements OnInit {
   private newsService = inject(NewsService)
   reservationService = inject(ReservationService)
   objectType = input.required<Details>()
-  errorMsg = input.required<string>()
 
   selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | Users | null>()
 

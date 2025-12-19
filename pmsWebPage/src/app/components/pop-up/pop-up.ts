@@ -40,7 +40,7 @@ export class PopUp implements OnInit {
   reservation = input.required<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
-  errorMsg = ""
+  // errorMsg = ""
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
@@ -88,7 +88,7 @@ export class PopUp implements OnInit {
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
   private reservationStuffService = inject(ReservationStuff)
-  private adminService = inject(AdminService)
+  adminService = inject(AdminService)
 
   ngOnInit() {
     this.reservationService.form.reset()
@@ -202,22 +202,22 @@ export class PopUp implements OnInit {
   setErrors(errorResponse: any) {
     console.log(errorResponse)
     if (errorResponse.status == 500) {
-      this.errorMsg = "serverError"
+      this.adminService.errorMsg.set("serverError")
     } else if (errorResponse.status == 404) {
 
     } else if (errorResponse.status == 409) {
       if (errorResponse.error == "duplicateDeviceCategoryName") {
-        this.errorMsg = "Már létezik ilyen névvel eszközkategória. Adjál meg mást."
+        this.adminService.errorMsg.set("Már létezik ilyen névvel eszközkategória. Adjál meg mást.")
       } else if (errorResponse.error == "duplicateDeviceName") {
-        this.errorMsg = "Már létezik ilyen névvel eszköz. Adjál meg mást."
+        this.adminService.errorMsg.set("Már létezik ilyen névvel eszköz. Adjál meg mást.")
       } else if (errorResponse.error == "duplicateReservationTypeName") {
-        this.errorMsg = "Már létezik ilyen névvel foglalási tipus. Adjál meg mást."
+        this.adminService.errorMsg.set("Már létezik ilyen névvel foglalási tipus. Adjál meg mást.")
       } else if (errorResponse.error == "duplicateNewsTitle") {
-        this.errorMsg = "Már létezik ilyen címmel hír. Adjál meg mást."
+        this.adminService.errorMsg.set("Már létezik ilyen címmel hír. Adjál meg mást.")
       } else if (errorResponse.error == "emailDuplicate") {
-        this.errorMsg = "Már regisztrálva van ez az email. Adjál meg mást."
+        this.adminService.errorMsg.set("Már regisztrálva van ez az email. Adjál meg mást.")
       } else if (errorResponse.error == "phoneDuplicate") {
-        this.errorMsg = "Már regisztrálva van ez a telefonszám. Adjál meg mást."
+        this.adminService.errorMsg.set("Már regisztrálva van ez a telefonszám. Adjál meg mást.")
       }
     } else if (errorResponse.status == 415) {
 
@@ -225,7 +225,7 @@ export class PopUp implements OnInit {
   }
 
   buttonEvent() {
-    this.errorMsg = ""
+    this.adminService.errorMsg.set("")
     if (this.actualDetails()?.buttonText == "newEntity") {
       const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "gallery", "user"]
       const hunObjectNames: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Foglalás tipus", "Fénykép", "Admin"]
@@ -272,9 +272,11 @@ export class PopUp implements OnInit {
       this.cardList.update(old => [...old, new CardItem(device.getName, "device", device, "delete")])
     })
     this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory))
+    console.log(deviceCategory)
   }
 
   backToListPage() {
+    this.adminService.errorMsg.set("")
     if (this.actualPage == "listPage") {
       this.cardList.set([])
       this.deviceService.getAllDevicesByCategories().subscribe({
@@ -292,6 +294,7 @@ export class PopUp implements OnInit {
     } else if (this.actualPage == "editPage") {
       if (this.actualDetails()?.objectType == "device") {
         this.actualDetails.set(new Details(this.actualDetails()!.deviceCategory.getName, "newEntity", "device", this.actualDetails()?.deviceCategory))
+        console.log(this.actualDetails()?.deviceCategory)
       } else {
         this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
       }
@@ -476,7 +479,8 @@ export class PopUp implements OnInit {
     this.reservationService.form.controls["property1"].setValue(this.selectedObject!.getName)
     if (this.selectedObject instanceof Device) {
       this.reservationService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
-      this.reservationService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getName)
+      // Valtoztatas
+      this.reservationService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getId)
     } else if (this.selectedObject instanceof News) {
       this.reservationService.form.controls["property2"].setValue((this.selectedObject as News).getText)
       this.reservationService.form.controls["property3"].setValue((this.selectedObject as News).getName)

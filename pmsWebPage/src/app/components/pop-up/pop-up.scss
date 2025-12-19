@@ -29,6 +29,14 @@
   overflow-y: auto !important;
 }
 
+#headerRow {
+  height: 56px;
+
+  .col-lg-12 div {
+    height: 40px;
+  }
+}
+
 @media screen and (max-width: 992px) {
   #popupContainer {
     width: 90vw;

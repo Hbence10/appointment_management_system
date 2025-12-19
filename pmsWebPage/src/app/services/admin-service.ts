@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminDetails } from '../models/adminDetails.model';
 import { CloseReason } from '../models/closeReason.model';
@@ -13,6 +13,7 @@ export class AdminService {
   private http = inject(HttpClient)
   private baseURL = "http://localhost:8080/admin"
   selectedUserIdForAdmin: number | null = 0;
+  errorMsg = signal("")
 
   //foglalasok:
   makeAdminReservation(adminId: number, startHour: number, endHour: number, dateText: string) {

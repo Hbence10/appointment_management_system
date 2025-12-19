@@ -1,9 +1,9 @@
-@if (errorMsg() != "serverError") {
+@if (adminService.errorMsg() != "serverError") {
 <form [formGroup]="form" class="container-fluid">
-  @if(errorMsg() != ""){
+  @if(adminService.errorMsg() != ""){
     <div class="row">
     <div class="col-lg-12">
-      <mat-error class="my-2">{{errorMsg()}}</mat-error>
+      <mat-error class="my-4 text-center mainFont" style="font-size: 25px;">{{adminService.errorMsg()}}</mat-error>
     </div>
   </div>
   }
@@ -89,12 +89,7 @@
   } @else if (details()?.objectType == "user"){
   <mat-form-field class="w-100">
     <mat-label>{{ labelText[3] }}</mat-label>
-    <input
-      matInput
-      formControlName="property4"
-      type="text"
-      [placeholder]="placeholderText[3]"
-    />
+    <input matInput formControlName="property4" type="text" [placeholder]="placeholderText[3]"/>
   </mat-form-field>
   } @if(details()?.objectType == "user"){
   <div class="row">

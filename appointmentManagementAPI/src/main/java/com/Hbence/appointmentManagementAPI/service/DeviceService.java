@@ -149,7 +149,10 @@ public class DeviceService {
             }
         } catch (DataIntegrityViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(409).body("duplicateDeviceName");
+            if (e.getMessage().contains("Duplicate entry")) {
+                return ResponseEntity.status(409).body("duplicateDeviceName");
+            }
+            return ResponseEntity.internalServerError().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
