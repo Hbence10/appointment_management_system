@@ -18,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
@@ -52,9 +54,8 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        System.out.println(request.getServletPath());
-        System.out.println(request.getServletPath().contains("/reservation/cancel"));
-        return request.getServletPath().equals("/users/login") || request.getServletPath().contains("/reservation/cancel");
+        ArrayList<String> shouldNotFilterPaths = new ArrayList<>(Arrays.asList("/reservation/reservedDate","/reservation/reservedDates", "/reservation/reservedHours", "/reservation/date/**", "/reservation/cancel/**", "/reservation/getByEmailAndVCode", "/reservationStuff/getReservationType", "/reservationStuff/paymentMethods", "/reservationStuff/phoneCodes", "/reviews/getAll", "/rule", "/gallery", "/news/getAll", "/devices/getAllCategory", "/users/login", "/users/register", "/users/getVerificationCode", "/users/checkVerificationCode", "/users/passwordReset", "/users/**", "/reservation/makeReservation", "/details", "/openingDetails"));
+        return shouldNotFilterPaths.contains(request.getServletPath());
     }
 
 }

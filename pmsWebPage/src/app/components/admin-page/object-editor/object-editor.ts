@@ -19,7 +19,7 @@ import { NewsService } from '../../../services/news-service';
 
 @Component({
   selector: 'app-object-editor',
-  imports: [MatError ,MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatAnchor],
+  imports: [MatError, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatAnchor],
   templateUrl: './object-editor.html',
   styleUrl: './object-editor.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,14 +40,14 @@ export class ObjectEditor implements OnInit {
   labelText: string[] = []
   form!: FormGroup
   deviceCategoryList = signal<DevicesCategory[]>([])
-  shorterUserList = signal<{id: number, username: string}[]>([])
+  shorterUserList = signal<{ id: number, username: string }[]>([])
 
   isFirstRowFull = computed<boolean>(() =>
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
   )
 
   selectedUserId: number = 1
-  selectedDeviceCategoryId:number = 0;
+  selectedDeviceCategoryId: number = 0;
 
   ngOnInit(): void {
     this.details.set(this.objectType())
@@ -59,15 +59,15 @@ export class ObjectEditor implements OnInit {
           this.deviceCategoryList.set(response.map(element => Object.assign(new DevicesCategory(), element)))
         },
         complete: () => {
-          this.selectedDeviceCategoryId = this.deviceCategoryList().map(el => el.getId).indexOf(this.details()?.deviceCategory.getId!)
-
+          this.deviceService.selectedCategory = this.deviceCategoryList()[+this.form.controls["property3"].value - 1]
+          this.selectedDeviceCategoryId = +this.form.controls["property3"].value - 1
         }
       })
 
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe()
       })
-    } else if (this.selectedObject() instanceof Users){
+    } else if (this.selectedObject() instanceof Users) {
       this.adminService.getShortUsersList().subscribe({
         next: responseList => this.shorterUserList.set(responseList)
       })
@@ -77,11 +77,11 @@ export class ObjectEditor implements OnInit {
     this.labelText = this.selectedObject()!.getLabelText
   }
 
-  selectCategory(){
+  selectCategory() {
     this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategoryId]
   }
 
-  selectFile(event: any){
+  selectFile(event: any) {
     const selectedFile: File = event.target.files[0];
     this.newsService.selectedBannerImg = selectedFile
   }

@@ -60,7 +60,7 @@ export class AdminPage implements OnInit {
     this.user = this.userService.user()!
     const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
       next: responseList => {
-        this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))
+        this.reservationsOfSelectedDate.set(this.reservationService.setReservationObject(responseList))
       },
       error: error => {
         console.log(error)
@@ -90,7 +90,7 @@ export class AdminPage implements OnInit {
 
   showSelectedDaysReservation() {
     this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
-      next: responseList => this.reservationsOfSelectedDate.set(this.reservationService.setObject(responseList))
+      next: responseList => this.reservationsOfSelectedDate.set(this.reservationService.setReservationObject(responseList))
     })
   }
 

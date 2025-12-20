@@ -35,7 +35,7 @@ export class ReservatinCanceler implements OnInit{
       next: response => this.wantedReservation = response,
       error: error => console.log(error),
       complete: () => {
-        this.wantedReservation = this.reservationService.setObject([this.wantedReservation])[0]
+        this.wantedReservation = this.reservationService.setReservationObject([this.wantedReservation])[0]
         this.flexClassList = ""
       }
     })

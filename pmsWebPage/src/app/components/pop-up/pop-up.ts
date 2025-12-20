@@ -173,10 +173,12 @@ export class PopUp implements OnInit {
   }
 
   addSingleCard(newItem: DevicesCategory | Device | News | ReservationType | Gallery | Users, objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
-    this.cardList.update(old => {
-      old.push(new CardItem(newItem.getName, objectType, newItem, "delete"))
-      return old;
-    })
+    if ((objectType == "device" && this.actualDetails()?.deviceCategory.getName == (newItem as Device).getCategoryId.getName) || objectType != "device") {
+      this.cardList.update(old => {
+        old.push(new CardItem(newItem.getName, objectType, newItem, "delete"))
+        return old;
+      })
+    }
   }
 
   updateSingleCard(response: DevicesCategory | Device | News | ReservationType | Gallery | Users) {
@@ -272,7 +274,6 @@ export class PopUp implements OnInit {
       this.cardList.update(old => [...old, new CardItem(device.getName, "device", device, "delete")])
     })
     this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory))
-    console.log(deviceCategory)
   }
 
   backToListPage() {
@@ -294,7 +295,6 @@ export class PopUp implements OnInit {
     } else if (this.actualPage == "editPage") {
       if (this.actualDetails()?.objectType == "device") {
         this.actualDetails.set(new Details(this.actualDetails()!.deviceCategory.getName, "newEntity", "device", this.actualDetails()?.deviceCategory))
-        console.log(this.actualDetails()?.deviceCategory)
       } else {
         this.actualDetails.set(new Details(this.baseDetails().title, this.baseDetails().buttonText, this.baseDetails().objectType, this.actualDetails()?.deviceCategory))
       }
@@ -479,7 +479,6 @@ export class PopUp implements OnInit {
     this.adminService.form.controls["property1"].setValue(this.selectedObject!.getName)
     if (this.selectedObject instanceof Device) {
       this.adminService.form.controls["property2"].setValue((this.selectedObject as Device).getAmount)
-      // Valtoztatas
       this.adminService.form.controls["property3"].setValue(this.actualDetails()?.deviceCategory.getId)
     } else if (this.selectedObject instanceof News) {
       this.adminService.form.controls["property2"].setValue((this.selectedObject as News).getText)
@@ -511,7 +510,7 @@ export class PopUp implements OnInit {
     let cancelledReservation!: Reservation;
     this.reservationService.cancelReservation(this.reservation().getId, this.userService.user()).subscribe({
       next: response => {
-        cancelledReservation = this.reservationService.setObject([response])[0]
+        cancelledReservation = this.reservationService.setReservationObject([response])[0]
       },
       error: error => this.setErrors(error),
       complete: () => {

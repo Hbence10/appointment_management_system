@@ -39,13 +39,13 @@ export class LoginPage implements OnInit {
   login() {
     this.userService.login(this.loginForm.controls["username"].value!.trim()!, this.loginForm.controls["password"].value!.trim()!).subscribe({
       next: response => {
-        this.userService.setObject(response.body)
+        this.userService.setUserObject(response.body)
         this.token = response.headers.headers.get("authorization")[0]
 
         console.log(this.userService.user()?.getAdminDetails.getId)
       },
       error: error => {
-        console.log(error)  
+        console.log(error)
         this.isError.set(true)
       },
       complete: () => {

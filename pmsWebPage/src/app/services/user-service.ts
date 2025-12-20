@@ -14,7 +14,7 @@ export class UserService {
   user = signal<null | Users>(null)
   token: string = ""
 
-  setObject(response: any) {
+  setUserObject(response: any) {
     let user: Users = Object.assign(new Users(), response)
     user.setRole = Object.assign(new Role(), user.getRole)
     user.setAdminDetails = Object.assign(new AdminDetails(), user.getAdminDetails)

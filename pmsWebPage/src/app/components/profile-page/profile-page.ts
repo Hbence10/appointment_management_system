@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit {
     const subscription = this.reservationService.getReservationByUserId(this.user.getId!).subscribe({
       next: responseList => {
         console.log(responseList)
-        this.reservations = this.reservationService.setObject(responseList)
+        this.reservations = this.reservationService.setReservationObject(responseList)
       },
       error: error => {
         console.log(error)
@@ -94,7 +94,7 @@ export class ProfilePage implements OnInit {
     if (!this.isEdit()) {
       this.userService.updateUser(this.form.controls["email"].value!.trim(), this.form.controls["username"].value!.trim(), this.user.getId!).subscribe({
         next: response => {
-          this.userService.setObject(response)
+          this.userService.setUserObject(response)
         },
         error: error => console.log(error),
         complete: () => {
@@ -112,7 +112,7 @@ export class ProfilePage implements OnInit {
 
       this.userService.uploadPfp(this.user.getId!, formData).subscribe({
         next: response => {
-          this.userService.setObject(response)
+          this.userService.setUserObject(response)
         },
         error: error => console.log(error),
         complete: () => {

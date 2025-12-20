@@ -7,7 +7,6 @@ import { ReservationType } from '../models/reservationType.model';
 import { ReservedDates } from '../models/reservedDates.model';
 import { ReservedHours } from '../models/reservedHours.model';
 import { Status } from '../models/status.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Users } from '../models/user.model';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class ReservationService {
   ifRegistrationWithReservation = signal<boolean>(false)
   progressBarSteps = [true, false, false, false]
 
-  setObject(responseList: any[]): Reservation[] {
+  setReservationObject(responseList: any[]): Reservation[] {
     const returnList: Reservation[] = []
 
     responseList.forEach(response => {
