@@ -7,8 +7,25 @@
   font-weight: 400;
   font-size: 18px;
 }
+
 li{
   width: 230px;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #004D40;
+}
+
+::ng-deep .map-container{
+  width: 760px !important;
+  height: 380px !important;
+  border: 10px solid #004D40;
+  border-radius: 16px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
 }
 
 @media screen and (max-width: 992px) {

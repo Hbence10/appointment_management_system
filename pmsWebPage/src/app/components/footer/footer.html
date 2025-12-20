@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row px-3 mb-4">
-    <div class="col-lg-8 px-4" id="bioContainer">
+    <div class="col-lg-6 px-4" id="bioContainer">
       <p class="text-lg-start text-md-center text-sm-center text-center">
         <span class="fw-bold mainFont">Cím:</span><br>
         <span class="secondFont">{{this.otherService.detailsForFooter?.getAddress}}</span>
@@ -21,7 +21,7 @@
         <span class="secondFont">{{this.otherService.detailsForFooter?.getFirePhone}}</span>
       </p>
 
-      <div class="">
+      <div>
         <p class="text-lg-start text-center fw-bold mainFont my-lg-0 my-3">Nyitvatartás:</p>
         <ul>
           @for (openingDetail of otherService.openingDetails; track $index) {
@@ -30,18 +30,31 @@
         </ul>
       </div>
     </div>
-    <div class="col-lg-4">
-      <!-- Google Maps -->
-       <!-- <google-map
-          height="400px"
-          width="750px"
-          [center]="center"
-          [zoom]="zoom"
-          (mapClick)="moveMap($event)"
-          (mapMousemove)="move($event)" />
+    <div class="col-lg-6 d-flex justify-content-end align-items-end">
 
-        <div>Latitude: {{display?.lat}}</div>
-        <div>Longitude: {{display?.lng}}</div> -->
+      <!-- Linkek: -->
+      <div class="h-100 d-flex flex-column justify-content-end mx-3">
+        <a class="mb-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
+          <button class="d-flex justify-content-center align-items-center strongShadow">
+            <img class="img-fluid" src="assets/images/email.png" alt="email_logo">
+          </button>
+        </a>
+        <a class="my-2" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
+          <button class="d-flex justify-content-center align-items-center strongShadow">
+            <img class="img-fluid" src="assets/images/facebook.png" alt="facebook_logo">
+          </button>
+        </a>
+        <a class="mt-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
+          <button class="d-flex justify-content-center align-items-center strongShadow">
+            <img class="img-fluid" src="assets/images/instagram.png" alt="insta_logo">
+          </button>
+        </a>
+      </div>
+
+      <!-- Google Maps -->
+      <google-map [center]="center" [zoom]="zoom">
+          <map-marker *ngFor="let marker of markers" [position]="marker"></map-marker>
+      </google-map>
     </div>
   </div>
 

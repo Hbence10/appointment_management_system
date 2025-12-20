@@ -24,7 +24,8 @@
 
   <div class="row my-3">
     <div class="col-lg-6 d-flex justify-content-center align-items-center order-lg-0 order-md-1 order-sm-1 order-1">
-      <div class="secondBg infoContainer strongShadow">
+      <div class="secondBg infoContainer strongShadow" [ngClass]="{'d-flex flex-column justify-content-center align-items-center': isError}">
+        @if (!isError) {
         <h1 class="text-center my-5 mainFont">Aktuális híreink</h1>
         <div id="newsContainer">
 
@@ -51,8 +52,11 @@
               </mat-expansion-panel>
             </mat-accordion>
           }
-
         </div>
+        } @else {
+          <h1 class="text-center mainFont">Hiba történt!</h1>
+          <h1 class="text-center mainFont">Frissitsed az oldalt vagy próbáld meg később!</h1>
+        }
       </div>
     </div>
 
