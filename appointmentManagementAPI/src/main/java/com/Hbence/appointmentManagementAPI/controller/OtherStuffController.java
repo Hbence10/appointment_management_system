@@ -1,16 +1,18 @@
 package com.Hbence.appointmentManagementAPI.controller;
 
-import com.Hbence.appointmentManagementAPI.entity.*;
+import com.Hbence.appointmentManagementAPI.entity.Details;
+import com.Hbence.appointmentManagementAPI.entity.History;
+import com.Hbence.appointmentManagementAPI.entity.OpeningDetails;
+import com.Hbence.appointmentManagementAPI.entity.Rules;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,54 +21,6 @@ import java.util.List;
 public class OtherStuffController {
 
     private final OtherStuffService otherStuffService;
-
-    //Galleria:
-    @Operation(summary = "", description = "")
-    @ApiResponses({
-
-    })
-    @GetMapping("/gallery")
-    public ResponseEntity<List<Gallery>> getAllGalleryImages() {
-        return otherStuffService.getGalleryImages();
-    }
-
-    @Operation(summary = "", description = "")
-    @Parameters({
-            @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true),
-            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true),
-    })
-    @ApiResponses({
-
-    })
-    @PutMapping("/gallery/update/{id}")
-    public ResponseEntity<Object> updateGalleryImage(@PathVariable("id") Long id, @RequestParam("galleryImg") MultipartFile galleryImg) {
-        return otherStuffService.updateGalleryImage(galleryImg, id);
-    }
-
-    @Operation(summary = "", description = "")
-    @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
-    @ApiResponses({
-
-    })
-    @PostMapping("/gallery/addImage")
-    public ResponseEntity<Object> addGalleryImage(@RequestParam("galleryImg") MultipartFile galleryImg) {
-        return otherStuffService.addGalleryImage(galleryImg);
-    }
-
-    @Operation(summary = "", description = "")
-    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
-    @ApiResponses({
-
-    })
-    @DeleteMapping("/gallery/{id}")
-    public ResponseEntity<Object> deleteGalleryImage(@PathVariable("id") Long id) {
-        return otherStuffService.deleteGalleryImage(id);
-    }
-
-    @PutMapping("/setOrder")
-    public ResponseEntity<List<Gallery>> setOrder(@RequestBody List<Gallery> newOrderList) {
-        return null;
-    }
 
     //Szabalyzat:
     @Operation(summary = "", description = "")
