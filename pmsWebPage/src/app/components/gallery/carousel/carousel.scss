@@ -1,7 +1,6 @@
 .switcherButton {
   height: 75px;
   width: 35px;
-  // border: 1px solid #004D40;
   border: none;
   border-radius: 8px;
   background-color: #B2DFDB;
@@ -29,8 +28,6 @@
 }
 
 #closeButton:hover {
-  height: 45px;
-  width: 45px;
   transition: 0.5s ease;
   background-color: #004D40;
   color: #B2DFDB;

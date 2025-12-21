@@ -14,13 +14,26 @@ export class GalleryPage implements OnInit {
   galleryService = inject(GalleryService)
   private destroyRef = inject(DestroyRef)
   showCarousel = signal<boolean>(false)
+  columns: Gallery[][] = []
 
   ngOnInit(): void {
+    this.columns = []
     const subscription = this.galleryService.getAllGalleryImages().subscribe({
       next: responseList => {
-        console.log(responseList)
         this.galleryService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
-        console.log(this.galleryService.galleryImages)
+      },
+      error: error => console.log(error),
+      complete: () => {
+        for (let i: number = 0; i < this.galleryService.galleryImages.length; i+=3){
+          const column: Gallery[] = []
+          for (let j: number = i; j < i+3; j++){
+            if (this.galleryService.galleryImages[j] != undefined) {
+              column.push(this.galleryService.galleryImages[j])
+            }
+          }
+          this.columns.push(column)
+        }
+
       }
     })
 
@@ -32,9 +45,5 @@ export class GalleryPage implements OnInit {
   openCarousel(selectedImg: Gallery) {
     this.galleryService.selectedImgForCarousel.set(selectedImg)
     this.showCarousel.set(true)
-  }
-
-  closeCarousel() {
-    this.showCarousel.set(false)
   }
 }

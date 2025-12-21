@@ -18,6 +18,9 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @ToString
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getGalleryImages", procedureName = "getGalleryImages", resultClasses = Gallery.class)
+})
 public class Gallery {
 
     @Id

@@ -26,7 +26,7 @@ public class GalleryService {
 
     public ResponseEntity<List<Gallery>> getGalleryImages() {
         try {
-            return ResponseEntity.ok(galleryRepository.findAll().stream().filter(image -> !image.getIsDeleted()).toList());
+            return ResponseEntity.ok(galleryRepository.getGalleryImages());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
