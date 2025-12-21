@@ -1,6 +1,7 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { Gallery } from '../../../models/galleryImage.model';
 import { OtherService } from '../../../services/other-service';
+import { GalleryService } from '../../../services/gallery-service';
 
 @Component({
   selector: 'app-carousel',
@@ -9,7 +10,7 @@ import { OtherService } from '../../../services/other-service';
   styleUrl: './carousel.scss'
 })
 export class Carousel {
-  private otherService = inject(OtherService)
+  private galleryService = inject(GalleryService)
 
   galleryImages = signal<Gallery[]>([])
   closeCarousel = output()
@@ -17,8 +18,8 @@ export class Carousel {
 
 
   ngOnInit(): void {
-    this.selectedImg.set(this.otherService.selectedImgForCarousel());
-    this.galleryImages.set(this.otherService.galleryImages)
+    this.selectedImg.set(this.galleryService.selectedImgForCarousel());
+    this.galleryImages.set(this.galleryService.galleryImages)
   }
 
   switchImage(nextIndex: 1 | -1) {

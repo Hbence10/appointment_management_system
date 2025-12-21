@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Gallery } from '../models/galleryImage.model';
 import { Rule } from '../models/rule.model';
 import { History } from '../models/history.model';
 import { Details } from '../models/details.model';
@@ -13,30 +12,11 @@ import { OpeningDetails } from '../models/openingDetails.model';
 export class OtherService {
   private http = inject(HttpClient)
   private baseURL = "http://localhost:8080"
-  selectedImgForCarousel = signal<null | Gallery>(null)
-  galleryImages: Gallery[] = []
   rule!: Rule
   detailsForFooter!: Details
   openingDetails: OpeningDetails[] = []
 
   //ENDPOINTOK:
-  //Galleria
-  getAllGalleryImages(): Observable<Gallery[]> {
-    return this.http.get<Gallery[]>(`${this.baseURL}/gallery`)
-  }
-
-  updateGalleryImage(id: number, newImg: FormData) {
-
-  }
-
-  deleteImage(id: number) {
-
-  }
-
-  addImage(newImage: FormData) {
-
-  }
-
   //Szabalyzat
   getRule(): Observable<Rule> {
     return this.http.get<Rule>(`${this.baseURL}/rule`)

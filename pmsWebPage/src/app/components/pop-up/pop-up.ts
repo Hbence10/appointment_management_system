@@ -27,6 +27,7 @@ import { ReservationDetail } from '../reservation-detail/reservation-detail';
 import { Rule } from '../../models/rule.model';
 import { Editor, NgxEditorComponent, NgxEditorMenuComponent, Toolbar } from 'ngx-editor';
 import { DomSanitizer } from '@angular/platform-browser';
+import { GalleryService } from '../../services/gallery-service';
 
 
 @Component({
@@ -88,6 +89,7 @@ export class PopUp implements OnInit {
   private destroyRef = inject(DestroyRef)
   private router = inject(Router)
   private reservationStuffService = inject(ReservationStuff)
+  private galleryService = inject(GalleryService)
   adminService = inject(AdminService)
 
   ngOnInit() {
@@ -109,7 +111,7 @@ export class PopUp implements OnInit {
       })
 
     } else if (this.actualDetails()?.objectType == 'gallery') {
-      subscription = this.otherService.getAllGalleryImages().subscribe({
+      subscription = this.galleryService.getAllGalleryImages().subscribe({
         next: responseList => this.setCardList(responseList.map(element => Object.assign(new Gallery(), element)), "gallery"),
         error: error => this.setErrors(error)
       })

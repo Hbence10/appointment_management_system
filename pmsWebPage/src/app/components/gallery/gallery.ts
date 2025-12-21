@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Gallery } from '../../models/galleryImage.model';
 import { OtherService } from '../../services/other-service';
 import { Carousel } from './carousel/carousel';
+import { GalleryService } from '../../services/gallery-service';
 
 @Component({
   selector: 'app-gallery',
@@ -10,16 +11,16 @@ import { Carousel } from './carousel/carousel';
   styleUrl: './gallery.scss'
 })
 export class GalleryPage implements OnInit {
-  otherService = inject(OtherService)
+  galleryService = inject(GalleryService)
   private destroyRef = inject(DestroyRef)
   showCarousel = signal<boolean>(false)
 
   ngOnInit(): void {
-    const subscription = this.otherService.getAllGalleryImages().subscribe({
+    const subscription = this.galleryService.getAllGalleryImages().subscribe({
       next: responseList => {
         console.log(responseList)
-        this.otherService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
-        console.log(this.otherService.galleryImages)
+        this.galleryService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
+        console.log(this.galleryService.galleryImages)
       }
     })
 
@@ -29,7 +30,7 @@ export class GalleryPage implements OnInit {
   }
 
   openCarousel(selectedImg: Gallery) {
-    this.otherService.selectedImgForCarousel.set(selectedImg)
+    this.galleryService.selectedImgForCarousel.set(selectedImg)
     this.showCarousel.set(true)
   }
 
