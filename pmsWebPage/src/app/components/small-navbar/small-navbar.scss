@@ -26,7 +26,6 @@
   height: 100vh;
   width: 100vw;
   z-index: 9999;
-
 }
 
 .material-symbols-outlined {
@@ -47,15 +46,16 @@ ul li {
   font-optical-sizing: auto !important;
   font-weight: 800 !important;
   font-style: normal !important;
-  font-size: 40px;
+  font-size: 30px;
   list-style: none;
   text-align: center;
   color: #E0F2F1;
-  line-height: 70px;
+  line-height: 55px;
+  width: 280px;
 }
 
 .active {
-  border-radius: 50px;
+  border-radius: 15px;
 }
 
 button {
@@ -101,6 +101,7 @@ button {
   background-color: #E0F2F1 !important;
   border: none !important;
   border-radius: 5px !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
   span{
     color: #004D40 !important;

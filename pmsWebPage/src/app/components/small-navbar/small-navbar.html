@@ -44,7 +44,7 @@
             </span>
           </button>
         }@else {
-          <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="" id="pfpImage">
+          <img routerLink="/profilePage" [src]="userService.user()?.getPfpPath" alt="profil_kep" id="pfpImage" class="img-fluid weakShadow" (click)="showNavBar.set(false)">
         }
 
       </div>
