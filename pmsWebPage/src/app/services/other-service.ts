@@ -25,6 +25,18 @@ export class OtherService {
     return this.http.get<Gallery[]>(`${this.baseURL}/gallery`)
   }
 
+  updateGalleryImage(id: number, newImg: FormData) {
+
+  }
+
+  deleteImage(id: number) {
+
+  }
+
+  addImage(newImage: FormData) {
+
+  }
+
   //Szabalyzat
   getRule(): Observable<Rule> {
     return this.http.get<Rule>(`${this.baseURL}/rule`)

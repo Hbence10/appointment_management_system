@@ -25,7 +25,7 @@ import java.util.List;
 public class NewsService {
     private final NewsRepository newsRepository;
 
-    public ResponseEntity<List<News>> getAllNews()  {
+    public ResponseEntity<List<News>> getAllNews() {
         try {
             return ResponseEntity.ok(newsRepository.findAll().stream().filter(news -> !news.getIsDeleted()).toList());
         } catch (Exception e) {

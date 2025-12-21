@@ -63,6 +63,11 @@ public class OtherStuffController {
         return otherStuffService.deleteGalleryImage(id);
     }
 
+    @PutMapping("/setOrder")
+    public ResponseEntity<List<Gallery>> setOrder(@RequestBody List<Gallery> newOrderList) {
+        return null;
+    }
+
     //Szabalyzat:
     @Operation(summary = "", description = "")
     @ApiResponses({
