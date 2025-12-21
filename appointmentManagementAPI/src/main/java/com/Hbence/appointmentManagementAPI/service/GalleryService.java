@@ -109,4 +109,18 @@ public class GalleryService {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    public ResponseEntity<Object> updateOrder(List<Gallery> updatedOrderList) {
+        try {
+            if (updatedOrderList == null || updatedOrderList.isEmpty()) {
+                return ResponseEntity.status(422).build();
+            }
+
+            return ResponseEntity.ok(galleryRepository.saveAll(updatedOrderList));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

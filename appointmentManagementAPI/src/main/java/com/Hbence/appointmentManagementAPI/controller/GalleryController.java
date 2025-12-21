@@ -62,8 +62,11 @@ public class GalleryController {
         return galleryService.deleteGalleryImage(id);
     }
 
-    @PutMapping("/setOrder")
-    public ResponseEntity<List<Gallery>> setOrder(@RequestBody List<Gallery> newOrderList) {
-        return null;
+    @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
+
+    @PutMapping("/updateOrder")
+    public ResponseEntity<Object> updateOrder(@RequestBody List<Gallery> updatedOrderList) {
+        return galleryService.updateOrder(updatedOrderList);
     }
 }
