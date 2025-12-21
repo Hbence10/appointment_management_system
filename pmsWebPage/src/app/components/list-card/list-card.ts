@@ -25,6 +25,7 @@ export class ListCard {
   }
 
   viewImg(){
+    console.log("Asd")
     this.viewImage.emit(this.cardItem().object as Gallery)
   }
 }

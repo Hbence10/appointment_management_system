@@ -73,7 +73,7 @@
     </div>
 
     <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
-      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)=" selectObjectList('Galléria szerkesztése', 'galleryView', 'gallery') " >
+      <div class="cardDiv weakShadow w-100 secondBg d-flex justify-content-center align-items-center" (click)=" selectObjectList('Galléria szerkesztése', 'newEntity', 'gallery') " >
         <p class="m-0 text-center mainFont">Galléria szerkesztése</p>
       </div>
     </div>
@@ -105,6 +105,7 @@
   (closePopUp)="closePopUp()"
   [baseDetails]="popUpDetails"
   [reservation]="selectedReservation()!"
+  (viewImage)="showCarousel($event)"
 />
 } @if(showHistoryPopup()){
 <app-history-popup />
@@ -115,5 +116,5 @@
 }
 
 @if(showGalleryCarousel()) {
-  <app-carousel [parentComponentName]="'adminPage'"/>
+  <app-carousel [parentComponentName]="'adminPage'" (closeCarousel)="closeCarousel()"/>
 }

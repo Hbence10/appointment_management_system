@@ -60,8 +60,8 @@ export class PopUp implements OnInit {
   toolbar!: Toolbar
 
   buttonText = computed<string>(() => {
-    const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user"]
-    const objectText: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Próba kategória", "Admin"]
+    const objectTypes: string[] = ["deviceCategory", "device", "news", "reservationType", "user", "gallery"]
+    const objectText: string[] = ["Eszköz kategória", "Eszköz", "Hír", "Próba kategória", "Admin", "Fénykép"]
 
     let text = ""
     if (this.actualDetails()?.buttonText == "cancelReservation") {

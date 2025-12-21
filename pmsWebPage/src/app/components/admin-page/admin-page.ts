@@ -19,6 +19,8 @@ import { UserService } from '../../services/user-service';
 import { Users } from '../../models/user.model';
 import { DetailsEditor } from './details-editor/details-editor';
 import { Carousel } from '../gallery/carousel/carousel';
+import { Gallery } from '../../models/galleryImage.model';
+import { GalleryService } from '../../services/gallery-service';
 
 @Component({
   selector: 'app-admin-page',
@@ -32,6 +34,7 @@ export class AdminPage implements OnInit {
   private destroyRef = inject(DestroyRef)
   private reservationService = inject(ReservationService)
   private userService = inject(UserService)
+  galleryService = inject(GalleryService)
 
   reservationsOfSelectedDate = signal<Reservation[]>([])
   selectedReservation = signal<null | Reservation>(null)
@@ -97,5 +100,15 @@ export class AdminPage implements OnInit {
     this.popUpDetails = new Details(`#${wantedReservation.getId} Foglalás`, "cancelReservation", "reservation")
     this.selectedReservation.set(wantedReservation)
     this.isShowPupUp.set(true)
+  }
+
+  showCarousel(image: Gallery) {
+    this.galleryService.selectedImgForCarousel.set(image)
+    this.showGalleryCarousel.set(true)
+  }
+
+  closeCarousel(){
+    this.galleryService.selectedImgForCarousel.set(null)
+    this.showGalleryCarousel.set(false)
   }
 }
