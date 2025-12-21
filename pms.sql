@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Dec 13. 11:40
+-- Létrehozás ideje: 2025. Dec 21. 13:53
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -52,7 +52,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllAdmin` ()   BEGIN
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEmail` ()   BEGIN
-	SELECT user.email FROM user;
+	SELECT u.email FROM user u WHERE u.is_deleted = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllReservationEmail` ()   BEGIN
@@ -69,6 +69,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllReservationsBetweenIntervallu
     r.is_canceled = 0 AND
     (rd.date BETWEEN startDateIN AND endDateIN);
    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getGalleryImages` ()   BEGIN
+	SELECT * FROM gallery g
+    WHERE g.is_deleted = 0 
+    ORDER BY g.placement;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` DATE)   BEGIN
@@ -270,7 +276,14 @@ INSERT INTO `device` (`id`, `name`, `category_id`, `amount`, `is_deleted`, `dele
 (36, 'ujErosito2', 2, 2, 1, '2025-11-10 20:52:28'),
 (37, 'ujMik', 1, 2, 1, '2025-11-10 20:53:29'),
 (38, 'ujGitar', 2, 1, 1, '2025-11-10 20:54:04'),
-(39, 'ujgitar2', 2, 2, 0, NULL);
+(39, 'ujgitar2', 2, 2, 0, NULL),
+(40, 'dob24', 3, 2, 0, NULL),
+(41, 'adsdsafsa', 1, 23, 0, NULL),
+(43, 'dob2Asd', 5, 32, 0, NULL),
+(44, 'dasdsafasf', 5, 23, 0, NULL),
+(45, 'dasfasfsafsa', 5, 12, 0, NULL),
+(46, 'dobTestZongora', 5, 2, 0, NULL),
+(47, 'ZongoraTestDob', 3, 3, 0, NULL);
 
 --
 -- Eseményindítók `device`
@@ -363,14 +376,14 @@ CREATE TABLE `gallery` (
 --
 
 INSERT INTO `gallery` (`id`, `photo_name`, `photo_path`, `placement`, `is_deleted`, `deleted_at`) VALUES
-(1, '1.jpg', 'assets/images/gallery/1.jpg', 1, 0, NULL),
-(2, '2.jpg', 'assets/images/gallery/2.jpg', 2, 0, NULL),
-(3, '3.jpg', 'assets/images/gallery/3.jpg', 3, 0, NULL),
-(4, '4.jpg', 'assets/images/gallery/4.jpg', 4, 0, NULL),
-(5, '5.jpg', 'assets/images/gallery/5.jpg', 5, 0, NULL),
-(6, '6.jpg', 'assets/images/gallery/6.jpg', 6, 0, NULL),
-(7, '7.jpg', 'assets/images/gallery/7.jpg', 7, 0, NULL),
-(8, '8.jpg', 'assets/images/gallery/8.jpg', 8, 0, NULL);
+(1, '1.jpg', 'assets/images/gallery/1.png', 0, 0, NULL),
+(2, '2.jpg', 'assets/images/gallery/2.jpg', 1, 0, NULL),
+(3, '3.jpg', 'assets/images/gallery/3.jpg', 2, 0, NULL),
+(4, '4.jpg', 'assets/images/gallery/4.jpg', 3, 0, NULL),
+(5, '5.jpg', 'assets/images/gallery/5.png', 4, 0, NULL),
+(6, '6.jpg', 'assets/images/gallery/6.jpg', 5, 0, NULL),
+(7, '7.jpg', 'assets/images/gallery/7.jpg', 6, 0, NULL),
+(8, '8.jpg', 'assets/images/gallery/8.jpg', 7, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -449,8 +462,8 @@ CREATE TABLE `opening_detail` (
 --
 
 INSERT INTO `opening_detail` (`id`, `day_name`, `start_time`, `end_time`) VALUES
-(1, 'Hétfő', '08:00:00', '22:00:00'),
-(2, 'Kedd', '10:00:00', '00:00:00'),
+(1, 'Hétfő', '12:00:00', '22:00:00'),
+(2, 'Kedd', '10:00:00', '22:00:00'),
 (3, 'Szerda', '10:00:00', '22:00:00'),
 (4, 'Csütörtök', '10:00:00', '22:00:00'),
 (5, 'Péntek', '10:00:00', '22:00:00'),
@@ -944,7 +957,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 CREATE TABLE `rule` (
   `id` int(11) NOT NULL,
   `text` longtext NOT NULL,
-  `last_edit_at` datetime DEFAULT NULL
+  `last_edit_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -952,7 +965,7 @@ CREATE TABLE `rule` (
 --
 
 INSERT INTO `rule` (`id`, `text`, `last_edit_at`) VALUES
-(1, '<h1>Próbaterem-használati Szabályzat</h1>\nEz a szabályzat a(z) [Próbaterem neve] (a továbbiakban: „Próbaterem”) rendeltetésszerű használatát, a bérlők jogait és kötelezettségeit, valamint a helyiség és felszerelések védelmét hivatott biztosítani. A szabályzat minden bérlőre és használóra vonatkozik. A próbaterem bérlésével a felhasználó automatikusan elfogadja a jelen szabályzat rendelkezéseit.\nÁltalános rendelkezések\nA próbaterem kizárólag zenészek és zenekarok részére áll rendelkezésre, akik a helyiséget próbálás, gyakorlás, felkészülés céljából veszik igénybe.\nA próbaterem használata bérleti díj ellenében történik, amelynek mértékét és fizetési módját a szolgáltató határozza meg.\nA próbaterem kulcsát vagy belépési jogosultságát csak az előre egyeztetett és díjat megfizető bérlő kaphatja meg.\nA próbaterem használata csak a lefoglalt időpontban engedélyezett. Az időkeret túllépése külön díjfizetéssel járhat.\n2. Nyitvatartás és foglalás\nA próbaterem előzetes időpont-egyeztetés alapján foglalható.\nA foglalást lemondani legalább 24 órával a kezdés előtt lehet. Későbbi lemondás esetén a bérleti díj felszámítható.\nA pontos kezdési és befejezési idő betartása kötelező, mivel más zenekarok is foglalhatják a termet.\nA próbaterem munkaszüneti napokon és ünnepnapokon is nyitva lehet, de ez minden esetben külön egyeztetést igényel.\nMagatartási szabályok\nA próbaterem területén tilos a dohányzás, nyílt láng használata és bármilyen tűz- vagy robbanásveszélyes anyag behozatala.\nAlkohol és kábítószer fogyasztása szigorúan tilos. Ittas vagy bódult állapotban a próbaterem nem használható.\nA bérlők kötelesek a helyiséget rendeltetésszerűen használni, másokat nem zavarni, a zajkibocsátási előírásokat betartani.\nA helyiségben a berendezési tárgyakat, hangszereket, technikai eszközöket megóvni köteles minden bérlő.\nBármilyen rongálás, meghibásodás vagy hiány észlelése esetén azt azonnal jelezni kell az üzemeltető felé.\nFelszerelések használata\nA próbateremben található hangtechnikai berendezések, dob, erősítők, mikrofonok és egyéb felszerelések használata kizárólag rendeltetésszerűen történhet.\nA bérlők kötelesek a saját hangszereiket és kiegészítő eszközeiket gondosan kezelni.\nSaját hangtechnikai eszköz beállítása, bekötése csak az üzemeltető engedélyével történhet.\nAz eszközök nem vihetők ki a próbateremből az üzemeltető külön engedélye nélkül.\nTisztaság és rend\nA bérlők kötelesek a próbaterem rendjét és tisztaságát megőrizni.\nA próbaterem elhagyásakor a szemetet ki kell vinni, az üres üdítős palackokat, ételmaradékokat el kell távolítani.\nA próbatermet olyan állapotban kell átadni, amilyenben a bérlő átvette.\nBiztonság\nA próbateremben mindenki saját felelősségére tartózkodik.\nAz üzemeltető nem vállal felelősséget az esetleges balesetekért, személyi sérülésekért, vagyoni károkért, illetve a helyiségben hagyott személyes tárgyakért.\nA bérlő köteles gondoskodni arról, hogy a próbatermet az idő lejártakor szabályosan bezárja.\nTilos a vészkijáratokat, elektromos berendezéseket vagy tűzvédelmi eszközöket akadályozni.\nFelelősség és kártérítés\nA bérlő teljes anyagi felelősséggel tartozik a próbaterem és a benne található felszerelések épségéért.\nRongálás vagy nem rendeltetésszerű használat esetén a kárt a bérlő köteles megtéríteni.\nHa több zenész vagy zenekar használja egyidejűleg a termet, a felelősség egyetemleges.\nZáró rendelkezések\nA szabályzat be nem tartása a bérleti jogviszony azonnali megszüntetését vonhatja maga után.\nAz üzemeltető jogosult a szabályzatot bármikor módosítani, amelyről a bérlőket értesíti.\nA próbaterem bérlése és használata egyben a szabályzat elfogadását jelenti.\n\n', NULL);
+(1, '<h2>Szab&#225;lyzat update 1</h2><p>asdasddasdsa</p><p><sub>dasdasadsdsada</sub></p><p>adsasd</p><p><strong>szamozott lista teszt:</strong></p><ol><li><p>elem</p></li><li><p>elem</p></li><li><p>elem</p></li></ol><p></p><p><strong>unordered list teszt:</strong></p><ul><li><p>elem</p></li><li><p>elem</p></li><li><p>elem</p></li></ul><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdasasddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p><p>asddasadsdas</p>', '2025-12-14 17:57:28');
 
 -- --------------------------------------------------------
 
@@ -986,10 +999,10 @@ CREATE TABLE `user` (
   `email` varchar(100) NOT NULL,
   `password` longtext NOT NULL,
   `pfp_path` longtext NOT NULL,
-  `is_notification_about_news` tinyint(1) NOT NULL DEFAULT '0',
   `role_id` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` timestamp NULL DEFAULT NULL,
+  `v_code` longtext,
   `is_deleted` tinyint(1) DEFAULT '1',
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -998,22 +1011,22 @@ CREATE TABLE `user` (
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `is_notification_about_news`, `role_id`, `created_at`, `last_login`, `is_deleted`, `deleted_at`) VALUES
-(1, 'test', 'test@gmail.com', 'asd', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', NULL, 0, NULL),
-(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'assets/placeholder.png', 0, 1, '2025-08-23 04:50:02', NULL, 0, NULL),
-(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'assets/placeholder.png', 0, 2, '2025-08-23 04:50:02', NULL, 0, NULL),
-(26, 'test4', 'test4@gmail.com', '{noop}asd', 'assets/placeholder.png', 0, 1, '2025-09-07 12:15:02', NULL, 1, NULL),
-(29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-17 15:47:25', NULL, 0, NULL),
-(42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', 'assets/placeholder.png', 0, 1, '2025-09-20 16:18:03', NULL, 0, NULL),
-(44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'assets/placeholder.png', 0, 1, '2025-09-24 10:03:22', NULL, 0, NULL),
-(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 0, 1, '2025-09-24 10:07:39', NULL, 0, NULL),
-(47, 'securityTest7621', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 0, 1, '2025-08-23 04:45:44', '2025-11-03 20:17:39', 0, NULL),
-(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 0, 2, '2025-08-23 04:45:44', '2025-11-11 13:53:53', 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\40dcb05edcff51960b931c482028343f.jpg', 0, 3, '2025-08-23 04:45:44', '2025-12-12 18:35:00', 0, NULL),
-(50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 0, 3, '2025-08-23 04:45:44', NULL, 0, NULL),
-(52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 0, 1, '2025-10-06 10:04:11', NULL, 0, NULL),
-(53, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$JtwjQ4bXneyhFG7xKOK02A$nahLIrN45HzCwK3C2WNvl2KZXaQZd9OkZD9ZwpDUHmM', 'assets\\images\\pfp\\aqua.jpg', 0, 1, '2025-11-06 07:37:47', '2025-12-08 17:34:28', 0, NULL),
-(54, 'deleteTest1', 'bzhalmai3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$xAR6ptxxQ80YPZvBEY4nLQ$iJPliPGHsTIgiU7MnWdpMsp1KsvICzXkiXq6mGDhtow', 'assets/placeholder.png', 0, 1, '2025-11-19 13:15:52', '2025-11-19 13:16:32', 1, '2025-11-19 13:16:37');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`, `created_at`, `last_login`, `v_code`, `is_deleted`, `deleted_at`) VALUES
+(1, 'test', 'test@gmail.com', 'asd', 'assets/placeholder.png', 2, '2025-08-23 04:45:44', NULL, NULL, 0, NULL),
+(2, 'testAdmin', 'testAdmin', '{noop}testAdmin', 'assets/placeholder.png', 1, '2025-08-23 04:50:02', NULL, NULL, 0, NULL),
+(3, 'testSuperAdmin', 'testSuperAdmin', '{noop}testSuperAdmin', 'assets/placeholder.png', 2, '2025-08-23 04:50:02', NULL, NULL, 0, NULL),
+(26, 'test4', 'test4@gmail.com', '{noop}asd', 'assets/placeholder.png', 1, '2025-09-07 12:15:02', NULL, NULL, 1, NULL),
+(29, 'test9', 'test9@gmail.com', '{noop}test5.Asd', 'assets/placeholder.png', 1, '2025-09-17 15:47:25', NULL, NULL, 0, NULL),
+(42, 'test23', 'adsa@gmail.cim', '{noop}asdAsd1.', 'assets/placeholder.png', 1, '2025-09-20 16:18:03', NULL, NULL, 0, NULL),
+(44, 'testasd', 'testassd@gmail.com', 'test5.Asd', 'assets/placeholder.png', 1, '2025-09-24 10:03:22', NULL, NULL, 0, NULL),
+(46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 1, '2025-09-24 10:07:39', NULL, NULL, 0, NULL),
+(47, 'securityTest7621', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 1, '2025-08-23 04:45:44', '2025-11-03 20:17:39', NULL, 0, NULL),
+(48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 2, '2025-08-23 04:45:44', '2025-11-11 13:53:53', NULL, 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\40dcb05edcff51960b931c482028343f.jpg', 3, '2025-08-23 04:45:44', '2025-12-21 10:40:25', NULL, 0, NULL),
+(50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 3, '2025-08-23 04:45:44', NULL, NULL, 0, NULL),
+(52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 1, '2025-10-06 10:04:11', NULL, NULL, 0, NULL),
+(53, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$JtwjQ4bXneyhFG7xKOK02A$nahLIrN45HzCwK3C2WNvl2KZXaQZd9OkZD9ZwpDUHmM', 'assets\\images\\pfp\\aqua.jpg', 1, '2025-11-06 07:37:47', '2025-12-08 17:34:28', NULL, 0, NULL),
+(54, 'deleteTest1', 'bzhalmai3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$xAR6ptxxQ80YPZvBEY4nLQ$iJPliPGHsTIgiU7MnWdpMsp1KsvICzXkiXq6mGDhtow', 'assets/placeholder.png', 1, '2025-11-19 13:15:52', '2025-11-19 13:16:32', NULL, 1, '2025-11-19 13:16:37');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -1031,6 +1044,7 @@ ALTER TABLE `admin_detail`
 --
 ALTER TABLE `close_reason`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
   ADD KEY `creator` (`creator_id`);
 
 --
@@ -1086,6 +1100,7 @@ ALTER TABLE `history`
 --
 ALTER TABLE `news`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title` (`title`),
   ADD KEY `writer` (`writer_id`);
 
 --
@@ -1209,7 +1224,7 @@ ALTER TABLE `detail`
 -- AUTO_INCREMENT a táblához `device`
 --
 ALTER TABLE `device`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT a táblához `device_category`
