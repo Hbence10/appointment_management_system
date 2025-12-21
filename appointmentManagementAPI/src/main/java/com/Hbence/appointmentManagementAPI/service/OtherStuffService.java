@@ -51,6 +51,40 @@ public class OtherStuffService {
         }
     }
 
+    public ResponseEntity<Gallery> addGalleryImage(Gallery addedImage) {
+        try {
+            if (addedImage == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<Object> deleteGalleryImage(Long id) {
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            Gallery searchedImage = galleryRepository.findById(id).orElse(null);
+            if (searchedImage == null || searchedImage.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                searchedImage.setIsDeleted(true);
+                searchedImage.setDeletedAt(new Date());
+                galleryRepository.save(searchedImage);
+                return ResponseEntity.ok().build();
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     //Szabalyzat:
     public ResponseEntity<Rules> getRule() {
         try {

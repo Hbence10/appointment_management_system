@@ -1,7 +1,22 @@
 <div class="container-fluid">
-
+  <div style="width: 80%;">
+    <div class="row">
+      <div class="column">
+        <img [src]="otherService.galleryImages[0]?.getPhotoPath" alt="" />
+        <img [src]="otherService.galleryImages[3]?.getPhotoPath" alt="" />
+      </div>
+      <div class="column">
+        <img [src]="otherService.galleryImages[1]?.getPhotoPath" alt="" />
+        <img [src]="otherService.galleryImages[4]?.getPhotoPath" alt="" />
+      </div>
+      <div class="column">
+        <img [src]="otherService.galleryImages[2]?.getPhotoPath" alt="" />
+        <img [src]="otherService.galleryImages[5]?.getPhotoPath" alt="" />
+      </div>
+    </div>
+  </div>
 </div>
 
 @if(showCarousel()){
-  <app-carousel (closeCarousel)="closeCarousel()"/>
+<app-carousel (closeCarousel)="closeCarousel()" />
 }

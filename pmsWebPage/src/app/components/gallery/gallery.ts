@@ -12,7 +12,6 @@ import { Carousel } from './carousel/carousel';
 export class GalleryPage implements OnInit {
   otherService = inject(OtherService)
   private destroyRef = inject(DestroyRef)
-
   showCarousel = signal<boolean>(false)
 
   ngOnInit(): void {
@@ -20,6 +19,7 @@ export class GalleryPage implements OnInit {
       next: responseList => {
         console.log(responseList)
         this.otherService.galleryImages = responseList.map(response => Object.assign(new Gallery(), response))
+        console.log(this.otherService.galleryImages)
       }
     })
 

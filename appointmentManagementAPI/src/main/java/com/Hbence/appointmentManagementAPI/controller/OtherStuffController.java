@@ -3,13 +3,12 @@ package com.Hbence.appointmentManagementAPI.controller;
 import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +35,26 @@ public class OtherStuffController {
     @PutMapping("/gallery/update")
     public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery) {
         return otherStuffService.updateGalleryImage(updatedGallery);
+    }
+
+    @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
+    @ApiResponses({
+
+    })
+    @PostMapping("/gallery/addImage")
+    public ResponseEntity<Gallery> addGalleryImage(@RequestBody Gallery addedImage) {
+        return otherStuffService.addGalleryImage(addedImage);
+    }
+
+    @Operation(summary = "", description = "")
+    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
+    @ApiResponses({
+
+    })
+    @DeleteMapping("/gallery/{id}")
+    public ResponseEntity<Object> deleteGalleryImage(@PathVariable("id") Long id) {
+        return otherStuffService.deleteGalleryImage(id);
     }
 
     //Szabalyzat:
