@@ -4,6 +4,7 @@ import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.service.OtherStuffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,16 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
+    @Parameters({
+            @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true),
+            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true),
+    })
     @ApiResponses({
 
     })
-    @PutMapping("/gallery/update")
-    public ResponseEntity<Gallery> updateGalleryImage(@RequestBody Gallery updatedGallery) {
-        return otherStuffService.updateGalleryImage(updatedGallery);
+    @PutMapping("/gallery/update/{id}")
+    public ResponseEntity<Object> updateGalleryImage(@PathVariable("id") Long id, @RequestParam("galleryImg") MultipartFile galleryImg) {
+        return otherStuffService.updateGalleryImage(galleryImg, id);
     }
 
     @Operation(summary = "", description = "")

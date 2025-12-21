@@ -41,21 +41,37 @@ public class OtherStuffService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
+    public ResponseEntity<Object> updateGalleryImage(MultipartFile galleryImg, Long id) {
         try {
-//            if (updatedGalleryImage == null) {
-//                return ResponseEntity.status(422).build();
-//            }
+            if (galleryImg == null || id == null) {
+                return ResponseEntity.status(422).build();
+            }
 
+            Gallery searchedImg = galleryRepository.findById(id).orElse(null);
+            if (searchedImg == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename();
 
+                try {
+                    FileOutputStream fout = new FileOutputStream(filePath);
+                    fout.write(galleryImg.getBytes());
+                    fout.close();
+                    searchedImg.setPhotoPath("\"assets\\\\images\\\\gallery\" + File.separator + galleryImg.getOriginalFilename()");
+                    searchedImg.setPhotoName(galleryImg.getOriginalFilename());
+                    return ResponseEntity.ok().body(galleryRepository.save(searchedImg));
+                } catch (Exception e) {
+                    return ResponseEntity.internalServerError().body("fileUploadError");
+                }
+            }
 
-            return ResponseEntity.ok(galleryRepository.save(updatedGalleryImage));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> addGalleryImage(MultipartFile galleryImg) {
         try {
             if (galleryImg == null) {
@@ -75,10 +91,11 @@ public class OtherStuffService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().body("serverError");
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> deleteGalleryImage(Long id) {
         try {
             if (id == null) {
