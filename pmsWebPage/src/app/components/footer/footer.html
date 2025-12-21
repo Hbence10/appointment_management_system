@@ -1,5 +1,7 @@
 <div class="container-fluid">
   <div class="row px-3 mb-4">
+
+    <!-- Információs részleg: -->
     <div class="col-lg-6 px-4" id="bioContainer">
       <p class="text-lg-start text-md-center text-sm-center text-center">
         <span class="fw-bold mainFont">Cím:</span><br>
@@ -30,31 +32,29 @@
         </ul>
       </div>
     </div>
-    <div class="col-lg-6 d-flex justify-content-end align-items-end">
 
+    <!-- Google Map & Linkek: -->
+    <div class="col-lg-6 d-flex flex-lg-row flex-column justify-content-lg-end justify-content-center align-items-lg-end align-items-center">
       <!-- Linkek: -->
-      <div class="h-100 d-flex flex-column justify-content-end mx-3">
-        <a class="mb-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
+      <div class="h-100 d-flex flex-lg-column flex-row justify-content-lg-end justify-content-center mx-3 order-lg-0 order-1">
+        <a class="mb-lg-1 mx-lg-0 mx-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
           <button class="d-flex justify-content-center align-items-center strongShadow">
             <img class="img-fluid" src="assets/images/email.png" alt="email_logo">
           </button>
         </a>
-        <a class="my-2" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
+        <a class="my-lg-2 mx-lg-0 mx-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
           <button class="d-flex justify-content-center align-items-center strongShadow">
             <img class="img-fluid" src="assets/images/facebook.png" alt="facebook_logo">
           </button>
         </a>
-        <a class="mt-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
+        <a class="mt-lg-1 mx-lg-0 mx-1" href="https://css-tricks.com/css-grid-layout-guide/" target="_blank">
           <button class="d-flex justify-content-center align-items-center strongShadow">
             <img class="img-fluid" src="assets/images/instagram.png" alt="insta_logo">
           </button>
         </a>
       </div>
-
       <!-- Google Maps -->
-      <google-map [center]="center" [zoom]="zoom">
-          <map-marker *ngFor="let marker of markers" [position]="marker"></map-marker>
-      </google-map>
+      <google-map [center]="center" [zoom]="zoom" class="order-lg-1 order-0 mb-lg-0 mt-lg-0 mt-5 mb-3"/>
     </div>
   </div>
 

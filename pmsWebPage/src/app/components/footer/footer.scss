@@ -1,14 +1,14 @@
-.mainFont{
+.mainFont {
   font-weight: 800;
   font-size: 18px;
 }
 
-.secondFont{
+.secondFont {
   font-weight: 400;
   font-size: 18px;
 }
 
-li{
+li {
   width: 230px;
 }
 
@@ -20,7 +20,7 @@ button {
   background-color: #004D40;
 }
 
-::ng-deep .map-container{
+::ng-deep .map-container {
   width: 760px !important;
   height: 380px !important;
   border: 10px solid #004D40;
@@ -35,5 +35,9 @@ button {
 
   ul {
     padding: 0px;
+  }
+
+  ::ng-deep .map-container, google-map {
+    width: 100% !important;
   }
 }
