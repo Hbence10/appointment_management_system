@@ -22,14 +22,23 @@
     <!-- Foglalások kezelése: -->
     <div class="col-lg-4 my-lg-0 my-3 d-flex justify-content-center align-items-center">
       <div class="controlPanel weakShadow w-100 secondBg controlPanel container-fluid">
-        <div class="row">
-          <div class="col-lg-12 d-flex flex-column justify-content-center">
-            <h1 class="text-center my-3 mainFont">Mai nap foglalásai</h1>
-            <div style="max-height: 375px; overflow-y: auto">
-              @for (reservation of reservationsOfSelectedDate(); track $index) {
-                <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'" (showDetailsOutput)="showReservationDetails($event)" />
+        <div class="row h-100">
+          <div class="col-lg-12 d-flex flex-column h-100" [class.justify-content-center]="reservationCallError || reservationsOfSelectedDate().length === 0">
+            @if(!reservationCallError) {
+              @if (reservationsOfSelectedDate().length != 0) {
+                <h1 class="text-center my-3 mainFont">Mai nap foglalásai</h1>
+                <div style="max-height: 375px; overflow-y: auto">
+                  @for (reservation of reservationsOfSelectedDate(); track $index) {
+                    <app-reservation-card [reservationDetails]="reservation" [parentComponent]="'adminPage'" (showDetailsOutput)="showReservationDetails($event)" />
+                  }
+                </div>
+              } @else {
+                <h1 class="mainFont text-center">Erre a napra még nem foglaltak!</h1>
               }
-            </div>
+            } @else {
+              <h1 class="mainFont text-center m-0">Hiba történt!</h1>
+              <h1 class="mainFont text-center m-0">Próbáld meg később!</h1>
+            }
           </div>
         </div>
       </div>
