@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,13 +39,13 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
+    @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
     @ApiResponses({
 
     })
     @PostMapping("/gallery/addImage")
-    public ResponseEntity<Gallery> addGalleryImage(@RequestBody Gallery addedImage) {
-        return otherStuffService.addGalleryImage(addedImage);
+    public ResponseEntity<Object> addGalleryImage(@RequestParam("galleryImg") MultipartFile galleryImg) {
+        return otherStuffService.addGalleryImage(galleryImg);
     }
 
     @Operation(summary = "", description = "")

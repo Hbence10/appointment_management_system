@@ -9,8 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolationException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
@@ -40,9 +43,11 @@ public class OtherStuffService {
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Gallery> updateGalleryImage(Gallery updatedGalleryImage) {
         try {
-            if (updatedGalleryImage == null) {
-                return ResponseEntity.status(422).build();
-            }
+//            if (updatedGalleryImage == null) {
+//                return ResponseEntity.status(422).build();
+//            }
+
+
 
             return ResponseEntity.ok(galleryRepository.save(updatedGalleryImage));
         } catch (Exception e) {
@@ -51,13 +56,23 @@ public class OtherStuffService {
         }
     }
 
-    public ResponseEntity<Gallery> addGalleryImage(Gallery addedImage) {
+    public ResponseEntity<Object> addGalleryImage(MultipartFile galleryImg) {
         try {
-            if (addedImage == null) {
+            if (galleryImg == null) {
                 return ResponseEntity.status(422).build();
             }
 
-            return ResponseEntity.ok().build();
+            String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename();
+
+            try {
+                FileOutputStream fout = new FileOutputStream(filePath);
+                fout.write(galleryImg.getBytes());
+                fout.close();
+                Gallery newImg = new Gallery(galleryImg.getOriginalFilename(), "assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename(), galleryRepository.findAll().size());
+                return ResponseEntity.ok().body(galleryRepository.save(newImg));
+            } catch (Exception e) {
+                return ResponseEntity.internalServerError().body("fileUploadError");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
