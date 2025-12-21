@@ -18,10 +18,11 @@ import { RoomControlPanel } from './room-control-panel/room-control-panel';
 import { UserService } from '../../services/user-service';
 import { Users } from '../../models/user.model';
 import { DetailsEditor } from './details-editor/details-editor';
+import { Carousel } from '../gallery/carousel/carousel';
 
 @Component({
   selector: 'app-admin-page',
-  imports: [HistoryPopup, DetailsEditor , RoomControlPanel, MatCardModule, MatDatepickerModule, PopUp, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [Carousel ,HistoryPopup, DetailsEditor , RoomControlPanel, MatCardModule, MatDatepickerModule, PopUp, RouterModule, ReservationCard, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
   providers: [provideNativeDateAdapter()],
@@ -35,6 +36,7 @@ export class AdminPage implements OnInit {
   reservationsOfSelectedDate = signal<Reservation[]>([])
   selectedReservation = signal<null | Reservation>(null)
   user!: Users
+  reservationCallError: boolean = false
 
   //Pop-upok dolgai:
   isShowPupUp = signal<boolean>(false)
@@ -42,6 +44,7 @@ export class AdminPage implements OnInit {
   showCloseContainer = signal<boolean>(false)
   showHistoryPopup = signal<boolean>(false)
   showDetailsEditor = signal<boolean>(false)
+  showGalleryCarousel = signal<boolean>(false)
 
   //Naptar dolgai:
   currentDate: Date = new Date()
@@ -58,16 +61,12 @@ export class AdminPage implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.user()!
+    this.reservationCallError = false
     const subscription = this.reservationService.getReservationByDate(this.formattedSelectedDate()).subscribe({
       next: responseList => {
         this.reservationsOfSelectedDate.set(this.reservationService.setReservationObject(responseList))
       },
-      error: error => {
-        console.log(error)
-      },
-      complete: () => {
-
-      }
+      error: error => this.reservationCallError = true
     })
 
     this.destroyRef.onDestroy(() => {
@@ -95,9 +94,6 @@ export class AdminPage implements OnInit {
   }
 
   showReservationDetails(wantedReservation: Reservation) {
-    console.log(wantedReservation)
-    console.log(wantedReservation.getId)
-
     this.popUpDetails = new Details(`#${wantedReservation.getId} Foglalás`, "cancelReservation", "reservation")
     this.selectedReservation.set(wantedReservation)
     this.isShowPupUp.set(true)

@@ -14,5 +14,5 @@
 </div>
 
 @if(showCarousel()){
-<app-carousel (closeCarousel)="showCarousel.set(false)" />
+<app-carousel [parentComponentName]="'gallery'" (closeCarousel)="showCarousel.set(false)" />
 }

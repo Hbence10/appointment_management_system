@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { DevicesCategory } from '../../models/deviceCategory.model';
 import { CardItem } from '../../models/notEntityModels/card.model';
+import { Gallery } from '../../models/galleryImage.model';
 
 @Component({
   selector: 'app-list-card',
@@ -14,20 +15,7 @@ export class ListCard {
   edit = output<CardItem>()
   changeList = output<DevicesCategory>()
   delete = output<any>()
-
-  eventsTypeList: string[] = []
-
-  button1Event() {
-    if (this.cardItem().button1Event == "delete") {
-      this.delete.emit(this.cardItem())
-    } else {
-
-    }
-  }
-
-  editObject() {
-    this.edit.emit(this.cardItem())
-  }
+  viewImage = output<Gallery>()
 
   showDevices() {
     if (this.cardItem().objectType != "deviceCategory") {
@@ -36,4 +24,7 @@ export class ListCard {
     this.changeList.emit(this.cardItem().object! as DevicesCategory)
   }
 
+  viewImg(){
+    this.viewImage.emit(this.cardItem().object as Gallery)
+  }
 }

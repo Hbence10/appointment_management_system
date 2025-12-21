@@ -104,3 +104,7 @@
 @if (showDetailsEditor()) {
   <app-details-editor (close)="showDetailsEditor.set(false)" />
 }
+
+@if(showGalleryCarousel()) {
+  <app-carousel [parentComponentName]="'adminPage'"/>
+}

@@ -1,11 +1,13 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { Gallery } from '../../../models/galleryImage.model';
 import { OtherService } from '../../../services/other-service';
 import { GalleryService } from '../../../services/gallery-service';
+import { NgClass } from '@angular/common';
+// import { NgClass } from "../../../../../node_modules/@angular/common/types/_common_module-chunk";
 
 @Component({
   selector: 'app-carousel',
-  imports: [],
+  imports: [NgClass],
   templateUrl: './carousel.html',
   styleUrl: './carousel.scss'
 })
@@ -15,6 +17,7 @@ export class Carousel {
   galleryImages = signal<Gallery[]>([])
   closeCarousel = output()
   selectedImg = signal<null | Gallery>(null)
+  parentComponentName = input.required<"gallery" | "adminPage">()
 
 
   ngOnInit(): void {

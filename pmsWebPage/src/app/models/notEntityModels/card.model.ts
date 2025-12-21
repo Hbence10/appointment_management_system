@@ -10,7 +10,6 @@ export class CardItem {
     private _name: string,
     private _objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user",
     private _object: DevicesCategory | Device | News | ReservationType | Gallery | Users,
-    private _button1Event: "delete" | "viewImage"
   ) { }
 
   //getterek
@@ -26,10 +25,6 @@ export class CardItem {
     return this._object
   }
 
-  get button1Event(): "delete" | "viewImage" {
-    return this._button1Event
-  }
-
   //setterek:
   set name(newName: string) {
     this._name = newName
@@ -41,9 +36,5 @@ export class CardItem {
 
   set object(newObject: DevicesCategory | Device | News | ReservationType | Gallery | Users) {
     this._object = newObject
-  }
-
-  set button1Event(newEvent: "delete" | "viewImage"){
-    this._button1Event = newEvent
   }
 }

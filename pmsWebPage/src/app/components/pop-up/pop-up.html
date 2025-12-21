@@ -46,7 +46,7 @@
                   <app-reservation-detail [reservation]="reservation()" />
                 } @else {
                   @for (cardItem of cardList(); track $index) {
-                    <app-list-card [cardItem]="cardItem" (changeList)="showDevices($event)" (edit)="edit($event)" (delete)="delete($event)"/>
+                    <app-list-card [cardItem]="cardItem" (changeList)="showDevices($event)" (edit)="edit($event)" (delete)="delete($event)" (viewImage)="viewImage.emit($event)"/>
                   }
                 }
             } @else if (actualPage == "editPage") {

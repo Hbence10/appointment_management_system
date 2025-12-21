@@ -5,16 +5,19 @@
     </div>
 
     <div class="col-3 d-flex justify-content-end align-items-center">
-      <button class="d-flex justify-content-center align-items-center mx-1" (click)="button1Event()">
-        @if(cardItem().button1Event == "delete"){
+      <button class="d-flex justify-content-center align-items-center mx-1" (click)="this.delete.emit(this.cardItem())">
         <span class="material-symbols-outlined"> delete </span>
-        } @else if (cardItem().button1Event == "viewImage"){
-        <span class="material-symbols-outlined"> visibility </span>
-        }
       </button>
-      <button class="d-flex justify-content-center align-items-center mx-1" (click)="editObject()">
+
+      <button class="d-flex justify-content-center align-items-center mx-1" (click)="this.edit.emit(this.cardItem())">
         <span class="material-symbols-outlined"> edit </span>
       </button>
+
+      @if (cardItem().objectType == "gallery") {
+        <button class="d-flex justify-content-center align-items-center mx-1" (click)="viewImg()">
+          <span class="material-symbols-outlined"> visibility </span>
+        </button>
+      }
     </div>
 
   </div>

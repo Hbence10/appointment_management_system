@@ -41,7 +41,6 @@ export class PopUp implements OnInit {
   reservation = input.required<Reservation>()
   closePopUp = output()
   cardList = signal<CardItem[]>([])
-  // errorMsg = ""
 
   baseDetails = input.required<Details>()
   actualDetails = signal<Details | null>(null);
@@ -50,6 +49,7 @@ export class PopUp implements OnInit {
   form!: FormGroup;
   newsBannerImg: any = null
   reservationCancel = output<Reservation>()
+  viewImage = output<Gallery>()
 
   //szabalyzat
   rule!: Rule
@@ -170,14 +170,14 @@ export class PopUp implements OnInit {
 
   setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery | Users)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
     responseList.forEach(element => {
-      this.cardList.update(old => [...old, new CardItem(element.getName, objectType, element, element instanceof Gallery ? "viewImage" : "delete")])
+      this.cardList.update(old => [...old, new CardItem(element.getName, objectType, element)])
     })
   }
 
   addSingleCard(newItem: DevicesCategory | Device | News | ReservationType | Gallery | Users, objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
     if ((objectType == "device" && this.actualDetails()?.deviceCategory.getName == (newItem as Device).getCategoryId.getName) || objectType != "device") {
       this.cardList.update(old => {
-        old.push(new CardItem(newItem.getName, objectType, newItem, "delete"))
+        old.push(new CardItem(newItem.getName, objectType, newItem))
         return old;
       })
     }
@@ -273,7 +273,7 @@ export class PopUp implements OnInit {
     deviceCategory.setDevicesList = deviceCategory.getDevicesList.map(element => Object.assign(new Device(), element))
 
     deviceCategory.getDevicesList.forEach(device => {
-      this.cardList.update(old => [...old, new CardItem(device.getName, "device", device, "delete")])
+      this.cardList.update(old => [...old, new CardItem(device.getName, "device", device)])
     })
     this.actualDetails.set(new Details(deviceCategory.getName, "newEntity", "device", deviceCategory))
   }
