@@ -30,7 +30,12 @@ public class ReservationStuffService {
     private final PhoneCountryCodeRepository phoneCountryCodeRepository;
 
     public ResponseEntity<List<ReservationType>> getAllReservationType() {
-        return ResponseEntity.ok(reservationTypeRepository.findAll().stream().filter(reservationType -> !reservationType.getIsDeleted()).toList());
+        try {
+            return ResponseEntity.ok(reservationTypeRepository.findAll().stream().filter(reservationType -> !reservationType.getIsDeleted()).toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
@@ -69,6 +74,7 @@ public class ReservationStuffService {
             } else {
                 searchedType.setIsDeleted(true);
                 searchedType.setDeletedAt(new Date());
+                reservationTypeRepository.save(searchedType);
                 return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
@@ -102,7 +108,7 @@ public class ReservationStuffService {
     //Fizetesi modszerek
     public ResponseEntity<List<PaymentMethods>> getAllPaymentMethod() {
         try {
-            return ResponseEntity.ok(paymentMethodRepository.findAll());
+            return ResponseEntity.ok(paymentMethodRepository.findAll().stream().filter(paymentMethod -> !paymentMethod.getIsDeleted()).toList());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

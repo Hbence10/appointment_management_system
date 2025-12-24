@@ -33,6 +33,7 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -62,6 +63,7 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -80,6 +82,7 @@ public class OtherStuffController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })

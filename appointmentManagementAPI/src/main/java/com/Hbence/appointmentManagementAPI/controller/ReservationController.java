@@ -70,6 +70,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -81,6 +82,7 @@ public class ReservationController {
     //Foglalas lemondasa
     @Operation(summary = "", description = "")
     @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = false)
     @ApiResponses({
 
     })
@@ -90,6 +92,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })

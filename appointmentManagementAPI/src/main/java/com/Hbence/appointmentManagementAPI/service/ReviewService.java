@@ -31,7 +31,12 @@ public class ReviewService {
 
     //Review
     public ResponseEntity<List<Review>> getAllReview() {
-        return ResponseEntity.ok().body(reviewRepository.findAll().stream().filter(review -> !review.getIsDeleted()).toList());
+        try {
+            return ResponseEntity.ok().body(reviewRepository.findAll().stream().filter(review -> !review.getIsDeleted()).toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
