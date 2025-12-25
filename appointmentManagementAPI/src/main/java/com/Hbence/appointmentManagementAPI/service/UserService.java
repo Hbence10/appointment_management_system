@@ -5,7 +5,9 @@ import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,6 @@ public class UserService {
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
-    private String vCode = "";
 
     //Endpointok
     public ResponseEntity<Users> login(String username, String password) {
@@ -67,8 +68,6 @@ public class UserService {
 
             if (newUser.getId() != null) {
                 return ResponseEntity.status(415).body("invalidObject");
-            } else if (!ValidatorCollection.emailChecker(newUser.getEmail()) && !ValidatorCollection.passwordChecker(newUser.getPassword())) {
-                return ResponseEntity.status(415).body("invalidPasswordAndEmail");
             } else if (!ValidatorCollection.emailChecker(newUser.getEmail())) {
                 return ResponseEntity.status(415).body("invalidEmail");
             } else if (!ValidatorCollection.passwordChecker(newUser.getPassword())) {
@@ -77,7 +76,12 @@ public class UserService {
                 String hashedPassword = passwordEncoder.encode(newUser.getPassword());
                 newUser.setPassword(hashedPassword);
                 Users registeredUser = userRepository.save(newUser);
-                emailSender.sendEmailAboutRegistration(newUser.getEmail());
+                try {
+                    emailSender.sendEmailAboutRegistration(newUser.getEmail());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResponseEntity.internalServerError().body("emailSenderError");
+                }
                 return ResponseEntity.ok(registeredUser);
             }
         } catch (DataIntegrityViolationException e) {
@@ -109,6 +113,10 @@ public class UserService {
                     return ResponseEntity.ok(userRepository.save(searchedUser));
                 }
             }
+        } catch (DataIntegrityViolationException e) {
+            String errorMsg = e.getMessage().contains("Duplicate entry") && e.getMessage().contains("for key 'email'") ? "emailDuplicate" : "usernameDuplicate";
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResponseEntity.status(409).body(errorMsg);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -135,7 +143,12 @@ public class UserService {
                 }
 
                 userRepository.save(searchedUser);
-                emailSender.sendEmailAboutUserDelete(searchedUser.getEmail());
+                try {
+                    emailSender.sendEmailAboutUserDelete(searchedUser.getEmail());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResponseEntity.internalServerError().body("emailSenderError");
+                }
                 return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
@@ -190,11 +203,16 @@ public class UserService {
             } else if (searchedUser == null || searchedUser.getIsDeleted()) {
                 return ResponseEntity.notFound().build();
             } else {
-                this.vCode = ValidatorCollection.generateVerificationCode();
+                String vCode = ValidatorCollection.generateVerificationCode();
                 searchedUser.setVCode(passwordEncoder.encode(vCode));
                 userRepository.save(searchedUser);
-                emailSender.sendVerificationCodeEmail(email, vCode);
-                return ResponseEntity.ok("success");
+                try {
+                    emailSender.sendVerificationCodeEmail(email, vCode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResponseEntity.internalServerError().body("emailSenderError");
+                }
+                return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,11 +234,9 @@ public class UserService {
             if (userVCode.length() != 10) {
                 return ResponseEntity.status(415).body("InvalidVerificationCode");
             } else {
-                if (passwordEncoder.matches(userVCode, searchedUser.getVCode())) {
-                    return ResponseEntity.ok(true);
-                } else {
-                    return ResponseEntity.ok(false);
-                }
+                JsonNode returnObject = objectMapper.createObjectNode();
+                ((ObjectNode) returnObject).put("success", passwordEncoder.matches(userVCode, searchedUser.getVCode()));
+                return ResponseEntity.ok().body(returnObject);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,7 +244,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> updatePassword(String email, String newPassword) {
+    public ResponseEntity<Object> updatePassword(String email, String newPassword) {
         try {
             if (email == null || newPassword == null) {
                 return ResponseEntity.status(422).build();
