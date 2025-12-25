@@ -33,8 +33,6 @@
   border-radius: 16px;
 }
 
-
-
 mat-card-subtitle,
 mat-card-title {
   font-family: "Montserrat", sans-serif;
@@ -46,7 +44,7 @@ mat-card-title {
 .hour {
   line-height: 25px;
   font-size: 24px;
-  color: white;
+  // color: white;
 }
 
 .hourDiv {
@@ -56,11 +54,12 @@ mat-card-title {
 
 .reservedHour {
   pointer-events: none;
+  color: #004D40 !important;
 }
 
 .selectedHourDiv,
 .hourDiv:hover {
-  background-color: #004D40;
+  background-color: #004D40 !important;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
@@ -82,7 +81,7 @@ mat-card-title {
 
 .amountCard:hover,
 .selected {
-  background-color: #004D40;
+  background-color: #004D40 !important;
   opacity: 1;
 
   p,
@@ -167,4 +166,4 @@ mat-calendar {
       calendar-header-text-weight: 600,
       calendar-period-button-text-weight: 600,
       calendar-text-size: 18px));
-} 
+}

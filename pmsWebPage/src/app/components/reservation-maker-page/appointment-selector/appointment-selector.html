@@ -22,7 +22,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-3 col-5 d-flex flex-column justify-content-start align-items-center" id="hourCol">
                     @for (hour of availableHours; track $index) {
                       <div class="hourDiv my-1" (click)="baseReservation().getReservedHours.setStart = hour; selectedHourAmount.set(null);setCheckerList()" [class.selectedHourDiv]="hour == baseReservation().getReservedHours.getStart" [class.reservedHour]="baseReservation().getReservedHours.getDate.getUnavailableHours.includes(hour)">
-                        <p class="hour my-3 text-center numberFont" >
+                        <p class="hour my-3 text-center numberFont" [class.reservedHour]="baseReservation().getReservedHours.getDate.getUnavailableHours.includes(hour)">
                           {{ hour }}:00
                         </p>
                       </div>
