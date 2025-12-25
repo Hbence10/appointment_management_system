@@ -94,7 +94,10 @@ public class NewsService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (updatedNews.getId() == null || updatedNews.getIsDeleted()) {
+            News searchedNews = newsRepository.findById(updatedNews.getId()).orElse(null);
+            if (searchedNews == null || searchedNews.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            } else if (updatedNews.getId() == null || updatedNews.getIsDeleted()) {
                 return ResponseEntity.status(415).build();
             } else {
                 updatedNews.setTitle(updatedNews.getTitle().trim());
