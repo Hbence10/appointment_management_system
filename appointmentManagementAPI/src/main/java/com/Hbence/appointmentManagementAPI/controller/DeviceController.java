@@ -53,6 +53,7 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "",required = true)
     @ApiResponses({
 
     })
@@ -63,6 +64,7 @@ public class DeviceController {
 
     //Maga_az_eszkoz
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -72,6 +74,7 @@ public class DeviceController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -88,11 +91,5 @@ public class DeviceController {
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteDevice(@PathVariable("id") Long id) {
         return deviceService.deleteDevice(id);
-    }
-
-    //Error Handling
-    @ExceptionHandler
-    public ResponseEntity<String> handleUniqueError(DataIntegrityViolationException e) {
-        return ResponseEntity.status(409).body("duplicateCategory");
     }
 }

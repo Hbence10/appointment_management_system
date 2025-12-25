@@ -30,6 +30,7 @@ public class NewsController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -40,6 +41,7 @@ public class NewsController {
 
     @Operation(summary = "", description = "")
     @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
+    @Parameter(name = "", description = "", required = true, in = ParameterIn.QUERY)
     @ApiResponses({
 
     })
@@ -49,6 +51,7 @@ public class NewsController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })

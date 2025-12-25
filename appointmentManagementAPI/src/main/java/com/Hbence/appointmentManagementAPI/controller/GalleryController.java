@@ -64,7 +64,9 @@ public class GalleryController {
 
     @Operation(summary = "", description = "")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
+    @ApiResponses({
 
+    })
     @PutMapping("/updateOrder")
     public ResponseEntity<Object> updateOrder(@RequestBody List<Gallery> updatedOrderList) {
         return galleryService.updateOrder(updatedOrderList);

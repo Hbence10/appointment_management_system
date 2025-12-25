@@ -28,6 +28,7 @@ public class AdminController {
     //ADMIN FOGLALAS
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = ""),
             @ApiResponse(responseCode = "404", description = ""),
@@ -41,6 +42,7 @@ public class AdminController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = ""),
             @ApiResponse(responseCode = "404", description = ""),
@@ -54,6 +56,7 @@ public class AdminController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -64,6 +67,7 @@ public class AdminController {
 
     //TEREM BEZARASA:
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -73,6 +77,7 @@ public class AdminController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -82,6 +87,7 @@ public class AdminController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -101,6 +107,7 @@ public class AdminController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -186,6 +193,7 @@ public class AdminController {
     //ADMINOK KEZELESE
     @Operation(summary = "", description = "")
     @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true)
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
@@ -204,6 +212,7 @@ public class AdminController {
     }
 
     @Operation(summary = "", description = "")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
 
     })
