@@ -2,18 +2,15 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output,
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldControl, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Reservation } from '../../../models/reservation.model';
 import { ReservationType } from '../../../models/reservationType.model';
 import { Users } from '../../../models/user.model';
 import { ReservationService } from '../../../services/reservation-service';
-import { UserService } from '../../../services/user-service';
 import { ReservationStuff } from '../../../services/reservation-stuff';
-import { BrowserModule } from '@angular/platform-browser';
-
-// import { NgForOf } from "../../../../../node_modules/@angular/common/common_module.d";
+import { UserService } from '../../../services/user-service';
 
 function validatePhone(control: AbstractControl): { [key: string]: any } | null {
   const phoneServiceCodes: number[] = [30, 20, 70, 50, 31]
@@ -93,12 +90,16 @@ export class ReservationForm implements OnInit {
   }
 
   continueReservation() {
+    console.log(this.form.controls["phone"].value.trim())
+
     this.baseReservation().setFirstName = this.form.controls["firstName"].value.trim()
     this.baseReservation().setLastName = this.form.controls["lastName"].value.trim()
     this.baseReservation().setEmail = this.form.controls["email"].value.trim()
     this.baseReservation().setPhoneCode = this.phoneCodes()[this.selectedPhoneCode - 1]
     this.baseReservation().setPhone = this.form.controls["phone"].value.trim()
-    this.baseReservation().setComment = this.form.controls["comment"].value.trim()
+    this.baseReservation().setComment = this.form.controls["comment"].value?.trim()
+
+    console.log(this.baseReservation())
 
     this.reservationService.progressBarSteps[2] = true
     this.nextStep.emit()

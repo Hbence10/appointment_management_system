@@ -9,12 +9,12 @@ import { ReservationService } from '../../services/reservation-service';
 import { ReservationDetail } from '../reservation-detail/reservation-detail';
 
 @Component({
-  selector: 'app-reservatin-canceler',
+  selector: 'app-reservation-canceler',
   imports: [MatInputModule, MatFormFieldModule, MatButtonModule, RouterModule, ReactiveFormsModule, ReservationDetail],
-  templateUrl: './reservatin-canceler.html',
-  styleUrl: './reservatin-canceler.scss'
+  templateUrl: './reservation-canceler.html',
+  styleUrl: './reservation-canceler.scss'
 })
-export class ReservatinCanceler implements OnInit{
+export class ReservationCanceler implements OnInit{
   private reservationService = inject(ReservationService)
   wantedReservation: Reservation | null = null
 
