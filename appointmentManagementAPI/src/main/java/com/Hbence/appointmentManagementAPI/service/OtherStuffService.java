@@ -49,7 +49,7 @@ public class OtherStuffService {
                 return ResponseEntity.status(422).build();
             }
 
-            if (updatedRules.getId() > 1 || updatedRules.getId() < 1) {
+            if (updatedRules.getId() != 1) {
                 return ResponseEntity.notFound().build();
             } else {
                 updatedRules.setLastEditAt(new Date());
@@ -74,11 +74,16 @@ public class OtherStuffService {
 
     //Adatok
     public ResponseEntity<Details> getDetails() {
-        return ResponseEntity.ok().body(detailsRepository.findById(1).orElse(null));
+        try {
+            return ResponseEntity.ok().body(detailsRepository.findById(1).orElse(null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-    //    @PreAuthorize("hasRole('superAdmin')")
-    public ResponseEntity<Details> updateDetails(Details updatedDetails) {
+    @PreAuthorize("hasRole('superAdmin')")
+    public ResponseEntity<Object> updateDetails(Details updatedDetails) {
         try {
             if (updatedDetails == null) {
                 return ResponseEntity.status(422).build();
@@ -87,7 +92,11 @@ public class OtherStuffService {
             if (updatedDetails.getId() != 1) {
                 return ResponseEntity.notFound().build();
             } else if (!ValidatorCollection.emailChecker(updatedDetails.getEmail())) {
-                return ResponseEntity.status(415).build();
+                return ResponseEntity.status(415).body("invalidEmail");
+            } else if (!ValidatorCollection.phoneValidator(updatedDetails.getPhone().trim().replaceAll(" ", ""))) {
+                return ResponseEntity.status(415).body("invalidPhone");
+            } else if (!ValidatorCollection.phoneValidator(updatedDetails.getFirePhone().trim().replaceAll(" ", ""))) {
+                return ResponseEntity.status(415).body("invalidFirePhone");
             } else {
                 return ResponseEntity.ok().body(detailsRepository.save(updatedDetails));
             }
@@ -97,7 +106,12 @@ public class OtherStuffService {
     }
 
     public ResponseEntity<List<OpeningDetails>> getOpeningDetails() {
-        return ResponseEntity.ok().body(openingDetailsRepository.findAll());
+        try {
+            return ResponseEntity.ok().body(openingDetailsRepository.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PreAuthorize("hasRole('superAdmin')")

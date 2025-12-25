@@ -35,13 +35,13 @@ public class UserController {
                             @SchemaProperty(name = "username", schema = @Schema(implementation = String.class, description = "A felhasználó által megadott felhasználónév.")),
                             @SchemaProperty(name = "password", schema = @Schema(implementation = String.class, description = "A felhasználó által megadott jelszó."))
                     },
-                    examples = @ExampleObject(value = "")
+                    examples = @ExampleObject(value = "{ \"username\": \"testUsername\", \"password\": \"test5.Asd\" }")
             )
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200", description = "Sikeres bejelentkezés.",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Users.class))}
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Users.class, description = "A felhasználónévhez & jelszóhoz tartozó user."))}
             ),
             @ApiResponse(responseCode = "404", description = "Sikertelen bejelentkezés, téves felhasználónév vagy email cím.", content = @Content),
             @ApiResponse(responseCode = "422", description = "Az endpoint meghivása requestBody nélkül.", content = @Content),
@@ -77,8 +77,8 @@ public class UserController {
                 content = @Content(
                         mediaType = "application/json",
                         schemaProperties = {
-                                @SchemaProperty(name = "email", schema = @Schema(implementation = String.class)),
-                                @SchemaProperty(name = "username", schema = @Schema(implementation = String.class)),
+                                @SchemaProperty(name = "email", schema = @Schema(implementation = String.class, description = "A frissitett e-mail cím.")),
+                                @SchemaProperty(name = "username", schema = @Schema(implementation = String.class, description = "A frissitett felhasználónév.")),
                         }
                 )
     )
@@ -135,7 +135,7 @@ public class UserController {
     @Operation(summary = "Hitelesitő kód küldés", description = "A megadott email-re a jelszó frissitéshez szükéseg hitelesitő kód küldése.")
     @Parameter(name = "email", description = "A felhasználó által megadott email a hitelesitő kód küldéséhez. Az e-mailnek szerepelnie kell az adatbázisban.", required = true, in = ParameterIn.QUERY)
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Sikeres kód küldése."),
+            @ApiResponse(responseCode = "200", description = "Sikeres kód küldése.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Olyan email címet adott meg a felhasználó amely nem szerepel az adatbázisban.", content = @Content),
             @ApiResponse(responseCode = "415", description = "Felépitésben helytelen email cimet adott meg a felhasználó.", content = @Content),
             @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter nélkül.", content = @Content),
@@ -150,18 +150,18 @@ public class UserController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true, content = @Content(
             mediaType = "application/json",
             schemaProperties = {
-                    @SchemaProperty(name = "vCode", schema = @Schema(implementation = String.class, description = "")),
-                    @SchemaProperty(name = "email", schema = @Schema(implementation = String.class, description = "")),
+                    @SchemaProperty(name = "vCode", schema = @Schema(implementation = String.class, description = "A felhasználó által megadott hitelesitő kód.")),
+                    @SchemaProperty(name = "email", schema = @Schema(implementation = String.class, description = "A felhasználó által megadott e-mail cím. Az e-mail címnek szerepelni kell az adatbázisban.")),
             },
-            examples = @ExampleObject(value = "")
+            examples = @ExampleObject(value = "{ \"vCode\": \"asd32.aAdfq\", \"email\": \"test@gmail.com\" }")
     ))
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sikeres ellenőrzés", content = @Content(
                     mediaType = "application/json",
                     schemaProperties = {
-                            @SchemaProperty(name = "", schema = @Schema(implementation = Boolean.class, description = ""))
+                            @SchemaProperty(name = "success", schema = @Schema(implementation = Boolean.class, description = ""))
                     },
-                    examples = @ExampleObject(value = "")
+                    examples = @ExampleObject(value = "{ \"success\": \"true\"")
             )),
             @ApiResponse(responseCode = "415", description = "Szerkezetileg hibás hitelesitő kód megadása", content = @Content),
             @ApiResponse(responseCode = "422", description = "Az endpoint meghivása requestBody nélkül", content = @Content),
@@ -176,8 +176,8 @@ public class UserController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true, content = @Content(
             mediaType = "application/json",
             schemaProperties = {
-                    @SchemaProperty(name = "email", schema = @Schema(implementation = String.class, description = "")),
-                    @SchemaProperty(name = "newPassword", schema = @Schema(implementation = String.class, description = "")),
+                    @SchemaProperty(name = "email", schema = @Schema(implementation = String.class, description = "A felhasználó által megadott e-mail cím. Az e-mail címnek szerepelnie kell az adatbázisban.")),
+                    @SchemaProperty(name = "newPassword", schema = @Schema(implementation = String.class, description = "A felhasználó által megadott új jelszó. A jelszó legalább 8, legfeljebb 16 karakter hosszú lehet. Tartalmaznia kell kisbetűt, nagybetűt, számot és speciális karaktert.")),
             }
     ))
     @ApiResponses({
@@ -197,7 +197,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sikeres törlés.", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = Users.class, description = "")
+                    schema = @Schema(implementation = Users.class, description = "A keresett felhasználó")
             )),
             @ApiResponse(responseCode = "404", description = "Nem létező felhasználó törlése", content = @Content),
             @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter nélkül", content = @Content),

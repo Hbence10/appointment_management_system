@@ -61,6 +61,7 @@ public class Review {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL}
     )
+    @Null
     private List<ReviewLikeHistory> likeHistories;
 
     //Constructorok

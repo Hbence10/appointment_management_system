@@ -91,8 +91,13 @@ public class ReservationStuffService {
             }
 
             if (updatedReservationType.getId() == null || updatedReservationType.getIsDeleted()) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(415).build();
             } else {
+                ReservationType searchedReservationType = reservationTypeRepository.findById(updatedReservationType.getId()).orElse(null);
+                if (searchedReservationType == null || searchedReservationType.getIsDeleted()){
+                    return ResponseEntity.notFound().build();
+                }
+
                 updatedReservationType.setName(updatedReservationType.getName().trim());
                 return ResponseEntity.ok(reservationTypeRepository.save(updatedReservationType));
             }

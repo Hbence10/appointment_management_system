@@ -1,15 +1,13 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
-import com.Hbence.appointmentManagementAPI.entity.Reservations;
-import com.Hbence.appointmentManagementAPI.entity.ReservedDates;
-import com.Hbence.appointmentManagementAPI.entity.ReservedHours;
-import com.Hbence.appointmentManagementAPI.entity.Users;
+import com.Hbence.appointmentManagementAPI.entity.*;
 import com.Hbence.appointmentManagementAPI.repository.*;
 import com.Hbence.appointmentManagementAPI.service.other.ValidatorCollection;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +30,7 @@ public class ReservationService {
     private final ReservedDateRepository reservedDateRepository;
     private final ReservedHoursRepository reservedHoursRepository;
     private final StatusRepository statusRepository;
+    private final PhoneCountryCodeRepository phoneCountryCodeRepository;
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -112,17 +111,21 @@ public class ReservationService {
             String vCode = "";
             if (newReservation.getId() != null) {
                 return ResponseEntity.status(415).body("invalidObject");
-            }
-            if (!ValidatorCollection.emailChecker(newReservation.getEmail().trim())) {
+            } else if (!ValidatorCollection.emailChecker(newReservation.getEmail().trim())) {
                 return ResponseEntity.status(415).body("invalidEmail");
-            } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone().trim())) {
+            } else if (!ValidatorCollection.phoneValidator(newReservation.getPhone().trim().replaceAll(" ", ""))) {
                 return ResponseEntity.status(415).body("invalidPhoneNumber");
+            }
+
+            List<PhoneCountryCode> phoneCountryCodes = phoneCountryCodeRepository.findAll();
+            if (phoneCountryCodes.stream().filter(code -> code.getId() == newReservation.getPhoneCountryCode().getId()).toList().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("phoneCountryCodeNotFound");
             }
 
             if (newReservation.getUser() != null) {
                 Users searchedUser = userRepository.findById(newReservation.getUser().getId()).orElse(null);
                 if (searchedUser == null || searchedUser.getIsDeleted()) {
-                    return ResponseEntity.notFound().build();
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("userNotFound");
                 }
             } else {
                 vCode = ValidatorCollection.generateVerificationCode();
@@ -135,10 +138,12 @@ public class ReservationService {
             }
             reservedDateRepository.save(newReservation.getReservedHours().getDate());
 
+            newReservation.setPhone(newReservation.getPhone().trim().replaceAll(" ", ""));
             Reservations newReservations = reservationRepository.save(newReservation);
             newReservations.setReservationId(new Random().nextInt(100000, 999999) + "" + newReservations.getId());
+            reservationRepository.save(newReservations);
 
-            return ResponseEntity.ok(reservationRepository.save(newReservations));
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -146,7 +151,7 @@ public class ReservationService {
     }
 
     //Foglalas lemondasa
-    public ResponseEntity<Reservations> cancelReservation(Long id, Users canceledBy) {
+    public ResponseEntity<Object> cancelReservation(Long id, Users canceledBy) {
         try {
             if (id == null) {
                 return ResponseEntity.status(422).build();
@@ -155,14 +160,14 @@ public class ReservationService {
             Reservations searchedReservation = reservationRepository.findById(id).orElse(null);
 
             if (searchedReservation == null || searchedReservation.getIsCanceled()) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("reservationNotFound");
             } else {
                 if (canceledBy == null) {
                     searchedReservation.setCancelerEmail(searchedReservation.getEmail());
                 } else {
                     Users searchedUser = userRepository.findById(canceledBy.getId()).orElse(null);
                     if (searchedUser == null || searchedUser.getIsDeleted()) {
-                        return ResponseEntity.notFound().build();
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("userNotFound");
                     } else {
                         searchedReservation.setCanceledBy(canceledBy);
                     }
@@ -193,21 +198,19 @@ public class ReservationService {
             if (ValidatorCollection.emailChecker(email)) {
                 List<String> allEmail = reservationRepository.getAllReservationEmail();
                 if (!allEmail.contains(email)) {
-                    return ResponseEntity.notFound().build();
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("emailNotFound");
                 } else {
                     List<Reservations> reservationsList = reservationRepository.getReservationsByEmail(email);
-                    Reservations wantedReservation = reservationsList.stream().filter(
-                            reservation -> passwordEncoder.matches(vCode, reservation.getCancelVCode())
-                    ).toList().get(0);
+                    Reservations wantedReservation = reservationsList.stream().filter(reservation -> passwordEncoder.matches(vCode, reservation.getCancelVCode())).toList().getFirst();
 
                     if (wantedReservation == null) {
-                        return ResponseEntity.notFound().build();
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("reservationNotFound");
                     } else {
                         return ResponseEntity.ok(wantedReservation);
                     }
                 }
             } else {
-                return ResponseEntity.status(415).body("InvalidEmail");
+                return ResponseEntity.status(415).body("invalidEmail");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -221,13 +224,9 @@ public class ReservationService {
                 return ResponseEntity.status(422).build();
             }
 
-            ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText)).orElse(null);
+            ReservedDates reservedDate = reservedDateRepository.getReservedDateByDate(LocalDate.parse(selectedDateText)).orElse(new ReservedDates());
+            return ResponseEntity.ok().body(reservedDate);
 
-            if (reservedDate == null) {
-                return ResponseEntity.ok().body(new ReservedDates());
-            } else {
-                return ResponseEntity.ok().body(reservedDate);
-            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
