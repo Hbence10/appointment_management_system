@@ -143,6 +143,10 @@ public class DeviceService {
             if (newDevice.getId() != null) {
                 return ResponseEntity.status(415).body("invalidObject");
             } else {
+                DevicesCategory searchedCategory = deviceCategoryRepository.findById(newDevice.getCategoryId().getId()).orElse(null);
+                if (searchedCategory == null || searchedCategory.getIsDeleted()) {
+                    return ResponseEntity.notFound().build();
+                }
                 newDevice.setName(newDevice.getName().trim());
                 Devices newD = new Devices(newDevice.getName(), newDevice.getAmount(), newDevice.getCategoryId());
                 return ResponseEntity.ok(deviceRepository.save(newD));

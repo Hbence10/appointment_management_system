@@ -24,56 +24,81 @@ import java.util.List;
 public class GalleryController {
     private final GalleryService galleryService;
 
-    @Operation(summary = "", description = "")
+    @Operation(summary = "Galléria képeinek lekérdezése", description = "Galléria képeinek lekérdezése")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Sikeres lekérdezés", content = @Content(
                     mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Gallery.class))
             )),
-            @ApiResponse(responseCode = "500", description = "", content = @Content)
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba", content = @Content)
     })
     @GetMapping("")
     public ResponseEntity<List<Gallery>> getAllGalleryImages() {
         return galleryService.getGalleryImages();
     }
 
-    @Operation(summary = "", description = "")
+    @Operation(summary = "Galléria kép módositása", description = "Galléria kép módositása")
     @Parameters({
-            @Parameter(name = "", description = "", in = ParameterIn.PATH, required = true),
-            @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true),
+            @Parameter(name = "id", description = "Az adott galléria képhez tartozó id.", in = ParameterIn.PATH, required = true),
+            @Parameter(name = "galleryImg", description = "Az új képnek a fájla", in = ParameterIn.QUERY, required = true),
     })
     @ApiResponses({
-
+            @ApiResponse(responseCode = "200", description = "Sikeres frissités", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Gallery.class)
+            )),
+            @ApiResponse(responseCode = "404", description = "Nem létező galléria kép frissités", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameterek nélkül.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content)
     })
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> updateGalleryImage(@PathVariable("id") Long id, @RequestParam("galleryImg") MultipartFile galleryImg) {
         return galleryService.updateGalleryImage(galleryImg, id);
     }
 
-    @Operation(summary = "", description = "")
-    @Parameter(name = "", description = "", in = ParameterIn.QUERY, required = true)
-    @ApiResponses({
-
+    @Operation(summary = "Fénykép hozzáadása a gallériához", description = "Fénykép hozzáadása a gallériához")
+    @Parameters({
+            @Parameter(name = "galleryImg", description = "A gallériához adott kép", in = ParameterIn.QUERY, required = true, schema = @Schema(implementation = MultipartFile.class)),
+            @Parameter(name = "placement", description = "Az új kép helyzete a sorrendben", in = ParameterIn.PATH, required = true, schema = @Schema(implementation = Integer.class))
     })
-    @PostMapping("/addImage")
-    public ResponseEntity<Object> addGalleryImage(@RequestParam("galleryImg") MultipartFile galleryImg) {
-        return galleryService.addGalleryImage(galleryImg);
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Sikeres feltöltés", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Gallery.class, description = "A feltöltött galléria kép object-je.")
+            )),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter(ek) nélkül.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba", content = @Content)
+    })
+    @PostMapping("/addImage/placement/{placement}")
+    public ResponseEntity<Object> addGalleryImage(@RequestParam("galleryImg") MultipartFile galleryImg, @PathVariable("placement") Integer placement) {
+        return galleryService.addGalleryImage(galleryImg, placement);
     }
 
-    @Operation(summary = "", description = "")
-    @Parameter(name = "", description = "", required = true, in = ParameterIn.PATH)
+    @Operation(summary = "Galléria kép törlése", description = "Galléria kép törlése")
+    @Parameter(name = "id", description = "Az adott galléria képhez tartozó id.", required = true, in = ParameterIn.PATH, schema = @Schema(implementation = Integer.class))
     @ApiResponses({
-
+            @ApiResponse(responseCode = "200", description = "Sikeres törlés", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nem létező kép törlése", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter nélkül", content = @Content),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content),
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteGalleryImage(@PathVariable("id") Long id) {
         return galleryService.deleteGalleryImage(id);
     }
 
-    @Operation(summary = "", description = "")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
+    @Operation(summary = "Képek új sorrendjének mentése", description = "Képek új sorrendjének mentése")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Az új sorrendű galléria képek listája", required = true, content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(schema = @Schema(implementation = Gallery.class))
+    ))
     @ApiResponses({
-
+            @ApiResponse(responseCode = "200", description = "Az új sorrendű galléria képek listája", content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = Gallery.class))
+            )),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghívása requestBody nélkül.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content)
     })
     @PutMapping("/updateOrder")
     public ResponseEntity<Object> updateOrder(@RequestBody List<Gallery> updatedOrderList) {

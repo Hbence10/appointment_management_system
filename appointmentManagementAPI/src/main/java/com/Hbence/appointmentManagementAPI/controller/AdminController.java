@@ -26,7 +26,6 @@ public class AdminController {
 
     private final AdminService adminService;
     //ADMIN FOGLALAS
-
     @Operation(summary = "", description = "")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "", required = true)
     @ApiResponses({
@@ -38,7 +37,7 @@ public class AdminController {
     })
     @PostMapping("/reservation")
     public ResponseEntity<Object> makeAdminReservation(@RequestBody JsonNode requestBody) {
-        return adminService.makeAdminReservation(requestBody.get("adminId").asLong(), requestBody.get("startHour").asInt(), requestBody.get("endHour").asInt(), requestBody.get("dateText").asText());
+        return adminService.makeAdminReservation(requestBody.get("adminId").asLong(), requestBody.get("startHour").asInt(), requestBody.get("endHour").asInt(), requestBody.get("dateText").asText(null));
     }
 
     @Operation(summary = "", description = "")
@@ -52,7 +51,7 @@ public class AdminController {
     })
     @PostMapping("/reservationBetweenPeriod")
     public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody JsonNode requestBody) {
-        return adminService.makeReservationBetweenPeriod(requestBody.get("startDateText").asText(), requestBody.get("endDateText").asText(), requestBody.get("startHour").asInt(), requestBody.get("endHour").asInt(), requestBody.get("adminId").asLong());
+        return adminService.makeReservationBetweenPeriod(requestBody.get("startDateText").asText(null), requestBody.get("endDateText").asText(null), requestBody.get("startHour").asInt(), requestBody.get("endHour").asInt(), requestBody.get("adminId").asLong());
     }
 
     @Operation(summary = "", description = "")

@@ -65,9 +65,9 @@ public class GalleryService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> addGalleryImage(MultipartFile galleryImg) {
+    public ResponseEntity<Object> addGalleryImage(MultipartFile galleryImg, Integer placement) {
         try {
-            if (galleryImg == null) {
+            if (galleryImg == null || placement == null) {
                 return ResponseEntity.status(422).build();
             }
 
@@ -77,7 +77,7 @@ public class GalleryService {
                 FileOutputStream fout = new FileOutputStream(filePath);
                 fout.write(galleryImg.getBytes());
                 fout.close();
-                Gallery newImg = new Gallery(galleryImg.getOriginalFilename(), "assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename(), galleryRepository.findAll().size());
+                Gallery newImg = new Gallery(galleryImg.getOriginalFilename(), "assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename(), placement);
                 return ResponseEntity.ok().body(galleryRepository.save(newImg));
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().body("fileUploadError");
