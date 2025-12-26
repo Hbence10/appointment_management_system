@@ -207,7 +207,7 @@ public class UserService {
                 searchedUser.setVCode(passwordEncoder.encode(vCode));
                 userRepository.save(searchedUser);
                 try {
-                    emailSender.sendVerificationCodeEmail(email, vCode);
+                    emailSender.sendVerificationCodeForPasswordResetEmail(email, vCode);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return ResponseEntity.internalServerError().body("emailSenderError");

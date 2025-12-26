@@ -21,7 +21,7 @@ public class EmailSender {
 
     }
 
-    public void sendVerificationCodeEmail(String toEmail, String verificationCode) {
+    public void sendVerificationCodeForPasswordResetEmail(String toEmail, String verificationCode) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(this.fromEmail);
         message.setSubject("Hitelesitő kód");
@@ -31,20 +31,13 @@ public class EmailSender {
         mailSender.send(message);
     }
 
-    public void sendEmailAboutReservationCanceled(String toEmail) {
+    public void sendEmailAboutPasswordReset(String toEmail) {
 
     }
 
-    public void sendEmailAboutNews(String toEmail) {
+    public void sendEmailAboutReservationCanceled(String toEmail) {}
 
-    }
-
-    public void sendEmailAboutUserUpdate(String toEmail) {
-    }
-
-    public void sendEmailAboutUserDelete(String toEmail){
-
-    }
+    public void sendEmailAboutUserDelete(String toEmail) {}
 
     public void sendEmailAboutReservation(String toEmail, String vCode, String firstName, String lastName) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -54,11 +47,7 @@ public class EmailSender {
 
         String emailText = "<h1>Sikeres foglalást rögzitettünk!</h1>";
         if (!vCode.equals("")) {
-            emailText +=
-                    "<h2>Tisztelt " + firstName + " " + lastName + "</h2>" +
-                    "<p>A foglalását az allábbi linken tudja nyomon követni: <a href='http://localhost:4200/reservationCancel'>Foglalás nyomonkövetése</a></p>" +
-                    "<p>A foglalás törléséhez az alábbi kódot tudja használni:<b> " + vCode + "</b></p>"
-            ;
+            emailText += "<h2>Tisztelt " + firstName + " " + lastName + "</h2>" + "<p>A foglalását az allábbi linken tudja nyomon követni: <a href='http://localhost:4200/reservationCancel'>Foglalás nyomonkövetése</a></p>" + "<p>A foglalás törléséhez az alábbi kódot tudja használni:<b> " + vCode + "</b></p>";
         }
 
         helper.setText(emailText, true);
