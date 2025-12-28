@@ -34,7 +34,7 @@ public class AdminService {
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> makeAdminReservation(Long adminId, Integer startHour, Integer endHour, String dateText) {
         try {
-            if (adminId == null || startHour == null || endHour == null || dateText == null) {
+            if (adminId == 0 || startHour == 0 || endHour == 0 || dateText == null) {
                 return ResponseEntity.status(422).build();
             }
 

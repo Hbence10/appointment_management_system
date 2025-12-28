@@ -11,6 +11,7 @@ export class GalleryService {
   private baseURL = "http://localhost:8080"
   selectedImgForCarousel = signal<null | Gallery>(null)
   galleryImages: Gallery[] = []
+  selectedImageForEdit: File | null = null
 
   getAllGalleryImages(): Observable<Gallery[]> {
     return this.http.get<Gallery[]>(`${this.baseURL}/gallery`)
@@ -24,7 +25,11 @@ export class GalleryService {
 
   }
 
-  addImage(newImage: FormData) {
+  addImage(placement: number): Observable<Gallery> {
+    return this.http.post<Gallery>("", {})
+  }
 
+  updatePlacement(): Observable<Gallery[]> {
+    return this.http.put<Gallery[]>("", {})
   }
 }

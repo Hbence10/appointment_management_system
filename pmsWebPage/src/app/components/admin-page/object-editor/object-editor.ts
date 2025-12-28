@@ -16,6 +16,7 @@ import { MatAnchor } from "@angular/material/button";
 import { Users } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service';
 import { NewsService } from '../../../services/news-service';
+import { GalleryService } from '../../../services/gallery-service';
 
 @Component({
   selector: 'app-object-editor',
@@ -31,6 +32,7 @@ export class ObjectEditor implements OnInit {
   private destroyRef = inject(DestroyRef)
   private newsService = inject(NewsService)
   reservationService = inject(ReservationService)
+  galleryService = inject(GalleryService)
   objectType = input.required<Details>()
 
   selectedObject = input.required<DevicesCategory | Device | News | ReservationType | Gallery | Users | null>()
@@ -41,6 +43,9 @@ export class ObjectEditor implements OnInit {
   form!: FormGroup
   deviceCategoryList = signal<DevicesCategory[]>([])
   shorterUserList = signal<{ id: number, username: string }[]>([])
+
+
+  selectedPlacement: number = 0
 
   isFirstRowFull = computed<boolean>(() =>
     this.details()!.objectType == 'deviceCategory' || this.details()!.objectType == 'news' || this.details()!.objectType == 'gallery'
@@ -71,6 +76,17 @@ export class ObjectEditor implements OnInit {
       this.adminService.getShortUsersList().subscribe({
         next: responseList => this.shorterUserList.set(responseList)
       })
+    } else if (this.selectedObject() instanceof Gallery) {
+      if (this.galleryService.galleryImages.length == 0) {
+        this.galleryService.getAllGalleryImages().subscribe({
+          next: response => {
+            this.galleryService.galleryImages = response.map(galleryImage => Object.assign(new Gallery(), galleryImage))
+            this.checkGalleryObjectPlacement()
+          }
+        })
+      } else {
+        this.checkGalleryObjectPlacement()
+      }
     }
 
     this.placeholderText = this.selectedObject()!.getPlaceholdersText
@@ -81,8 +97,21 @@ export class ObjectEditor implements OnInit {
     this.deviceService.selectedCategory = this.deviceCategoryList()[this.selectedDeviceCategoryId]
   }
 
-  selectFile(event: any) {
+  selectFile(event: any, typeOfFileObject: "news" | "gallery") {
     const selectedFile: File = event.target.files[0];
-    this.newsService.selectedBannerImg = selectedFile
+    if (typeOfFileObject == "news") {
+      this.newsService.selectedBannerImg = selectedFile
+    } else if (typeOfFileObject == "gallery") {
+      this.galleryService.selectedImageForEdit = selectedFile
+    }
+
+  }
+
+  checkGalleryObjectPlacement() {
+    if (this.selectedObject()?.getId == null) {
+      this.selectedPlacement = this.galleryService.galleryImages.length + 1
+    } else {
+      this.selectedPlacement = (this.selectedObject() as Gallery).getPlacement
+    }
   }
 }

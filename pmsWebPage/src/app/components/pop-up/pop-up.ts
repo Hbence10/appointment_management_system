@@ -371,6 +371,8 @@ export class PopUp implements OnInit {
         error: error => console.log(error),
         complete: () => this.backToListPage()
       })
+    } else if (this.selectedObject instanceof Gallery) {
+      console.log("gallery update")
     }
   }
 
@@ -428,6 +430,16 @@ export class PopUp implements OnInit {
         error: error => this.setErrors(error),
         complete: () => this.backToListPage()
       })
+    } else if (this.selectedObject instanceof Gallery) {
+        console.log("gallery post")
+        this.galleryService.addImage(this.form.controls["property1"].value).subscribe({
+          next: response => this.galleryService.galleryImages.push(Object.assign(new Gallery(), response)),
+          complete: () => {
+            this.updatePlacementsOfGalleryImages()
+            this.backToListPage()
+          }
+        })
+
     }
   }
 
@@ -506,6 +518,15 @@ export class PopUp implements OnInit {
       this.adminService.form.controls["property4"].addValidators(Validators.required)
       this.adminService.form.controls["property5"].addValidators(Validators.required)
     }
+
+    if (this.selectedObject instanceof Gallery) {
+      this.adminService.form.controls["property1"].setValue(this.selectedObject.getName)
+      this.adminService.form.controls["property2"].setValue(this.selectedObject.getPhotoPath)
+      this.adminService.form.controls["property3"].setValue(this.selectedObject.getPlacement)
+
+      this.adminService.form.controls["property2"].addValidators(Validators.required)
+      this.adminService.form.controls["property3"].addValidators(Validators.required)
+    }
   }
 
   cancelReservation() {
@@ -527,6 +548,16 @@ export class PopUp implements OnInit {
       next: response => console.log(response),
       error: error => this.setErrors(error),
       complete: () => console.log("complete!")
+    })
+  }
+
+  updatePlacementsOfGalleryImages() {
+    for(let i : number = 0; i < this.galleryService.galleryImages.length; i++) {
+      this.galleryService.galleryImages[i].setPlacement = i+1
+    }
+
+    this.galleryService.updatePlacement().subscribe({
+      next: response => this.galleryService.galleryImages = response.map(galleryImage => Object.assign(new Gallery(), galleryImage))
     })
   }
 }
