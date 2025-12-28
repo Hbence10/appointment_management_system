@@ -43,10 +43,10 @@ public class AdminController {
             }
     ))
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "", content = @Content),
-            @ApiResponse(responseCode = "404", description = "", content = @Content),
-            @ApiResponse(responseCode = "415", description = "", content = @Content),
-            @ApiResponse(responseCode = "422", description = "", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Sikeres foglalás", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nem létező admin teszi a foglalást", content = @Content),
+            @ApiResponse(responseCode = "415", description = "A kezdő óra előrébb van mint a végzés", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghívása requestBody nélkül vagy hiányos requestBody-val", content = @Content),
             @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content),
     })
     @PostMapping("/reservation")
@@ -66,11 +66,11 @@ public class AdminController {
             }
     ))
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "", content = @Content),
-            @ApiResponse(responseCode = "404", description = "", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Sikeres foglalások tétele", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nem létező admin teszi a foglalást", content = @Content),
             @ApiResponse(responseCode = "415", description = "", content = @Content),
-            @ApiResponse(responseCode = "422", description = "", content = @Content),
-            @ApiResponse(responseCode = "500", description = "", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghivása requestBody nélkül vagy hiányos requestBody-val.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content),
     })
     @PostMapping("/reservationBetweenPeriod")
     public ResponseEntity<Object> makeReservationBetweenPeriod(@RequestBody JsonNode requestBody) {

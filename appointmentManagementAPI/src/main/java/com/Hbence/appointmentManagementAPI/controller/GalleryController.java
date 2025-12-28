@@ -2,6 +2,7 @@ package com.Hbence.appointmentManagementAPI.controller;
 
 import com.Hbence.appointmentManagementAPI.entity.Gallery;
 import com.Hbence.appointmentManagementAPI.service.GalleryService;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -52,8 +53,8 @@ public class GalleryController {
             @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content)
     })
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updateGalleryImage(@PathVariable("id") Long id, @RequestParam("galleryImg") MultipartFile galleryImg) {
-        return galleryService.updateGalleryImage(galleryImg, id);
+    public ResponseEntity<Object> updateGalleryImage(@PathVariable("id") Long id, @RequestParam("galleryImg") MultipartFile galleryImg, @RequestParam("placement") Integer placement, @RequestParam("photoName") String photoName) {
+        return galleryService.updateGalleryImage(galleryImg, id, placement, photoName);
     }
 
     @Operation(summary = "Fénykép hozzáadása a gallériához", description = "Fénykép hozzáadása a gallériához")
@@ -69,9 +70,9 @@ public class GalleryController {
             @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter(ek) nélkül.", content = @Content),
             @ApiResponse(responseCode = "500", description = "A server okozta hiba", content = @Content)
     })
-    @PostMapping("/addImage/placement/{placement}")
-    public ResponseEntity<Object> addGalleryImage(@RequestParam("galleryImg") MultipartFile galleryImg, @PathVariable("placement") Integer placement) {
-        return galleryService.addGalleryImage(galleryImg, placement);
+    @PostMapping("/addImage")
+    public ResponseEntity<Object> addGalleryImage(@RequestParam("galleryImg") MultipartFile galleryImg, @RequestParam("placement") Integer placement, @RequestParam("photoName") String photoName) {
+        return galleryService.addGalleryImage(galleryImg, placement, photoName);
     }
 
     @Operation(summary = "Galléria kép törlése", description = "Galléria kép törlése")
@@ -82,7 +83,7 @@ public class GalleryController {
             @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter nélkül", content = @Content),
             @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content),
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteGalleryImage(@PathVariable("id") Long id) {
         return galleryService.deleteGalleryImage(id);
     }

@@ -127,7 +127,7 @@
       </div>
       <div class="col-lg-4">
         <mat-form-field class="w-100">
-          <mat-select [(value)]="selectedPlacement" placeholder="Sorszáma">
+          <mat-select [(value)]="selectedPlacement" placeholder="Sorszáma" formControlName="property3">
             @for (placement of galleryService.galleryImages; track $index) {
               <mat-option [value]="$index + 1">{{$index + 1}}.</mat-option>
             }

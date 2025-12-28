@@ -34,10 +34,15 @@ public class GalleryService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> updateGalleryImage(MultipartFile galleryImg, Long id) {
+    public ResponseEntity<Object> updateGalleryImage(MultipartFile galleryImg, Long id, Integer placement, String photoName) {
         try {
-            if (galleryImg == null || id == null) {
+            if (galleryImg == null || id == null || placement == null || photoName == null) {
                 return ResponseEntity.status(422).build();
+            }
+
+            int sizeOfGalleryList = galleryRepository.findAll().size();
+            if (placement < 1 || placement > sizeOfGalleryList) {
+                return ResponseEntity.status(415).body("invalidPlacement");
             }
 
             Gallery searchedImg = galleryRepository.findById(id).orElse(null);
@@ -47,17 +52,18 @@ public class GalleryService {
                 String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename();
 
                 try {
-                    FileOutputStream fout = new FileOutputStream(filePath);
-                    fout.write(galleryImg.getBytes());
-                    fout.close();
-                    searchedImg.setPhotoPath("\"assets\\\\images\\\\gallery\" + File.separator + galleryImg.getOriginalFilename()");
-                    searchedImg.setPhotoName(galleryImg.getOriginalFilename());
+//                    FileOutputStream fout = new FileOutputStream(filePath);
+//                    fout.write(galleryImg.getBytes());
+//                    fout.close();
+                    searchedImg.setPhotoPath("assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename());
+                    searchedImg.setPhotoName(photoName.trim());
+                    searchedImg.setPlacement(placement);
+                    System.out.println(searchedImg);
                     return ResponseEntity.ok().body(galleryRepository.save(searchedImg));
                 } catch (Exception e) {
                     return ResponseEntity.internalServerError().body("fileUploadError");
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -65,19 +71,24 @@ public class GalleryService {
     }
 
     @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
-    public ResponseEntity<Object> addGalleryImage(MultipartFile galleryImg, Integer placement) {
+    public ResponseEntity<Object> addGalleryImage(MultipartFile galleryImg, Integer placement, String photoName) {
         try {
-            if (galleryImg == null || placement == null) {
+            if (galleryImg == null || placement == null || photoName == null) {
                 return ResponseEntity.status(422).build();
+            }
+
+            int sizeOfGalleryList = galleryRepository.findAll().size();
+            if (placement < 1 || placement > sizeOfGalleryList) {
+                return ResponseEntity.status(415).body("invalidPlacement");
             }
 
             String filePath = "C:\\Users\\bzhal\\Documents\\GitHub\\appointment_management_system\\pmsWebPage\\src\\assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename();
 
             try {
-                FileOutputStream fout = new FileOutputStream(filePath);
-                fout.write(galleryImg.getBytes());
-                fout.close();
-                Gallery newImg = new Gallery(galleryImg.getOriginalFilename(), "assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename(), placement);
+//                FileOutputStream fout = new FileOutputStream(filePath);
+//                fout.write(galleryImg.getBytes());
+//                fout.close();
+                Gallery newImg = new Gallery(photoName.trim(), "assets\\images\\gallery" + File.separator + galleryImg.getOriginalFilename(), placement);
                 return ResponseEntity.ok().body(galleryRepository.save(newImg));
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().body("fileUploadError");
@@ -110,6 +121,7 @@ public class GalleryService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin', 'superAdmin')")
     public ResponseEntity<Object> updateOrder(List<Gallery> updatedOrderList) {
         try {
             if (updatedOrderList == null || updatedOrderList.isEmpty()) {

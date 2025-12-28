@@ -103,6 +103,7 @@ export class ObjectEditor implements OnInit {
       this.newsService.selectedBannerImg = selectedFile
     } else if (typeOfFileObject == "gallery") {
       this.galleryService.selectedImageForEdit = selectedFile
+      this.adminService.form.controls["property2"].setValue("fileSelected")
     }
 
   }

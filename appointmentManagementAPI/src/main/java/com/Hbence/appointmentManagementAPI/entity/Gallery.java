@@ -30,6 +30,7 @@ public class Gallery {
 
     @Column(name = "photo_name")
     @NotNull
+    @Size(max = 100)
     private String photoName;
 
     @Column(name = "photo_path")

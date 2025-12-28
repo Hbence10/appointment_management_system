@@ -51,6 +51,8 @@ export class PopUp implements OnInit {
   reservationCancel = output<Reservation>()
   viewImage = output<Gallery>()
 
+  newNewsId: number | null = null
+
   //szabalyzat
   rule!: Rule
   editor!: Editor
@@ -112,7 +114,10 @@ export class PopUp implements OnInit {
 
     } else if (this.actualDetails()?.objectType == 'gallery') {
       subscription = this.galleryService.getAllGalleryImages().subscribe({
-        next: responseList => this.setCardList(responseList.map(element => Object.assign(new Gallery(), element)), "gallery"),
+        next: responseList => {
+          this.galleryService.galleryImages = responseList.map(element => Object.assign(new Gallery(), element))
+          this.setCardList(this.galleryService.galleryImages, "gallery")
+        },
         error: error => this.setErrors(error)
       })
     } else if (this.actualDetails()?.objectType == 'reservationType') {
@@ -169,6 +174,7 @@ export class PopUp implements OnInit {
   }
 
   setCardList(responseList: (DevicesCategory | Device | News | ReservationType | Gallery | Users)[], objectType: "deviceCategory" | "device" | "news" | "reservationType" | "gallery" | "user") {
+    this.cardList.set([])
     responseList.forEach(element => {
       this.cardList.update(old => [...old, new CardItem(element.getName, objectType, element)])
     })
@@ -372,11 +378,37 @@ export class PopUp implements OnInit {
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Gallery) {
-      console.log("gallery update")
+      const formData: FormData = new FormData()
+      formData.append("galleryImg", this.galleryService.selectedImageForEdit!)
+      formData.append("photoName", this.adminService.form.controls["property1"].value)
+      formData.append("placement", this.adminService.form.controls["property3"].value)
+
+
+
+      const placement: number = +this.adminService.form.controls["property3"].value
+      let newGalleryImage!: Gallery
+      this.galleryService.updateGalleryImage(this.selectedObject.getId!, formData).subscribe({
+        next: response => {
+          newGalleryImage = Object.assign(new Gallery(), response)
+        },
+        complete: () => {
+          const cloneGalleryList = [...this.galleryService.galleryImages]
+          let originIndex = cloneGalleryList.indexOf(cloneGalleryList.find(image => image.getId == newGalleryImage.getId)!)
+          cloneGalleryList.splice(originIndex, 1)
+
+          this.galleryService.galleryImages = [
+            ...cloneGalleryList.slice(0, placement - 1),
+            newGalleryImage,
+            ...cloneGalleryList.slice(placement - 1)
+          ]
+
+          this.updatePlacementsOfGalleryImages()
+          this.backToListPage()
+        }
+      })
+
     }
   }
-
-  newNewsId: number | null = null
 
   sendPostRequest() {
     if (this.selectedObject instanceof News) {
@@ -431,15 +463,30 @@ export class PopUp implements OnInit {
         complete: () => this.backToListPage()
       })
     } else if (this.selectedObject instanceof Gallery) {
-        console.log("gallery post")
-        this.galleryService.addImage(this.form.controls["property1"].value).subscribe({
-          next: response => this.galleryService.galleryImages.push(Object.assign(new Gallery(), response)),
-          complete: () => {
-            this.updatePlacementsOfGalleryImages()
-            this.backToListPage()
-          }
-        })
+      const formData: FormData = new FormData()
+      formData.append("galleryImg", this.galleryService.selectedImageForEdit!)
+      formData.append("photoName", this.adminService.form.controls["property1"].value)
+      formData.append("placement", this.adminService.form.controls["property3"].value)
 
+
+
+      const placement: number = +this.adminService.form.controls["property3"].value
+      let newGalleryImage!: Gallery
+      this.galleryService.addImage(formData).subscribe({
+        next: response => {
+          newGalleryImage = Object.assign(new Gallery(), response)
+        },
+        complete: () => {
+          const cloneGalleryList = [...this.galleryService.galleryImages]
+          this.galleryService.galleryImages = [
+            ...cloneGalleryList.slice(0, placement - 1),
+            newGalleryImage,
+            ...cloneGalleryList.slice(placement - 1)
+          ]
+          this.updatePlacementsOfGalleryImages()
+          this.backToListPage()
+        }
+      })
     }
   }
 
@@ -483,6 +530,15 @@ export class PopUp implements OnInit {
         error: error => this.setErrors(error),
         complete: () => {
           this.removeSingleCard(index)
+          this.backToListPage()
+        }
+      })
+    } else if (this.selectedObject instanceof Gallery) {
+      this.galleryService.deleteImage(this.selectedObject.getId).subscribe({
+        error: error => this.setErrors(error),
+        complete: () => {
+          this.galleryService.galleryImages.splice((this.selectedObject as Gallery).getPlacement - 1!, 1)
+          this.updatePlacementsOfGalleryImages()
           this.backToListPage()
         }
       })
@@ -552,12 +608,13 @@ export class PopUp implements OnInit {
   }
 
   updatePlacementsOfGalleryImages() {
-    for(let i : number = 0; i < this.galleryService.galleryImages.length; i++) {
-      this.galleryService.galleryImages[i].setPlacement = i+1
+    for (let i: number = 0; i < this.galleryService.galleryImages.length; i++) {
+      this.galleryService.galleryImages[i].setPlacement = i + 1
     }
 
     this.galleryService.updatePlacement().subscribe({
-      next: response => this.galleryService.galleryImages = response.map(galleryImage => Object.assign(new Gallery(), galleryImage))
+      next: response => this.galleryService.galleryImages = response.map(galleryImage => Object.assign(new Gallery(), galleryImage)),
+      complete: () => this.setCardList(this.galleryService.galleryImages, "gallery")
     })
   }
 }
