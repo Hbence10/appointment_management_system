@@ -67,7 +67,6 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
             System.out.println("Invalid JWT token: " + e.getMessage());
         } catch (ExpiredJwtException e) {
             System.out.println("JWT token is expired: " + e.getMessage());
-            System.out.println(refreshTokenService.isTokenExpired(refreshToken));
             if (!refreshTokenService.isTokenExpired(refreshToken)) {
                 Users user = refreshTokenService.getUserFromToken(refreshToken);
                 return Jwts.builder()

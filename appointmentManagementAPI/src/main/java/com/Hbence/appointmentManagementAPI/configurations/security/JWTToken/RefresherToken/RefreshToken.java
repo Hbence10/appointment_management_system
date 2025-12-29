@@ -13,8 +13,12 @@ import java.time.Instant;
 @Table(name = "refresher_token")
 @Setter
 @Getter
-//@RequiredArgsConstructor
 @NoArgsConstructor
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "getRefreshTokenByUserId", procedureName = "getRefreshTokenByUserId", parameters = {
+                @StoredProcedureParameter(name = "userIdIN", mode = ParameterMode.IN, type = Long.class)
+        }, resultClasses = RefreshToken.class)
+})
 public class RefreshToken {
 
     @Id

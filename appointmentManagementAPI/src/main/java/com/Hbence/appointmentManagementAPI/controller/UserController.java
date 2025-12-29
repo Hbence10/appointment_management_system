@@ -207,4 +207,17 @@ public class UserController {
     public ResponseEntity<Users> getUserById(@PathVariable("id") Long id) {
         return userService.getUserById(id);
     }
+
+    @Operation(summary = "Kijelentkezés", description = "Kijelentkezés")
+    @Parameter(name = "id", description = "A felhasználóhoz tartozó id.", in = ParameterIn.PATH, required = true)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Sikeres kijelentkezés", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nem létező fiókkal történő kijelentkezés", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Az endpoint meghívása parameter nélkül.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "A server okozta hiba.", content = @Content)
+    })
+    @DeleteMapping("/logout/{id}")
+    public ResponseEntity<Object> logout(@PathVariable("id") Long id) {
+        return userService.logout(id);
+    }
 }

@@ -1,6 +1,8 @@
 package com.Hbence.appointmentManagementAPI.service;
 
 import com.Hbence.appointmentManagementAPI.configurations.emailSender.EmailSender;
+import com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.RefresherToken.RefreshToken;
+import com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.RefresherToken.RefreshTokenRepository;
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.AdminDetailsRepository;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
@@ -30,7 +32,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final AdminDetailsRepository adminDetailsRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
@@ -285,6 +287,30 @@ public class UserService {
                 return ResponseEntity.notFound().build();
             } else {
                 return ResponseEntity.ok().body(searchedUser);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('user', 'admin', 'superAdmin')")
+    public ResponseEntity<Object> logout(Long id) {
+        try {
+            if (id == null) {
+                return ResponseEntity.status(422).build();
+            }
+
+            Users searchedUser = userRepository.findById(id).orElse(null);
+            if (searchedUser == null || searchedUser.getIsDeleted()) {
+                return ResponseEntity.notFound().build();
+            }
+            RefreshToken searchedToken = refreshTokenRepository.getRefreshTokenByUserId(id).orElse(null);
+            if (searchedToken == null){
+                return ResponseEntity.notFound().build();
+            } else {
+                refreshTokenRepository.delete(searchedToken);
+                return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
             e.printStackTrace();
