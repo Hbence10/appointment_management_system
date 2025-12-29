@@ -1,7 +1,6 @@
 package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,31 +22,20 @@ import java.util.Arrays;
 
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
+    private String jwtSecret = "5ddb737cea23d62658b3865ce51888da8732f5cd9c32b8433dd0c4214f5527c5b1d31aaa58286da0db44a507e41962fbd7054df6ffd327388b3c8c3762031082";
+    private int jwtExpirationMs = 3600000;
+    private SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String jwt = request.getHeader(ApplicationConstants.JWT_HEADER);
-        System.out.println(jwt);
-        if (null != jwt) {
-            try {
-                Environment env = getEnvironment();
-                if (null != env) {
-                    String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
-                    System.out.println("secret: " + secret);
-                    SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-                    if (null != secretKey) {
-                        Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
-                        String username = String.valueOf(claims.get("username"));
-                        System.out.println("username: " + username);
-                        String authorities = String.valueOf(claims.get("authorities"));
-                        System.out.println("authorities: " + authorities);
-                        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
-                }
+        String jwt = request.getHeader("Authorization");
+        if (null != jwt && validateJwtToken(jwt)) {
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt).getPayload();
+            String username = claims.get("username").toString();
+            String authorities = claims.get("authorities").toString();
 
-            } catch (Exception exception) {
-                throw new BadCredentialsException("Invalid Token received!");
-            }
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
@@ -58,4 +46,27 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
         return shouldNotFilterPaths.contains(request.getServletPath());
     }
 
+
+    //
+    public boolean validateJwtToken(String token) {
+        try {
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            return true;
+        } catch (SecurityException e) {
+            System.out.println("Invalid JWT signature: " + e.getMessage());
+        } catch (MalformedJwtException e) {
+            System.out.println("Invalid JWT token: " + e.getMessage());
+        } catch (ExpiredJwtException e) {
+            //ha lejart akkor van a refresh token
+
+            System.out.println("JWT token is expired: " + e.getMessage());
+
+
+        } catch (UnsupportedJwtException e) {
+            System.out.println("JWT token is unsupported: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("JWT claims string is empty: " + e.getMessage());
+        }
+        return false;
+    }
 }

@@ -1,11 +1,15 @@
 package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +22,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+
+//@PropertySource("/application.properties")
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
+
+
+    private String jwtSecret = "5ddb737cea23d62658b3865ce51888da8732f5cd9c32b8433dd0c4214f5527c5b1d31aaa58286da0db44a507e41962fbd7054df6ffd327388b3c8c3762031082";
+    private int jwtExpirationMs = 3600000;
+    private SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -26,11 +37,18 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         if (null != authentication) {
             Environment env = getEnvironment();
             if (null != env) {
-                String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
-                SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-                String jwt = Jwts.builder().issuer("PMS").subject("JWT_Token").claim("id", authentication.getName()).claim("authorities", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","))).issuedAt(new Date()).expiration(new Date((new Date()).getTime() + 30000000)).signWith(secretKey).compact();
-                response.setHeader(ApplicationConstants.JWT_HEADER, jwt);
-                System.out.println(response.getHeader(ApplicationConstants.JWT_HEADER));
+                String jwt = Jwts.builder()
+                        .issuer("PMS")
+                        .subject("JWT_Token")
+                        .claim("username", authentication.getName())
+                        .claim("authorities", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
+                        .issuedAt(new Date())
+                        .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                        .signWith(key, SignatureAlgorithm.HS256)
+                        .compact();
+
+                response.setHeader("Authorization", jwt);
+                System.out.println(response.getHeader("Authorization"));
             }
         }
         filterChain.doFilter(request, response);

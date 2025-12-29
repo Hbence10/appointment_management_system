@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.configurations.security;
+package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;

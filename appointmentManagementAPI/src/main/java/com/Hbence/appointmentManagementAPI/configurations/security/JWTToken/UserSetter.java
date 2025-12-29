@@ -1,4 +1,4 @@
-package com.Hbence.appointmentManagementAPI.configurations.security;
+package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken;
 
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import com.Hbence.appointmentManagementAPI.repository.UserRepository;
