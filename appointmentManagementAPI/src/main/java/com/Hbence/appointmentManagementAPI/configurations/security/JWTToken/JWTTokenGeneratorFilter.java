@@ -1,15 +1,14 @@
 package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken;
 
+import com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.RefresherToken.RefreshTokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,9 +22,9 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 
-//@PropertySource("/application.properties")
+@RequiredArgsConstructor
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
-
+    private final RefreshTokenService refreshTokenService;
 
     private String jwtSecret = "5ddb737cea23d62658b3865ce51888da8732f5cd9c32b8433dd0c4214f5527c5b1d31aaa58286da0db44a507e41962fbd7054df6ffd327388b3c8c3762031082";
     private int jwtExpirationMs = 3600000;
@@ -48,7 +47,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                         .compact();
 
                 response.setHeader("Authorization", jwt);
-                System.out.println(response.getHeader("Authorization"));
+                createRefreshToken(authentication.getName());
             }
         }
         filterChain.doFilter(request, response);
@@ -61,7 +60,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     }
 
     //Refresh Token:
-    protected void generateRefresherToken() {
-
+    protected void createRefreshToken(String username) {
+        refreshTokenService.createRefreshToken(username);
     }
 }

@@ -2,7 +2,9 @@ package com.Hbence.appointmentManagementAPI.configurations.security;
 
 import com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.JWTTokenGeneratorFilter;
 import com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.JWTTokenValidatorFilter;
+import com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.RefresherToken.RefreshTokenService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -20,8 +22,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+    private final RefreshTokenService refreshTokenService;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -73,7 +78,7 @@ public class SecurityConfig {
 //                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
 //                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 //                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JWTTokenGeneratorFilter(refreshTokenService), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()))

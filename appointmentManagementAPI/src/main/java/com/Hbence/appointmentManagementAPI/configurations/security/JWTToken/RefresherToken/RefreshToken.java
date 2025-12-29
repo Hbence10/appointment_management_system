@@ -2,11 +2,19 @@ package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.Ref
 
 import com.Hbence.appointmentManagementAPI.entity.Users;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "refresher_token")
+@Setter
+@Getter
+//@RequiredArgsConstructor
+@NoArgsConstructor
 public class RefreshToken {
 
     @Id
