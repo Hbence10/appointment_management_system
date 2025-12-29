@@ -30,6 +30,6 @@ public class RefreshToken {
 
     //Kapcsolatok:
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private Users user;
 }

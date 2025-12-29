@@ -32,7 +32,7 @@ public class Role {
     //Kapcsolatok
     @OneToMany(
             mappedBy = "role",
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = {}
     )
     @JsonIgnore

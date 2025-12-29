@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     List<Users> getAllAdmin();
 
     Optional<Users> findByUsername(String email);
+
+    @Procedure(name = "getUserIdByToken", procedureName = "getUserIdByToken")
+    Optional<Long> getUserIdByToken(@Param("tokenIN") String token);
 }

@@ -27,7 +27,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     private final RefreshTokenService refreshTokenService;
 
     private String jwtSecret = "5ddb737cea23d62658b3865ce51888da8732f5cd9c32b8433dd0c4214f5527c5b1d31aaa58286da0db44a507e41962fbd7054df6ffd327388b3c8c3762031082";
-    private int jwtExpirationMs = 3600000;
+    private int jwtExpirationMs = 35;
     private SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
     @Override
@@ -47,7 +47,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                         .compact();
 
                 response.setHeader("Authorization", jwt);
-                createRefreshToken(authentication.getName());
+                response.setHeader("RefreshToken", createRefreshToken(authentication.getName()));
             }
         }
         filterChain.doFilter(request, response);
@@ -60,7 +60,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     }
 
     //Refresh Token:
-    protected void createRefreshToken(String username) {
-        refreshTokenService.createRefreshToken(username);
+    protected String createRefreshToken(String username) {
+        return refreshTokenService.createRefreshToken(username);
     }
 }

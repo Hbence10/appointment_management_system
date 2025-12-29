@@ -25,7 +25,11 @@ import java.util.List;
                 resultClasses = {Users.class}),
 
         @NamedStoredProcedureQuery(name = "getAllEmail", procedureName = "getAllEmail", resultClasses = String.class),
-        @NamedStoredProcedureQuery(name = "getAllAdmin", procedureName = "getAllAdmin", resultClasses = Users.class)
+        @NamedStoredProcedureQuery(name = "getAllAdmin", procedureName = "getAllAdmin", resultClasses = Users.class),
+
+        @NamedStoredProcedureQuery(name = "getUserIdByToken", procedureName = "getUserIdByToken", parameters = {
+                @StoredProcedureParameter(name = "tokenIN", type = String.class, mode = ParameterMode.IN)
+        }, resultClasses = Long.class)
 })
 @Table(name = "user")
 @Getter
@@ -85,11 +89,11 @@ public class Users {
     private String vCode;
 
     //Kapcsolatok:
-    @ManyToOne(cascade = {CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role = new Role(1, "user");
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = {})
+    @OneToMany(mappedBy = "writer", cascade = {})
     @JsonIgnore
     private List<News> news;
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Dec 29. 14:21
+-- Létrehozás ideje: 2025. Dec 29. 17:52
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -149,6 +149,16 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByUsername` (IN `usernameIN` VARCHAR(100))   BEGIN
 	SELECT * FROM user 
     WHERE user.username = usernameIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserIdByToken` (IN `tokenIN` LONGTEXT)   BEGIN 
+	SELECT u.id FROM user u 
+    INNER JOIN refresher_token rt ON 
+    rt.user_id = u.id 
+    WHERE 
+    rt.token = tokenIN 
+    AND 
+    u.is_deleted = 0;
 END$$
 
 DELIMITER ;
@@ -758,6 +768,13 @@ CREATE TABLE `refresher_token` (
   `expiry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- A tábla adatainak kiíratása `refresher_token`
+--
+
+INSERT INTO `refresher_token` (`id`, `token`, `user_id`, `expiry_date`) VALUES
+(12, '14cffb52-827c-425d-8f7b-3dc4f0bbe620', 49, '2025-12-30 16:37:24');
+
 -- --------------------------------------------------------
 
 --
@@ -1040,7 +1057,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `pfp_path`, `role_id`
 (46, 'tesasdtasd2', 'testassdasd@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$OcUDw0z5AWhUccvzwFD2rw$LpNlyUFn9b6gLk8p8V+u5D+7sgP2YMeHPgKfVZFXhxE', 'assets/placeholder.png', 1, '2025-09-24 10:07:39', NULL, NULL, 0, NULL),
 (47, 'securityTest7621', 'testSec@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$BNwvMe4SC6uq+GPX93MqQA$tzij6Pp9XCKLN5r12S5rJs82GUF80/Ef2uW0+1w6NQs', 'assets/placeholder.png', 1, '2025-08-23 04:45:44', '2025-11-03 20:17:39', NULL, 0, NULL),
 (48, 'securityTest2', 'testSec2@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$iiG5S5IaM744EyTdONr2Iw$2WyJWijaInLTOM3Gn/jJTe3u3+mPdsW3sJe+PV/yVak', 'assets/placeholder.png', 2, '2025-08-23 04:45:44', '2025-11-11 13:53:53', NULL, 0, NULL),
-(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\40dcb05edcff51960b931c482028343f.jpg', 3, '2025-08-23 04:45:44', '2025-12-29 12:50:25', NULL, 0, NULL),
+(49, 'securityTest3', 'testSec3@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$Gl1mOgXOHCm4JGC/oyJkrg$zbQXZ2wsOMFZrYUNhQSmlvXLuCctK6tQZL45nx4JqAg', 'assets\\images\\pfp\\40dcb05edcff51960b931c482028343f.jpg', 3, '2025-08-23 04:45:44', '2025-12-29 17:37:25', NULL, 0, NULL),
 (50, 'securityTest4', 'testSec4@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$pzasMKopB4YrFgBTesVvbA$oBGlWaxs/xvQPBz9DvwT9hfJmMp/uaVmlQ9W+u9ZbHM', 'assets/placeholder.png', 3, '2025-08-23 04:45:44', NULL, NULL, 0, NULL),
 (52, 'ads', 'da@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$LAcsPL6w8qOmubkZliXzEA$vYcDtVIQ92uk1yF/vf5nEfc/H88ecH5/9h2CK6Er85E', 'asd', 1, '2025-10-06 10:04:11', NULL, NULL, 0, NULL),
 (53, 'Hbence10', 'bzhalmai@gmail.com', '$argon2id$v=19$m=4096,t=3,p=1$JtwjQ4bXneyhFG7xKOK02A$nahLIrN45HzCwK3C2WNvl2KZXaQZd9OkZD9ZwpDUHmM', 'assets\\images\\pfp\\aqua.jpg', 1, '2025-11-06 07:37:47', '2025-12-08 17:34:28', NULL, 0, NULL),
@@ -1310,7 +1327,7 @@ ALTER TABLE `phone_country_code`
 -- AUTO_INCREMENT a táblához `refresher_token`
 --
 ALTER TABLE `refresher_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT a táblához `reservation`
