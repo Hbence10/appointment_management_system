@@ -1,4 +1,6 @@
 package com.Hbence.appointmentManagementAPI.configurations.security.JWTToken.RefresherToken;
 
-public interface RefreshTokenRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 }
