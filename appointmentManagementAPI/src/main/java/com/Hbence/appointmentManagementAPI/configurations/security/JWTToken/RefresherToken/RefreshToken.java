@@ -4,7 +4,6 @@ import com.Hbence.appointmentManagementAPI.entity.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;

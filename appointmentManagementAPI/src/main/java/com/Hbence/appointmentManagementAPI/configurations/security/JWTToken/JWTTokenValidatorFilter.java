@@ -25,9 +25,10 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
     private final RefreshTokenService refreshTokenService;
-    private String jwtSecret = "5ddb737cea23d62658b3865ce51888da8732f5cd9c32b8433dd0c4214f5527c5b1d31aaa58286da0db44a507e41962fbd7054df6ffd327388b3c8c3762031082";
-    private int jwtExpirationMs = 36;
-    private SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+
+    private final String jwtSecret = "5ddb737cea23d62658b3865ce51888da8732f5cd9c32b8433dd0c4214f5527c5b1d31aaa58286da0db44a507e41962fbd7054df6ffd327388b3c8c3762031082";
+    private final int jwtExpirationMs = 36;
+    private final SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -73,7 +74,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
                         .issuer("PMS")
                         .subject("JWT_Token")
                         .claim("username", user.getUsername())
-                        .claim("authorities", "ROLE_superAdmin")
+                        .claim("authorities", user.getRole().getName())
                         .issuedAt(new Date())
                         .expiration(new Date((new Date()).getTime() + 4000))
                         .signWith(key, SignatureAlgorithm.HS256)
