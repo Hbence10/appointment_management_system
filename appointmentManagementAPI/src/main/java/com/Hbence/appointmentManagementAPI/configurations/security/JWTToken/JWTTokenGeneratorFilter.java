@@ -60,4 +60,8 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         return !request.getServletPath().equals("/users/login");
     }
 
+    //Refresh Token:
+    protected void generateRefresherToken() {
+
+    }
 }

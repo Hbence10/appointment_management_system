@@ -47,6 +47,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
     }
 
 
+
     //
     public boolean validateJwtToken(String token) {
         try {
