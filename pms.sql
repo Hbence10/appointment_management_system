@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost:3306
--- Létrehozás ideje: 2025. Dec 29. 17:52
+-- Létrehozás ideje: 2025. Dec 29. 18:15
 -- Kiszolgáló verziója: 5.7.24
 -- PHP verzió: 8.3.1
 
@@ -75,6 +75,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getGalleryImages` ()   BEGIN
 	SELECT * FROM gallery g
     WHERE g.is_deleted = 0 
     ORDER BY g.placement;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getRefreshTokenByUserId` (IN `userIdIN` INT)   BEGIN 
+	SELECT * FROM refresher_token rt 
+    WHERE 
+    rt.user_id = userIdIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReservationByDate` (IN `dateIN` DATE)   BEGIN
